@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "952d3c6ec12b16e262816365b365e453",
+    "content-hash": "041bce7592fe63c45a7329a5b28fb5b3",
     "packages": [
         {
             "name": "api-platform/api-pack",
@@ -158,6 +158,125 @@
                 "swagger"
             ],
             "time": "2018-02-16T17:51:00+00:00"
+        },
+        {
+            "name": "bean-project/core-bundle",
+            "version": "0.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bean-project/BeanCoreBundle.git",
+                "reference": "2bb54a83617804d6d940100e3b03902cc26aa252"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bean-project/BeanCoreBundle/zipball/2bb54a83617804d6d940100e3b03902cc26aa252",
+                "reference": "2bb54a83617804d6d940100e3b03902cc26aa252",
+                "shasum": ""
+            },
+            "require": {
+                "sonata-project/core-bundle": "^3.0",
+                "symfony/framework-bundle": "^4.0"
+            },
+            "conflict": {
+                "jms/serializer": "<0.13"
+            },
+            "require-dev": {
+                "doctrine/mongodb-odm": "~1.0",
+                "jackalope/jackalope-doctrine-dbal": "~1.1",
+                "symfony/phpunit-bridge": "~2.7|~3.0"
+            },
+            "suggest": {
+                "liip/imagine-bundle": "~0.9",
+                "sonata-project/doctrine-orm-admin-bundle": "~2.3"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bean\\Bundle\\CoreBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Pierre",
+                    "email": "peter@bean-project.org"
+                }
+            ],
+            "description": "Symfony BeanCoreBundle",
+            "keywords": [
+                "bean",
+                "bundle"
+            ],
+            "time": "2018-02-17T18:11:37+00:00"
+        },
+        {
+            "name": "bean-project/location-bundle",
+            "version": "0.2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bean-project/BeanLocationBundle.git",
+                "reference": "a649261209783681d0708cdc20844f3eb75ea74e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bean-project/BeanLocationBundle/zipball/a649261209783681d0708cdc20844f3eb75ea74e",
+                "reference": "a649261209783681d0708cdc20844f3eb75ea74e",
+                "shasum": ""
+            },
+            "require": {
+                "bean-project/core-bundle": "^0.1"
+            },
+            "conflict": {
+                "jms/serializer": "<0.13",
+                "sonata-project/block-bundle": "<2.2.8",
+                "sonata-project/seo-bundle": "<1.1.5"
+            },
+            "require-dev": {
+                "doctrine/mongodb-odm": "~1.0",
+                "jackalope/jackalope-doctrine-dbal": "~1.1",
+                "symfony/phpunit-bridge": "~2.7|~3.0"
+            },
+            "suggest": {
+                "liip/imagine-bundle": "~0.9",
+                "sonata-project/doctrine-orm-admin-bundle": "~2.3"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bean\\Bundle\\LocationBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Pierre",
+                    "email": "peter@bean-project.org"
+                }
+            ],
+            "description": "Symfony BeanLocationBundle",
+            "keywords": [
+                "bean",
+                "bundle",
+                "geolocation",
+                "location manager"
+            ],
+            "time": "2018-02-17T18:12:28+00:00"
         },
         {
             "name": "cocur/slugify",
@@ -5314,6 +5433,86 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "sonata-project/doctrine-orm-admin-bundle",
+            "version": "3.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle.git",
+                "reference": "f81775f5f42ff8015012eb52684ccf16e4e7a6ee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/f81775f5f42ff8015012eb52684ccf16e4e7a6ee",
+                "reference": "f81775f5f42ff8015012eb52684ccf16e4e7a6ee",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": "^2.4.5",
+                "php": "^5.6 || ^7.0",
+                "sonata-project/admin-bundle": "^3.29",
+                "sonata-project/core-bundle": "^3.8",
+                "sonata-project/exporter": "^1.3.1",
+                "symfony/console": "^2.8 || ^3.2 || ^4.0",
+                "symfony/doctrine-bridge": "^2.8 || ^3.2 || ^4.0",
+                "symfony/form": "^2.8 || ^3.2 || ^4.0",
+                "symfony/framework-bundle": "^2.8 || ^3.2 || ^4.0",
+                "symfony/security": "^2.8 || ^3.2 || ^4.0",
+                "symfony/security-acl": "^2.8 || ^3.0"
+            },
+            "conflict": {
+                "simplethings/entity-audit-bundle": ">=2.0",
+                "sonata-project/block-bundle": "<3.11"
+            },
+            "provide": {
+                "sonata-project/admin-bundle-persistency-layer": "1.0.0"
+            },
+            "require-dev": {
+                "knplabs/knp-menu-bundle": "^2.1.1",
+                "simplethings/entity-audit-bundle": "0.1 - 0.9 || ^1.0",
+                "sonata-project/block-bundle": "^3.11",
+                "symfony/phpunit-bridge": "^3.3 || ^4.0"
+            },
+            "suggest": {
+                "simplethings/entity-audit-bundle": "If you want to support for versioning of entities and their associations."
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sonata\\DoctrineORMAdminBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sonata Community",
+                    "homepage": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle/contributors"
+                },
+                {
+                    "name": "Thomas Rabaix",
+                    "email": "thomas.rabaix@sonata-project.org",
+                    "homepage": "https://sonata-project.org"
+                }
+            ],
+            "description": "Symfony Sonata / Integrate Doctrine ORM into the SonataAdminBundle",
+            "homepage": "https://sonata-project.org/bundles/admin",
+            "keywords": [
+                "Admin Generator",
+                "admin",
+                "bootstrap",
+                "generator",
+                "sonata"
+            ],
+            "time": "2018-02-08T10:12:06+00:00"
+        },
         {
             "name": "symfony/dotenv",
             "version": "v4.0.4",
