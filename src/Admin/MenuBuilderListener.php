@@ -47,7 +47,7 @@ class MenuBuilderListener {
 	}
 	
 	public function addMenuItems(ConfigureMenuEvent $event) {
-		$user    = $this->userService->getUser(false);
+		$user    = $this->userService->getUser();
 		$request = $this->container->get('request_stack')->getCurrentRequest();
 //        $pos = $user->getPosition(['roles' => [Position::ROLE_ADMIN]]);
 		
