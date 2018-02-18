@@ -1,8 +1,21 @@
 sonata_admin:
-    title: 'Sonata Admin'
+    title: 'Gia Đình Hòa Hưng'
+    options:
+        title_mode: 'single_text'
+
     dashboard:
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
+    security:
+        handler: sonata.admin.security.handler.role
+
+    templates:
+        layout: admin/standard_layout.html.twig
+#        show: ::admin/show.html.twig
+#        list_block: ::admin/block_admin_list.html.twig
+#        inner_list_row: ::admin/list_inner_row.html.twig
+#        edit: ::admin/edit.html.twig
+
 
 sonata_block:
     blocks:

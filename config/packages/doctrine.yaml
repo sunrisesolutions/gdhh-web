@@ -5,6 +5,19 @@ parameters:
     # You should not need to change this value.
     env(DATABASE_URL): ''
 
+services:
+    app_hoso__thanhvien__doctrine_entity_listener:
+        class: App\Doctrine\ORM\Listener\HoSo\ThanhVienListener
+        arguments: ['@service_container']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    app_hoso__phanbo__doctrine_entity_listener:
+        class: App\Doctrine\ORM\Listener\HoSo\PhanBoListener
+        arguments: ['@service_container']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
 doctrine:
     dbal:
         # configure these for your database server
@@ -14,14 +27,73 @@ doctrine:
 
         # With Symfony 3.3, remove the `resolve:` prefix
         url: '%env(resolve:DATABASE_URL)%'
+
+        types:
+            json: Sonata\Doctrine\Types\JsonType
+            attribute_array:  App\Doctrine\DBAL\Types\AttributeArray
+
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
-        mappings:
-            App:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+        entity_managers:
+            default:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: true
+                mappings:
+                    App:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity'
+                        prefix: 'App\Entity'
+                        alias: App
+
+                entity_listeners:
+                    entities:
+                        -
+                            class:  "App\\Entity\\HoSo\\ThanhVien"
+                            listener:
+                                -
+                                    class: "App\\Doctrine\\ORM\\Listener\\HoSo\\ThanhVienListener"
+                                    event:
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
+
+                        -
+                            class:  "App\\Entity\\HoSo\\PhanBo"
+                            listener:
+                                -
+                                    class: "App\\Doctrine\\ORM\\Listener\\HoSo\\PhanBoListener"
+                                    event:
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
