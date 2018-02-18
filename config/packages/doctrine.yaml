@@ -42,7 +42,7 @@ doctrine:
                     App:
                         is_bundle: false
                         type: annotation
-                        dir: '%kernel.project_dir%/vendor/bean-project//gdhh-core/src/Entity'
+                        dir: '%kernel.project_dir%/vendor/bean-project//gdhh-core/Entity'
                         prefix: 'App\Entity'
                         alias: App
 

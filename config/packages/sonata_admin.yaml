@@ -1,11 +1,19 @@
+services:
+    app.admin.security.menu_listener_huynhtruong:
+        class: App\Admin\MenuBuilderListener
+        arguments: ['@App\Service\User\UserService','@service_container']
+        tags:
+            - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }
+
 sonata_admin:
     title: 'Gia Đình Hòa Hưng'
     options:
         title_mode: 'single_text'
 
     dashboard:
-        blocks:
-            - { type: sonata.admin.block.admin_list, position: left }
+#        blocks:
+#            - { type: sonata.admin.block.admin_list, position: left }
+        groups: ~
     security:
         handler: sonata.admin.security.handler.role
 
