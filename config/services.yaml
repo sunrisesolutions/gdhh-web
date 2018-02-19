@@ -1,7 +1,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'en'
+    locale: 'vi'
 
 services:
     # default configuration for services in *this* file
@@ -23,6 +23,16 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+
+    App\Admin\:
+        resource: "../src/Admin"
+        exclude: '../src/Admin/MenuBuilderListener.php'
+#        tags: ['controller.service_arguments']
+
+#    App\Admin\User\UserAdmin:
+#        arguments:
+#            code: ~
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

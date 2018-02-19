@@ -1,0 +1,70 @@
+user:
+    email_exists: This email has already been used by another user.
+
+dashboard:
+    content_entity: Content Entity
+    content_individual_entity: Individual Entity
+    content_node: Content Node
+    article_node: Article Node
+    taxonomy_node: Taxonomy Node
+    organisation: Manage Companies
+    invitation: Manage Invitations
+    candidate: Manage Applicants
+    post: Manage Articles
+
+show:
+    label_status: Status
+filter:
+    label_clinic_organisation_name: Clinic Name
+
+list:
+    label__action: Actions
+    label_id: ID/Serial Number
+    label_slug: Slug
+    label_title: Title
+    label_name: Name
+    label_layout_name: Layout
+    label_layout_children: Chidren Layouts
+    label_owner: Owner
+    label_layout__columns: Column Layouts
+    label_layout__rows: Row Layouts
+    label_layout__inline_layouts: Inline Layouts
+    label_parent: Parent
+
+
+form:
+    label_screen_size: Screen
+    label_text_align: Alignment
+    label_parent: Parent
+    label_span: Span
+    label_position: Order
+
+    label_html_body: HTML Body
+    label_body: Body
+    label_media: Media
+    label_email_address: Email Address
+    label_title: Title
+    label_topic: Topic
+    label_answers: Answers
+    label_slug: Search Engine Friendly Name
+    label_main_content: Main Content
+    label_bottom_left: Bottom Left
+    label_bottom_right: Bottom Right
+
+    tab_layout_grid: Grid Layouts
+    tab_layout_inline: Inline Layouts
+    tab_info: Info
+    tab_main_body_info: Main Body
+    group_general: General
+    group_extra: Extra
+    group_column: Columns
+    group_row: Rows
+#    Taxonomy
+    label_taxonomy_items: Taxonomy Items
+# H5P Multichoice Media
+    label_multichoice_media: Multichoice Media
+
+
+breadcrumb:
+    link_content_node_list: Content Nodes
+    link_article_node_list: Article Nodes

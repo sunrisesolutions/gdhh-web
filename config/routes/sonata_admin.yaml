@@ -1,8 +1,29 @@
-_admin_area:
-    resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"
-    prefix: /
+admin_wo_locale:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: sonata_admin_dashboard
+        permanent: true # this for 301
+
+admin_dashboard_wo_locale:
+    path: /dashboard
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: sonata_admin_dashboard
+        permanent: true # this for 301
+
+admin_dashboard:
+    path: /{_locale}/
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: sonata_admin_dashboard
+        permanent: true # this for 301
+
+admin_area:
+    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+    prefix: /{_locale}
 
 _sonata_admin:
     resource: .
     type: sonata_admin
-    prefix: /
+    prefix: /{_locale}

@@ -1,0 +1,16 @@
+flash:
+    batch_payment_received: Invoices have been successfully processed
+    batch_payment_approved: Vouchers have been approved
+    send_invite_success: Invitation for %name% has been sent successfully
+    create_candidate_successfully: The New Candidate has been created successfully
+dashboard:
+    miscellaneous: Miscellaneous
+    manage_admin: Manage Admin
+    media: Files
+    jobboard: Job Board
+    system: Hệ-thống
+    content: CMS
+    post: Site Content
+
+post:
+    make_homepage: Make Homepage
