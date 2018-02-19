@@ -1,0 +1,6 @@
+{% if admin.isGranted('sanh-hoat-lai',object) %}
+<br/>
+<a onclick="return confirm('Có chắc là em này được tham gia sanh-hoạt lại?')" class="btn btn-success" href="{{ path('admin_app_binhle_thieunhi_thieunhi_sanhHoatLai', {'id': object.id}) }}">Sanh
+    hoạt lại</a>
+{% endif %}
+

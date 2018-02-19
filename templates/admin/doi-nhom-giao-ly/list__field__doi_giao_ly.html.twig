@@ -1,0 +1,16 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+{% block field %}
+    {% set doiNhomGiaoLy = object %}
+    {% if doiNhomGiaoLy is not empty %}
+        {% set cacTruong = doiNhomGiaoLy.cacTruongPhuTrachDoi %}
+        {% if cacTruong.count == 0 %}
+            <span class="label label-info">Chưa có TRƯỞNG</span>
+        {% endif %}
+        {% for truong in cacTruong %}
+            {% set number = truong.doiNhomGiaoLy.number %}
+            <span class="label label-primary">{{ truong.phanBoHangNam.thanhVien.firstname }} ( {{ number }} )</span>
+        {% endfor %}
+    {% else %}
+        <span class="label label-warning">Chưa có ĐỘI</span>
+    {% endif %}
+{% endblock %}

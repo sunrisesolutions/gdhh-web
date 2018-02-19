@@ -1,0 +1,8 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+{% block field %}
+{% set cacTruong = object.phanBoNamNay.cacTruongPhuTrachDoi %}
+    {% for truong in cacTruong %}
+        {% set number = truong.doiNhomGiaoLy.number %}
+        <span class="label label-primary">{{ number }}</span>
+    {% endfor %}
+{% endblock %}

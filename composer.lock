@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7133eeb7302c306c29ab2201449fbcc4",
+    "content-hash": "e4176195a3fe9c871f6d41f6c8195429",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -146,16 +146,16 @@
         },
         {
             "name": "bean-project/gdhh-core",
-            "version": "0.1.7",
+            "version": "0.1.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bean-project/gdhh-core.git",
-                "reference": "8f7b6b301c3f9e3d4af838c84801ce72b1471cf9"
+                "reference": "7480b7b327912491579580283c7dfae983196d04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bean-project/gdhh-core/zipball/8f7b6b301c3f9e3d4af838c84801ce72b1471cf9",
-                "reference": "8f7b6b301c3f9e3d4af838c84801ce72b1471cf9",
+                "url": "https://api.github.com/repos/bean-project/gdhh-core/zipball/7480b7b327912491579580283c7dfae983196d04",
+                "reference": "7480b7b327912491579580283c7dfae983196d04",
                 "shasum": ""
             },
             "type": "symfony",
@@ -184,7 +184,7 @@
                 "bean",
                 "bundle"
             ],
-            "time": "2018-02-18T15:25:41+00:00"
+            "time": "2018-02-19T12:50:50+00:00"
         },
         {
             "name": "bean-project/location-bundle",
@@ -1231,6 +1231,136 @@
             "time": "2017-12-20T00:38:15+00:00"
         },
         {
+            "name": "egeloen/ckeditor-bundle",
+            "version": "6.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bean-project/IvoryCKEditorBundle.git",
+                "reference": "e2bd3909d7ef48677444a09c48748eaf593fe914"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bean-project/IvoryCKEditorBundle/zipball/e2bd3909d7ef48677444a09c48748eaf593fe914",
+                "reference": "e2bd3909d7ef48677444a09c48748eaf593fe914",
+                "shasum": ""
+            },
+            "require": {
+                "egeloen/json-builder": "^2.0|^3.0.1",
+                "php": "^5.6|^7.0",
+                "symfony/dependency-injection": "^2.7|^3.0|^4.0",
+                "symfony/form": "^2.7|^3.0|^4.0",
+                "symfony/framework-bundle": "^2.7|^3.0|^4.0"
+            },
+            "require-dev": {
+                "composer/composer": "^1.0",
+                "friendsofphp/php-cs-fixer": "^2.0",
+                "phpunit/phpunit": "^5.0|^6.0",
+                "symfony/asset": "^2.7|^3.0|^4.0",
+                "symfony/console": "^2.7|^3.0|^4.0",
+                "symfony/phpunit-bridge": "^2.7|^3.0",
+                "symfony/templating": "^2.7|^3.0|^4.0",
+                "symfony/twig-bridge": "^2.7|^3.0|^4.0",
+                "symfony/yaml": "^2.7|^3.0|^4.0",
+                "twig/twig": "^2.4"
+            },
+            "suggest": {
+                "egeloen/form-extra-bundle": "Allows to load CKEditor asynchronously",
+                "sensio/distribution-bundle": "Allows to install CKEditor via a script handler",
+                "symfony/asset": "Allows to rewrite/version assets",
+                "symfony/templating": "Allows to use PHP templates",
+                "symfony/twig-bridge": "Allows to use Twig templates",
+                "twig/twig": "Allows to use Twig templates"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ivory\\CKEditorBundle\\": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eric GELOEN",
+                    "email": "geloen.eric@gmail.com"
+                }
+            ],
+            "description": "Provides a CKEditor integration for your Symfony2 Project.",
+            "keywords": [
+                "ckeditor"
+            ],
+            "support": {
+                "source": "https://github.com/bean-project/IvoryCKEditorBundle/tree/6.0.5"
+            },
+            "time": "2018-02-19T16:48:58+00:00"
+        },
+        {
+            "name": "egeloen/json-builder",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bean-project/ivory-json-builder.git",
+                "reference": "906b1c1aa28a027fb0f13d0ec8adf9613d4635cc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bean-project/ivory-json-builder/zipball/906b1c1aa28a027fb0f13d0ec8adf9613d4635cc",
+                "reference": "906b1c1aa28a027fb0f13d0ec8adf9613d4635cc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^5.6|^7.0",
+                "symfony/property-access": "^2.7|^3.0|^4.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.0",
+                "phpunit/phpunit": "^5.0",
+                "symfony/phpunit-bridge": "^2.7|^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ivory\\JsonBuilder\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Ivory\\Tests\\JsonBuilder\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eric GELOEN",
+                    "email": "geloen.eric@gmail.com"
+                }
+            ],
+            "description": "JSON builder with escaping control for PHP 5.6+",
+            "keywords": [
+                "builder",
+                "escape",
+                "json"
+            ],
+            "support": {
+                "source": "https://github.com/bean-project/ivory-json-builder/tree/3.0.1"
+            },
+            "time": "2018-02-19T16:44:36+00:00"
+        },
+        {
             "name": "egulias/email-validator",
             "version": "2.1.3",
             "source": {
@@ -2275,6 +2405,79 @@
             "time": "2017-11-24T19:18:50+00:00"
         },
         {
+            "name": "liuggio/excelbundle",
+            "version": "2.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bean-project/ExcelBundle.git",
+                "reference": "52f5a7d02a489e1160e2a97a4a0e8280fdbe9905"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bean-project/ExcelBundle/zipball/52f5a7d02a489e1160e2a97a4a0e8280fdbe9905",
+                "reference": "52f5a7d02a489e1160e2a97a4a0e8280fdbe9905",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "phpoffice/phpexcel": "~1.8.1",
+                "symfony/framework-bundle": "~2.6|~3.0|~4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.6",
+                "sensio/framework-extra-bundle": "~2.3|~3.0|~4.0",
+                "symfony/browser-kit": "~2.6|~3.0|~4.0",
+                "symfony/class-loader": "~2.6|~3.0|~4.0",
+                "symfony/finder": "~2.6|~3.0|~4.0",
+                "symfony/form": "~2.6|~3.0|~4.0",
+                "symfony/validator": "~2.6|~3.0|~4.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ],
+                "psr-4": {
+                    "Liuggio\\ExcelBundle\\": ""
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Liuggio\\ExcelBundle\\": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Giulio De Donato",
+                    "email": "liuggio@gmail.com"
+                },
+                {
+                    "name": "ExcelBundle Contributors",
+                    "homepage": "https://github.com/liuggio/ExcelBundle#contributors"
+                }
+            ],
+            "description": "This is a Symfony2 Bundle helps you to read and write Excel files (including pdf, xlsx, odt), thanks to the PHPExcel library",
+            "homepage": "http://www.welcometothebundle.com",
+            "keywords": [
+                "Excel",
+                "bundle",
+                "symfony2",
+                "xls"
+            ],
+            "support": {
+                "source": "https://github.com/bean-project/ExcelBundle/tree/2.1.2"
+            },
+            "time": "2018-02-19T17:07:26+00:00"
+        },
+        {
             "name": "mtdowling/jmespath.php",
             "version": "2.4.0",
             "source": {
@@ -2613,6 +2816,64 @@
                 "set"
             ],
             "time": "2015-05-17T12:39:23+00:00"
+        },
+        {
+            "name": "phpoffice/phpexcel",
+            "version": "1.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PHPExcel.git",
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExcel": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Maarten Balliauw",
+                    "homepage": "http://blog.maartenballiauw.be"
+                },
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Franck Lefevre",
+                    "homepage": "http://blog.rootslabs.net"
+                },
+                {
+                    "name": "Erik Tilt"
+                }
+            ],
+            "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+            "homepage": "http://phpexcel.codeplex.com",
+            "keywords": [
+                "OpenXML",
+                "excel",
+                "php",
+                "spreadsheet",
+                "xls",
+                "xlsx"
+            ],
+            "abandoned": "phpoffice/phpspreadsheet",
+            "time": "2015-05-01T07:00:55+00:00"
         },
         {
             "name": "phpoption/phpoption",

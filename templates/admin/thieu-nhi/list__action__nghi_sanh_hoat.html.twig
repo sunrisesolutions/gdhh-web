@@ -1,0 +1,5 @@
+{% if admin.isGranted('nghi-sanh-hoat',object) %}
+<br/>
+<a onclick="return confirm('Có chắc là em này phải NGHỈ học?')" class="btn btn-danger" href="{{ path('admin_app_binhle_thieunhi_thieunhi_nghiSanhHoat', {'id': object.id}) }}">Nghỉ học</a>
+{% endif %}
+

@@ -2,3 +2,9 @@ twig:
     paths: ['%kernel.project_dir%/templates']
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes:
+            # other files
+        - 'SonataMediaBundle:Form:media_widgets.html.twig'
+        - 'SonataCoreBundle:Form:datepicker.html.twig'
+#        - 'BeanLocationBundle:Form:google_maps.html.twig'
+#        - 'SonataFormatterBundle:Form:formatter.html.twig'

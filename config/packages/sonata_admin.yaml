@@ -47,7 +47,7 @@ sonata_admin:
 
     templates:
         layout: admin/standard_layout.html.twig
-        user_block: admin/Core/user_block.html.twig
+        user_block: admin/core/user_block.html.twig
 #        show: ::admin/show.html.twig
 #        list_block: ::admin/block_admin_list.html.twig
 #        inner_list_row: ::admin/list_inner_row.html.twig

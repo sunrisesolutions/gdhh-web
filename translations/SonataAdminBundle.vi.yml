@@ -1,9 +1,23 @@
+search_placeholder: Tìm thông tin
 link_filters: Tìm kiếm
+link_actions: Thao tác
 link_action_create: Tạo mới
+link_action_list: Danh sách
+link_action_show: Xem Thông-tin
 btn_create_and_edit_again: Lưu và Tiếp tục chỉnh sửa
 btn_create_and_return_to_list: Lưu và Đóng
 btn_create_and_create_a_new_one: Lưu và Tạo Form mới
+
+btn_update_and_edit_again: Lưu và Tiếp tục chỉnh sửa
+btn_update_and_return_to_list: Lưu và Đóng
+
+flash_edit_success: Thông-tin đã được cập nhật thành công rồi nè.
+
+delete_or: hoặc
+link_delete: Xóa
+
 title_create: Tạo mới
+title_edit: Cập nhật
 
 flash:
     batch_payment_received: Invoices have been successfully processed

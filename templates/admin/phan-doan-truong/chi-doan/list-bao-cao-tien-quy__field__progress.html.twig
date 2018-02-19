@@ -1,0 +1,9 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+{% block field %}
+    {% set phanTram = object.phanTramDongQuy|number_format(2) %}
+    <div class="progress">
+        <div class="active progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="{{ phanTram }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ phanTram }}%">
+            <span>{{ phanTram }}% </span>
+        </div>
+    </div>
+{% endblock %}

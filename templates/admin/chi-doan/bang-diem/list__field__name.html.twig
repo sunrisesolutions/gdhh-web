@@ -1,0 +1,6 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+{% block field %}
+    {% set thanhVien = object.phanBo.thanhVien %}
+    <a target="_blank" href="{{ path('admin_app_binhle_thieunhi_thieunhi_show',{'id':thanhVien.id}) }}"
+       class="btn btn-default">{{ thanhVien.name }}</a>
+{% endblock %}

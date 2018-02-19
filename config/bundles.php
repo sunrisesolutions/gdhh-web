@@ -22,4 +22,6 @@ return [
     Sonata\NotificationBundle\SonataNotificationBundle::class => ['all' => true],
     JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
     Sonata\MediaBundle\SonataMediaBundle::class => ['all' => true],
+    Ivory\CKEditorBundle\IvoryCKEditorBundle::class => ['all' => true],
+    Liuggio\ExcelBundle\LiuggioExcelBundle::class => ['all' => true],
 ];

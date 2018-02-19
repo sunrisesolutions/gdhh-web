@@ -1,0 +1,540 @@
+{#{% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}#}
+{% set hocKy = admin.actionParams['hocKy'] %}
+{% set chiDoan = admin.actionParams['chiDoan'] %}
+{% set phanBo = admin.actionParams['phanBo'] %}
+{% set phanBoHangNam = admin.actionParams['phanBoHangNam'] %}
+{% set christianNames =  admin.actionParams['christianNames'] %}
+{% set colHeaders = admin.actionParams['cotDiemHeaders'] %}
+{% set colAttrs = admin.actionParams['cotDiemAttrs'] %}
+{% set colLabels = admin.actionParams['cotDiemLabels'] %}
+{% set colCellFormats = admin.actionParams['cotDiemCellFormats'] %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nhập điểm</title>
+    {%- block actions -%}
+    {%- endblock -%}
+    {% block list_filters_actions %} {%- endblock -%}
+
+    {% block list_filters %}
+    {%- endblock -%}
+
+    {% block stylesheets %}
+        {#{{ parent() }}#}
+
+        {#<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>#}
+        <link rel="stylesheet" media="screen"
+              href="{{ asset('bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.css') }}">
+        <link rel="stylesheet" media="screen"
+              href="{{ asset('bundles/sonatacore/vendor/components-font-awesome/css/font-awesome.min.css') }}">
+
+
+        <link rel="stylesheet" media="screen" href="{{ asset('assets/vendor/handsontable/handsontable.min.css') }}">
+
+        <link rel="stylesheet" media="screen"
+              href="{{ asset('assets/vendor/handsontable/pikaday/pikaday.css') }}">
+
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}"/>
+
+        <style>
+            ::-webkit-input-placeholder {
+                color: red;
+                text-align: center;
+            }
+
+            :-moz-placeholder {
+                /* Firefox 18- */
+                color: red;
+                text-align: center;
+            }
+
+            ::-moz-placeholder {
+                /* Firefox 19+ */
+                color: red;
+                text-align: center;
+            }
+
+            :-ms-input-placeholder {
+                color: red;
+                text-align: center;
+            }
+        </style>
+
+
+        <style type="text/css">
+            body {
+                /*background: white;*/
+                /*margin: 20px;*/
+            }
+
+            h2 {
+                /*margin: 20px 0;*/
+            }
+
+            .handsontable .currentRow {
+                background-color: #E7E8EF;
+            }
+
+            .handsontable .currentCol {
+                background-color: #F9F9FB;
+            }
+        </style>
+
+    {% endblock %}
+
+    {% block javascripts %}
+
+        {% set ccIndex = -1 %}
+        {% set tbTermIndex = -1 %}
+        {% set tbYearIndex = -1 %}
+        {% set sundayTicketsIndex = -1 %}
+
+        {#{{ parent() }}#}
+        <script src="{{ asset('bundles/sonatacore/vendor/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+        <script src="{{ asset('assets/vendor/handsontable/pikaday/pikaday.js') }}"></script>
+        <script src="{{ asset('assets/vendor/handsontable/moment/moment.js') }}"></script>
+        <script src="{{ asset('assets/vendor/handsontable/numbro/numbro.js') }}"></script>
+        <script src="{{ asset('assets/vendor/handsontable/numbro/languages.js') }}"></script>
+        <script src="{{ asset('assets/vendor/handsontable/handsontable.min.js') }}"></script>
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script>
+
+        <script>
+            $(document).ready(function () {
+                window.phanBo = {
+                        {% set _counter = 0 %}
+                        {% for phanBo in phanBoHangNam %}
+                        {% if phanBo.thieuNhi is not empty and phanBo.thanhVien.enabled is not empty %}
+                        {% set _counter = _counter + 1 %}
+
+                        {% set thanhVien = phanBo.thanhVien %}
+                        {% spaceless %}
+                        {% if _counter > 1 %}, {% endif %}
+                    "{{ thanhVien.code }}"
+            :
+                "{{ phanBo.id }}"
+                {% endspaceless %}
+                {% endif %}
+                {% endfor %}
+            }
+
+                {% set cellMetaData = '' %}
+                window.data =
+                    [
+                        {% for phanBo in phanBoHangNam %}
+                        {% set thanhVien = phanBo.thanhVien %}
+                        {% set doiNhomGiaoLy = phanBo.doiNhomGiaoLy %}
+                        {% set doi = doiNhomGiaoLy is empty?'':doiNhomGiaoLy.number %}
+                            {% if thanhVien.thieuNhi is not empty and thanhVien.enabled is not empty %}
+                            {% set bangDiem = phanBo.bangDiem %}
+                            {% set phanBoTruoc = phanBo.phanBoTruoc %}
+                                {% if phanBoTruoc is not empty %}
+                                {% set bangDiemTruoc = phanBo.phanBoTruoc.bangDiem %}
+                                    {% if bangDiemTruoc is not empty %}
+                                    {% set diemNamTruoc = bangDiemTruoc.tbYear %}
+                                    {% set oLai = bangDiemTruoc.gradeRetention is empty?'':'Ở LẠI' %}
+                                    {% else %}
+                                    {% set diemNamTruoc = '---' %}
+                                    {% set oLai = '---' %}
+                                    {% endif %}
+
+                                {% else %}
+                                {% set diemNamTruoc =  'Mới tham gia' %}
+                                {% set oLai = '' %}
+                                {% endif %}
+                        {% set _cname =  thanhVien.christianName %}
+                        {% if _cname|length > 7 %}
+                            {% set cellMetaData = cellMetaData ~  "{row: "~_counter~", col: 1, comment: {value: '"~_cname~"'}}," %}
+                            {% set _cname =  _cname[:6] ~ '...' %}
+                        {% endif %}
+
+                        {#"{{ phanBo.id }}",#}
+                        {% spaceless %}
+                        ["{{ thanhVien.code }}", '{{ _cname }}', '{{ thanhVien.lastName }}', '{{ thanhVien.middleName }}', '{{ thanhVien.firstName }}'
+                            {% spaceless %}
+                            {% for attr in colAttrs %}
+                            , '{{ attribute(bangDiem,attr) }}'
+                            {% endfor %}
+                            {% endspaceless %}
+                        ],
+                        {% endspaceless %}
+                        {% endif %}
+                        {% endfor %}
+                    ];
+
+                var container = document.getElementById('chiDoanSpreadSheet'),
+                    hot;
+                var container1 = document.getElementById('example1'),
+                    hot1;
+
+                window.postDiem = function (diem, cotDiem, cotDiemLbl, phanBoId, thanhVienCode, thanhVienFirstName, change) {
+                    {#var _nopBangDiem = {{  }}#}
+                    // Assign handlers immediately after making the request,
+// and remember the jqxhr object for this request
+                    var nhapDiemPostURL = "{{ path('admin_app_binhle_thieunhi_phanbo_nhapDiemThieuNhi',{'id':phanBo.id}) }}";
+                    if ($.isNumeric(diem) && phanBoId != 'undefined' && phanBoId != null) {
+                        var jqxhr = $.post(nhapDiemPostURL, {diem: diem, cotDiem: cotDiem, phanBoId: phanBoId})
+                            .done(function (data) {
+                                $.notify({
+                                    // options
+                                    message: ' Bé ' + thanhVienFirstName + ' (' + thanhVienCode + ') đã được  ' + diem + ' ' + cotDiemLbl
+                                }, {
+                                    // settings
+                                    type: 'success',
+                                    allow_dismiss: true,
+                                    delay: 7000,
+                                    newest_on_top: false,
+                                    showProgressbar: false,
+                                    placement: {
+                                        from: "top",
+                                        align: "center"
+                                    },
+                                });
+
+                                changedRow = change[0][0];
+                                changeCol = change[0][1];
+
+                                {% for attr in colAttrs %}
+
+                                {% if hocKy == 1 %}
+                                    {% if attr == 'tbCCTerm1' %}
+                                    {% set ccIndex = loop.index0 %}
+                                    {% endif %}
+
+                                    {% if attr == 'tbTerm1' %}
+                                    {% set tbTermIndex = loop.index0 %}
+                                    {% endif %}
+
+                                    {% elseif hocKy == 2 %}
+                                        {% if attr == 'tbCCTerm2' %}
+                                        {% set ccIndex = loop.index0 %}
+                                        {% endif %}
+
+                                        {% if attr == 'tbTerm2' %}
+                                        {% set tbTermIndex = loop.index0 %}
+                                        {% endif %}
+
+                                        {% if attr == 'tbYear' %}
+                                        {% set tbYearIndex = loop.index0 %}
+                                        {% endif %}
+
+
+                                        {% if attr == 'sundayTickets' %}
+                                        {% set           sundayTicketsIndex = loop.index0 %}
+                                        {% endif %}
+
+                                {% endif %}
+                                {% endfor %}
+
+                                {% if ccIndex > -1 %}
+                                $.each(window.data, function (key, row) {
+                                    if (row[0] === thanhVienCode) {
+                                        window.data[key][{{ ccIndex + 5 }}] = data.tbCC;
+                                        window.hot.loadData(window.data);
+                                        return false;
+                                    }
+                                });
+                                {% endif %}
+
+                                {% if tbTermIndex > -1 %}
+                                $.each(window.data, function (key, row) {
+                                    if (row[0] === thanhVienCode) {
+                                        window.data[key][{{ tbTermIndex + 5 }}] = data.tbTerm;
+                                        window.hot.loadData(window.data);
+                                        return false;
+                                    }
+                                });
+                                {% endif %}
+
+                                {% if tbYearIndex > -1 %}
+                                $.each(window.data, function (key, row) {
+                                    if (row[0] === thanhVienCode) {
+                                        window.data[key][{{ tbYearIndex + 5 }}] = data.tbYear;
+                                        window.hot.loadData(window.data);
+                                        return false;
+                                    }
+                                });
+                                {% endif %}
+
+                                {% if sundayTicketsIndex > -1 %}
+                                $.each(window.data, function (key, row) {
+                                    if (row[0] === thanhVienCode) {
+                                        window.data[key][{{ sundayTicketsIndex + 5 }}] = data.sundayTickets;
+                                        window.hot.loadData(window.data);
+                                        return false;
+                                    }
+                                });
+                                {% endif %}
+
+
+                            })
+                            .fail(function () {
+                                {% set huynhTruong = app.user.thanhVien %}
+                                {% if huynhTruong.sex == 'NAM' %}
+                                {% set truongName = 'anh ' ~ huynhTruong.firstName %}
+                                {% elseif huynhTruong.sex is empty %}
+                                {% set truongName = 'trưởng ' ~ huynhTruong.firstName %}
+                                {% else %}
+                                {% set truongName = 'chị ' ~ huynhTruong.firstName %}
+                                {% endif %}
+                                $.notify({
+                                    // options
+                                    message: 'Chết ngựa !!! Hình như rớt mạng. {{ truongName }} kiểm tra coi nếu không phải do rớt mạng thì thông báo cho Bình Lê biết sự cố ngay và lun nhé ...'
+                                }, {
+                                    // settings
+                                    type: 'error',
+                                    allow_dismiss: true,
+                                    delay: 12000,
+                                    newest_on_top: false,
+                                    showProgressbar: false,
+                                    placement: {
+                                        from: "top",
+                                        align: "center"
+                                    },
+                                });
+                                setTimeout(window.postDiem(diem, cotDiem, cotDiemLbl, phanBoId, thanhVienCode, thanhVienFirstName, change), 10000);
+
+                            })
+                            .always(function () {
+
+                            });
+
+// Perform other work here ...
+
+// Set another completion function for the request above
+                        jqxhr.always(function () {
+
+                        });
+                    } else {
+                        $.notify({
+                            // options
+                            message: diem + ' - ' + phanBoId
+                        }, {
+                            // settings
+                            type: 'error',
+                            allow_dismiss: true,
+                            delay: 7000,
+                            newest_on_top: false,
+                            showProgressbar: false,
+                            placement: {
+                                from: "top",
+                                align: "center"
+                            },
+                        });
+                    }
+                }
+
+                window.colAttrs = [
+                    {% spaceless %}
+                    {% for attr in colAttrs %}
+                    {% if loop.index > 1 %}
+                    ,
+                    {% endif %}
+                    '{{ attr }}'
+                    {% endfor %}
+                    {% endspaceless %}
+                ]
+
+                window.colLabels = [
+                    {% spaceless %}
+                    {% for attr in colLabels %}
+                    {% if loop.index > 1 %}
+                    ,
+                    {% endif %}
+                    '{{ attr }}'
+                    {% endfor %}
+                    {% endspaceless %}
+                ]
+
+                window.hot = new Handsontable(container, {
+                    data: window.data,
+                    columnSorting: true,
+                    currentRowClassName: 'currentRow',
+                    currentColClassName: 'currentCol',
+                    contextMenu: false,
+                    autoWrapRow: true,
+                    startRows: 7,
+                    startCols: 4,
+                    rowHeaders: true,
+                    afterChange: function (change, source) {
+                        if (source === 'loadData' || source === 'ObserveChanges.change') {
+                            return; //don't save this change
+                        }
+//                    if (!autosave.checked) {
+//                        return;
+//                    }
+
+                        changedRow = change[0][0];
+                        changeCol = change[0][1];
+                        var data = window.hot.getData();
+                        var dataChangeRow = data[changedRow];
+                        var thanhVienCode = dataChangeRow[0];
+                        var thanhVienFirstName = data[changedRow][4];
+                        var phanBoId = window.phanBo[thanhVienCode];
+                        var diem = parseFloat(change[0][3]);
+                        window.postDiem(diem, window.colAttrs[parseInt(changeCol) - 5], window.colLabels[parseInt(changeCol) - 5], phanBoId, thanhVienCode, thanhVienFirstName, change);
+
+                    }
+                    ,
+                    colHeaders: ['#', 'Tên Thánh', 'Họ', 'Tên Lót', 'Tên'
+                        {% spaceless %}
+                        {% for header in colHeaders %}
+                        , '{{ header }}'
+                        {% endfor %}
+                        {% endspaceless %}
+                    ],
+                    columns: [
+                        {
+                            readOnly: true
+                        },
+                        {
+                            readOnly: true,
+                            type: 'dropdown',
+                            source: [
+                                {% spaceless %}
+                                {% for vn,en in christianNames %}
+                                {{ loop.index > 1?',':'' }}
+                                '{{ vn }}'
+                                {% endfor %}
+                                {% endspaceless %}
+                            ]
+                        },
+                        {readOnly: true},
+                        {readOnly: true},
+                        {readOnly: true}
+
+                        {% spaceless %}
+                        {% for cell in colCellFormats %}
+                        , {
+                            {{ cell|raw }}
+                        }
+                        {% endfor %}
+                        {% endspaceless %}
+
+                    ]
+                });
+
+                function bindButtons() {
+
+                    Handsontable.dom.addEvent(document.body, 'click', function (e) {
+
+                        var element = e.target || e.srcElement;
+
+                        if (element.nodeName == "BUTTON" && element.name == 'save') {
+                            var name = element.getAttribute('data-dump');
+                            var instance = element.getAttribute('data-instance');
+                            var hot = window[instance];
+                            data = hot.getData();
+                            console.log(window.data[0][0]);
+//                        console.log(name);
+//                        console.log(instance);
+                            console.log(window.data[0][0]);
+                            console.log('data of ' + name, hot.getData());
+                            hot.loadData(window.data);
+
+                            $.notify({
+                                // options
+                                message: 'Dumping Data ' + name
+                            }, {
+                                // settings
+                                type: 'success',
+                                allow_dismiss: true,
+                                delay: 7000,
+                                newest_on_top: false,
+                                showProgressbar: false,
+                                placement: {
+                                    from: "top",
+                                    align: "center"
+                                },
+                            });
+                        }
+                    });
+                }
+
+                bindButtons();
+
+            });
+        </script>
+    {% endblock %}
+</head>
+<body>
+<div class="row">
+    <div class="col-xs-12">
+        {% block sonata_admin_content_actions_wrappers %}
+            <ul class="nav navbar-nav navbar-left">
+                <li class="sonata-actions">
+                    <a class=""
+                       href="{{ path('admin_app_binhle_thieunhi_thieunhi_thieuNhiNhom',{'phanBo':admin.actionParams['phanBo'].getId()}) }}">
+                        <i class="fa fa-address-book" aria-hidden="true"></i>
+                        Danh-sách nhóm
+                    </a>
+                </li>
+                <li class="dropdown sonata-actions">
+                    <a class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                        Download <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item"
+                               href="{{ path('admin_app_binhle_thieunhi_phanbo_thieuNhiNhomDownloadBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':1}) }}">Bảng điểm Học-kỳ I</a>
+                        </li>
+                        <li><a class="dropdown-item"
+                               href="{{ path('admin_app_binhle_thieunhi_phanbo_thieuNhiNhomDownloadBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':2}) }}">Bảng điểm Học-kỳ II</a>
+                        </li>
+                    </ul>
+                </li>
+                {% if admin.isGranted('NOP_BANG_DIEM',phanBo) %}
+                    <li class="sonata-actions">
+                        <a class=""
+                           href="{{ path('admin_app_binhle_thieunhi_phanbo_nopBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':hocKy}) }}">
+                            <i class="fa fa-address-book" aria-hidden="true"></i>
+                            Nộp Bảng điểm
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        {% endblock sonata_admin_content_actions_wrappers %}
+
+    </div>
+</div>
+
+<div class="col-xs-12 text-center"><h1>Bảng điểm Học Kỳ {{ hocKy }}</h1></div>
+
+{% block list_table %}
+    <div class="col-xs-12 col-md-12 text-center">
+        {# Add a margin if no pager to prevent dropdown cropping on window #}
+        <div class="box box-primary" style="margin-bottom: 100px;">
+            <div class="box-body no-padding">
+                <p>
+                    {#
+                    <button name="save" data-dump="#chiDoanSpreadSheet" data-instance="hot"
+                            title="Undo" class="btn btn-primary" style="margin: 15px;"><i class="fa fa-floppy-o"
+                                                                                          aria-hidden="true">
+                            Lưu</i>
+                    </button>
+
+                    <button name="undo" data-dump="#chiDoanSpreadSheet" data-instance="hot"
+                            title="Undo" class="btn btn-primary" style="margin: 15px;"><i class="fa fa-undo" aria-hidden="true"> Undo</i>
+                    </button>
+                    <button name="redo" data-dump="#chiDoanSpreadSheet" data-instance="hot"
+                            title="Redo" class="btn btn-primary" style="margin: 15px;"><i class="fa fa-repeat" aria-hidden="true"> Redo</i>
+                    </button>
+                    #}
+                </p>
+
+                <div style="margin-left: 20px;" id="chiDoanSpreadSheet"
+                     class="handsontable htColumnHeaders"></div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+</body>
+</html>

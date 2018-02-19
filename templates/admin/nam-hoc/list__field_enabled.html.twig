@@ -1,0 +1,14 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+{% block field %}
+    {% if object.enabled is empty %}
+        <a class="btn btn-default disabled">Đã khóa</a>
+    {% else %}
+        {% if admin.isGranted('KHOA_SO',object) %}
+            <a href="{{ path('admin_app_binhle_thieunhi_namhoc_khoaSo',{'id' : object.id}) }}" class="btn btn-danger">
+                Khóa sổ
+            </a>
+        {% else %}
+            <a class="btn btn-default disabled">Chưa thể khóa</a>
+        {% endif %}
+    {% endif %}
+{% endblock %}

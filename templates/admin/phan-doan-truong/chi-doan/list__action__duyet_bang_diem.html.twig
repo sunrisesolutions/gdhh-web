@@ -1,0 +1,32 @@
+{% if admin.isGranted('duyet-bang-diem',object) %}
+    <a target="_blank" class="btn btn-info"
+       href="{{ path('admin_app_binhle_thieunhi_phandoantruong_bangdiem_list', {'id': object.id, 'hocKy':1,'action':'xem' }) }}">
+        Xem Bảng điểm</a>
+    <br style="line-height: 34px;"/>
+
+    {% if object.isHoanTatBangDiemHK2() is empty %}
+        {% if object.isHoanTatBangDiemHK1() is not empty %}
+            {% if object.duocDuyetBangDiemHK1 is empty %}
+                <a class="btn btn-sm btn-primary"
+                   href="{{ path('admin_app_binhle_thieunhi_phandoantruong_chidoan_bangDiem', {'id': object.id, 'hocKy':1,'action':'duyet' }) }}">Duyệt
+                    Bảng điểm Học-kỳ I</a>
+            {% else %}
+                <a class="btn btn-sm btn-success disabled"
+                   href="#">Bảng điểm Học-kỳ I đã được duyệt</a>
+            {% endif %}
+            <a class="btn btn-sm btn-warning"
+               href="{{ path('admin_app_binhle_thieunhi_phandoantruong_chidoan_bangDiem', {'id': object.id, 'hocKy':1,'action':'tra-ve' }) }}">Trả
+                Bảng điểm về</a>
+        {% else %}
+            <a class="btn btn-sm btn-primary disabled"
+               href="#">Bảng điểm Học-kỳ I chưa hoàn tất</a>
+        {% endif %}
+        <br/>
+        <a class="btn btn-sm btn-primary disabled"
+           href="#">Bảng điểm Học-kỳ II chưa hoàn tất</a>
+    {% else %}
+        {# object.hoanTatBangDiemHK2 is NOT empty #}
+        HKII
+    {% endif %}
+{% endif %}
+

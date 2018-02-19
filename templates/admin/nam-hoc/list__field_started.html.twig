@@ -1,0 +1,17 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+{% block field %}
+    {% if object.started is empty %}
+        {% if admin.isGranted('KHAI_GIANG',object) %}
+            <a href="{{ path('admin_app_binhle_thieunhi_namhoc_khaiGiang',{'id' : object.id}) }}"
+               class="btn btn-primary">
+                Khai giảng
+            </a>
+        {% else %}
+            <a class="btn btn-primary disabled">
+                Chưa thể Khai-giảng
+            </a>
+        {% endif %}
+    {% else %}
+        <a class="btn btn-default disabled">Đã khai giảng</a>
+    {% endif %}
+{% endblock %}

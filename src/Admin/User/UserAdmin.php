@@ -7,6 +7,8 @@ use App\Entity\HoSo\ThanhVien;
 use App\Entity\User\User;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
+use FOS\UserBundle\Doctrine\UserManager;
+use FOS\UserBundle\Model\UserManagerInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -24,6 +26,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class UserAdmin extends BaseAdmin {
 	private $action;
 	
+	
 	protected $datagridValues = array(
 		// display the first page (default = 1)
 //        '_page' => 1,
@@ -37,7 +40,8 @@ class UserAdmin extends BaseAdmin {
 		/** @var User $object */
 		$object = parent::getNewInstance();
 		if(empty($object->getThanhVien())) {
-			$object->setThanhVien(new ThanhVien());
+			$object->setThanhVien($tv = new ThanhVien());
+			$tv->setUser($object);
 		}
 		
 		return $object;
@@ -143,7 +147,9 @@ class UserAdmin extends BaseAdmin {
 				'years'       => range(1900, $now->format('Y')),
 				'dp_min_date' => '1-1-1900',
 				'dp_max_date' => $now->format('c'),
-				'required'    => false,
+				'format'      => 'dd/MM/yyyy',
+				
+				'required' => false,
 			])
 			->add('thanhVien.firstname', null, [ 'required' => false ])
 			->add('thanhVien.lastname', null, [ 'required' => false ])
@@ -203,6 +209,7 @@ class UserAdmin extends BaseAdmin {
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
+		
 		if($this->getConfigurationPool()->getContainer()->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
 			$this->configureParentFormFields($formMapper);
 		} else {
@@ -245,7 +252,7 @@ class UserAdmin extends BaseAdmin {
 					->add('thanhVien.middlename', null, [
 						'required'           => false,
 						'label'              => 'thanh_vien.label_middlename',
-						'translation_domain' => 'BinhLeAdmin'
+						'translation_domain' => $this->getTranslationDomain()
 					])
 					->add('thanhVien.firstname', null, [
 						'required'           => false,
@@ -327,6 +334,7 @@ class UserAdmin extends BaseAdmin {
 	 */
 	protected $userManager;
 	
+	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -404,18 +412,14 @@ class UserAdmin extends BaseAdmin {
 			->end();
 	}
 	
-	
-	/**
-	 * @param UserManagerInterface $userManager
-	 */
-	public function setUserManager(UserManagerInterface $userManager) {
-		$this->userManager = $userManager;
-	}
-	
 	/**
 	 * @return UserManagerInterface
 	 */
 	public function getUserManager() {
+		if(empty($this->userManager)) {
+			$this->userManager = $this->getConfigurationPool()->getContainer()->get('fos_user.user_manager');
+		}
+		
 		return $this->userManager;
 	}
 	

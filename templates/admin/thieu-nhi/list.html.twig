@@ -1,0 +1,75 @@
+{% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
+    {% block batch_actions %}
+        <label class="checkbox" for="{{ admin.uniqid }}_all_elements">
+            <input type="checkbox" name="all_elements" id="{{ admin.uniqid }}_all_elements">
+            {{ 'Select ALL records'|trans({}, 'SonataAdminBundle') }}
+            ({{ admin.datagrid.pager.nbresults }})
+        </label>
+
+        <select name="action" style="width: auto; height: auto" class="form-control">
+            {% for action, options in batchactions %}
+                <option value="{{ action }}">{{ options.label|trans({}, options.translation_domain|default(admin.translationDomain)) }}</option>
+            {% endfor %}
+        </select>
+
+
+        {#{{ parent() }}#}
+        {#{{ dump(form.children) }}#}
+        {#{{ dump(form.children.employer.vars.value.value) }}#}
+        {#<select name="action_assign_to_benefit" style="width: auto; height: auto" class="form-control">) }}#}
+        {#{% set employer = form.children.employer.vars.value.value %}#}
+        {#{% set products = employer.nonVoucherProducts %}#}
+        {#{% for product in products %}#}
+
+        {#<option value="{{ product.id }}">{{ product.nonVoucherProduct.product.name }}</option>#}
+
+        {#{% endfor %}#}
+        {#</select>#}
+        {#<input name="action_assign_entitlement_to_benefit" style="width: auto; height: auto" class="form-control" placeholder="Custom Entitlement"/>#}
+    {% endblock %}
+
+{% block list_table %}
+    {{ parent() }}
+    {% if admin.isGranted('IMPORT') %}
+        <!-- Modal -->
+        <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Import Joiner List</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><a class="btn btn-default" href="{{ asset('') }}">Download
+                                sample
+                                excel</a>
+                        </p>
+                        <form action=" {{ path('admin_app_binhle_thieunhi_thanhvien_import',{'namHoc':admin.namHoc}) }} "
+                              method="post" enctype="multipart/form-data">
+                            <input type="file" name="bang-diem"/>
+                            <input type="submit" class="btn btn-primary" value="Submit"/>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock list_table %}
+
+ {% block sonata_admin_content_actions_wrappers %}
+     <ul class="nav navbar-nav navbar-right">
+         {% if admin.isGranted('IMPORT') %}
+
+             <li class="">
+                 <input type="button" class="btn btn-small btn-success" value="Import List" data-toggle="modal"
+                        data-target="#importModal" style="margin-top:8px;"/>
+             </li>
+
+         {% endif %}
+     </ul>
+     {{ parent() }}
+ {% endblock sonata_admin_content_actions_wrappers %}

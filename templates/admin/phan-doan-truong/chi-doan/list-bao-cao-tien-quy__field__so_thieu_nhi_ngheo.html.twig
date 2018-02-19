@@ -1,0 +1,5 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+{% block field %}
+    {% set phanTram = object.phanTramDongQuy|number_format(2) %}
+    <strong><code>{{ object.soThieuNhiNgheo }}/{{ object.soThieuNhi }}</code></strong>
+{% endblock %}

@@ -42,7 +42,7 @@ class MenuBuilderListener {
 	private $userService;
 	
 	function __construct(UserService $userService, ContainerInterface $c) {
-		$this->container = $c;
+		$this->container   = $c;
 		$this->userService = $userService;
 	}
 	
@@ -96,7 +96,7 @@ class MenuBuilderListener {
 	private function addBanQuanTriMenuItems($translator, ThanhVien $thanhVien, $params = array()) {
 		$phanBo = $thanhVien->getPhanBoNamNay();
 		$this->banQuanTri->addChild('chia doi trong chi doan', array(
-			'route'           => 'admin_app_binhle_thieunhi_huynhtruong_list',
+			'route'           => 'admin_app_hoso_thanhvien_huynhtruong_list',
 			'routeParameters' => [],
 			'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
 		))->setLabel($translator->trans('dashboard.binhle_thieunhi_huynhtruong', [], 'BinhLeAdmin'));
