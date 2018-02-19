@@ -2,6 +2,9 @@
 
 namespace App\Admin\User;
 
+use App\Admin\BaseAdmin;
+use App\Entity\HoSo\ThanhVien;
+use App\Entity\User\User;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -11,13 +14,14 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-
-class UserAdmin extends AbstractAdmin {
+class UserAdmin extends BaseAdmin {
 	private $action;
 	
 	protected $datagridValues = array(
@@ -28,6 +32,16 @@ class UserAdmin extends AbstractAdmin {
 		// name of the ordered field (default = the model's id field, if any)
 		'_sort_by'    => 'updatedAt',
 	);
+	
+	public function getNewInstance() {
+		/** @var User $object */
+		$object = parent::getNewInstance();
+		if(empty($object->getThanhVien())) {
+			$object->setThanhVien(new ThanhVien());
+		}
+		
+		return $object;
+	}
 	
 	/**
 	 * @param string $name
@@ -115,19 +129,6 @@ class UserAdmin extends AbstractAdmin {
 	private function configureParentFormFields(FormMapper $formMapper) {
 		
 		// define group zoning
-		$formMapper
-			->tab('User')
-			->with('Profile', [ 'class' => 'col-md-6' ])->end()
-			->with('General', [ 'class' => 'col-md-6' ])->end()
-			->with('Social', [ 'class' => 'col-md-6' ])->end()
-			->end()
-			->tab('Security')
-			->with('Status', [ 'class' => 'col-md-4' ])->end()
-			->with('Groups', [ 'class' => 'col-md-4' ])->end()
-			->with('Keys', [ 'class' => 'col-md-4' ])->end()
-			->with('Roles', [ 'class' => 'col-md-12' ])->end()
-			->end();
-		
 		$now = new \DateTime();
 		
 		$formMapper
@@ -135,73 +136,70 @@ class UserAdmin extends AbstractAdmin {
 			->with('General')
 			->add('username')
 			->add('email')
-			->add('plainPassword', 'text', [
+			->add('plainPassword', TextType::class, [
 				'required' => ( ! $this->getSubject() || is_null($this->getSubject()->getId())),
 			])
-			->end()
-			->with('Profile')
-			->add('dateOfBirth', 'sonata_type_date_picker', [
+			->add('thanhVien.dob', DatePickerType::class, [
 				'years'       => range(1900, $now->format('Y')),
 				'dp_min_date' => '1-1-1900',
 				'dp_max_date' => $now->format('c'),
 				'required'    => false,
 			])
-			->add('firstname', null, [ 'required' => false ])
-			->add('lastname', null, [ 'required' => false ])
-			->add('website', 'url', [ 'required' => false ])
-			->add('biography', 'text', [ 'required' => false ])
-			->add('gender', 'Sonata\UserBundle\Form\Type\UserGenderListType', [
-				'required'           => true,
-				'translation_domain' => $this->getTranslationDomain(),
-			])
-			->add('locale', 'locale', [ 'required' => false ])
-			->add('timezone', 'timezone', [ 'required' => false ])
-			->add('phone', null, [ 'required' => false ])
-			->end()
-			->with('Social')
-			->add('facebookUid', null, [ 'required' => false ])
-			->add('facebookName', null, [ 'required' => false ])
-			->add('twitterUid', null, [ 'required' => false ])
-			->add('twitterName', null, [ 'required' => false ])
-			->add('gplusUid', null, [ 'required' => false ])
-			->add('gplusName', null, [ 'required' => false ])
-			->end()
-			->end();
+			->add('thanhVien.firstname', null, [ 'required' => false ])
+			->add('thanhVien.lastname', null, [ 'required' => false ])
+//			->add('biography', TextType::class, [ 'required' => false ])
+//			->add('gender', 'Sonata\UserBundle\Form\Type\UserGenderListType', [
+//				'required'           => true,
+//				'translation_domain' => $this->getTranslationDomain(),
+//			])
+//			->add('locale', 'locale', [ 'required' => false ])
+//			->add('timezone', 'timezone', [ 'required' => false ])
+			->add('thanhVien.soDienThoai', null, [ 'required' => false ])
+
+//			->with('Social')
+//			->add('facebookUid', null, [ 'required' => false ])
+//			->add('facebookName', null, [ 'required' => false ])
+//			->add('twitterUid', null, [ 'required' => false ])
+//			->add('twitterName', null, [ 'required' => false ])
+//			->add('gplusUid', null, [ 'required' => false ])
+//			->add('gplusName', null, [ 'required' => false ])
+		
+		;
 		
 		if($this->getSubject() && ! $this->getSubject()->hasRole('ROLE_SUPER_ADMIN')) {
 			$formMapper
-				->tab('Security')
-				->with('Status')
-				->add('locked', null, [ 'required' => false ])
-				->add('expired', null, [ 'required' => false ])
+//				->add('locked', null, [ 'required' => false ])
+//				->add('expired', null, [ 'required' => false ])
 				->add('enabled', null, [ 'required' => false ])
-				->add('credentialsExpired', null, [ 'required' => false ])
-				->end()
-				->with('Groups')
-				->add('groups', 'sonata_type_model', [
-					'required' => false,
-					'expanded' => true,
-					'multiple' => true,
-				])
-				->end()
-				->with('Roles')
-				->add('realRoles', 'Sonata\UserBundle\Form\Type\SecurityRolesType', [
-					'label'    => 'form.label_roles',
-					'expanded' => true,
-					'multiple' => true,
-					'required' => false,
-				])
-				->end()
-				->end();
+//				->add('credentialsExpired', null, [ 'required' => false ])
+
+//				->with('Groups')
+//				->add('groups', 'sonata_type_model', [
+//					'required' => false,
+//					'expanded' => true,
+//					'multiple' => true,
+//				])
+//				->end()
+//				->with('Roles')
+//				->add('realRoles', 'Sonata\UserBundle\Form\Type\SecurityRolesType', [
+//					'label'    => 'form.label_roles',
+//					'expanded' => true,
+//					'multiple' => true,
+//					'required' => false,
+//				])
+//				->end()
+			;
+			$formMapper->end();
+			$formMapper->end();
 		}
-		
-		$formMapper
-			->tab('Security')
-			->with('Keys')
-			->add('token', null, [ 'required' => false ])
-			->add('twoStepVerificationCode', null, [ 'required' => false ])
-			->end()
-			->end();
+
+//		$formMapper
+//			->tab('Security')
+//			->with('Keys')
+//			->add('token', null, [ 'required' => false ])
+//			->add('twoStepVerificationCode', null, [ 'required' => false ])
+//			->end()
+//			->end();
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
@@ -231,13 +229,13 @@ class UserAdmin extends AbstractAdmin {
 //                ->add('username')
 				->add('email')
 //                ->add('admin')
-				->add('plainPassword', 'text', [
+				->add('plainPassword', TextType::class, [
 					'required' => ( ! $this->getSubject() || is_null($this->getSubject()->getId())),
 				])
 				->end()
 				->with('Profile');
 			
-			if( ! empty($this->getConfigurationPool()->getContainer()->get('app.user')->getUser()->getThanhVien())) {
+			if( ! empty($this->getConfigurationPool()->getContainer()->get(User::class)->getUser()->getThanhVien())) {
 				$formMapper
 					->add('thanhVien.lastname', null, [
 						'required'           => false,

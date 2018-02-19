@@ -2,10 +2,12 @@
 
 namespace App;
 
+use App\Admin\BaseAdmin;
 use App\Admin\BaseCRUDAdminController;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
@@ -46,6 +48,40 @@ class Kernel extends BaseKernel {
 		$loader->load($confDir . '/{packages}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, 'glob');
 		$loader->load($confDir . '/{services}' . self::CONFIG_EXTS, 'glob');
 		$loader->load($confDir . '/{services}_' . $this->environment . self::CONFIG_EXTS, 'glob');
+		
+		/////// <<<  MY CUSTOM ADMIN SERVICE AUTOCONFIG ///////
+		
+		$definitions = [];
+		foreach(get_declared_classes() as $class) {
+			if(is_subclass_of($class, BaseAdmin::class)) {
+				$className = explode('\\', str_replace('Admin', '', $class));
+				
+				$def = new Definition();
+				$def->setClass($class);
+				$def->addTag('sonata.admin', [
+					'manager_type'              => 'orm',
+					'label'                     => strtolower(end($className)),
+					'label_translator_strategy' => 'sonata.admin.label.strategy.underscore'
+				]);
+				$code = $class;
+				if(empty($entity = $class::ENTITY)) {
+					$entity = str_replace('Admin\\', 'Entity\\', $code);
+					$entity = str_replace('Admin', '', $entity);
+				}
+				
+				if(empty($controller = $class::CONTROLLER)) {
+					$controller = $class . 'Controller';
+					if( ! class_exists($controller)) {
+						$controller = BaseCRUDAdminController::class;
+					}
+				}
+				
+				$def->setArguments([ $code, $entity, $controller ]);
+				$definitions[ $code ] = $def;
+			}
+		}
+		$container->addDefinitions($definitions);
+		/////// >>>  MY CUSTOM ADMIN SERVICE AUTOCONFIG ///////
 	}
 	
 	protected function configureRoutes(RouteCollectionBuilder $routes) {

@@ -5,20 +5,20 @@ services:
         tags:
             - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }
 
-    App\Admin\User\UserAdmin: '@app.admin.user'
-    app.admin.user:
-        class: App\Admin\User\UserAdmin
-        arguments: [~, App\Entity\User\User, App\Admin\User\UserAdminController]
-        calls:
+#    App\Admin\User\UserAdmin: '@app.admin.user'
+#    app.admin.user:
+#        class: App\Admin\User\UserAdmin
+#        arguments: [~, App\Entity\User\User, App\Admin\User\UserAdminController]
+#        calls:
+#            - [setTranslationDomain, ['SonataAdminBundle']]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: user, label_translator_strategy: sonata.admin.label.strategy.underscore }
+#
 #            - [setRouteBuilder,['@sonata.admin.route.path_info_slashes']]
 #            - [setIvoryCkeditor,['default']]
 #            - [setStringService, ['@bean_core.string']]
 #            - [setPHPCRService, ['@app.phpcr']]
 #            - [addChild, ['@app.admin.product_clinics']]
-            - [setTranslationDomain, ['BinhLeAdmin']]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: dashboard.user, label_translator_strategy: sonata.admin.label.strategy.underscore }
-
 
 sonata_admin:
     title: 'Gia Đình Hòa Hưng'
@@ -26,14 +26,16 @@ sonata_admin:
         title_mode: 'single_text'
 
     dashboard:
-#        blocks:
+        blocks: ~
 #            - { type: sonata.admin.block.admin_list, position: left }
         groups:
             system:
                 label: dashboard.system
                 icon: '<i class="fa fa-users"></i>'
                 items:
-                    - app.admin.user
+                    - App\Admin\User\UserAdmin
+#                    - Sonata\MediaBundle\Admin\MediaAdmin
+                    - sonata.media.admin.media
 #                    - sonata.user.admin.group
 #                    - sonata.classification.admin.context
 #                    - sonata.classification.admin.category
