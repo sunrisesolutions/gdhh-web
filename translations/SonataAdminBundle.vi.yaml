@@ -1,4 +1,16 @@
 search_placeholder: Tìm thông tin
+label_export_download: Tải về máy
+export_format_json: File JSON
+export_format_xml: File XML
+export_format_csv: File CSV
+export_format_xls: File EXCEL
+
+list_results_count: Kết-quả
+label_per_page: mỗi trang
+action_edit: Chỉnh sửa
+btn_filter: Lọc kết quả
+btn_advanced_filters: Tìm kiếm nâng cao
+link_reset_filter: Xóa bộ lọc
 link_filters: Tìm kiếm
 link_actions: Thao tác
 link_action_create: Tạo mới
@@ -11,6 +23,7 @@ btn_create_and_create_a_new_one: Lưu và Tạo Form mới
 btn_update_and_edit_again: Lưu và Tiếp tục chỉnh sửa
 btn_update_and_return_to_list: Lưu và Đóng
 
+flash_create_success: Tạo mới dữ liệu OK rồi nhé.
 flash_edit_success: Thông-tin đã được cập nhật thành công rồi nè.
 
 delete_or: hoặc
@@ -30,6 +43,7 @@ dashboard:
     media: Files
     jobboard: Job Board
     system: Hệ-thống
+
     content: CMS
     post: Site Content
 
@@ -45,3 +59,5 @@ label_type_no: Không
 
 post:
     make_homepage: Make Homepage
+
+link_breadcrumb_dashboard: Trang chủ

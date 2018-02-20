@@ -1,3 +1,4 @@
+
 PHAN_DOAN_THIEU: Thiếu
 PHAN_DOAN_AU: ẤU
 PHAN_DOAN_NGHIA: Nghĩa
@@ -29,10 +30,12 @@ dashboard:
     binhle_thieunhi_tenthanh: Tên-thánh
     binhle_thieunhi_thanhvien: Thành-viên
     binhle_thieunhi_huynhtruong: Huynh-trưởng
+    huynhtruong_xu_doan: Toàn Xứ-đoàn
     binhle_thieunhi_thieunhi: Thiếu-nhi
     binhle_thieunhi_phanbo: Phân-bổ
     binhle_thieunhi_bangdiem: Bảng điểm
     list_thieunhi_xudoan: Thiếu-nhi toàn Xứ-đoàn
+    danh_sach_truong: Danh Sách Trưởng
 
 show:
     label_status: Status
@@ -165,5 +168,6 @@ form:
 breadcrumb:
     link_chi_doan_list: Danh-sách Chi-đoàn
     link_thanh_vien_list: DS Thành Viên
+    link_thanh_vien_create: Tạo mới
     link_doi_nhom_giao_ly_list: Đội - Nhóm Giáo-lý
     link_bang_diem_list: Bảng điểm

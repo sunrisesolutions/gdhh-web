@@ -2,6 +2,9 @@
 
 namespace App\Admin\HoSo\ThanhVien;
 
+use App\Service\HoSo\NamHocService;
+use App\Service\HoSo\ThanhVienService;
+use App\Service\User\UserService;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use App\Admin\BaseAdmin;
 use App\Entity\HoSo\DoiNhomGiaoLy;
@@ -23,9 +26,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class HuynhTruongAdmin extends BaseAdmin {
+	const ENTITY = ThanhVien::class;
+	
 	protected $baseRouteName = 'admin_app_hoso_thanhvien_huynhtruong';
 	
-	protected $baseRoutePattern = '/app/hoso-thanhvien-huynhtruong';
+	protected $baseRoutePattern = '/app/hoso-thanhvien/huynhtruong';
 	
 	protected $datagridValues = array(
 		// display the first page (default = 1)
@@ -35,9 +40,10 @@ class HuynhTruongAdmin extends BaseAdmin {
 		'_sort_order' => 'DESC',
 		
 		// name of the ordered field (default = the model's id field, if any)
-		'_sort_by'    => 'updatedAt',
+//		'_sort_by'    => 'updatedAt',
 	);
 	
+	protected $translationDomain = 'BinhLeAdmin';
 	
 	/**
 	 * @var integer
@@ -109,17 +115,15 @@ class HuynhTruongAdmin extends BaseAdmin {
 			return false;
 		}
 		
-		$user = $container->get('app.user')->getUser();
+		$user = $container->get(UserService::class)->getUser();
 		if($thanhVien->isBQT()) {
 			return true;
 		}
-		if($thanhVien->isPhanDoanTruongOrSoeur()) {
-			if( ! empty($object)) {
-				if($object->getPhanDoan() === $thanhVien->getPhanDoan()) {
-					return true;
-				}
-			}
+		
+		if($thanhVien->isPhanDoanTruongOrSoeur($object)) {
+			return true;
 		}
+		
 		if($name === 'LIST' || $name === 'VIEW') {
 			return true;
 		}
@@ -128,49 +132,8 @@ class HuynhTruongAdmin extends BaseAdmin {
 			return false;
 		}
 		
-		if(in_array($this->action, [ 'truong-chi-doan', 'list-thieu-nhi-nhom' ]) || $name === 'EDIT') {
-			if($this->action === 'truong-chi-doan') {
-				if( ! empty($thanhVien->getPhanBoNamNay()->isChiDoanTruong())) {
-					if($name === 'EDIT') {
-						if(empty($object)) {
-							return false;
-						}
-						
-						return ($object->getPhanBoNamNay()->getChiDoan() === $thanhVien->getPhanBoNamNay()->getChiDoan());
-					}
-					
-					return true;
-				}
-				
-				return false;
-			} elseif($this->action === 'list-thieu-nhi-nhom') {
-				if($name === 'EXPORT') {
-					return true;
-				}
-				
-				if($name === 'EDIT') {
-					if(empty($object)) {
-						return false;
-					}
-					
-					$doiNhomGiaoLy = $object->getPhanBoNamNay()->getDoiNhomGiaoLy();
-					
-					if(empty($doiNhomGiaoLy)) {
-						return false;
-					}
-					
-					$cacTruongPT = $doiNhomGiaoLy->getCacTruongPhuTrachDoi();
-					/** @var TruongPhuTrachDoi $item */
-					foreach($cacTruongPT as $item) {
-						if($item->getPhanBoHangNam()->getThanhVien()->getId() === $thanhVien->getId()) {
-							return true;
-						}
-					}
-					
-					return false;
-				}
-				
-			}
+		if(($isGranted = $thanhVien->isGranted($name, $this->action, $object) !== null)) {
+			return $isGranted;
 		}
 		
 		return false;
@@ -280,8 +243,7 @@ class HuynhTruongAdmin extends BaseAdmin {
 		$isAdmin   = $this->isAdmin();
 		$container = $this->getConfigurationPool()->getContainer();
 		
-		$thanhVien                               = $this->getUserThanhVien();
-		ThanhVienAdminHelper::$translationDomain = $this->translationDomain;
+		$thanhVien = $this->getUserThanhVien();
 		
 		if($thanhVien->isPhanDoanTruongOrSoeur()) {
 			$phanDoan = $thanhVien->getPhanDoan();
@@ -343,7 +305,6 @@ class HuynhTruongAdmin extends BaseAdmin {
 				'Dự Trưởng (19 tuổi)' => 19,
 			];
 		}
-		
 		
 		/** @var ThanhVien $subject */
 		if( ! empty($subject = $this->getSubject())) {
@@ -444,7 +405,7 @@ class HuynhTruongAdmin extends BaseAdmin {
 				'placeholder'        => 'Chọn Phân Đoàn',
 				'choices'            => ThanhVien::$danhSachPhanDoan,
 				'translation_domain' => $this->translationDomain,
-				'required'           => false
+				'required'           => true
 			));
 		}
 		$formMapper->add('chiDoan', ChoiceType::class, array(
@@ -502,24 +463,12 @@ class HuynhTruongAdmin extends BaseAdmin {
 	 */
 	public function prePersist($object) {
 		$container = $this->getConfigurationPool()->getContainer();
-		$registry  = $container->get('doctrine');
-		$userRepo  = $registry->getRepository(User::class);
-		/** @var User $userFound */
-		if( ! empty($userFound = $userRepo->findOneBy([ 'username' => $object->getUser()->getUsername() ]))) {
-			if( ! empty($userFound->getThanhVien())) {
-				throw new Exception();
-			}
-			$user = $userFound;
-			$object->setUser($user);
-		} else {
-//		$user = $container->get('sonata.user.user_manager')->createUser();
-			$user = $object->getUser();
-		}
-		$username = $object->getUser()->getUsername();
-		$user->setPlainPassword($username);
-		$user->setEnabled(true);
-		$user->addRole(User::ROLE_HUYNH_TRUONG);
-		$this->getModelManager()->update($user);
+		$username  = $object->getUser()->getUsername();
+		$object->getUser()->setEnabled(true);
+		
+		$user = $container->get(UserService::class)->addUserIfNotExist($object->getUser(), $username, [ 'username' => $username ]);
+		
+		$object->setUser($user);
 	}
 	
 	/**
@@ -527,10 +476,12 @@ class HuynhTruongAdmin extends BaseAdmin {
 	 */
 	public function postPersist($object) {
 		$object->setCode(strtoupper(User::generate4DigitCode($object->getId())));
+
+//		$namHocHienTai = $this->getConfigurationPool()->getContainer()->get('app.binhle_thieunhi_namhoc')->getNamHocHienTai();
+//		$object->initiatePhanBo($namHocHienTai);
+//		$this->getConfigurationPool()->getContainer()->get('doctrine.orm.default_entity_manager')->persist($object);
+		$this->getConfigurationPool()->getContainer()->get(ThanhVienService::class)->preUpdate($object);
 		
-		$namHocHienTai = $this->getConfigurationPool()->getContainer()->get('app.binhle_thieunhi_namhoc')->getNamHocHienTai();
-		$object->initiatePhanBo($namHocHienTai);
-		$this->getConfigurationPool()->getContainer()->get('doctrine.orm.default_entity_manager')->persist($object);
 		$this->getModelManager()->update($object);
 	}
 	
@@ -538,16 +489,17 @@ class HuynhTruongAdmin extends BaseAdmin {
 	 * @param ThanhVien $object
 	 */
 	public function preUpdate($object) {
-		if( ! empty($phanBoNamNay = $object->getPhanBoNamNay())) {
-			$phanBoNamNay->setVaiTro();
-			if(empty($object->getChiDoan())) {
-				$phanBoNamNay->setChiDoan(null);
-			}
-			
-			$namHocHienTai = $this->getConfigurationPool()->getContainer()->get('app.binhle_thieunhi_namhoc')->getNamHocHienTai();
-			$object->initiatePhanBo($namHocHienTai);
-		};
-		
+		$this->getConfigurationPool()->getContainer()->get(ThanhVienService::class)->preUpdate($object);
+
+//		if( ! empty($phanBoNamNay = $object->getPhanBoNamNay())) {
+//			$phanBoNamNay->setVaiTro();
+//			if(empty($object->getChiDoan())) {
+//				$phanBoNamNay->setChiDoan(null);
+//			}
+//
+//			$namHocHienTai = $this->getConfigurationPool()->getContainer()->get(NamHocService::class)->getNamHocHienTai();
+//			$object->initiatePhanBo($namHocHienTai);
+//		};
 	}
 	
 	/**

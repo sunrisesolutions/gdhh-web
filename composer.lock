@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e4176195a3fe9c871f6d41f6c8195429",
+    "content-hash": "061f215aecdbde80f593addcd05d0663",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.52.11",
+            "version": "3.52.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "4baba19877e363b971a4600a4bc3b3fa94fdfbba"
+                "reference": "ef20dc8e86aa87b76353bfb32a607684134d65c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4baba19877e363b971a4600a4bc3b3fa94fdfbba",
-                "reference": "4baba19877e363b971a4600a4bc3b3fa94fdfbba",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ef20dc8e86aa87b76353bfb32a607684134d65c6",
+                "reference": "ef20dc8e86aa87b76353bfb32a607684134d65c6",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2018-02-16T20:40:39+00:00"
+            "time": "2018-02-19T21:11:43+00:00"
         },
         {
             "name": "bean-project/core-bundle",
@@ -146,17 +146,23 @@
         },
         {
             "name": "bean-project/gdhh-core",
-            "version": "0.1.12",
+            "version": "0.1.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bean-project/gdhh-core.git",
-                "reference": "7480b7b327912491579580283c7dfae983196d04"
+                "reference": "b873449925680124f754f12010ce885ce83c9bb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bean-project/gdhh-core/zipball/7480b7b327912491579580283c7dfae983196d04",
-                "reference": "7480b7b327912491579580283c7dfae983196d04",
+                "url": "https://api.github.com/repos/bean-project/gdhh-core/zipball/b873449925680124f754f12010ce885ce83c9bb2",
+                "reference": "b873449925680124f754f12010ce885ce83c9bb2",
                 "shasum": ""
+            },
+            "require": {
+                "liuggio/excelbundle": "2.1.2",
+                "sensio/framework-extra-bundle": "^5.1",
+                "sonata-project/media-bundle": "^3.10",
+                "symfony/orm-pack": "^1.0"
             },
             "type": "symfony",
             "extra": {
@@ -184,7 +190,7 @@
                 "bean",
                 "bundle"
             ],
-            "time": "2018-02-19T12:50:50+00:00"
+            "time": "2018-02-20T06:42:03+00:00"
         },
         {
             "name": "bean-project/location-bundle",
@@ -1232,16 +1238,16 @@
         },
         {
             "name": "egeloen/ckeditor-bundle",
-            "version": "6.0.5",
+            "version": "6.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bean-project/IvoryCKEditorBundle.git",
-                "reference": "e2bd3909d7ef48677444a09c48748eaf593fe914"
+                "reference": "d9d1a272fc19b8fce32d832738fce0131453e6a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bean-project/IvoryCKEditorBundle/zipball/e2bd3909d7ef48677444a09c48748eaf593fe914",
-                "reference": "e2bd3909d7ef48677444a09c48748eaf593fe914",
+                "url": "https://api.github.com/repos/bean-project/IvoryCKEditorBundle/zipball/d9d1a272fc19b8fce32d832738fce0131453e6a3",
+                "reference": "d9d1a272fc19b8fce32d832738fce0131453e6a3",
                 "shasum": ""
             },
             "require": {
@@ -1296,9 +1302,9 @@
                 "ckeditor"
             ],
             "support": {
-                "source": "https://github.com/bean-project/IvoryCKEditorBundle/tree/6.0.5"
+                "source": "https://github.com/bean-project/IvoryCKEditorBundle/tree/6.0.7"
             },
-            "time": "2018-02-19T16:48:58+00:00"
+            "time": "2018-02-20T09:15:08+00:00"
         },
         {
             "name": "egeloen/json-builder",

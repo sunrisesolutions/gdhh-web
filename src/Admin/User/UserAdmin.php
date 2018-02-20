@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserAdmin extends BaseAdmin {
-	private $action;
+	protected $action;
 	
 	
 	protected $datagridValues = array(
@@ -308,20 +308,6 @@ class UserAdmin extends BaseAdmin {
 		if( ! $object->isEnabled()) {
 			$object->setEnabled(true);
 		}
-	}
-	
-	/**
-	 * @return mixed
-	 */
-	public function getAction() {
-		return $this->action;
-	}
-	
-	/**
-	 * @param mixed $action
-	 */
-	public function setAction($action) {
-		$this->action = $action;
 	}
 	
 	///////////////////////////////////
