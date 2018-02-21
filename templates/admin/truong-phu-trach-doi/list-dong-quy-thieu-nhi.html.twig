@@ -163,7 +163,7 @@
                 window.postQuy = function (dongQuy, soTien, ngheoKho, phanBoId, thanhVienCode, thanhVienFirstName, change) {
                     // Assign handlers immediately after making the request,
 // and remember the jqxhr object for this request
-                    var dongQuyPostURL = "{{ path('admin_app_binhle_thieunhi_tv_truongphutrachdoi_dongQuy',{'id':phanBo.id}) }}";
+                    var dongQuyPostURL = "{{ path('admin_app_hoso_phanbo_truongphutrachdoi_dongQuy',{'id':phanBo.id}) }}";
                     if ($.isNumeric(soTien) && phanBoId != 'undefined' && phanBoId != null) {
                         var jqxhr = $.post(dongQuyPostURL, {ngheoKho: ngheoKho, dongQuy: dongQuy, soTien: soTien, phanBoId: phanBoId})
                             .done(function (data) {
@@ -350,7 +350,7 @@
             {#<ul class="nav navbar-nav navbar-left">#}
                 {#<li class="sonata-actions">#}
                     {#<a class=""#}
-                       {#href="{{ path('admin_app_hoso_thanhvien_thieunhi_thieuNhiNhom',{'phanBo':admin.subject.id}) }}">#}
+                       {#href="{{ path('admin_app_hoso_thanhvien_huynhtruong_thieuNhiNhom',{'phanBo':admin.subject.id}) }}">#}
                         {#<i class="fa fa-address-book" aria-hidden="true"></i>#}
                         {#Danh-sách nhóm#}
                     {#</a>#}

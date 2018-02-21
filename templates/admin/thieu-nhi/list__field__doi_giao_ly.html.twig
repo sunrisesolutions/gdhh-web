@@ -12,7 +12,7 @@
             {% endif %}
             {% for truong in cacTruong %}
                 {% set number = truong.doiNhomGiaoLy.number %}
-                <span class="label label-primary">{{ truong.phanBoHangNam.thanhVien.firstname }} ( {{ number }} )</span>
+                <span class="label label-primary">{{ truong.phanBo.thanhVien.firstname }} ( {{ number }} )</span>
             {% endfor %}
         {% else %}
             <span class="label label-warning">Chưa có ĐỘI</span>

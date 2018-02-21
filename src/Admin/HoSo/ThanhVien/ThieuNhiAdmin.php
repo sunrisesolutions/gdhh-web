@@ -85,10 +85,10 @@ class ThieuNhiAdmin extends BaseAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 //		$collection->add('employeesImport', $this->getRouterIdParameter() . '/import');
-		$collection->add('thieuNhiNhom', 'thieu-nhi/nhom-giao-ly/{phanBo}/list');
-		$collection->add('thieuNhiChiDoan', 'thieu-nhi/chi-doan/{phanBo}/list');
-		$collection->add('sanhHoatLai', 'thieu-nhi/' . $this->getRouterIdParameter() . '/sanh-hoat-lai');
-		$collection->add('nghiSanhHoat', 'thieu-nhi/' . $this->getRouterIdParameter() . '/nghi-sanh-hoat');
+//		$collection->add('thieuNhiNhom', 'nhom-giao-ly/{phanBo}/list');
+		$collection->add('thieuNhiChiDoan', 'chi-doan/{phanBo}/list');
+		$collection->add('sanhHoatLai', '' . $this->getRouterIdParameter() . '/sanh-hoat-lai');
+		$collection->add('nghiSanhHoat', '' . $this->getRouterIdParameter() . '/nghi-sanh-hoat');
 		parent::configureRoutes($collection);
 	}
 	

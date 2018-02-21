@@ -176,7 +176,7 @@
                     {#var _nopBangDiem = {{  }}#}
                     // Assign handlers immediately after making the request,
 // and remember the jqxhr object for this request
-                    var nhapDiemPostURL = "{{ path('admin_app_binhle_thieunhi_phanbo_nhapDiemThieuNhi',{'id':phanBo.id}) }}";
+                    var nhapDiemPostURL = "{{ path('admin_app_hoso_phanbo_truongphutrachdoi_nhapDiemThieuNhi',{'id':phanBo.id}) }}";
                     if ($.isNumeric(diem) && phanBoId != 'undefined' && phanBoId != null) {
                         var jqxhr = $.post(nhapDiemPostURL, {diem: diem, cotDiem: cotDiem, phanBoId: phanBoId})
                             .done(function (data) {
@@ -469,7 +469,7 @@
             <ul class="nav navbar-nav navbar-left">
                 <li class="sonata-actions">
                     <a class=""
-                       href="{{ path('admin_app_hoso_thanhvien_thieunhi_thieuNhiNhom',{'phanBo':admin.actionParams['phanBo'].getId()}) }}">
+                       href="{{ path('admin_app_hoso_thanhvien_huynhtruong_thieuNhiNhom',{'phanBo':admin.actionParams['phanBo'].getId()}) }}">
                         <i class="fa fa-address-book" aria-hidden="true"></i>
                         Danh-sách nhóm
                     </a>

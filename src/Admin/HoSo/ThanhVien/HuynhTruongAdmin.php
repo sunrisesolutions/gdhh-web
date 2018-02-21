@@ -66,9 +66,9 @@ class HuynhTruongAdmin extends BaseAdmin {
 			if($this->action === 'list-thieu-nhi') {
 				return 'admin/huynh-truong/list-thieu-nhi.html.twig';
 			}
-			if($this->action === 'list-thieu-nhi-nhom') {
-				return 'admin/huynh-truong/list-thieu-nhi-nhom.html.twig';
-			}
+//			if($this->action === 'list-thieu-nhi-nhom') {
+//				return 'admin/huynh-truong/list-thieu-nhi-nhom.html.twig';
+//			}
 			
 			return 'admin/huynh-truong/list.html.twig';
 		}
@@ -81,7 +81,7 @@ class HuynhTruongAdmin extends BaseAdmin {
 //		$collection->add('employeesImport', $this->getRouterIdParameter() . '/import');
 		$collection->add('import', 'import/{namHoc}');
 		$collection->add('thieuNhi', 'thieu-nhi/list');
-		$collection->add('thieuNhiNhom', 'thieu-nhi/nhom-giao-ly/{phanBo}/list');
+		$collection->add('thieuNhiNhom', '{phanBo}/thieu-nhi-trong-nhom-giao-ly');
 		$collection->add('truongChiDoan', 'truong/chi-doan-{chiDoan}/list');
 		
 		parent::configureRoutes($collection);
