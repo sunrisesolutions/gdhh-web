@@ -469,7 +469,7 @@
             <ul class="nav navbar-nav navbar-left">
                 <li class="sonata-actions">
                     <a class=""
-                       href="{{ path('admin_app_hoso_thanhvien_huynhtruong_thieuNhiNhom',{'phanBo':admin.actionParams['phanBo'].getId()}) }}">
+                       href="{{ path('admin_app_hoso_thanhvien_thieunhi_thieuNhiNhom',{'phanBo':admin.actionParams['phanBo'].getId()}) }}">
                         <i class="fa fa-address-book" aria-hidden="true"></i>
                         Danh-sách nhóm
                     </a>
@@ -482,17 +482,17 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><a class="dropdown-item"
-                               href="{{ path('admin_app_binhle_thieunhi_phanbo_thieuNhiNhomDownloadBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':1}) }}">Bảng điểm Học-kỳ I</a>
+                               href="{{ path('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':1}) }}">Bảng điểm Học-kỳ I</a>
                         </li>
                         <li><a class="dropdown-item"
-                               href="{{ path('admin_app_binhle_thieunhi_phanbo_thieuNhiNhomDownloadBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':2}) }}">Bảng điểm Học-kỳ II</a>
+                               href="{{ path('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':2}) }}">Bảng điểm Học-kỳ II</a>
                         </li>
                     </ul>
                 </li>
                 {% if admin.isGranted('NOP_BANG_DIEM',phanBo) %}
                     <li class="sonata-actions">
                         <a class=""
-                           href="{{ path('admin_app_binhle_thieunhi_phanbo_nopBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':hocKy}) }}">
+                           href="{{ path('admin_app_hoso_phanbo_truongphutrachdoi_nopBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':hocKy}) }}">
                             <i class="fa fa-address-book" aria-hidden="true"></i>
                             Nộp Bảng điểm
                         </a>

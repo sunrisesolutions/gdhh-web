@@ -80,9 +80,8 @@ class HuynhTruongAdmin extends BaseAdmin {
 	public function configureRoutes(RouteCollection $collection) {
 //		$collection->add('employeesImport', $this->getRouterIdParameter() . '/import');
 		$collection->add('import', 'import/{namHoc}');
-		$collection->add('thieuNhi', 'thieu-nhi/list');
-		$collection->add('thieuNhiNhom', '{phanBo}/thieu-nhi-trong-nhom-giao-ly');
-		$collection->add('truongChiDoan', 'truong/chi-doan-{chiDoan}/list');
+		$collection->add('truongChiDoan', 'truong/chi-doan-{chiDoan}');
+		$collection->add('truongPhanDoan', 'truong/{phanDoan}');
 		
 		parent::configureRoutes($collection);
 	}
@@ -157,11 +156,16 @@ class HuynhTruongAdmin extends BaseAdmin {
 			$qb->andWhere($expr->eq($rootAlias . '.phanDoan', $expr->literal($tv->getPhanDoan())));
 		}
 		
-		if($this->action === 'truong-chi-doan') {
-//			$query->andWhere($expr->eq($rootAlias . '.huynhTruong', $expr->literal(true)));
+		if(in_array($this->action, [ 'truong-chi-doan', 'truong-phan-doan' ])) {
 			$qb->join($rootAlias . '.phanBoHangNam', 'phanBo');
 			$qb->join('phanBo.chiDoan', 'chiDoan');
-			$qb->andWhere($expr->eq('chiDoan.id', $expr->literal($this->actionParams['chiDoan']->getId())));
+			if(array_key_exists('chiDoan', $this->actionParams)) {
+				$qb->andWhere($expr->eq('chiDoan.id', $expr->literal($this->actionParams['chiDoan']->getId())));
+			}
+			if(array_key_exists('danhSachChiDoan', $this->actionParams)) {
+				$qb->andWhere($expr->in('chiDoan.id', ':danhSachChiDoan'))
+				   ->setParameter('danhSachChiDoan', $this->actionParams['danhSachChiDoan']);
+			}
 			
 		}
 		

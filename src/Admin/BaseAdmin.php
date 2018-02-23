@@ -9,6 +9,8 @@ use App\Service\User\UserService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 
 class BaseAdmin extends AbstractAdmin {
+	
+	const AUTO_CONFIG = true;
 	const ENTITY = null;
 	const CONTROLLER = null;
 	/** @var ThanhVien $thanhVien */

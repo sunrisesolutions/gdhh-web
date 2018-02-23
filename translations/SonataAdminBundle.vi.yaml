@@ -5,7 +5,7 @@ export_format_xml: File XML
 export_format_csv: File CSV
 export_format_xls: File EXCEL
 
-list_results_count: Kết-quả
+list_results_count: "%count% kết-quả"
 label_per_page: mỗi trang
 action_edit: Chỉnh sửa
 btn_filter: Lọc kết quả

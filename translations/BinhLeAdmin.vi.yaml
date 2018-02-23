@@ -22,7 +22,8 @@ dashboard:
     thieunhi_nhapdiem_nhomphutrach: Nhập điểm
     thieunhi_nhomphutrach: Danh-sách Đội
     thieunhi_chia_truong_chi_doan: Chia Trưởng phụ-trách
-    thieunhi_truong_chi_doan: Trưởng Chi-đoàn
+    truong_chidoan: Trưởng Chi-đoàn
+    truong_phandoan: Trưởng Phân-đoàn
     binhle_thieunhi_doinhomgiaoly: Đội Nhóm Giáo-lý
     binhle_thieunhi_chidoan: Chi Đoàn
     thieunhi_chia_doi_chi_doan: Chia đội Thiếu-nhi
@@ -36,6 +37,7 @@ dashboard:
     binhle_thieunhi_bangdiem: Bảng điểm
     list_thieunhi_xudoan: Thiếu-nhi toàn Xứ-đoàn
     danh_sach_truong: Danh Sách Trưởng
+    danh_sach_thieu_nhi: Danh Sách Thiếu-nhi
 
 show:
     label_status: Status

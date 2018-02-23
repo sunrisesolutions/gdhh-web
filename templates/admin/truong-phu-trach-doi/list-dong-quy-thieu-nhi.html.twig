@@ -24,12 +24,10 @@
         <link rel="stylesheet" media="screen"
               href="{{ asset('bundles/sonatacore/vendor/components-font-awesome/css/font-awesome.min.css') }}">
 
-
         <link rel="stylesheet" media="screen" href="{{ asset('assets/vendor/handsontable/handsontable.min.css') }}">
 
         <link rel="stylesheet" media="screen"
               href="{{ asset('assets/vendor/handsontable/pikaday/pikaday.css') }}">
-
 
         <!-- Optional theme -->
         <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}"/>
@@ -109,7 +107,7 @@
                         {% set thanhVien = phanBo.thanhVien %}
                         {% spaceless %}
                         {% if _counter > 1 %}, {% endif %}
-                    "{{ thanhVien.code }}"
+                    "{{ thanhVien.id }}"
             :
                 "{{ phanBo.id }}"
                 {% endspaceless %}
@@ -148,7 +146,7 @@
                         {% endif %}
                         {#"{{ phanBo.id }}",#}
                         {% spaceless %}
-                        ["{{ thanhVien.code }}", '{{ _cname }}', '{{ thanhVien.lastName }}', '{{ thanhVien.middleName }}', '{{ thanhVien.firstName }}',{{ phanBo.daDongQuy?'true':'' }},{{ phanBo.tienQuyDong }},{{ phanBo.ngheoKho?'true':'' }}],
+                        ["{{ thanhVien.id }}", '{{ _cname }}', '{{ thanhVien.lastName }}', '{{ thanhVien.middleName }}', '{{ thanhVien.firstName }}',{{ phanBo.daDongQuy?'true':'' }},{{ phanBo.tienQuyDong }},{{ phanBo.ngheoKho?'true':'' }}],
                         {% endspaceless %}
                         {% endif %}
                         {% endfor %}

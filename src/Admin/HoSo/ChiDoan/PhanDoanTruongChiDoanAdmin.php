@@ -5,37 +5,38 @@ namespace App\Admin\HoSo\ChiDoan;
 use App\Admin\BaseAdmin;
 use App\Entity\HoSo\ChiDoan;
 use App\Entity\HoSo\ThanhVien;
+use Bean\Bundle\CoreBundle\Service\StringService;
+
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;
+
+use Psr\Container\ContainerInterface;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\CoreBundle\Form\Type\BooleanType;
+use Sonata\CoreBundle\Form\Type\CollectionType;
+use Sonata\CoreBundle\Validator\ErrorElement;
+use Sonata\DoctrineORMAdminBundle\Datagrid;
+use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Validator\Constraints\Valid;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
-class BanQuanTriChiDoanAdmin extends BaseAdmin {
-	const ENTITY = ChiDoan::class;
+class PhanDoanTruongChiDoanAdmin extends BaseAdmin {
+	protected $baseRouteName = 'admin_app_hoso_chidoan_phandoantruong_chidoan';
 	
-	protected $baseRouteName = 'admin_app_hoso_chidoan_banquantri_chidoan';
-	
-	protected $baseRoutePattern = '/app/hoso-chidoan/banquantri-chidoan';
+	protected $baseRoutePattern = '/app/hoso-chidoan/phandoantruong-quan-ly-chidoan';
 	
 	protected $action = '';
 	protected $actionParams = [];
-	
-	protected $datagridValues = array(
-		// display the first page (default = 1)
-		'_page'       => 1,
-		
-		// reverse order (default = 'DESC')
-		'_sort_order' => 'ASC',
-		
-		// name of the ordered field (default = the model's id field, if any)
-		'_sort_by'    => 'number',
-	);
 	
 	/**
 	 * @return array
@@ -58,7 +59,7 @@ class BanQuanTriChiDoanAdmin extends BaseAdmin {
 	public function getTemplate($name) {
 		if($name === 'list') {
 			if($this->action === 'bao-cao-tien-quy') {
-				return 'admin/phan-doan-truong/chi-doan/list-bao-cao-tien-quy.html.twig';
+				return '::admin/binhle/thieu-nhi/ban-quan-tri/chi-doan/list-bao-cao-tien-quy.html.twig';
 			} elseif($this->action === 'duyet-bang-diem') {
 			
 			}
@@ -69,7 +70,6 @@ class BanQuanTriChiDoanAdmin extends BaseAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 		$collection->add('baoCaoTienQuy', 'bao-cao-tien-quy');
-		$collection->add('baoCaoTienQuyChiDoan', 'bao-cao-tien-quy/' . $this->getRouterIdParameter());
 		$collection->add('bangDiem', $this->getRouterIdParameter() . '/bang-diem/{hocKy}/{action}');
 		parent::configureRoutes($collection);
 	}
@@ -98,19 +98,11 @@ class BanQuanTriChiDoanAdmin extends BaseAdmin {
 		
 		$tv = $this->getUserThanhVien();
 		
-		if($name === 'CREATE') {
-			return false;
-		}
-		
 		if(empty($tv) || ! $tv->isEnabled()) {
 			return false;
 		}
 		
-		if($this->action === 'bao-cao-tien-quy' && $tv->isThuQuyXuDoan()) {
-			return true;
-		}
-		
-		if( ! $tv->isBQT()) {
+		if( ! $tv->isPhanDoanTruongOrSoeur()) {
 			return false;
 		}
 		
@@ -131,15 +123,16 @@ class BanQuanTriChiDoanAdmin extends BaseAdmin {
 		$tv       = $this->getUserThanhVien();
 		$phanDoan = $tv->getPhanDoan();
 		
+		$query->andWhere($expr->eq($rootAlias . '.phanDoan', $expr->literal($phanDoan)));
 		$query->andWhere($expr->eq($rootAlias . '.namHoc', $expr->literal($tv->getNamHoc())));
 		
 		return $query;
 	}
 	
 	public function generateUrl($name, array $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH) {
-		if($this->action === 'bao-cao-tien-quy') {
+		if($this->action === 'list-thieu-nhi') {
 			if($name === 'list') {
-				$name = 'baoCaoTienQuy';
+				$name = 'thieuNhi';
 			}
 		} elseif($this->action === 'duyet-bang-diem') {
 			if($name === 'list') {
@@ -177,36 +170,35 @@ class BanQuanTriChiDoanAdmin extends BaseAdmin {
 		
 		$listMapper
 //			->addIdentifier('id')
-			->add('number', 'numeric', array( 'label' => 'list.label_chi_doan' ));
+			->add('id', null, array());
 		if($this->action === 'bao-cao-tien-quy') {
 			$listMapper->add('_progress', null, array(
 				'header_style' => 'width: 30%; text-align: center',
 				
 				'label'    => 'list.label_progress'
 			,
-				'template' => 'admin/ban-quan-tri/chi-doan/list-bao-cao-tien-quy__field__progress.html.twig'
+				'template' => '::admin/binhle/thieu-nhi/ban-quan-tri/chi-doan/list-bao-cao-tien-quy__field__progress.html.twig'
 			));
 			$listMapper->add('_so_thieu_nhi', null, array(
 				'label'    => 'list.label_so_thieu_nhi'
 			,
-				'template' => 'admin/ban-quan-tri/chi-doan/list-bao-cao-tien-quy__field__so_thieu_nhi.html.twig'
+				'template' => '::admin/binhle/thieu-nhi/ban-quan-tri/chi-doan/list-bao-cao-tien-quy__field__so_thieu_nhi.html.twig'
 			));
 			$listMapper->add('_so_tien', null, array(
 				'label'    => 'list.label_so_tien'
 			,
-				'template' => 'admin/ban-quan-tri/chi-doan/list-bao-cao-tien-quy__field__so_tien.html.twig'
+				'template' => '::admin/binhle/thieu-nhi/ban-quan-tri/chi-doan/list-bao-cao-tien-quy__field__so_tien.html.twig'
 			));
 			$listMapper->add('_so_thieu_nhi_ngheo', null, array(
 				'label'    => 'list.label_so_thieu_nhi_ngheo'
 			,
-				'template' => 'admin/ban-quan-tri/chi-doan/list-bao-cao-tien-quy__field__so_thieu_nhi_ngheo.html.twig'
+				'template' => '::admin/binhle/thieu-nhi/ban-quan-tri/chi-doan/list-bao-cao-tien-quy__field__so_thieu_nhi_ngheo.html.twig'
 			));
 		} elseif($this->action === 'duyet-bang-diem') {
 			$listMapper->add('_action', 'actions', array(
 				'actions' => array(
-					'edit'            => array(),
+					'duyet_bang_diem' => array( 'template' => '::admin/binhle/thieu-nhi/phan-doan-truong/chi-doan/list__action__duyet_bang_diem.html.twig' ),
 					'delete'          => array(),
-					'duyet_bang_diem' => array( 'template' => 'admin/ban-quan-tri/chi-doan/list__action__duyet_bang_diem.html.twig' ),
 //                ,
 //                    'view_description' => array('template' => '::admin/product/description.html.twig')
 //                ,
@@ -260,11 +252,7 @@ class BanQuanTriChiDoanAdmin extends BaseAdmin {
 					'Chuyên cần T4'  => 'cc4',
 					'Chuyên cần T5'  => 'cc5',
 					'TB Miệng HK-1'  => 'quizTerm1',
-					'TB Miệng HK-2'  => 'quizTerm2',
-					'Giữa HK-1'      => 'midTerm1',
-					'Thi HK-1'       => 'finalTerm1',
-					'Giữa HK-2'      => 'midTerm2',
-					'Thi HK-2'       => 'finalTerm2'
+					'TB Miệng HK-2'  => 'quizTerm2'
 				],
 				'translation_domain' => $this->translationDomain
 			));

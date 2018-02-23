@@ -39,6 +39,11 @@ class MenuBuilderListener {
 	/**
 	 * @var ItemInterface
 	 */
+	private $thieuNhi;
+	
+	/**
+	 * @var ItemInterface
+	 */
 	private $huynhTruong;
 	
 	/**
@@ -66,14 +71,17 @@ class MenuBuilderListener {
 				
 				$this->dauNam     = $menu->addChild('thieunhi_daunam')->setLabel($translator->trans('dashboard.thieunhi_daunam', [], 'BinhLeAdmin'));
 				$this->diemGiaoLy = $menu->addChild('thieunhi_diemgiaoly')->setLabel($translator->trans('dashboard.thieunhi_diemgiaoly', [], 'BinhLeAdmin'));
+				$this->thieuNhi   = $menu->addChild('danh sach thieu nhi')->setLabel($translator->trans('dashboard.danh_sach_thieu_nhi', [], 'BinhLeAdmin'));
+				
 				$this->huynhTruong = $menu->addChild('danh sach huynh truong')->setLabel($translator->trans('dashboard.danh_sach_truong', [], 'BinhLeAdmin'));
 				
+				
 				$this->huynhTruong->addChild('Danh sach Huynh Truong', array(
-						'route'           => 'admin_app_hoso_thanhvien_huynhtruong_list',
-						'routeParameters' => [],
-						'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
-					))->setLabel($translator->trans('dashboard.huynhtruong_xu_doan', [], 'BinhLeAdmin'));
-					
+					'route'           => 'admin_app_hoso_thanhvien_huynhtruong_list',
+					'routeParameters' => [],
+					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
+				))->setLabel($translator->trans('dashboard.huynhtruong_xu_doan', [], 'BinhLeAdmin'));
+				
 				$this->addThanhVienMenuItems($translator, $thanhVien);
 				$baoCaoTienQuy = false;
 				
@@ -105,15 +113,19 @@ class MenuBuilderListener {
 		}
 	}
 	
-	private function addBanQuanTriMenuItems($translator, ThanhVien $thanhVien, $params = array()) {
-		$phanBo = $thanhVien->getPhanBoNamNay();
-	}
-	
 	private function addThanhVienMenuItems($translator, ThanhVien $thanhVien, $params = array()) {
 		$phanBo = $thanhVien->getPhanBoNamNay();
 		
 		if( ! empty($phanBo)) {
 			$chiDoan = $phanBo->getChiDoan();
+			
+			if( ! empty($phanBo->getPhanDoan())) {
+			$this->huynhTruong->addChild('list truong phan doan', array(
+				'route'           => 'admin_app_hoso_thanhvien_huynhtruong_truongPhanDoan',
+			'routeParameters' => [ 'phanDoan' => strtolower($phanBo->getPhanDoan()) ],
+				'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
+			))->setLabel($translator->trans('dashboard.truong_phandoan', [], 'BinhLeAdmin'));
+			}
 			
 			if($phanBo->isChiDoanTruong()) {
 				$this->dauNam->addChild('chia doi trong chi doan', array(
@@ -168,15 +180,15 @@ class MenuBuilderListener {
 				if( ! empty($numberStr)) {
 					$numberStr = ' ( ' . $numberStr . ' )';
 				}
-				$this->menu->addChild('thieu nhi trong nhom minh', array(
-					'route'           => 'admin_app_hoso_thanhvien_huynhtruong_thieuNhiNhom',
+				$this->thieuNhi->addChild('thieu nhi trong nhom minh', array(
+					'route'           => 'admin_app_hoso_thanhvien_thieunhi_thieuNhiNhom',
 					'routeParameters' => [ 'phanBo' => $phanBo->getId() ],
 					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
 				))->setLabel($translator->trans('dashboard.thieunhi_nhomphutrach', [], 'BinhLeAdmin') . $numberStr);
 			}
 			
 			if( ! empty($chiDoan)) {
-				$this->menu->addChild('thieu nhi trong Chi-doan minh', array(
+				$this->thieuNhi->addChild('thieu nhi trong Chi-doan minh', array(
 					'route'           => 'admin_app_hoso_thanhvien_thieunhi_thieuNhiChiDoan',
 					'routeParameters' => [ 'phanBo' => $phanBo->getId() ],
 					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
@@ -187,7 +199,7 @@ class MenuBuilderListener {
 					'route'           => 'admin_app_hoso_thanhvien_huynhtruong_truongChiDoan',
 					'routeParameters' => [ 'chiDoan' => $chiDoan->getId() ],
 					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
-				))->setLabel($translator->trans('dashboard.thieunhi_truong_chi_doan', [], 'BinhLeAdmin'));
+				))->setLabel($translator->trans('dashboard.truong_chidoan', [], 'BinhLeAdmin'));
 			}
 			
 			if($phanBo->isPhanDoanTruongOrSoeur()) {
@@ -205,7 +217,7 @@ class MenuBuilderListener {
 				
 			}
 			
-			$this->menu->addChild('list thieu nhi toan xu doan', array(
+			$this->thieuNhi->addChild('list thieu nhi toan xu doan', array(
 				'route'           => 'admin_app_hoso_thanhvien_thieunhi_list',
 //			'routeParameters' => [ 'id' => $salesPartnerId ],
 				'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),

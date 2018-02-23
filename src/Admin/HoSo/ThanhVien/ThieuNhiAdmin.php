@@ -85,7 +85,7 @@ class ThieuNhiAdmin extends BaseAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 //		$collection->add('employeesImport', $this->getRouterIdParameter() . '/import');
-//		$collection->add('thieuNhiNhom', 'nhom-giao-ly/{phanBo}/list');
+		$collection->add('thieuNhiNhom', 'nhom-giao-ly-cua-truong/{phanBo}');
 		$collection->add('thieuNhiChiDoan', 'chi-doan/{phanBo}/list');
 		$collection->add('sanhHoatLai', '' . $this->getRouterIdParameter() . '/sanh-hoat-lai');
 		$collection->add('nghiSanhHoat', '' . $this->getRouterIdParameter() . '/nghi-sanh-hoat');
@@ -195,7 +195,7 @@ class ThieuNhiAdmin extends BaseAdmin {
 			foreach($cacTruong as $truong) {
 				$doiNhomGiaoLy = $truong->getDoiNhomGiaoLy();
 				/** @var PhanBo $_phanBoTN */
-				foreach($doiNhomGiaoLy->getPhanBoHangNam() as $_phanBoTN) {
+				foreach($doiNhomGiaoLy->getPhanBoThieuNhi() as $_phanBoTN) {
 					if($_phanBoTN === $object) {
 						return true;
 					}
@@ -271,7 +271,7 @@ class ThieuNhiAdmin extends BaseAdmin {
 				$cacTruongPT = $doiNhomGiaoLy->getCacTruongPhuTrachDoi();
 				/** @var TruongPhuTrachDoi $item */
 				foreach($cacTruongPT as $item) {
-					if($item->getPhanBoHangNam()->getThanhVien()->getId() === $thanhVien->getId()) {
+					if($item->getPhanBo()->getThanhVien()->getId() === $thanhVien->getId()) {
 						return true;
 					}
 				}

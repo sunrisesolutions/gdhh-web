@@ -45,6 +45,10 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 			if($this->action === 'dong-quy') {
 				return 'admin/truong-phu-trach-doi/list-dong-quy-thieu-nhi.html.twig';
 			}
+			if($this->action === 'nhap-diem-thieu-nhi' || $this->action === 'nop-bang-diem') {
+				return 'admin/truong-phu-trach-doi/list-nhap-diem-thieu-nhi.html.twig';
+			}
+			
 		}
 		
 		return parent::getTemplate($name);
@@ -54,6 +58,8 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 		parent::configureRoutes($collection);
 		$collection->add('dongQuy', $this->getRouterIdParameter() . '/dong-quy');
 		$collection->add('nhapDiemThieuNhi', $this->getRouterIdParameter() . '/nhap-diem-thieu-nhi');
+		$collection->add('thieuNhiNhomDownloadBangDiem',  $this->getRouterIdParameter() . '/bang-diem/hoc-ky-{hocKy}/download');
+		$collection->add('nopBangDiem', $this->getRouterIdParameter() . '/nop-bang-diem/{hocKy}');
 	}
 	
 	protected function configureDatagridFilters(DatagridMapper $datagridMapper) {

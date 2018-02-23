@@ -54,6 +54,9 @@ class Kernel extends BaseKernel {
 		$definitions = [];
 		foreach(get_declared_classes() as $class) {
 			if(is_subclass_of($class, BaseAdmin::class)) {
+				if(empty($class::AUTO_CONFIG)) {
+					continue;
+				}
 				$className = explode('\\', str_replace('Admin', '', $class));
 				
 				$def = new Definition();
