@@ -46,6 +46,9 @@ filter:
     label_phan_bo_chi_doan_name: Chi Đoàn
     label_phan_bo_chi_doan_nam_hoc_id: Năm Học
 list:
+    label_plain_password: Mật-khẩu
+    label_email: E-mail
+
     label_soeur_tro_uy: Soeur Trợ-úy
     label_cc9: CC-9
     label_cc10: CC-10

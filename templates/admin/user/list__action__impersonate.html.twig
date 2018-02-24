@@ -1,0 +1,6 @@
+{# do not extend from base_list_field if you are just an action button #}
+{#{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}#}
+{% block field %}
+        <a class="btn btn-primary"
+           href="{{ path('sonata_admin_dashboard',{'_switch_user':object.username}) }}">Impersonate </a>
+{% endblock %}

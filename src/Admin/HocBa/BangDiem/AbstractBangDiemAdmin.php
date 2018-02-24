@@ -28,7 +28,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Constraints\Valid;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
-class BangDiemAdmin extends BaseAdmin {
+abstract class AbstractBangDiemAdmin extends BaseAdmin {
 	
 	public const AUTO_CONFIG = false;
 	

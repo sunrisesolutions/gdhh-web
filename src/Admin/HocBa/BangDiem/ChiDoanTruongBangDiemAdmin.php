@@ -26,12 +26,15 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Validator\Constraints\Valid;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
-class PhanDoanTruongBangDiemAdmin extends AbstractBangDiemAdmin {
+class ChiDoanTruongBangDiemAdmin extends AbstractBangDiemAdmin {
 	
 	public const AUTO_CONFIG = true;
 	
-	protected $baseRouteName = 'admin_app_hocba_phandoantruong_bangdiem';
-	protected $baseRoutePattern = '/app/hocba-bangdiem/phandoantruong-xem-bangdiem';
+	const ENTITY = BangDiem::class;
+	
+	protected $baseRouteName = 'admin_app_hocba_chidoantruong_bangdiem';
+	protected $baseRoutePattern = '/app/hocba-bangdiem/chidoantruong-xem-bangdiem';
+	
 	
 	protected $action = '';
 	protected $actionParams = [];
@@ -56,7 +59,7 @@ class PhanDoanTruongBangDiemAdmin extends AbstractBangDiemAdmin {
 			return $this->isAdmin();
 		}
 		
-		if( ! $tv->isBQT() && ! $tv->isPhanDoanTruongOrSoeur()) {
+		if( ! $tv->isChiDoanTruong()) {
 			return false;
 		}
 		
@@ -65,10 +68,10 @@ class PhanDoanTruongBangDiemAdmin extends AbstractBangDiemAdmin {
 	
 	public function createQuery($context = 'list') {
 		/** @var ProxyQuery $query */
-		$query    = parent::createQuery($context);
-		$tv       = $this->getUserThanhVien();
-		$phanDoan = $tv->getPhanDoan();
-		$year     = $tv->getNamHoc();
+		$query   = parent::createQuery($context);
+		$tv      = $this->getUserThanhVien();
+		$chiDoan = $tv->getChiDoan();
+		$year    = $tv->getNamHoc();
 		
 		/** @var QueryBuilder $qb */
 		$qb        = $query->getQueryBuilder();
@@ -80,11 +83,11 @@ class PhanDoanTruongBangDiemAdmin extends AbstractBangDiemAdmin {
 		$qb->join('phanBo.doiNhomGiaoLy', 'doiNhomGiaoLy');
 		$qb->join('chiDoan.namHoc', 'namHoc');
 		
-		$chiDoan = $this->getRequest()->query->get('id');
-		if( ! empty($chiDoan)) {
-			$query->andWhere($expr->eq('chiDoan.id', $expr->literal($chiDoan)));
+		$dngl = $this->getRequest()->query->get('id');
+		if( ! empty($dngl)) {
+			$query->andWhere($expr->eq('doiNhomGiaoLy.id', $expr->literal($dngl)));
 		} else {
-			$query->andWhere($expr->eq('chiDoan.phanDoan', $expr->literal($phanDoan)));
+			$query->andWhere($expr->eq('chiDoan.number', $chiDoan));
 		}
 		$query->andWhere($expr->eq('namHoc.id', $year));
 		$x = $qb->getQuery()->getSQL();

@@ -1,21 +1,10 @@
-{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+{% extends 'admin/doi-nhom-giao-ly/list__field__doi_giao_ly.html.twig' %}
 {% block field %}
     {% set phanBo = object.phanBoSauCung %}
     {% if phanBo is not empty %}
-
-
         {% set doiNhomGiaoLy = phanBo.doiNhomGiaoLy %}
-        {% if doiNhomGiaoLy is not empty %}
-            {% set cacTruong = doiNhomGiaoLy.cacTruongPhuTrachDoi %}
-            {% if cacTruong.count == 0 %}
-                <span class="label label-info">Chưa có TRƯỞNG</span>
-            {% endif %}
-            {% for truong in cacTruong %}
-                {% set number = truong.doiNhomGiaoLy.number %}
-                <span class="label label-primary">{{ truong.phanBo.thanhVien.firstname }} ( {{ number }} )</span>
-            {% endfor %}
-        {% else %}
-            <span class="label label-warning">Chưa có ĐỘI</span>
-        {% endif %}
+        {% block doi_nhom_giao_ly %}
+            {{ parent() }}
+        {% endblock doi_nhom_giao_ly %}
     {% endif %}
 {% endblock %}

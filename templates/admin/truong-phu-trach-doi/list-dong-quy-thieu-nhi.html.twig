@@ -114,45 +114,45 @@
                 {% endif %}
                 {% endfor %}
             }
+                // @formatter:off
                 {% set cellMetaData = '' %}
                 window.data =
                     [
                         {% for phanBo in phanBoHangNam %}
-                        {% set thanhVien = phanBo.thanhVien %}
-                        {% set doiNhomGiaoLy = phanBo.doiNhomGiaoLy %}
-                        {% set doi = doiNhomGiaoLy is empty?'':doiNhomGiaoLy.number %}
-                        {% if thanhVien.thieuNhi is not empty %}
-                        {% set phanBoTruoc = phanBo.phanBoTruoc %}
-                        {% if phanBoTruoc is not empty %}
-                        {% set bangDiemTruoc = phanBo.phanBoTruoc.bangDiem %}
-                        {% set bangDiem = phanBo.bangDiem %}
-                        {% if bangDiemTruoc is not empty %}
-                        {% set diemNamTruoc = bangDiemTruoc.tbYear %}
-                        {% set oLai = bangDiemTruoc.gradeRetention is empty?'':'Ở LẠI' %}
-                        {% else %}
-                        {% set diemNamTruoc = '---' %}
-                        {% set oLai = '---' %}
-                        {% endif %}
+                            {% set thanhVien = phanBo.thanhVien %}
+                            {% set doiNhomGiaoLy = phanBo.doiNhomGiaoLy %}
+                            {% set doi = doiNhomGiaoLy is empty?'':doiNhomGiaoLy.number %}
+                            {% if thanhVien.thieuNhi is not empty %}
+                                {% set _cname =  thanhVien.christianName %}
+                                {% if _cname|length > 7 %}
+                                    {% set cellMetaData = cellMetaData ~  "{row: "~_counter~", col: 1, comment: {value: '"~_cname~"'}}," %}
+                                    {% set _cname =  _cname[:6] ~ '...' %}
+                                {% endif %}
 
-                        {% set _cname =  thanhVien.christianName %}
-                        {% if _cname|length > 7 %}
-                        {% set cellMetaData = cellMetaData ~  "{row: "~_counter~", col: 1, comment: {value: '"~_cname~"'}}," %}
-                        {% set _cname =  _cname[:6] ~ '...' %}
-                        {% endif %}
-
-                        {% else %}
-                        {% set diemNamTruoc =  'Mới tham gia' %}
-                        {% set oLai = '' %}
-                        {% endif %}
-                        {#"{{ phanBo.id }}",#}
-                        {% spaceless %}
-                        ["{{ thanhVien.id }}", '{{ _cname }}', '{{ thanhVien.lastName }}', '{{ thanhVien.middleName }}', '{{ thanhVien.firstName }}',{{ phanBo.daDongQuy?'true':'' }},{{ phanBo.tienQuyDong }},{{ phanBo.ngheoKho?'true':'' }}],
-                        {% endspaceless %}
-                        {% endif %}
+                                {% set phanBoTruoc = phanBo.phanBoTruoc %}
+                                {% if phanBoTruoc is not empty %}
+                                    {% set bangDiemTruoc = phanBo.phanBoTruoc.bangDiem %}
+                                    {% set bangDiem = phanBo.bangDiem %}
+                                    {% if bangDiemTruoc is not empty %}
+                                        {% set diemNamTruoc = bangDiemTruoc.tbYear %}
+                                        {% set oLai = bangDiemTruoc.gradeRetention is empty?'':'Ở LẠI' %}
+                                    {% else %}
+                                        {% set diemNamTruoc = '---' %}
+                                        {% set oLai = '---' %}
+                                    {% endif %}
+                                {% else %}
+                                    {% set diemNamTruoc =  'Mới tham gia' %}
+                                    {% set oLai = '' %}
+                                {% endif %}
+                                {#"{{ phanBo.id }}",#}
+                                {% spaceless %}
+                                ["{{ thanhVien.id }}", '{{ _cname }}', '{{ thanhVien.lastName }}', '{{ thanhVien.middleName }}', '{{ thanhVien.firstName }}',{{ phanBo.daDongQuy?'true':'' }},{{ phanBo.tienQuyDong }},{{ phanBo.ngheoKho?'true':'' }}],
+                                {% endspaceless %}
+                            {% endif %}
                         {% endfor %}
                     ];
 
-
+                // @formatter:on
                 var container = document.getElementById('chiDoanSpreadSheet'),
                     hot;
                 var container1 = document.getElementById('example1'),
@@ -163,13 +163,18 @@
 // and remember the jqxhr object for this request
                     var dongQuyPostURL = "{{ path('admin_app_hoso_phanbo_truongphutrachdoi_dongQuy',{'id':phanBo.id}) }}";
                     if ($.isNumeric(soTien) && phanBoId != 'undefined' && phanBoId != null) {
-                        var jqxhr = $.post(dongQuyPostURL, {ngheoKho: ngheoKho, dongQuy: dongQuy, soTien: soTien, phanBoId: phanBoId})
+                        var jqxhr = $.post(dongQuyPostURL, {
+                            ngheoKho: ngheoKho,
+                            dongQuy: dongQuy,
+                            soTien: soTien,
+                            phanBoId: phanBoId
+                        })
                             .done(function (data) {
                                 var message = '';
-                                if(ngheoKho === true){
-                                 message = ' Bé ' + thanhVienFirstName + ' (' + thanhVienCode + ') thuộc diện Nghèo-khó đã đóng  ' + soTien
-                                }else{
-                                     message = ' Bé ' + thanhVienFirstName + ' (' + thanhVienCode + ') đã đóng  ' + soTien
+                                if (ngheoKho === true) {
+                                    message = ' Bé ' + thanhVienFirstName + ' (' + thanhVienCode + ') thuộc diện Nghèo-khó đã đóng  ' + soTien
+                                } else {
+                                    message = ' Bé ' + thanhVienFirstName + ' (' + thanhVienCode + ') đã đóng  ' + soTien
                                 }
                                 $.notify({
                                     // options
@@ -267,7 +272,7 @@
                         var dataChangeRow = data[changedRow];
                         var dongQuy = dataChangeRow[5];
                         var soTien = dataChangeRow[6];
-                        var ngheoKho = data[changedRow][7];                        
+                        var ngheoKho = data[changedRow][7];
 
                         var thanhVienCode = dataChangeRow[0];
                         var thanhVienFirstName = data[changedRow][4];
@@ -346,13 +351,13 @@
     {#<div class="col-xs-12">#}
         {% block sonata_admin_content_actions_wrappers %}
             {#<ul class="nav navbar-nav navbar-left">#}
-                {#<li class="sonata-actions">#}
-                    {#<a class=""#}
-                       {#href="{{ path('admin_app_hoso_thanhvien_huynhtruong_thieuNhiNhom',{'phanBo':admin.subject.id}) }}">#}
-                        {#<i class="fa fa-address-book" aria-hidden="true"></i>#}
-                        {#Danh-sách nhóm#}
-                    {#</a>#}
-                {#</li>#}
+            {#<li class="sonata-actions">#}
+            {#<a class=""#}
+            {#href="{{ path('admin_app_hoso_thanhvien_huynhtruong_thieuNhiNhom',{'phanBo':admin.subject.id}) }}">#}
+            {#<i class="fa fa-address-book" aria-hidden="true"></i>#}
+            {#Danh-sách nhóm#}
+            {#</a>#}
+            {#</li>#}
             {#</ul>#}
             {{ parent() }}
         {% endblock sonata_admin_content_actions_wrappers %}

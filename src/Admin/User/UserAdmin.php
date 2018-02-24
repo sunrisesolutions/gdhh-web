@@ -5,6 +5,7 @@ namespace App\Admin\User;
 use App\Admin\BaseAdmin;
 use App\Entity\HoSo\ThanhVien;
 use App\Entity\User\User;
+use App\Service\User\UserService;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use FOS\UserBundle\Doctrine\UserManager;
@@ -25,7 +26,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserAdmin extends BaseAdmin {
 	protected $action;
-	
 	
 	protected $datagridValues = array(
 		// display the first page (default = 1)
@@ -54,7 +54,7 @@ class UserAdmin extends BaseAdmin {
 	public function isGranted($name, $object = null) {
 		$container = $this->getConfigurationPool()->getContainer();
 		$isAdmin   = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
-//        $pos = $container->get('app.user')->getPosition();
+//        $pos = $container->get(UserService::class)->getPosition();
 		if(in_array($name, [ 'CREATE', 'DELETE', 'LIST' ])) {
 			return $isAdmin;
 		}
@@ -62,7 +62,7 @@ class UserAdmin extends BaseAdmin {
 			if($isAdmin) {
 				return true;
 			}
-			if( ! empty($object) && $object->getId() === $container->get('app.user')->getUser()->getId()) {
+			if( ! empty($object) && $object->getId() === $container->get(UserService::class)->getUser()->getId()) {
 				return true;
 			}
 			
@@ -112,6 +112,20 @@ class UserAdmin extends BaseAdmin {
 	 * {@inheritdoc}
 	 */
 	protected function configureListFields(ListMapper $listMapper) {
+		$listMapper->add('_action', 'actions', [
+				'actions' => array(
+					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
+					'edit'        => array(),
+					'delete'      => array(),
+//					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
+
+//                ,
+//                    'view_description' => array('template' => '::admin/product/description.html.twig')
+//                ,
+//                    'view_tos' => array('template' => '::admin/product/tos.html.twig')
+				)
+			]
+		);
 		$listMapper
 			->addIdentifier('username')
 			->add('email')
@@ -213,20 +227,6 @@ class UserAdmin extends BaseAdmin {
 		if($this->getConfigurationPool()->getContainer()->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
 			$this->configureParentFormFields($formMapper);
 		} else {
-//        $formMapper->removeGroup('Social','User');
-//        $formMapper->removeGroup('Groups','Security');
-//        $formMapper->removeGroup('Keys','Security');
-//        $formMapper->removeGroup('Status','Security');
-//        $formMapper->removeGroup('Roles','Security');
-//        $formMapper->remove('Security');
-//
-//        $formMapper->remove('dateOfBirth');
-//        $formMapper->remove('website');
-//        $formMapper->remove('biography');
-//        $formMapper->remove('gender');
-//        $formMapper->remove('locale');
-//        $formMapper->remove('timezone');
-//        $formMapper->remove('phone');
 			$formMapper
 				->with('Profile', [ 'class' => 'col-md-6' ])->end()
 				->with('General', [ 'class' => 'col-md-6' ])->end();
@@ -234,45 +234,46 @@ class UserAdmin extends BaseAdmin {
 			$formMapper
 				->with('General')
 //                ->add('username')
-				->add('email')
+				->add('email', null, [ 'label' => 'list.label_email' ])
 //                ->add('admin')
 				->add('plainPassword', TextType::class, [
+					'label'    => 'list.label_plain_password',
 					'required' => ( ! $this->getSubject() || is_null($this->getSubject()->getId())),
 				])
 				->end()
 				->with('Profile');
 			
-			if( ! empty($this->getConfigurationPool()->getContainer()->get(User::class)->getUser()->getThanhVien())) {
+			if( ! empty($this->getConfigurationPool()->getContainer()->get(UserService::class)->getUser()->getThanhVien())) {
 				$formMapper
 					->add('thanhVien.lastname', null, [
 						'required'           => false,
-						'label'              => 'thanh_vien.label_lastname',
+						'label'              => 'list.label_lastname',
 						'translation_domain' => 'BinhLeAdmin'
 					])
 					->add('thanhVien.middlename', null, [
 						'required'           => false,
-						'label'              => 'thanh_vien.label_middlename',
+						'label'              => 'list.label_middlename',
 						'translation_domain' => $this->getTranslationDomain()
 					])
 					->add('thanhVien.firstname', null, [
 						'required'           => false,
-						'label'              => 'thanh_vien.label_firstname',
+						'label'              => 'list.label_firstname',
 						'translation_domain' => 'BinhLeAdmin'
 					]);
 				$formMapper->add('thanhVien.soDienThoai', null, array(
-					'label'              => 'thanh_vien.label_so_dien_thoai',
+					'label'              => 'list.label_so_dien_thoai',
 					'translation_domain' => 'BinhLeAdmin'
 				))
 				           ->add('thanhVien.soDienThoaiSecours', null, array(
-					           'label'              => 'thanh_vien.label_so_dien_thoai_secours',
+					           'label'              => 'list.label_so_dien_thoai_secours',
 					           'translation_domain' => 'BinhLeAdmin'
 				           ))
 				           ->add('thanhVien.diaChiThuongTru', null, array(
-					           'label'              => 'thanh_vien.label_dia_chi_thuong_tru',
+					           'label'              => 'list.label_dia_chi_thuong_tru',
 					           'translation_domain' => 'BinhLeAdmin'
 				           ))
 				           ->add('thanhVien.diaChiTamTru', null, array(
-					           'label'              => 'thanh_vien.label_dia_chi_tam_tru',
+					           'label'              => 'list.label_dia_chi_tam_tru',
 					           'translation_domain' => 'BinhLeAdmin'
 				           ));
 			} else {

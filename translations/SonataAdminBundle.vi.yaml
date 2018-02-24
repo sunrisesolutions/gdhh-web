@@ -7,7 +7,10 @@ export_format_xls: File EXCEL
 
 list_results_count: "%count% kết-quả"
 label_per_page: mỗi trang
+
 action_edit: Chỉnh sửa
+action_delete: Xóa CMNL
+
 btn_filter: Lọc kết quả
 btn_advanced_filters: Tìm kiếm nâng cao
 link_reset_filter: Xóa bộ lọc

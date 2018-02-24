@@ -1,8 +1,14 @@
 {% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
-{% block field %}    
-<strong>Tổng thu theo thực tế <code>{{ object.soTienQuyDaDong|number_format }}</code></strong>
-<br/>
-<strong>Tổng thu theo Công-thức <code>{{ ( object.soThieuNhiDongQuy * object.namHoc.tienQuy )|number_format }}</code></strong>
-<br/>
-<strong>Tổng thu theo Công thức trên Tổng Sĩ-số<code>{{ (object.soThieuNhi * object.namHoc.tienQuy) | number_format }}</code></strong>
+{% block field %}
+    <ul>
+        <li>
+            <strong>Tổng thu theo thực tế <br/> <code>{{ object.soTienQuyDaDong|number_format }}</code></strong>
+        </li>
+        <li>
+            <strong>Tổng thu theo Công-thức <br/> <code>{{ ( object.soThieuNhiDongQuy * object.namHoc.tienQuy )|number_format }}</code></strong>
+        </li>
+        <li>
+            <strong>Tổng thu theo Công thức dựa trên Sĩ-số <br/> <code>{{ (object.soThieuNhi * object.namHoc.tienQuy) | number_format }}</code></strong>
+        </li>
+    </ul>
 {% endblock %}

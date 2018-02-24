@@ -19,7 +19,7 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 	
 	public function nopBangDiemAction($id = null, $hocKy, Request $request) {
 		if( ! in_array($hocKy, [ 1, 2 ])) {
-			throw new InvalidArgumentException();
+			throw new \InvalidArgumentException();
 		}
 		
 		/**
@@ -30,7 +30,7 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 			throw new NotFoundHttpException(sprintf('unable to find the Truong with id : %s', $id));
 		}
 		
-		/** @var PhanBoAdmin $admin */
+		/** @var TruongPhuTrachDoiAdmin $admin */
 		$admin = $this->admin;
 		
 		$chiDoan = $phanBo->getChiDoan();

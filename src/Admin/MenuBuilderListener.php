@@ -129,25 +129,25 @@ class MenuBuilderListener {
 			
 			if($phanBo->isChiDoanTruong()) {
 				$this->dauNam->addChild('chia doi trong chi doan', array(
-					'route'           => 'admin_app_binhle_thieunhi_chidoan_thieuNhiChiDoanChiaDoi',
+					'route'           => 'admin_app_hoso_chidoan_chidoantruong_chidoan_thieuNhiChiDoanChiaDoi',
 					'routeParameters' => [ 'id' => $phanBo->getChiDoan()->getId() ],
 					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
 				))->setLabel($translator->trans('dashboard.thieunhi_chia_doi_chi_doan', [], 'BinhLeAdmin'));
 				
 				$this->dauNam->addChild('chia doi truong chi doan', array(
-					'route'           => 'admin_app_binhle_thieunhi_chidoan_thieuNhiChiDoanChiaTruongPhuTrach',
+					'route'           => 'admin_app_hoso_chidoan_chidoantruong_chidoan_thieuNhiChiDoanChiaTruongPhuTrach',
 					'routeParameters' => [ 'id' => $phanBo->getChiDoan()->getId() ],
 					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
 				))->setLabel($translator->trans('dashboard.thieunhi_chia_truong_chi_doan', [], 'BinhLeAdmin'));
 				
 				$this->dauNam->addChild('bao cao tien quy cho Chi Doan Truong duyet tien quy', array(
-					'route'           => 'admin_app_binhle_thieunhi_doinhomgiaoly_baoCaoTienQuy',
+					'route'           => 'admin_app_hoso_doinhomgiaoly_truongphutrach_dngl_baoCaoTienQuy',
 					'routeParameters' => [ 'id' => $phanBo->getChiDoan()->getId() ],
 					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
 				))->setLabel($translator->trans('dashboard.thieunhi_bao_cao_tien_quy', [], 'BinhLeAdmin'));
 				
 				$this->diemGiaoLy->addChild('doi nhom giao ly (duyet diem)', array(
-					'route'           => 'admin_app_binhle_thieunhi_doinhomgiaoly_list',
+					'route'           => 'admin_app_hoso_doinhomgiaoly_truongphutrach_dngl_list',
 					'routeParameters' => [],
 					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
 				))->setLabel($translator->trans('dashboard.thieunhi_duyet_diem', [], 'BinhLeAdmin'));
