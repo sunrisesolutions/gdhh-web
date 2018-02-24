@@ -85,7 +85,6 @@
     {% endblock %}
 
     {% block javascripts %}
-
         {% set ccIndex = -1 %}
         {% set tbTermIndex = -1 %}
         {% set tbYearIndex = -1 %}
@@ -115,7 +114,7 @@
                         {% set thanhVien = phanBo.thanhVien %}
                         {% spaceless %}
                         {% if _counter > 1 %}, {% endif %}
-                    "{{ thanhVien.code }}"
+                    "{{ thanhVien.id }}"
             :
                 "{{ phanBo.id }}"
                 {% endspaceless %}
@@ -155,7 +154,7 @@
 
                         {#"{{ phanBo.id }}",#}
                         {% spaceless %}
-                        ["{{ thanhVien.code }}", '{{ _cname }}', '{{ thanhVien.lastName }}', '{{ thanhVien.middleName }}', '{{ thanhVien.firstName }}'
+                        ["{{ thanhVien.id }}", '{{ _cname }}', '{{ thanhVien.lastName }}', '{{ thanhVien.middleName }}', '{{ thanhVien.firstName }}'
                             {% spaceless %}
                             {% for attr in colAttrs %}
                             , '{{ attribute(bangDiem,attr) }}'
@@ -492,7 +491,7 @@
                 {% if admin.isGranted('NOP_BANG_DIEM',phanBo) %}
                     <li class="sonata-actions">
                         <a class=""
-                           href="{{ path('admin_app_hoso_phanbo_truongphutrachdoi_nopBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':hocKy}) }}">
+                           href="{{ admin.actionParams['nopDiemUrl'] }}">
                             <i class="fa fa-address-book" aria-hidden="true"></i>
                             Nộp Bảng điểm
                         </a>

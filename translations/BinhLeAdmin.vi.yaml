@@ -19,7 +19,8 @@ dashboard:
     thieunhi_daunam: Thao-tác đầu năm
     thieunhi_diemgiaoly: Điểm Giáo-lý
     thieunhi_dong_quy: Quỹ Thiếu-nhi
-    thieunhi_nhapdiem_nhomphutrach: Nhập điểm
+    thieunhi_nhapdiem_nhomphutrach: Nhập điểm cho Nhóm
+    thukychidoan_nhapdiem: Nhập điểm cho Chi-đoàn
     thieunhi_nhomphutrach: Danh-sách Đội
     thieunhi_chia_truong_chi_doan: Chia Trưởng phụ-trách
     truong_chidoan: Trưởng Chi-đoàn
@@ -89,6 +90,7 @@ list:
     label_progress: Tiến-trình
     label_thu_quy_xu_doan: Thủ-Quỹ Xứ-đoàn
     label_thu_ky_xu_doan: Thư-ký Xứ-đoàn
+    label_thu_ky_chi_doan: Thư-ký Chi-đoàn
     label_number: Đội/Chi Đoàn
     label_created_at: Created At
     label_username: Username

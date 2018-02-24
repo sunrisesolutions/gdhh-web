@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
-class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
+class ThuKyChiDoanAdminController extends BaseCRUDAdminController {
 	
 	public function nopBangDiemAction($id = null, $hocKy, Request $request) {
 		if( ! in_array($hocKy, [ 1, 2 ])) {
@@ -33,7 +33,7 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 			throw new NotFoundHttpException(sprintf('unable to find the Truong with id : %s', $id));
 		}
 		
-		/** @var TruongPhuTrachDoiAdmin $admin */
+		/** @var ThuKyChiDoanAdmin $admin */
 		$admin = $this->admin;
 		
 		$chiDoan = $phanBo->getChiDoan();
@@ -48,73 +48,17 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 		if( ! $admin->isGranted('NOP_BANG_DIEM', $phanBo)) {
 			throw new AccessDeniedHttpException();
 		}
+		$thuKy = $phanBo->getThanhVien()->getThuKyChiDoanObj();
 		
-		if($phanBo->coTheNopBangDiem($hocKy)) {
+		if($thuKy->coTheNopBangDiem($hocKy)) {
 			$hoanTatBangDiemHKMethod = 'hoanTatBangDiemHK' . $hocKy;
-			$phanBo->$hoanTatBangDiemHKMethod();
-			$this->admin->getModelManager()->update($phanBo);
+			$chiDoan->$hoanTatBangDiemHKMethod(true);
+			$manager = $this->getDoctrine()->getManager();
+			$manager->persist($chiDoan);
+			$manager->flush();
 		}
 		
-		return new RedirectResponse($this->generateUrl('admin_app_hoso_phanbo_truongphutrachdoi_nhapDiemThieuNhi', [ 'id' => $id ]));
-	}
-	
-	public function dongQuyAction($id = null, Request $request) {
-		/**
-		 * @var PhanBo $phanBo
-		 */
-		$phanBo = $this->admin->getSubject();
-		if( ! $phanBo) {
-			throw new NotFoundHttpException(sprintf('unable to find the PhanBo with id : %s', $id));
-		}
-		
-		/** @var TruongPhuTrachDoiAdmin $admin */
-		$admin = $this->admin;
-		
-		$manager = $this->get('doctrine.orm.default_entity_manager');
-		
-		if($request->isMethod('post')) {
-			$diem     = floatval($request->request->get('diem', 0));
-			$soTien   = $request->request->getInt('soTien', 0);
-			$dongQuy  = $request->request->getBoolean('dongQuy', false);
-			$ngheoKho = $request->request->getBoolean('ngheoKho', false);
-			
-			$phanBoId = $request->request->get('phanBoId');
-			$phanBo   = $this->getDoctrine()->getRepository(PhanBo::class)->find($phanBoId);
-			
-			if(($dongQuy === false && $soTien === 0 || $dongQuy === true && $soTien > 0 || ! empty($phanBo))) {
-				
-				$phanBo->setTienQuyDong($soTien);
-				$phanBo->setDaDongQuy($dongQuy);
-				$phanBo->setNgheoKho($ngheoKho);
-				$tv = $phanBo->getThanhVien();
-				$tv->setNgheoKho($ngheoKho);
-				
-				$manager->persist($phanBo);
-				$manager->persist($tv);
-				$manager->flush();
-
-//
-				return new JsonResponse([ 'OK' ], 200);
-			} else {
-				return new JsonResponse([ 404, 'Không thể tìm thấy Thiếu-nhi này' ], 404);
-			}
-		}
-		
-		$manager->persist($phanBo);
-		$manager->flush();
-		
-		
-		$phanBoHangNam = $phanBo->getCacPhanBoThieuNhiPhuTrach();
-		
-		$admin->namHoc = $phanBo->getNamHoc();
-		$admin->setAction('dong-quy');
-		$admin->setActionParams([
-			'chiDoan'        => $phanBo->getChiDoan(),
-			'phanBoHangNam'  => $phanBoHangNam,
-			'christianNames' => ThanhVien::$christianNames
-		]);
-		
-		return parent::listAction();
+		return new RedirectResponse($this->generateUrl('admin_app_hoso_phanbo_thukychidoan_nhapDiemThieuNhi', [ 'id' => $id ]));
 	}
 	
 	public function nhapDiemThieuNhiAction($id = null, Request $request) {
@@ -126,7 +70,7 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 			throw new NotFoundHttpException(sprintf('unable to find the Truong with id : %s', $id));
 		}
 		
-		/** @var TruongPhuTrachDoiAdmin $admin */
+		/** @var PhanBoAdmin $admin */
 		$admin = $this->admin;
 		
 		$manager = $this->get('doctrine.orm.default_entity_manager');
@@ -138,7 +82,7 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 		}
 		
 		if($_phanBo->getId() !== $phanBo->getId()) {
-			if( ! $_phanBo->quanLy($phanBo)) {
+			if( ! $_phanBo->getThanhVien()->getThuKyChiDoanObj()->isThieuNhiCungChiDoan($phanBo)) {
 				throw new UnauthorizedHttpException('not authorised');
 			}
 		}
@@ -157,7 +101,8 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 			return $bangDiemHelper->ghiDiem($request, $cotDiemHeaders, $cotDiemAttrs, $cotDiemLabels, $cotDiemCellFormats, $result);
 		}
 		
-		$phanBoHangNam = $phanBo->getCacPhanBoThieuNhiPhuTrach();
+		
+		$phanBoHangNam = $phanBo->getThanhVien()->getThuKyChiDoanObj()->getCacPhanBoThieuNhiPhuTrach();
 		$manager->persist($phanBo);
 		$manager->flush();
 		
@@ -174,7 +119,7 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 			'cotDiemCellFormats' => $cotDiemCellFormats,
 			'christianNames'     => ThanhVien::$christianNames,
 			'nopDiemUrl'         =>
-				$this->get('router')->generate('admin_app_hoso_phanbo_truongphutrachdoi_nopBangDiem',
+				$this->get('router')->generate('admin_app_hoso_phanbo_thukychidoan_nopBangDiem',
 					[
 						'id'    => $phanBo->getId(),
 						'hocKy' => $hocKy

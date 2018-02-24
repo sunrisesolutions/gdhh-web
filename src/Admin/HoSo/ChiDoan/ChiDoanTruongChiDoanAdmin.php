@@ -5,6 +5,7 @@ namespace App\Admin\HoSo\ChiDoan;
 use App\Admin\BaseAdmin;
 use App\Entity\HoSo\ChiDoan;
 use App\Entity\HoSo\ThanhVien;
+use App\Service\User\UserService;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;
@@ -17,6 +18,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
 class ChiDoanTruongChiDoanAdmin extends BaseAdmin {
+	
+	const ENTITY = ChiDoan::class;
 	
 	protected $baseRouteName = 'admin_app_hoso_chidoan_chidoantruong_chidoan';
 	
@@ -94,7 +97,7 @@ class ChiDoanTruongChiDoanAdmin extends BaseAdmin {
 			return false;
 		}
 		
-		$user = $container->get('app.user')->getUser();
+		$user = $container->get(UserService::class)->getUser();
 		
 		$thanhVien = $this->getUserThanhVien();
 		if(empty($thanhVien) || ! $thanhVien->isEnabled()) {

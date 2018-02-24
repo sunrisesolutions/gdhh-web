@@ -29,24 +29,24 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Validator\Constraints\Valid;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
-class TruongPhuTrachDoiAdmin extends BaseAdmin {
+class ThuKyChiDoanAdmin extends BaseAdmin {
 	
 	const ENTITY = PhanBo::class;
 	
-	protected $baseRouteName = 'admin_app_hoso_phanbo_truongphutrachdoi';
+	protected $baseRouteName = 'admin_app_hoso_phanbo_thukychidoan';
 	
-	protected $baseRoutePattern = '/app/hoso-phanbo/truongphutrachdoi';
+	protected $baseRoutePattern = '/app/hoso-phanbo/thukychidoan';
 	
 	/** @var  NamHoc $namHoc */
 	public $namHoc;
 	
 	public function getTemplate($name) {
 		if($name === 'list') {
-			if($this->action === 'dong-quy') {
-				return 'admin/truong-phu-trach-doi/list-dong-quy-thieu-nhi.html.twig';
-			}
+//			if($this->action === 'dong-quy') {
+//				return 'admin/truong-phu-trach-doi/list-dong-quy-thieu-nhi.html.twig';
+//			}
 			if($this->action === 'nhap-diem-thieu-nhi' || $this->action === 'nop-bang-diem') {
-				return 'admin/truong-phu-trach-doi/list-nhap-diem-thieu-nhi.html.twig';
+				return 'admin/thu-ky-chi-doan/list-nhap-diem-thieu-nhi.html.twig';
 			}
 			
 		}
@@ -58,7 +58,7 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 		parent::configureRoutes($collection);
 		$collection->add('dongQuy', $this->getRouterIdParameter() . '/dong-quy');
 		$collection->add('nhapDiemThieuNhi', $this->getRouterIdParameter() . '/nhap-diem-thieu-nhi');
-		$collection->add('thieuNhiNhomDownloadBangDiem',  $this->getRouterIdParameter() . '/bang-diem/hoc-ky-{hocKy}/download');
+		$collection->add('thieuNhiNhomDownloadBangDiem', $this->getRouterIdParameter() . '/bang-diem/hoc-ky-{hocKy}/download');
 		$collection->add('nopBangDiem', $this->getRouterIdParameter() . '/nop-bang-diem/{hocKy}');
 	}
 	
@@ -87,7 +87,7 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 				return false;
 			}
 			
-			return $object->coTheNopBangDiem($hocKy);
+			return $object->getThanhVien()->getThuKyChiDoanObj()->coTheNopBangDiem($hocKy);
 		}
 		
 		if($name === 'LIST') {

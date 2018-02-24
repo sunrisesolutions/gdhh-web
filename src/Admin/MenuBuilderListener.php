@@ -120,11 +120,42 @@ class MenuBuilderListener {
 			$chiDoan = $phanBo->getChiDoan();
 			
 			if( ! empty($phanBo->getPhanDoan())) {
-			$this->huynhTruong->addChild('list truong phan doan', array(
-				'route'           => 'admin_app_hoso_thanhvien_huynhtruong_truongPhanDoan',
-			'routeParameters' => [ 'phanDoan' => strtolower($phanBo->getPhanDoan()) ],
-				'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
-			))->setLabel($translator->trans('dashboard.truong_phandoan', [], 'BinhLeAdmin'));
+				$this->huynhTruong->addChild('list truong phan doan', array(
+					'route'           => 'admin_app_hoso_thanhvien_huynhtruong_truongPhanDoan',
+					'routeParameters' => [ 'phanDoan' => strtolower($phanBo->getPhanDoan()) ],
+					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
+				))->setLabel($translator->trans('dashboard.truong_phandoan', [], 'BinhLeAdmin'));
+			}
+			
+			if($phanBo->getCacTruongPhuTrachDoi()->count() > 0) {
+				$this->diemGiaoLy->addChild('nhap bang diem cho nhom minh', array(
+					'route'           => 'admin_app_hoso_phanbo_truongphutrachdoi_nhapDiemThieuNhi',
+					'routeParameters' => [ 'id' => $phanBo->getId() ],
+					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
+				))->setLabel($translator->trans('dashboard.thieunhi_nhapdiem_nhomphutrach', [], 'BinhLeAdmin'));
+				
+				$cacTruong = $phanBo->getCacTruongPhuTrachDoi();
+				$numberStr = '';
+				/** @var TruongPhuTrachDoi $truong */
+				foreach($cacTruong as $truong) {
+					$numberStr .= $truong->getDoiNhomGiaoLy()->getNumber() . ' ';
+				}
+				if( ! empty($numberStr)) {
+					$numberStr = ' ( ' . $numberStr . ' )';
+				}
+				$this->thieuNhi->addChild('thieu nhi trong nhom minh', array(
+					'route'           => 'admin_app_hoso_thanhvien_thieunhi_thieuNhiNhom',
+					'routeParameters' => [ 'phanBo' => $phanBo->getId() ],
+					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
+				))->setLabel($translator->trans('dashboard.thieunhi_nhomphutrach', [], 'BinhLeAdmin') . $numberStr);
+			}
+			
+			if($phanBo->isThuKyChiDoan()) {
+				$this->diemGiaoLy->addChild('nhap bang diem cho chi doan minh', array(
+					'route'           => 'admin_app_hoso_phanbo_thukychidoan_nhapDiemThieuNhi',
+					'routeParameters' => [ 'id' => $phanBo->getId() ],
+					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
+				))->setLabel($translator->trans('dashboard.thukychidoan_nhapdiem', [], 'BinhLeAdmin'));
 			}
 			
 			if($phanBo->isChiDoanTruong()) {
@@ -164,28 +195,6 @@ class MenuBuilderListener {
 				}
 			}
 			
-			if($phanBo->getCacTruongPhuTrachDoi()->count() > 0) {
-				$this->diemGiaoLy->addChild('nhap bang diem cho nhom minh', array(
-					'route'           => 'admin_app_hoso_phanbo_truongphutrachdoi_nhapDiemThieuNhi',
-					'routeParameters' => [ 'id' => $phanBo->getId() ],
-					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
-				))->setLabel($translator->trans('dashboard.thieunhi_nhapdiem_nhomphutrach', [], 'BinhLeAdmin'));
-				
-				$cacTruong = $phanBo->getCacTruongPhuTrachDoi();
-				$numberStr = '';
-				/** @var TruongPhuTrachDoi $truong */
-				foreach($cacTruong as $truong) {
-					$numberStr .= $truong->getDoiNhomGiaoLy()->getNumber() . ' ';
-				}
-				if( ! empty($numberStr)) {
-					$numberStr = ' ( ' . $numberStr . ' )';
-				}
-				$this->thieuNhi->addChild('thieu nhi trong nhom minh', array(
-					'route'           => 'admin_app_hoso_thanhvien_thieunhi_thieuNhiNhom',
-					'routeParameters' => [ 'phanBo' => $phanBo->getId() ],
-					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
-				))->setLabel($translator->trans('dashboard.thieunhi_nhomphutrach', [], 'BinhLeAdmin') . $numberStr);
-			}
 			
 			if( ! empty($chiDoan)) {
 				$this->thieuNhi->addChild('thieu nhi trong Chi-doan minh', array(

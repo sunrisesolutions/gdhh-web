@@ -170,7 +170,7 @@
             window.postDoi = function (doi1, doi2, doi3, doi4, doi5, doi6, doi7, doi8, phanBoId, thanhVienCode, thanhVienFirstName) {
                 // Assign handlers immediately after making the request,
 // and remember the jqxhr object for this request
-                var chiaDoiPostURL = "{{ path('admin_app_binhle_thieunhi_chidoan_thieuNhiChiDoanChiaTruongPhuTrach',{'id':chiDoan.id}) }}";
+                var chiaDoiPostURL = "{{ path('admin_app_hoso_chidoan_chidoantruong_chidoan_thieuNhiChiDoanChiaTruongPhuTrach',{'id':chiDoan.id}) }}";
                 if (window.validateDoi(doi1) && window.validateDoi(doi2) && window.validateDoi(doi3) && phanBoId != 'undefined' && phanBoId != null
                 ) {
                     var jqxhr = $.post(chiaDoiPostURL, {

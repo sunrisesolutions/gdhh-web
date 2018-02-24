@@ -206,7 +206,7 @@ class HuynhTruongAdmin extends BaseAdmin {
 		];
 		
 		$listMapper
-			->addIdentifier('code')
+			->addIdentifier('id')
 //			->addIdentifier('christianname', null, array())
 			->addIdentifier('name', null, array())
 			->add('dob', null, array( 'editable' => true ))
@@ -419,9 +419,14 @@ class HuynhTruongAdmin extends BaseAdmin {
 			'choices'            => $danhSachChiDoan,
 			'translation_domain' => $this->translationDomain
 		))
-		           ->add('chiDoanTruong', null, array(
-			           'label' => 'list.label_chi_doan_truong',
-		           ));
+			->add('chiDoanTruong', null, array(
+				'label' => 'list.label_chi_doan_truong',
+			))
+			->add('thuKyChiDoan', null, array(
+				'label' => 'list.label_thu_ky_chi_doan',
+			))
+			
+		;
 		
 		if($thanhVien->isBQT()) {
 			$formMapper->add('phanDoanTruong', null, array(

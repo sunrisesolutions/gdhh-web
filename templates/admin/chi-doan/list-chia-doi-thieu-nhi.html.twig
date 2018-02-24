@@ -177,7 +177,7 @@
             window.postDoi = function (doi, phanBoId, thanhVienCode, thanhVienFirstName) {
                 // Assign handlers immediately after making the request,
 // and remember the jqxhr object for this request
-                var chiaDoiPostURL = "{{ path('admin_app_binhle_thieunhi_chidoan_thieuNhiChiDoanChiaDoi',{'id':chiDoan.id}) }}";
+                var chiaDoiPostURL = "{{ path('admin_app_hoso_chidoan_chidoantruong_chidoan_thieuNhiChiDoanChiaDoi',{'id':chiDoan.id}) }}";
                 if ($.isNumeric(doi) && phanBoId != 'undefined' && phanBoId != null) {
                     var jqxhr = $.post(chiaDoiPostURL, {doi: doi, phanBoId: phanBoId})
                         .done(function () {
