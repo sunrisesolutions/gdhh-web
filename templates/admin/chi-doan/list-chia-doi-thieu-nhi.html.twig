@@ -107,7 +107,7 @@
                     {% set thanhVien = phanBo.thanhVien %}
                     {% spaceless %}
                     {% if _counter > 1 %}, {% endif %}
-                "{{ thanhVien.code }}"
+                "{{ thanhVien.id }}"
         :
             "{{ xepLoaiNamTruoc }}"
             {% endspaceless %}
@@ -124,7 +124,7 @@
                     {% set thanhVien = phanBo.thanhVien %}
                     {% spaceless %}
                     {% if _counter > 1 %}, {% endif %}
-                "{{ thanhVien.code }}"
+                "{{ thanhVien.id }}"
         :
             "{{ phanBo.id }}"
             {% endspaceless %}
@@ -162,7 +162,7 @@
 
                     {#"{{ phanBo.id }}",#}
                     {% spaceless %}
-                    ["{{ thanhVien.code }}", '{{ _cname }}', '{{ thanhVien.lastName }}', '{{ thanhVien.middleName }}', '{{ thanhVien.firstName }}', '{{ diemNamTruoc }}', '{{ doi }}', '{{ thanhVien.sex }}', '{{ oLai }}'],
+                    ["{{ thanhVien.id }}", '{{ _cname }}', '{{ thanhVien.lastName }}', '{{ thanhVien.middleName }}', '{{ thanhVien.firstName }}', '{{ diemNamTruoc }}', '{{ doi }}', '{{ thanhVien.sex }}', '{{ oLai }}'],
                     {% endspaceless %}
 
                     {% set _counter = _counter + 1 %}
@@ -320,67 +320,12 @@
                     }
                 ]
             });
+            {% import 'admin/macro/handsontable.js.twig' as handsonjs %}
 
-            function xepLoaiRenderer(instance, td, row, col, prop, value, cellProperties) {
-                Handsontable.renderers.TextRenderer.apply(this, arguments);
-
-                // if row contains negative number
-                if (parseInt(value, 10) < 0) {
-                    // add class "negative"
-                    td.className = 'make-me-red';
-                }
-
-                if (col === 5) {
-                    td.style.fontWeight = 'bold';
-                    td.style.color  = '#000';
-                    var _thanhVienCode = window.hot.getDataAtCell(row,0);
-                    if(window.phanBoXepLoai[_thanhVienCode] === 'GIOI'){
-                        td.style.background = '#FF0';
-                    }else if(window.phanBoXepLoai[_thanhVienCode] === 'KHA'){
-                        td.style.background = '#ADD8E6';
-                    }else if(window.phanBoXepLoai[_thanhVienCode] === 'TRUNG_BINH'){
-                        td.style.background = '#98FB98';
-                    }else if(window.phanBoXepLoai[_thanhVienCode] === 'Ở LẠI'){
-                        td.style.background = '#FFB6C1';
-                    }
-
-                }
-                if (!value || value === '') {
-                    td.style.background = '#EEE';
-                }
-                else {
-                    if (value === 'Nissan') {
-                        td.style.fontStyle = 'italic';
-                    }
-                }
-            }
+            {{ handsonjs.xepLoaiRenderer() }}
 
             // maps function to lookup string
             Handsontable.renderers.registerRenderer('xepLoaiRenderer', xepLoaiRenderer);
-
-            window.hot.validateCells(
-                function () {
-                    window.hot.updateSettings(
-                        {
-                            comments: true,
-                            cell: [
-                                {{ cellMetaData | raw }}
-                            ],
-                            cells: function (row, col, prop) {
-                                var cellProperties = {};
-
-                                if (row === 0 || this.instance.getData()[row][col] === 'readOnly') {
-//                                    cellProperties.readOnly = true; // make cell read-only if it is first row or the text reads 'readOnly'
-                                }
-                                cellProperties.renderer = "xepLoaiRenderer"; // uses lookup map
-                                return cellProperties;
-                            }
-
-                        }
-                    );
-                }
-            );
-
 
         });
     </script>

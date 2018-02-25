@@ -13,6 +13,19 @@ use Symfony\Component\PropertyAccess\PropertyPath;
 use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 
 class BaseCRUDAdminController extends CRUDController {
+	protected function getRefererParams() {
+		$request = $this->getRequest();
+		$referer = $request->headers->get('referer');
+		$baseUrl = $request->getBaseUrl();
+		if(empty($baseUrl)) {
+			return null;
+		}
+		$lastPath = substr($referer, strpos($referer, $baseUrl) + strlen($baseUrl));
+		
+		return $this->get('router')->match($lastPath);
+//		getMatcher()
+	}
+	
 	protected function isAdmin() {
 		return $this->get(User::class)->getUser()->isAdmin();
 	}

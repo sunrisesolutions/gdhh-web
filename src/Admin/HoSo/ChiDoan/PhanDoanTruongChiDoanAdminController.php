@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Admin\HoSo\ChiDoan;
 
 use App\Admin\BaseCRUDAdminController;
@@ -20,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class PhanDoanTruongChiDoanAdminController extends BaseCRUDAdminController{
+class PhanDoanTruongChiDoanAdminController extends BaseCRUDAdminController {
 	
 	public function baoCaoTienQuyAction(Request $request) {
 		/** @var PhanDoanTruongChiDoanAdmin $admin */
@@ -88,18 +89,25 @@ class PhanDoanTruongChiDoanAdminController extends BaseCRUDAdminController{
 		}
 
 //		return new RedirectResponse($this->generateUrl('admin_app_binhle_thieunhi_phandoantruong_chidoan_list', [ 'action' => 'duyet-bang-diem' ]));
-		$params      = $this->getRefererParams();
-		$routeParams = $params;
-		unset($routeParams['_route']);
-		unset($routeParams['_controller']);
-		unset($routeParams['_sonata_admin']);
-		unset($routeParams['_sonata_name']);
-		unset($routeParams['_locale']);
+		$params = $this->getRefererParams();
 		
-		$routeParams['action'] = 'duyet-bang-diem';
+		if( ! empty($params)) {
+			$routeParams = $params;
+			unset($routeParams['_route']);
+			unset($routeParams['_controller']);
+			unset($routeParams['_sonata_admin']);
+			unset($routeParams['_sonata_name']);
+			unset($routeParams['_locale']);
+			$route                 = $params['_route'];
+			$routeParams['action'] = 'duyet-bang-diem';
+		} else {
+			$route                 = 'admin_app_hoso_chidoan_phandoantruong_chidoan_list';
+			$routeParams           = [];
+			$routeParams['action'] = 'duyet-bang-diem';
+		}
 		
 		return $this->redirect($this->generateUrl(
-			$params['_route'],
+			$route,
 			$routeParams
 		));
 	}

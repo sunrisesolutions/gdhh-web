@@ -1,0 +1,45 @@
+{% macro xepLoaiRenderer(col) %}
+function darkenEmptyRenderer(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    if (!value || value === '') {
+        td.className = 'empty-cell';
+    }
+}
+
+function xepLoaiRenderer(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+
+    // if row contains negative number
+    if (parseInt(value, 10) < 0) {
+        // add class "negative"
+        td.className = 'make-me-red';
+    }
+
+    if (col === {{ col|default(5) }}) {
+        td.style.fontWeight = 'bold';
+        td.style.color = '#000';
+        {#var _thanhVienCode = window.hot.getDataAtCell(row, 0);#}
+
+        var _thanhVienCode = instance.getDataAtCell(row, 0);
+        if (window.phanBoXepLoai[_thanhVienCode] === 'GIOI') {
+            td.style.background = '#FF0';
+        } else if (window.phanBoXepLoai[_thanhVienCode] === 'KHA') {
+            td.style.background = '#ADD8E6';
+        } else if (window.phanBoXepLoai[_thanhVienCode] === 'TRUNG_BINH') {
+            td.style.background = '#98FB98';
+        } else if (window.phanBoXepLoai[_thanhVienCode] === 'Ở LẠI') {
+            td.style.background = '#FFB6C1';
+        }
+
+    }
+
+    if (!value || value === '') {
+        td.style.background = '#EEE';
+    }
+    else {
+        if (value === 'Nissan') {
+            td.style.fontStyle = 'italic';
+        }
+    }
+}
+{% endmacro %}

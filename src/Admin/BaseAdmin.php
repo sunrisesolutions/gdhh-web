@@ -7,6 +7,7 @@ use App\Entity\HoSo\PhanBo;
 use App\Entity\HoSo\ThanhVien;
 use App\Service\User\UserService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
 class BaseAdmin extends AbstractAdmin {
 	

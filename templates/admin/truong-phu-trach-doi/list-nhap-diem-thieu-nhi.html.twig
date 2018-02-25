@@ -73,6 +73,10 @@
                 /*margin: 20px 0;*/
             }
 
+            .handsontable .empty-cell, .handsontable th.empty-cell {
+                background-color: #EED;
+            }
+
             .handsontable .currentRow {
                 background-color: #E7E8EF;
             }
@@ -86,6 +90,11 @@
 
     {% block javascripts %}
         {% set ccIndex = -1 %}
+        {% set glIndex = -1 %}
+        {% set categoryIndex = -1 %}
+        {% set awardedIndex = -1 %}
+
+        {% set glYearIndex = -1 %}
         {% set tbTermIndex = -1 %}
         {% set tbYearIndex = -1 %}
         {% set sundayTicketsIndex = -1 %}
@@ -105,6 +114,34 @@
 
         <script>
             $(document).ready(function () {
+                window.phanBoXepLoai = {
+                        {% set _counter = 0 %}
+                        {% for phanBo in phanBoHangNam %}
+                        {% if phanBo.thieuNhi is not empty %}
+                        {% set _counter = _counter + 1 %}
+
+                        {% set phanBoTruoc = phanBo.phanBoTruoc %}
+                        {% if phanBoTruoc is not empty %}
+                        {% set bangDiemTruoc = phanBo.phanBoTruoc.bangDiem %}
+                        {% if bangDiemTruoc is not empty %}
+                        {% set xepLoaiNamTruoc = bangDiemTruoc.gradeRetention is empty?bangDiemTruoc.category:'Ở LẠI' %}
+                        {% else %}
+                        {% set xepLoaiNamTruoc = '---' %}
+                        {% endif %}
+                        {% else %}
+                        {% set xepLoaiNamTruoc =  'Mới tham gia' %}
+                        {% endif %}
+                        {% set thanhVien = phanBo.thanhVien %}
+                        {% spaceless %}
+                        {% if _counter > 1 %}, {% endif %}
+                    "{{ thanhVien.id }}"
+            :
+                "{{ xepLoaiNamTruoc }}"
+                {% endspaceless %}
+                {% endif %}
+                {% endfor %}
+            }
+
                 window.phanBo = {
                         {% set _counter = 0 %}
                         {% for phanBo in phanBoHangNam %}
@@ -129,27 +166,27 @@
                         {% set thanhVien = phanBo.thanhVien %}
                         {% set doiNhomGiaoLy = phanBo.doiNhomGiaoLy %}
                         {% set doi = doiNhomGiaoLy is empty?'':doiNhomGiaoLy.number %}
-                            {% if thanhVien.thieuNhi is not empty and thanhVien.enabled is not empty %}
-                            {% set bangDiem = phanBo.bangDiem %}
-                            {% set phanBoTruoc = phanBo.phanBoTruoc %}
-                                {% if phanBoTruoc is not empty %}
-                                {% set bangDiemTruoc = phanBo.phanBoTruoc.bangDiem %}
-                                    {% if bangDiemTruoc is not empty %}
-                                    {% set diemNamTruoc = bangDiemTruoc.tbYear %}
-                                    {% set oLai = bangDiemTruoc.gradeRetention is empty?'':'Ở LẠI' %}
-                                    {% else %}
-                                    {% set diemNamTruoc = '---' %}
-                                    {% set oLai = '---' %}
-                                    {% endif %}
+                        {% if thanhVien.thieuNhi is not empty and thanhVien.enabled is not empty %}
+                        {% set bangDiem = phanBo.bangDiem %}
+                        {% set phanBoTruoc = phanBo.phanBoTruoc %}
+                        {% if phanBoTruoc is not empty %}
+                        {% set bangDiemTruoc = phanBo.phanBoTruoc.bangDiem %}
+                        {% if bangDiemTruoc is not empty %}
+                        {% set diemNamTruoc = bangDiemTruoc.tbYear %}
+                        {% set oLai = bangDiemTruoc.gradeRetention is empty?'':'Ở LẠI' %}
+                        {% else %}
+                        {% set diemNamTruoc = '---' %}
+                        {% set oLai = '---' %}
+                        {% endif %}
 
-                                {% else %}
-                                {% set diemNamTruoc =  'Mới tham gia' %}
-                                {% set oLai = '' %}
-                                {% endif %}
+                        {% else %}
+                        {% set diemNamTruoc =  'Mới tham gia' %}
+                        {% set oLai = '' %}
+                        {% endif %}
                         {% set _cname =  thanhVien.christianName %}
                         {% if _cname|length > 7 %}
-                            {% set cellMetaData = cellMetaData ~  "{row: "~_counter~", col: 1, comment: {value: '"~_cname~"'}}," %}
-                            {% set _cname =  _cname[:6] ~ '...' %}
+                        {% set cellMetaData = cellMetaData ~  "{row: "~_counter~", col: 1, comment: {value: '"~_cname~"'}}," %}
+                        {% set _cname =  _cname[:6] ~ '...' %}
                         {% endif %}
 
                         {#"{{ phanBo.id }}",#}
@@ -157,7 +194,13 @@
                         ["{{ thanhVien.id }}", '{{ _cname }}', '{{ thanhVien.lastName }}', '{{ thanhVien.middleName }}', '{{ thanhVien.firstName }}'
                             {% spaceless %}
                             {% for attr in colAttrs %}
-                            , '{{ attribute(bangDiem,attr) }}'
+                            {% set bangDiemAttr = attribute(bangDiem,attr) %}
+                            {% if attr == 'awarded' %}
+                            ,
+                            {{ bangDiemAttr is same as(true)?'true':'false' }}
+                            {% else %}
+                            ,'{{ bangDiemAttr|trans({},'BinhLeAdmin') }}'
+                            {% endif %}
                             {% endfor %}
                             {% endspaceless %}
                         ],
@@ -166,10 +209,7 @@
                         {% endfor %}
                     ];
 
-                var container = document.getElementById('chiDoanSpreadSheet'),
-                    hot;
-                var container1 = document.getElementById('example1'),
-                    hot1;
+                var container = document.getElementById('chiDoanSpreadSheet');
 
                 window.postDiem = function (diem, cotDiem, cotDiemLbl, phanBoId, thanhVienCode, thanhVienFirstName, change) {
                     {#var _nopBangDiem = {{  }}#}
@@ -201,31 +241,51 @@
                                 {% for attr in colAttrs %}
 
                                 {% if hocKy == 1 %}
-                                    {% if attr == 'tbCCTerm1' %}
-                                    {% set ccIndex = loop.index0 %}
-                                    {% endif %}
+                                {% if attr == 'tbCCTerm1' %}
+                                {% set ccIndex = loop.index0 %}
+                                {% endif %}
 
-                                    {% if attr == 'tbTerm1' %}
-                                    {% set tbTermIndex = loop.index0 %}
-                                    {% endif %}
+                                {% if attr == 'tbGLTerm1' %}
+                                {% set glIndex = loop.index0 %}
+                                {% endif %}
 
-                                    {% elseif hocKy == 2 %}
-                                        {% if attr == 'tbCCTerm2' %}
-                                        {% set ccIndex = loop.index0 %}
-                                        {% endif %}
+                                {% if attr == 'tbTerm1' %}
+                                {% set tbTermIndex = loop.index0 %}
+                                {% endif %}
 
-                                        {% if attr == 'tbTerm2' %}
-                                        {% set tbTermIndex = loop.index0 %}
-                                        {% endif %}
+                                {% elseif hocKy == 2 %}
+                                {% if attr == 'tbCCTerm2' %}
+                                {% set ccIndex = loop.index0 %}
+                                {% endif %}
 
-                                        {% if attr == 'tbYear' %}
-                                        {% set tbYearIndex = loop.index0 %}
-                                        {% endif %}
+                                {% if attr == 'tbGLTerm2' %}
+                                {% set glIndex = loop.index0 %}
+                                {% endif %}
+
+                                {% if attr == 'category' %}
+                                {% set categoryIndex = loop.index0 %}
+                                {% endif %}
+
+                                {% if attr == 'awarded' %}
+                                {% set awardedIndex = loop.index0 %}
+                                {% endif %}
 
 
-                                        {% if attr == 'sundayTickets' %}
-                                        {% set           sundayTicketsIndex = loop.index0 %}
-                                        {% endif %}
+                                {% if attr == 'tbGLYear' %}
+                                {% set glYearIndex = loop.index0 %}
+                                {% endif %}
+
+                                {% if attr == 'tbTerm2' %}
+                                {% set tbTermIndex = loop.index0 %}
+                                {% endif %}
+
+                                {% if attr == 'tbYear' %}
+                                {% set tbYearIndex = loop.index0 %}
+                                {% endif %}
+
+                                {% if attr == 'sundayTickets' %}
+                                {% set           sundayTicketsIndex = loop.index0 %}
+                                {% endif %}
 
                                 {% endif %}
                                 {% endfor %}
@@ -239,6 +299,47 @@
                                     }
                                 });
                                 {% endif %}
+
+                                {% if awardedIndex > -1 %}
+                                $.each(window.data, function (key, row) {
+                                    if (row[0] === thanhVienCode) {
+                                        window.data[key][{{ awardedIndex + 5 }}] = data.awarded;
+                                        window.hot.loadData(window.data);
+                                        return false;
+                                    }
+                                });
+                                {% endif %}
+
+                                {% if glIndex > -1 %}
+                                $.each(window.data, function (key, row) {
+                                    if (row[0] === thanhVienCode) {
+                                        window.data[key][{{ glIndex + 5 }}] = data.tbGL;
+                                        window.hot.loadData(window.data);
+                                        return false;
+                                    }
+                                });
+                                {% endif %}
+
+                                {% if glYearIndex > -1 %}
+                                $.each(window.data, function (key, row) {
+                                    if (row[0] === thanhVienCode) {
+                                        window.data[key][{{ glYearIndex + 5 }}] = data.tbGLYear;
+                                        window.hot.loadData(window.data);
+                                        return false;
+                                    }
+                                });
+                                {% endif %}
+
+                                {% if categoryIndex > -1 %}
+                                $.each(window.data, function (key, row) {
+                                    if (row[0] === thanhVienCode) {
+                                        window.data[key][{{ categoryIndex + 5 }}] = data.category;
+                                        window.hot.loadData(window.data);
+                                        return false;
+                                    }
+                                });
+                                {% endif %}
+
 
                                 {% if tbTermIndex > -1 %}
                                 $.each(window.data, function (key, row) {
@@ -350,7 +451,12 @@
                     {% endspaceless %}
                 ]
 
+                // maps function to lookup string
+                Handsontable.renderers.registerRenderer('xepLoaiRenderer', xepLoaiRenderer);
+                Handsontable.renderers.registerRenderer('darkenEmptyRenderer', darkenEmptyRenderer);
+
                 window.hot = new Handsontable(container, {
+                    fixedColumnsLeft: 5,
                     data: window.data,
                     columnSorting: true,
                     currentRowClassName: 'currentRow',
@@ -418,44 +524,33 @@
                     ]
                 });
 
-                function bindButtons() {
 
-                    Handsontable.dom.addEvent(document.body, 'click', function (e) {
+                {% import 'admin/macro/handsontable.js.twig' as handsonjs %}
 
-                        var element = e.target || e.srcElement;
+                {{ handsonjs.xepLoaiRenderer(categoryIndex+5) }}
 
-                        if (element.nodeName == "BUTTON" && element.name == 'save') {
-                            var name = element.getAttribute('data-dump');
-                            var instance = element.getAttribute('data-instance');
-                            var hot = window[instance];
-                            data = hot.getData();
-                            console.log(window.data[0][0]);
-//                        console.log(name);
-//                        console.log(instance);
-                            console.log(window.data[0][0]);
-                            console.log('data of ' + name, hot.getData());
-                            hot.loadData(window.data);
+                window.hot.validateCells(
+                    function () {
+                        window.hot.updateSettings(
+                            {
+                                comments: true,
+                                cell: [
+                                    {{ cellMetaData | raw }}
+                                ],
+                                cells: function (row, col, prop) {
+                                    var cellProperties = prop;
 
-                            $.notify({
-                                // options
-                                message: 'Dumping Data ' + name
-                            }, {
-                                // settings
-                                type: 'success',
-                                allow_dismiss: true,
-                                delay: 7000,
-                                newest_on_top: false,
-                                showProgressbar: false,
-                                placement: {
-                                    from: "top",
-                                    align: "center"
-                                },
-                            });
-                        }
-                    });
-                }
+                                    if (row === 0 || this.instance.getData()[row][col] === 'readOnly') {
+//                                    cellProperties.readOnly = true; // make cell read-only if it is first row or the text reads 'readOnly'
+                                    }
+                                    cellProperties.renderer = "xepLoaiRenderer"; // uses lookup map
+                                    return cellProperties;
+                                }
 
-                bindButtons();
+                            }
+                        );
+                    }
+                );
 
             });
         </script>
@@ -481,10 +576,12 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><a class="dropdown-item"
-                               href="{{ path('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':1}) }}">Bảng điểm Học-kỳ I</a>
+                               href="{{ path('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':1}) }}">Bảng
+                                điểm Học-kỳ I</a>
                         </li>
                         <li><a class="dropdown-item"
-                               href="{{ path('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':2}) }}">Bảng điểm Học-kỳ II</a>
+                               href="{{ path('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':2}) }}">Bảng
+                                điểm Học-kỳ II</a>
                         </li>
                     </ul>
                 </li>
