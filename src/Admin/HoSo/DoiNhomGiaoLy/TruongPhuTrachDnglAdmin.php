@@ -22,7 +22,7 @@ class TruongPhuTrachDnglAdmin extends BaseAdmin {
 	
 	public function getTemplate($name) {
 		if($name === 'list') {
-//			return 'admin/phan-bo/list.html.twig';
+			return 'admin/doi-nhom-giao-ly/list.html.twig';
 		}
 		
 		return parent::getTemplate($name);
@@ -181,5 +181,9 @@ class TruongPhuTrachDnglAdmin extends BaseAdmin {
 	/** @param DoiNhomGiaoLy $object */
 	public function prePersist($object) {
 	
+	}
+	
+	public function getUserThanhVien() {
+		return parent::getUserThanhVien();
 	}
 }

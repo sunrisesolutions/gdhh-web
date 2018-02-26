@@ -20,7 +20,7 @@ use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 class ChiDoanTruongChiDoanAdmin extends BaseAdmin {
 	
 	const ENTITY = ChiDoan::class;
-	
+
 	protected $baseRouteName = 'admin_app_hoso_chidoan_chidoantruong_chidoan';
 	
 	protected $baseRoutePattern = '/app/hoso-chidoan/chidoantruong-quan-ly-chidoan';
@@ -66,6 +66,7 @@ class ChiDoanTruongChiDoanAdmin extends BaseAdmin {
 	public function configureRoutes(RouteCollection $collection) {
 		$collection->add('thieuNhiChiDoanChiaDoi', $this->getRouterIdParameter() . '/thieu-nhi/chia-doi');
 		$collection->add('thieuNhiChiDoanChiaTruongPhuTrach', $this->getRouterIdParameter() . '/thieu-nhi/chia-truong-phu-trach');
+		$collection->add('thieuNhiChiDoanDownloadBangDiem', $this->getRouterIdParameter() . '/bang-diem/hoc-ky-{hocKy}/download');
 		
 		parent::configureRoutes($collection);
 	}

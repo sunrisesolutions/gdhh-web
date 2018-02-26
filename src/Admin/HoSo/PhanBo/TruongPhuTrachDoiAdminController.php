@@ -10,6 +10,8 @@ use App\Entity\HoSo\ThanhVien;
 use App\Entity\HoSo\TruongPhuTrachDoi;
 use App\Entity\User\User;
 use App\Helper\BangDiemHandsonTableService;
+use App\Service\Data\SpreadsheetWriter;
+use App\Service\HoSo\ThanhVienService;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -173,6 +175,18 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 			
 			'cotDiemCellFormats' => $cotDiemCellFormats,
 			'christianNames'     => ThanhVien::$christianNames,
+			'downloadHk1Url'     => $this->get('router')->generate('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',
+				[
+					'id'    => $phanBo->getId(),
+					'hocKy' => 1
+				]
+			),
+			'downloadHk2Url'     => $this->get('router')->generate('admin_app_hoso_phanbo_truongphutrachdoi_nopBangDiem',
+				[
+					'id'    => $phanBo->getId(),
+					'hocKy' => 2
+				]
+			),
 			'nopDiemUrl'         =>
 				$this->get('router')->generate('admin_app_hoso_phanbo_truongphutrachdoi_nopBangDiem',
 					[
@@ -187,7 +201,7 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 	
 	public function thieuNhiNhomDownloadBangDiemAction($id = null, $hocKy, Request $request) {
 		if( ! in_array($hocKy, [ 1, 2 ])) {
-			throw new InvalidArgumentException();
+			throw new \InvalidArgumentException();
 		}
 		
 		/**
@@ -198,13 +212,46 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 			throw new NotFoundHttpException(sprintf('unable to find the Truong with id : %s', $id));
 		}
 		
-		/** @var PhanBoAdmin $admin */
+		/** @var TruongPhuTrachDoiAdmin $admin */
 		$admin = $this->admin;
 		
 		//		\PHPExcel_Shared_Font::setAutoSizeMethod(\PHPExcel_Shared_Font::AUTOSIZE_METHOD_EXACT);
 		$hocKy = intval($hocKy);
 		
-		$thanhVienService = $this->get('app.binhle_thieunhi_thanhvien');
+		$huynhTruong = $phanBo->getThanhVien()->getHuynhTruongObj();
+		
+		$response = $huynhTruong->downloadBangDiemExcel($hocKy);
+		
+		$response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+		$response->headers->set('Pragma', 'public');
+		$response->headers->set('Cache-Control', 'maxage=1');
+		
+		$filename = sprintf('bang-diem-hoc-ky-%d.xlsx', $hocKy);
+		$response->headers->set('Content-Disposition', 'attachment;filename=' . $filename);
+		
+		return $response;
+	}
+	
+	public function thieuNhiNhomDownloadBangDiemActionBKK($id = null, $hocKy, Request $request) {
+		if( ! in_array($hocKy, [ 1, 2 ])) {
+			throw new \InvalidArgumentException();
+		}
+		
+		/**
+		 * @var PhanBo $phanBo
+		 */
+		$phanBo = $this->admin->getSubject();
+		if( ! $phanBo) {
+			throw new NotFoundHttpException(sprintf('unable to find the Truong with id : %s', $id));
+		}
+		
+		/** @var TruongPhuTrachDoiAdmin $admin */
+		$admin = $this->admin;
+		
+		//		\PHPExcel_Shared_Font::setAutoSizeMethod(\PHPExcel_Shared_Font::AUTOSIZE_METHOD_EXACT);
+		$hocKy = intval($hocKy);
+		
+		$thanhVienService = $this->get(ThanhVienService::class);
 		
 		$filename = sprintf('bang-diem-hoc-ky-%d.xlsx', $hocKy);
 //		$response = new BinaryFileResponse($zipFile);
@@ -214,7 +261,7 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 		$phpExcelObject->getProperties()->setCreator("Solution")
 		               ->setLastModifiedBy("Solution")
 		               ->setTitle("Download - Raw Data")
-		               ->setSubject("Bang Diem HK1")
+		               ->setSubject("Bang Diem")
 		               ->setDescription("Raw Data")
 		               ->setKeywords("office 2005 openxml php")
 		               ->setCategory("Raw Data Download");
@@ -223,6 +270,7 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 		$activeSheet = $phpExcelObject->getActiveSheet();
 		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
 		$phpExcelObject->setActiveSheetIndex(0);
+		
 		
 		$sWriter = new SpreadsheetWriter($activeSheet);
 		$thanhVienService->writeBangDiemDoiNhomGiaoLyHeading($sWriter, $hocKy, $phanBo);

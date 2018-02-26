@@ -3,7 +3,9 @@ namespace App\Admin\HoSo\ThanhVien;
 
 use App\Admin\BaseCRUDAdminController;
 use App\Entity\HoSo\PhanBo;
+use App\Entity\HoSo\ThanhVien;
 use App\Entity\HoSo\TruongPhuTrachDoi;
+use App\Service\HoSo\NamHocService;
 use App\Service\User\UserService;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,5 +43,19 @@ class ThieuNhiAdminController extends BaseCRUDAdminController
 		
 		return parent::listAction();
 	}
-	
+	public function thieuNhiPhanDoanAction($phanDoan, Request $request) {
+		$phanDoan = strtoupper($phanDoan);
+		$cd = ThanhVien::getDanhSachChiDoanTheoPhanDoan($phanDoan);
+		/** @var ThieuNhiAdmin $admin */
+		$admin = $this->admin;
+		$admin->setAction('thieu-nhi-phan-doan');
+		$admin->setActionParams([ 'danhSachChiDoan' => $cd ]);
+		if( ! empty($namHoc = $this->get(NamHocService::class)->getNamHocHienTai())) {
+			$admin->setNamHoc($namHoc->getId());
+		}
+		
+		return parent::listAction();
+		
+		
+	}
 }

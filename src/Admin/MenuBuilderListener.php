@@ -213,17 +213,25 @@ class MenuBuilderListener {
 			
 			if($phanBo->isPhanDoanTruongOrSoeur()) {
 				$this->dauNam->addChild('phan doan truong duyet tien quy', array(
-					'route'           => 'admin_app_binhle_thieunhi_phandoantruong_chidoan_baoCaoTienQuy',
+					'route'           => 'admin_app_hoso_chidoan_phandoantruong_chidoan_baoCaoTienQuy',
 					'routeParameters' => [],
 					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
 				))->setLabel($translator->trans('dashboard.thieunhi_bao_cao_tien_quy', [], 'BinhLeAdmin'));
 				
 				$this->diemGiaoLy->addChild('chi doan (duyet diem)', array(
-					'route'           => 'admin_app_binhle_thieunhi_phandoantruong_chidoan_list',
+					'route'           => 'admin_app_hoso_chidoan_phandoantruong_chidoan_list',
 					'routeParameters' => [ 'action' => 'duyet-bang-diem' ],
 					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
 				))->setLabel($translator->trans('dashboard.thieunhi_duyet_diem', [], 'BinhLeAdmin'));
 				
+			}
+			
+			if( ! empty($phanBo->getPhanDoan())) {
+				$this->thieuNhi->addChild('list thieu nhi phan doan', array(
+					'route'           => 'admin_app_hoso_thanhvien_thieunhi_thieuNhiPhanDoan',
+					'routeParameters' => [ 'phanDoan' => strtolower($phanBo->getPhanDoan()) ],
+					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
+				))->setLabel($translator->trans('dashboard.thieunhi_phandoan', [], 'BinhLeAdmin'));
 			}
 			
 			$this->thieuNhi->addChild('list thieu nhi toan xu doan', array(

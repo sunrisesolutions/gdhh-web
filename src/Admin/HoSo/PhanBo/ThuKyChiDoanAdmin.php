@@ -48,7 +48,6 @@ class ThuKyChiDoanAdmin extends BaseAdmin {
 			if($this->action === 'nhap-diem-thieu-nhi' || $this->action === 'nop-bang-diem') {
 				return 'admin/thu-ky-chi-doan/list-nhap-diem-thieu-nhi.html.twig';
 			}
-			
 		}
 		
 		return parent::getTemplate($name);
@@ -58,7 +57,7 @@ class ThuKyChiDoanAdmin extends BaseAdmin {
 		parent::configureRoutes($collection);
 		$collection->add('dongQuy', $this->getRouterIdParameter() . '/dong-quy');
 		$collection->add('nhapDiemThieuNhi', $this->getRouterIdParameter() . '/nhap-diem-thieu-nhi');
-		$collection->add('thieuNhiNhomDownloadBangDiem', $this->getRouterIdParameter() . '/bang-diem/hoc-ky-{hocKy}/download');
+		$collection->add('thieuNhiChiDoanDownloadBangDiem', $this->getRouterIdParameter() . '/bang-diem/hoc-ky-{hocKy}/download');
 		$collection->add('nopBangDiem', $this->getRouterIdParameter() . '/nop-bang-diem/{hocKy}');
 	}
 	
@@ -80,7 +79,6 @@ class ThuKyChiDoanAdmin extends BaseAdmin {
 		if(empty($tv) || ! $tv->isEnabled()) {
 			return false;
 		}
-		
 		
 		if($name === 'NOP_BANG_DIEM') {
 			if(empty($object) || empty($hocKy = $this->actionParams['hocKy'])) {

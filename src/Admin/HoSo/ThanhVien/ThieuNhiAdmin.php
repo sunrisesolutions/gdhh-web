@@ -87,6 +87,8 @@ class ThieuNhiAdmin extends BaseAdmin {
 //		$collection->add('employeesImport', $this->getRouterIdParameter() . '/import');
 		$collection->add('thieuNhiNhom', 'nhom-giao-ly-cua-truong/{phanBo}');
 		$collection->add('thieuNhiChiDoan', 'chi-doan/{phanBo}/list');
+		$collection->add('thieuNhiPhanDoan', '{phanDoan}');		
+		
 		$collection->add('sanhHoatLai', '' . $this->getRouterIdParameter() . '/sanh-hoat-lai');
 		$collection->add('nghiSanhHoat', '' . $this->getRouterIdParameter() . '/nghi-sanh-hoat');
 		parent::configureRoutes($collection);
@@ -298,8 +300,6 @@ class ThieuNhiAdmin extends BaseAdmin {
 		
 		$query->andWhere($expr->eq($rootAlias . '.thieuNhi', $expr->literal(true)));
 		
-		/** @var ChiDoan $chiDoan */
-		$chiDoan = $this->getActionParam('chiDoan');
 		if($this->action === 'list-thieu-nhi-nhom') {
 			/** @var array $dngl */
 			$cacDoiNhomGiaoLy = $this->actionParams['cacDoiNhomGiaoLy'];
@@ -316,10 +316,25 @@ class ThieuNhiAdmin extends BaseAdmin {
 			} else {
 				$this->clearResults($query);
 			}
-		} elseif($this->action === 'list-thieu-nhi-chi-doan') {
-			$query->andWhere($expr->eq($rootAlias . '.chiDoan', $chiDoan->getNumber()));
-//			$query->andWhere($expr->eq($rootAlias . '.namHoc', $chiDoan->getNamHoc()->getId()));
 		}
+//		elseif($this->action === 'list-thieu-nhi-chi-doan') {
+//			$query->andWhere($expr->eq($rootAlias . '.chiDoan', $chiDoan->getNumber()));
+////			$query->andWhere($expr->eq($rootAlias . '.namHoc', $chiDoan->getNamHoc()->getId()));
+//		}else		
+		elseif(in_array($this->action, [ 'list-thieu-nhi-chi-doan', 'thieu-nhi-phan-doan' ])) {
+			$qb->join($rootAlias . '.phanBoHangNam', 'phanBo');
+			$qb->join('phanBo.chiDoan', 'chiDoan');
+			if(array_key_exists('chiDoan', $this->actionParams)) {
+				$qb->andWhere($expr->eq('chiDoan.id', $expr->literal($this->actionParams['chiDoan']->getId())));
+			}
+			
+			if(array_key_exists('danhSachChiDoan', $this->actionParams)) {
+				$qb->andWhere($expr->in('chiDoan.id', ':danhSachChiDoan'))
+				   ->setParameter('danhSachChiDoan', $this->actionParams['danhSachChiDoan']);
+			}
+			
+		}
+		
 		
 		return $query;
 	}

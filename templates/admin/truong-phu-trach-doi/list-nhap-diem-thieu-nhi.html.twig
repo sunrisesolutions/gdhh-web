@@ -119,24 +119,18 @@
                         {% for phanBo in phanBoHangNam %}
                         {% if phanBo.thieuNhi is not empty %}
                         {% set _counter = _counter + 1 %}
-
-                        {% set phanBoTruoc = phanBo.phanBoTruoc %}
-                        {% if phanBoTruoc is not empty %}
-                        {% set bangDiemTruoc = phanBo.phanBoTruoc.bangDiem %}
-                        {% if bangDiemTruoc is not empty %}
-                        {% set xepLoaiNamTruoc = bangDiemTruoc.gradeRetention is empty?bangDiemTruoc.category:'Ở LẠI' %}
+                        {% set bangDiem = phanBo.bangDiem %}
+                        {% if bangDiem is not empty %}
+                        {% set xepLoai = bangDiem.gradeRetention is empty?bangDiem.category:'Ở LẠI' %}
                         {% else %}
-                        {% set xepLoaiNamTruoc = '---' %}
-                        {% endif %}
-                        {% else %}
-                        {% set xepLoaiNamTruoc =  'Mới tham gia' %}
+                        {% set xepLoai = '' %}
                         {% endif %}
                         {% set thanhVien = phanBo.thanhVien %}
                         {% spaceless %}
                         {% if _counter > 1 %}, {% endif %}
                     "{{ thanhVien.id }}"
             :
-                "{{ xepLoaiNamTruoc }}"
+                "{{ xepLoai }}"
                 {% endspaceless %}
                 {% endif %}
                 {% endfor %}
@@ -199,7 +193,7 @@
                             ,
                             {{ bangDiemAttr is same as(true)?'true':'false' }}
                             {% else %}
-                            ,'{{ bangDiemAttr|trans({},'BinhLeAdmin') }}'
+                            , '{{ bangDiemAttr|trans({},'BinhLeAdmin') }}'
                             {% endif %}
                             {% endfor %}
                             {% endspaceless %}
@@ -333,7 +327,12 @@
                                 {% if categoryIndex > -1 %}
                                 $.each(window.data, function (key, row) {
                                     if (row[0] === thanhVienCode) {
-                                        window.data[key][{{ categoryIndex + 5 }}] = data.category;
+                                        window.data[key][{{ categoryIndex + 5 }}] = data.categoryTrans;
+                                        if (data.retention) {
+                                            window.phanBoXepLoai[thanhVienCode] = 'Ở LẠI';
+                                        } else {
+                                            window.phanBoXepLoai[thanhVienCode] = data.category;
+                                        }
                                         window.hot.loadData(window.data);
                                         return false;
                                     }
@@ -499,18 +498,10 @@
                         },
                         {
                             readOnly: true,
-                            type: 'dropdown',
-                            source: [
-                                {% spaceless %}
-                                {% for vn,en in christianNames %}
-                                {{ loop.index > 1?',':'' }}
-                                '{{ vn }}'
-                                {% endfor %}
-                                {% endspaceless %}
-                            ]
+                            type: 'text',
                         },
                         {readOnly: true},
-                        {readOnly: true},
+                        {readOnly: true, wordWrap: false},
                         {readOnly: true}
 
                         {% spaceless %}
@@ -528,29 +519,8 @@
                 {% import 'admin/macro/handsontable.js.twig' as handsonjs %}
 
                 {{ handsonjs.xepLoaiRenderer(categoryIndex+5) }}
+                {{ handsonjs.darkenEmptyRenderer() }}
 
-                window.hot.validateCells(
-                    function () {
-                        window.hot.updateSettings(
-                            {
-                                comments: true,
-                                cell: [
-                                    {{ cellMetaData | raw }}
-                                ],
-                                cells: function (row, col, prop) {
-                                    var cellProperties = prop;
-
-                                    if (row === 0 || this.instance.getData()[row][col] === 'readOnly') {
-//                                    cellProperties.readOnly = true; // make cell read-only if it is first row or the text reads 'readOnly'
-                                    }
-                                    cellProperties.renderer = "xepLoaiRenderer"; // uses lookup map
-                                    return cellProperties;
-                                }
-
-                            }
-                        );
-                    }
-                );
 
             });
         </script>
@@ -576,11 +546,11 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><a class="dropdown-item"
-                               href="{{ path('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':1}) }}">Bảng
+                               href="{{ admin.actionParams['downloadHk1Url'] }}">Bảng
                                 điểm Học-kỳ I</a>
                         </li>
                         <li><a class="dropdown-item"
-                               href="{{ path('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',{'id':admin.actionParams['phanBo'].getId(), 'hocKy':2}) }}">Bảng
+                               href="{{ admin.actionParams['downloadHk2Url'] }}">Bảng
                                 điểm Học-kỳ II</a>
                         </li>
                     </ul>

@@ -16,6 +16,7 @@ dashboard:
     user: User
     thieunhi_phandoantruong: Phân-đoàn Trưởng
     thieunhi_chidoanphutrach: Danh-sách Chi-đoàn
+    thieunhi_phandoan: Danh-sách Phân-đoàn
     thieunhi_bao_cao_tien_quy: Báo-cáo Tiền-quỹ
     thieunhi_doi_nhom_giao_ly: Nhóm Giáo-lý
     thieunhi_duyet_diem: Duyệt Bảng-điểm

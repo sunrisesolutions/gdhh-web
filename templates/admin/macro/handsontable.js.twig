@@ -1,11 +1,4 @@
 {% macro xepLoaiRenderer(col) %}
-function darkenEmptyRenderer(instance, td, row, col, prop, value, cellProperties) {
-    Handsontable.renderers.TextRenderer.apply(this, arguments);
-    if (!value || value === '') {
-        td.className = 'empty-cell';
-    }
-}
-
 function xepLoaiRenderer(instance, td, row, col, prop, value, cellProperties) {
     Handsontable.renderers.TextRenderer.apply(this, arguments);
 
@@ -42,4 +35,18 @@ function xepLoaiRenderer(instance, td, row, col, prop, value, cellProperties) {
         }
     }
 }
+{% endmacro %}
+
+{% macro darkenEmptyRenderer(type) %}
+function darkenEmptyRenderer(instance, td, row, col, prop, value, cellProperties) {
+    {% if type|default('numeric') == 'numeric' %}
+    Handsontable.renderers.NumericRenderer.apply(this, arguments);
+    {% else %}
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    {% endif %}
+    if (!value || value === '') {
+        td.className = 'empty-cell';
+    }
+}
+
 {% endmacro %}

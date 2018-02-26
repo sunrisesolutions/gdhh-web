@@ -101,8 +101,8 @@ class ThuKyChiDoanAdminController extends BaseCRUDAdminController {
 			return $bangDiemHelper->ghiDiem($request, $cotDiemHeaders, $cotDiemAttrs, $cotDiemLabels, $cotDiemCellFormats, $result);
 		}
 		
-		
 		$phanBoHangNam = $phanBo->getThanhVien()->getThuKyChiDoanObj()->getCacPhanBoThieuNhiPhuTrach();
+		
 		$manager->persist($phanBo);
 		$manager->flush();
 		
@@ -118,6 +118,19 @@ class ThuKyChiDoanAdminController extends BaseCRUDAdminController {
 			
 			'cotDiemCellFormats' => $cotDiemCellFormats,
 			'christianNames'     => ThanhVien::$christianNames,
+			'downloadHk1Url'     => $this->get('router')->generate('admin_app_hoso_phanbo_thukychidoan_thieuNhiChiDoanDownloadBangDiem',
+				[
+					'id'    => $phanBo->getId(),
+					'hocKy' => 1
+				]
+			),
+			'downloadHk2Url'     => $this->get('router')->generate('admin_app_hoso_phanbo_thukychidoan_thieuNhiChiDoanDownloadBangDiem',
+				[
+					'id'    => $phanBo->getId(),
+					'hocKy' => 2
+				]
+			),
+			
 			'nopDiemUrl'         =>
 				$this->get('router')->generate('admin_app_hoso_phanbo_thukychidoan_nopBangDiem',
 					[
@@ -130,9 +143,9 @@ class ThuKyChiDoanAdminController extends BaseCRUDAdminController {
 		return parent::listAction();
 	}
 	
-	public function thieuNhiNhomDownloadBangDiemAction($id = null, $hocKy, Request $request) {
+	public function thieuNhiChiDoanDownloadBangDiemAction($id = null, $hocKy, Request $request) {
 		if( ! in_array($hocKy, [ 1, 2 ])) {
-			throw new InvalidArgumentException();
+			throw new \InvalidArgumentException();
 		}
 		
 		/**
@@ -143,60 +156,21 @@ class ThuKyChiDoanAdminController extends BaseCRUDAdminController {
 			throw new NotFoundHttpException(sprintf('unable to find the Truong with id : %s', $id));
 		}
 		
-		/** @var PhanBoAdmin $admin */
+		/** @var TruongPhuTrachDoiAdmin $admin */
 		$admin = $this->admin;
 		
 		//		\PHPExcel_Shared_Font::setAutoSizeMethod(\PHPExcel_Shared_Font::AUTOSIZE_METHOD_EXACT);
 		$hocKy = intval($hocKy);
 		
-		$thanhVienService = $this->get('app.binhle_thieunhi_thanhvien');
+		$thuKyCD = $phanBo->getThanhVien()->getThuKyChiDoanObj();
 		
-		$filename = sprintf('bang-diem-hoc-ky-%d.xlsx', $hocKy);
-//		$response = new BinaryFileResponse($zipFile);
-//		$response->headers->set('Content-Disposition', 'attachment;filename=' . str_replace(' ', '-', 'ihp_export_' . $dateAlnum . '.zip'));
-		$phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
+		$response = $thuKyCD->downloadBangDiemExcel($hocKy);
 		
-		$phpExcelObject->getProperties()->setCreator("Solution")
-		               ->setLastModifiedBy("Solution")
-		               ->setTitle("Download - Raw Data")
-		               ->setSubject("Bang Diem HK1")
-		               ->setDescription("Raw Data")
-		               ->setKeywords("office 2005 openxml php")
-		               ->setCategory("Raw Data Download");
-		
-		$phpExcelObject->setActiveSheetIndex(0);
-		$activeSheet = $phpExcelObject->getActiveSheet();
-		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
-		$phpExcelObject->setActiveSheetIndex(0);
-		
-		$sWriter = new SpreadsheetWriter($activeSheet);
-		$thanhVienService->writeBangDiemDoiNhomGiaoLyHeading($sWriter, $hocKy, $phanBo);
-		
-		if($hocKy === 1) {
-			foreach(range('A', 'N') as $columnID) {
-				$activeSheet->getColumnDimension($columnID)
-				            ->setAutoSize(true);
-			}
-		}
-		
-		if($hocKy === 1) {
-			$thanhVienService->writeBangDiemDoiNhomGiaoLyHK1Data($sWriter, $phanBo);
-		}
-
-//		$colDimensions = $activeSheet->getColumnDimensions();
-//		foreach($colDimensions as $dimension) {
-//			$dimension->setAutoSize(true);
-//		}
-		
-		$activeSheet->calculateColumnWidths();
-		// create the writer
-		$writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel2007');
-		// create the response
-		$response = $this->get('phpexcel')->createStreamedResponse($writer);
 		$response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
 		$response->headers->set('Pragma', 'public');
 		$response->headers->set('Cache-Control', 'maxage=1');
 		
+		$filename = sprintf('bang-diem-hoc-ky-%d.xlsx', $hocKy);
 		$response->headers->set('Content-Disposition', 'attachment;filename=' . $filename);
 		
 		return $response;

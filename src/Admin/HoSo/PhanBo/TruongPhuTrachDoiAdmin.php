@@ -48,7 +48,6 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 			if($this->action === 'nhap-diem-thieu-nhi' || $this->action === 'nop-bang-diem') {
 				return 'admin/truong-phu-trach-doi/list-nhap-diem-thieu-nhi.html.twig';
 			}
-			
 		}
 		
 		return parent::getTemplate($name);
@@ -80,7 +79,6 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 		if(empty($tv) || ! $tv->isEnabled()) {
 			return false;
 		}
-		
 		
 		if($name === 'NOP_BANG_DIEM') {
 			if(empty($object) || empty($hocKy = $this->actionParams['hocKy'])) {
