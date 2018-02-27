@@ -25,7 +25,6 @@ class ChiDoanTruongChiDoanAdmin extends BaseAdmin {
 	
 	protected $baseRoutePattern = '/app/hoso-chidoan/chidoantruong-quan-ly-chidoan';
 	
-	
 	protected $action = '';
 	protected $actionParams = [];
 	

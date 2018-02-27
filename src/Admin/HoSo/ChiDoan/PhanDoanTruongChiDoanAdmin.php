@@ -65,6 +65,7 @@ class PhanDoanTruongChiDoanAdmin extends BaseAdmin {
 			} elseif($this->action === 'duyet-bang-diem') {
 			
 			}
+			return 'admin/phan-doan-truong/list.html.twig';
 		}
 		
 		return parent::getTemplate($name);
@@ -73,6 +74,8 @@ class PhanDoanTruongChiDoanAdmin extends BaseAdmin {
 	public function configureRoutes(RouteCollection $collection) {
 		$collection->add('baoCaoTienQuy', 'bao-cao-tien-quy');
 		$collection->add('bangDiem', $this->getRouterIdParameter() . '/bang-diem/{hocKy}/{action}');
+		$collection->add('thieuNhiPhanDoanDownloadBangDiem',  '/download-bang-diem/hoc-ky-{hocKy}');
+		
 		parent::configureRoutes($collection);
 	}
 	

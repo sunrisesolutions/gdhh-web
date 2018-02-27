@@ -46,11 +46,6 @@ class HuynhTruongAdmin extends BaseAdmin {
 	protected $translationDomain = 'BinhLeAdmin';
 	
 	/**
-	 * @var integer
-	 */
-	protected $namHoc;
-	
-	/**
 	 * @param array $actionParams
 	 */
 	public function setActionParams($actionParams) {
@@ -509,20 +504,6 @@ class HuynhTruongAdmin extends BaseAdmin {
 //			$namHocHienTai = $this->getConfigurationPool()->getContainer()->get(NamHocService::class)->getNamHocHienTai();
 //			$object->initiatePhanBo($namHocHienTai);
 //		};
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getNamHoc() {
-		return $this->namHoc;
-	}
-	
-	/**
-	 * @param int $namHoc
-	 */
-	public function setNamHoc($namHoc) {
-		$this->namHoc = $namHoc;
 	}
 	
 	

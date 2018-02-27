@@ -59,7 +59,15 @@ class MenuBuilderListener {
 	public function addMenuItems(ConfigureMenuEvent $event) {
 		$user    = $this->userService->getUser();
 		$request = $this->container->get('request_stack')->getCurrentRequest();
-//        $pos = $user->getPosition(['roles' => [Position::ROLE_ADMIN]]);
+		if($user->isAdmin()) {
+			$event->getMenu()->addChild('list ten thanh', array(
+				'route'           => 'admin_app_hoso_christianname_list',
+				'routeParameters' => [],
+				'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
+			))->setLabel($this->container->get('translator')->trans('dashboard.binhle_thieunhi_tenthanh', [], 'BinhLeAdmin'));
+			
+			return;
+		}
 		
 		if( ! empty($thanhVien = $user->getThanhVien()) && $thanhVien->isEnabled()) {
 			if($user->hasRole(User::ROLE_HUYNH_TRUONG)) {

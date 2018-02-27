@@ -112,4 +112,32 @@ class PhanDoanTruongChiDoanAdminController extends BaseCRUDAdminController {
 		));
 	}
 	
+	public function thieuNhiPhanDoanDownloadBangDiemAction($hocKy, Request $request) {
+		if( ! in_array($hocKy, [ 1, 2 ])) {
+			throw new \InvalidArgumentException();
+		}
+		
+		/** @var PhanDoanTruongChiDoanAdmin $admin */
+		$admin = $this->admin;
+		
+		//		\PHPExcel_Shared_Font::setAutoSizeMethod(\PHPExcel_Shared_Font::AUTOSIZE_METHOD_EXACT);
+		$hocKy = intval($hocKy);
+		
+		/** @var ThanhVien $thanhVien */
+		$thanhVien = $this->getUser()->getThanhVien();
+		
+		$pdt = $thanhVien->getPhanDoanTruongObj();
+		
+		$response = $pdt->downloadBangDiemExcel($hocKy);
+		
+		$response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+		$response->headers->set('Pragma', 'public');
+		$response->headers->set('Cache-Control', 'maxage=1');
+		
+		$filename = sprintf('bang-diem-hoc-ky-%d.xlsx', $hocKy);
+		$response->headers->set('Content-Disposition', 'attachment;filename=' . $filename);
+		
+		return $response;
+	}
+	
 }

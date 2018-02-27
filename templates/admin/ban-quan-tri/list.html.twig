@@ -1,0 +1,29 @@
+{% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
+ {% block sonata_admin_content_actions_wrappers %}
+     <style>
+          .navbar-nav > li > a.btn-danger {
+             color: #FFF;
+         }
+     </style>
+     <ul class="nav navbar-nav navbar-right">
+
+         <li class="dropdown sonata-actions">
+             <a class="btn btn-danger btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                 Download <b class="caret"></b>
+             </a>
+             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                 <li><a class="dropdown-item"
+                        href="{{ path('admin_app_hoso_chidoan_banquantri_chidoan_thieuNhiXuDoanDownloadBangDiem',{ 'hocKy':1}) }}">Bảng điểm Học-kỳ I</a>
+                 </li>
+                 <li><a class="dropdown-item"
+                        href="{{ path('admin_app_hoso_chidoan_banquantri_chidoan_thieuNhiXuDoanDownloadBangDiem',{'hocKy':2}) }}">Bảng điểm Học-kỳ II</a>
+                 </li>
+             </ul>
+         </li>
+
+
+     </ul>
+     {{ parent() }}
+ {% endblock sonata_admin_content_actions_wrappers %}

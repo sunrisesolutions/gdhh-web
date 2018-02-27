@@ -33,6 +33,25 @@ class BaseAdmin extends AbstractAdmin {
 	protected $action = '';
 	protected $actionParams = [];
 	
+	/**
+	 * @var integer
+	 */
+	protected $namHoc;
+	/**
+	 * @return int
+	 */
+	public function getNamHoc() {
+		return $this->namHoc;
+	}
+	
+	/**
+	 * @param int $namHoc
+	 */
+	public function setNamHoc($namHoc) {
+		$this->namHoc = $namHoc;
+	}
+	
+	
 	public function getAction() {
 		if(empty($this->action)) {
 			$request = $this->getRequest();

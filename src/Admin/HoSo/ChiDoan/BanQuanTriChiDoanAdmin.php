@@ -62,6 +62,8 @@ class BanQuanTriChiDoanAdmin extends BaseAdmin {
 			} elseif($this->action === 'duyet-bang-diem') {
 			
 			}
+			
+			return 'admin/ban-quan-tri/list.html.twig';
 		}
 		
 		return parent::getTemplate($name);
@@ -71,6 +73,9 @@ class BanQuanTriChiDoanAdmin extends BaseAdmin {
 		$collection->add('baoCaoTienQuy', 'bao-cao-tien-quy');
 		$collection->add('baoCaoTienQuyChiDoan', 'bao-cao-tien-quy/' . $this->getRouterIdParameter());
 		$collection->add('bangDiem', $this->getRouterIdParameter() . '/bang-diem/{hocKy}/{action}');
+		
+		$collection->add('thieuNhiXuDoanDownloadBangDiem', '/bang-diem/hoc-ky-{hocKy}/download');
+		
 		parent::configureRoutes($collection);
 	}
 	
@@ -91,7 +96,9 @@ class BanQuanTriChiDoanAdmin extends BaseAdmin {
 	 */
 	public function isGranted($name, $object = null) {
 		$container = $this->getConfigurationPool()->getContainer();
-		
+		if($name === 'EXPORT') {
+			return false;
+		}
 		if($name === 'DELETE') {
 			return false;
 		}
