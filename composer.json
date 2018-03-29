@@ -44,6 +44,7 @@
         "symfony/dotenv": "^4.0"
     },
     "config": {
+        "discard-changes": true,
         "preferred-install": {
             "*": "dist"
         },
