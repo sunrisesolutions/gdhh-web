@@ -2,6 +2,7 @@
 components
 ###< components ###
 
+error_logs
 
 ###> IDE ###
 .idea
