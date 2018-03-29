@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f6f766de907a4301b2b50f0ec5ad26c5",
+    "content-hash": "96d2cb087f36c2c6cd9bc76ac55eb5aa",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -146,16 +146,16 @@
         },
         {
             "name": "bean-project/gdhh-core",
-            "version": "0.1.15",
+            "version": "0.1.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bean-project/gdhh-core.git",
-                "reference": "4abe283d58f1680a917a14deaa79a62fdb18d88c"
+                "reference": "5836a975a801dfcd1e0770c6c82d67d457b54f17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bean-project/gdhh-core/zipball/4abe283d58f1680a917a14deaa79a62fdb18d88c",
-                "reference": "4abe283d58f1680a917a14deaa79a62fdb18d88c",
+                "url": "https://api.github.com/repos/bean-project/gdhh-core/zipball/5836a975a801dfcd1e0770c6c82d67d457b54f17",
+                "reference": "5836a975a801dfcd1e0770c6c82d67d457b54f17",
                 "shasum": ""
             },
             "require": {
@@ -175,7 +175,6 @@
                     "App\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -190,7 +189,11 @@
                 "bean",
                 "bundle"
             ],
-            "time": "2018-03-29T04:51:09+00:00"
+            "support": {
+                "source": "https://github.com/bean-project/gdhh-core/tree/0.1.17",
+                "issues": "https://github.com/bean-project/gdhh-core/issues"
+            },
+            "time": "2018-03-29T16:57:56+00:00"
         },
         {
             "name": "bean-project/location-bundle",
