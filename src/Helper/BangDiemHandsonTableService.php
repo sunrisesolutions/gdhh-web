@@ -27,49 +27,17 @@ class BangDiemHandsonTableService extends BaseService {
 		$hocKy    = $chiDoan->getHocKyHienTai();
 		$readOnly = $phanBo->getThanhVien()->getHuynhTruongObj()->isBangDiemReadOnly();
 		if($hocKy === 1) {
-			$cotDiemCellFormats ['cc9']               = "type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['cc10']              = "type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['cc11']              = "type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['cc12']              = "type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['tbCCTerm1']         = "type:'numeric',readOnly:true, format: '0,0.00'";
-			$cotDiemCellFormats ['quizTerm1']         = "type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['midTerm1']          = "type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['finalTerm1']        = "type:'numeric', format: '0,0.00'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['tbGLTerm1']         = "type:'numeric',readOnly:true, format: '0,0.00'";
-			$cotDiemCellFormats ['tbTerm1']           = "type:'numeric',readOnly:true, format: '0,0.00'";
-			$cotDiemCellFormats ['sundayTicketTerm1'] = "type:'numeric'";
 		} elseif($hocKy === 2) {
-			$cotDiemCellFormats ['cc1']        = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['cc2']        = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['cc3']        = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['cc4']        = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['cc5']        = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['tbCCTerm2']  = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
-			$cotDiemCellFormats ['quizTerm2']  = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['midTerm2']   = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['finalTerm2'] = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.00'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['tbGLTerm2']  = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
-			$cotDiemCellFormats ['tbGLTerm1']  = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
-			$cotDiemCellFormats ['tbGLYear']   = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
-			
-			$cotDiemCellFormats ['tbTerm2'] = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
-			
-			$cotDiemCellFormats ['tbTerm1'] = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
-			$cotDiemCellFormats['tbYear']   = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
-			
-			$cotDiemCellFormats ['sundayTicketTerm2'] = "renderer: 'darkenEmptyRenderer',type:'numeric'";
-			$cotDiemCellFormats ['sundayTickets']     = "renderer: 'darkenEmptyRenderer',type:'numeric', readOnly:true";
-			
-			$cotDiemCellFormats ['category'] = "type:'text', readOnly:true, renderer: 'xepLoaiRenderer'";
-			$cotDiemCellFormats ['awarded']  = "type:'checkbox', readOnly:true";
+
 		}
 		
-		$cacCotDiem = $phanBo->getThanhVien()->getHuynhTruongObj()->getBangDiemSpreadsheet()->getCacCotDiem($hocKy);
+		$cacCotDiem = $phanBo->getThanhVien()->getHuynhTruongObj()->getBangDiemSpreadsheet()->getCacCotDiem($hocKy, $readOnly);
 		
 		foreach($cacCotDiem as $key => $prop) {
 			$cotDiemHeaders[ $key ] = $prop['header'];
 			$cotDiemLabels[ $key ]  = $prop['label'];
 			$cotDiemAttrs[ $key ]   = $prop['attr'];
+			$cotDiemCellFormats[ $key ]   = $prop['format'];
 		}
 		
 		
