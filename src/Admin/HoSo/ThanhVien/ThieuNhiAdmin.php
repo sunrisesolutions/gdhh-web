@@ -87,7 +87,7 @@ class ThieuNhiAdmin extends BaseAdmin {
 //		$collection->add('employeesImport', $this->getRouterIdParameter() . '/import');
 		$collection->add('thieuNhiNhom', 'nhom-giao-ly-cua-truong/{phanBo}');
 		$collection->add('thieuNhiChiDoan', 'chi-doan/{phanBo}/list');
-		$collection->add('thieuNhiPhanDoan', '{phanDoan}');		
+		$collection->add('thieuNhiPhanDoan', '{phanDoan}');
 		
 		$collection->add('sanhHoatLai', '' . $this->getRouterIdParameter() . '/sanh-hoat-lai');
 		$collection->add('nghiSanhHoat', '' . $this->getRouterIdParameter() . '/nghi-sanh-hoat');
@@ -151,6 +151,10 @@ class ThieuNhiAdmin extends BaseAdmin {
 			}
 			if($object->isEnabled()) {
 				return false;
+			}
+			
+			if( ! empty($thuKyChiDoan = $thanhVien->getThuKyChiDoanObj()) && $thuKyChiDoan->isThieuNhiCungChiDoan($object->getPhanBoNamNay())) {
+				return true;
 			}
 			
 			return ! empty($thanhVien->isCDTorGreater($object));
