@@ -181,7 +181,7 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 					'hocKy' => 1
 				]
 			),
-			'downloadHk2Url'     => $this->get('router')->generate('admin_app_hoso_phanbo_truongphutrachdoi_nopBangDiem',
+			'downloadHk2Url'     => $this->get('router')->generate('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',
 				[
 					'id'    => $phanBo->getId(),
 					'hocKy' => 2
