@@ -8,7 +8,6 @@ use Doctrine\ORM\QueryBuilder;
 
 use App\Admin\HoSo\ChiDoan\ChiDoanTruongChiDoanAdmin;
 use App\Entity\HoSo\ChiDoan;
-use App\Entity\HoSo\DoiNhomGiaoLy;
 use App\Entity\HoSo\PhanBo;
 use App\Entity\HoSo\ThanhVien;
 
