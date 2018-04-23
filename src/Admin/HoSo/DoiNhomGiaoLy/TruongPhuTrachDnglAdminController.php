@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 class TruongPhuTrachDnglAdminController extends BaseCRUDAdminController {
 	
 	public function baoCaoTienQuyAction(Request $request) {
-		/** @var DoiNhomGiaoLyAdmin $admin */
+		/** @var TruongPhuTrachDnglAdmin $admin */
 		$admin = $this->admin;
 
 //		if( ! empty($namHoc = $this->get('app.binhle_thieunhi_namhoc')->getNamHocHienTai())) {
@@ -45,7 +45,7 @@ class TruongPhuTrachDnglAdminController extends BaseCRUDAdminController {
 			throw new NotFoundHttpException(sprintf('Unable to find the DoiNhomGiaoLy with id : %s', $id));
 		}
 		
-		/** @var DoiNhomGiaoLyAdmin $admin */
+		/** @var TruongPhuTrachDnglAdmin $admin */
 		$admin = $this->admin;
 		
 		if( ! in_array($action, [ 'duyet', 'tra-ve' ])) {
