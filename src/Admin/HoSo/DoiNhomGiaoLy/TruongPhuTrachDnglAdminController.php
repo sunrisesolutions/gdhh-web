@@ -1,15 +1,19 @@
 <?php
-namespace AppBundle\Controller\Admin\BinhLe\ThieuNhi;
+namespace App\Admin\HoSo\DoiNhomGiaoLy;
 
-use App\Admin\BaseAdmin;
-use AppBundle\Admin\BinhLe\ThieuNhi\ChiDoanAdmin;
-use AppBundle\Admin\BinhLe\ThieuNhi\DoiNhomGiaoLyAdmin;
-use AppBundle\Controller\Admin\BaseCRUDController;
-use AppBundle\Entity\BinhLe\ThieuNhi\ChiDoan;
-use AppBundle\Entity\BinhLe\ThieuNhi\DoiNhomGiaoLy;
-use AppBundle\Entity\BinhLe\ThieuNhi\PhanBo;
-use AppBundle\Entity\BinhLe\ThieuNhi\ThanhVien;
+use App\Admin\BaseCRUDAdminController;
+use App\Entity\HoSo\DoiNhomGiaoLy;
+use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
+
+use App\Admin\HoSo\ChiDoan\ChiDoanTruongChiDoanAdmin;
+use App\Entity\HoSo\ChiDoan;
+use App\Entity\HoSo\DoiNhomGiaoLy;
+use App\Entity\HoSo\PhanBo;
+use App\Entity\HoSo\ThanhVien;
+
 use Sonata\AdminBundle\Controller\CRUDController;
+
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 
-class TruongPhuTrachDnglAdminController extends BaseAdmin {
+class TruongPhuTrachDnglAdminController extends BaseCRUDAdminController {
 	
 	public function baoCaoTienQuyAction(Request $request) {
 		/** @var DoiNhomGiaoLyAdmin $admin */
