@@ -84,6 +84,6 @@ class TruongPhuTrachDnglAdminController extends BaseCRUDAdminController {
 			$this->addFlash('sonata_flash_error', $exception->getMessage());
 		}
 		
-		return new RedirectResponse($this->generateUrl('admin_app_hoso_doinhomgiaoly_truongphutrach_dngl', []));
+		return new RedirectResponse($this->generateUrl('admin_app_hoso_doinhomgiaoly_truongphutrach_dngl_list', []));
 	}
 }
