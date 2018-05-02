@@ -75,7 +75,6 @@ class Kernel extends BaseKernel {
 				if(empty($controller = $class::CONTROLLER)) {
 					$controller = $class . 'Controller';
 					if( ! class_exists($controller)) {
-						// echo $controller . 'does not exist';
 						$controller = BaseCRUDAdminController::class;
 					}
 				}
