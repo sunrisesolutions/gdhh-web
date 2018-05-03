@@ -203,14 +203,12 @@ class MenuBuilderListener {
 				}
 			}
 			
-			
 			if( ! empty($chiDoan)) {
 				$this->thieuNhi->addChild('thieu nhi trong Chi-doan minh', array(
 					'route'           => 'admin_app_hoso_thanhvien_thieunhi_thieuNhiChiDoan',
 					'routeParameters' => [ 'phanBo' => $phanBo->getId() ],
 					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
 				))->setLabel($translator->trans('dashboard.thieunhi_chidoanphutrach', [], 'BinhLeAdmin'));
-				
 				
 				$this->huynhTruong->addChild('truong chi doan', array(
 					'route'           => 'admin_app_hoso_thanhvien_huynhtruong_truongChiDoan',
