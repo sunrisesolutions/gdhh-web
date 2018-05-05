@@ -25,11 +25,13 @@
             {% if object.duyetBangDiemHK1CDT is empty %}
                 <a class="btn btn-warning"
                    href="{{ path('admin_app_hoso_doinhomgiaoly_truongphutrach_dngl_bangDiem', {'id': object.id, 'hocKy':1,'action':'tra-ve' }) }}">Trả
-                    Bảng điểm về</a>
+                    Bảng điểm HKI về</a>
+                <br style="line-height: 34px;"/>
             {% endif %}
         {% else %}
             <a class="btn btn-primary disabled"
                href="#">Bảng điểm Học-kỳ I chưa hoàn tất</a>
+            <br style="line-height: 34px;"/>
         {% endif %}
         <a class="btn btn-primary disabled"
            href="#">Bảng điểm Học-kỳ II chưa hoàn tất</a>
