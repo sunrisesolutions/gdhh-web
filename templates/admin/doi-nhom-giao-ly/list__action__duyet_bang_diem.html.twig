@@ -17,9 +17,9 @@
                    href="#">Bảng điểm Học-kỳ I đã được duyệt</a>
                 <br style="line-height: 34px;"/>
                 <a target="_blank" class="btn btn-info"
-                    href="{{ path('admin_app_hocba_chidoantruong_bangdiem_list', {'id': object.id, 'hocKy':2,'action':'xem' }) }}">
-                        Xem Bảng điểm HKII</a>                   
-                <br style="line-height: 34px;"/>                        
+                   href="{{ path('admin_app_hocba_chidoantruong_bangdiem_list', {'id': object.id, 'hocKy':2,'action':'xem' }) }}">
+                    Xem Bảng điểm HKII</a>
+                <br style="line-height: 34px;"/>
             {% endif %}
 
             {% if object.duyetBangDiemHK1CDT is empty %}
@@ -31,29 +31,28 @@
             <a class="btn btn-primary disabled"
                href="#">Bảng điểm Học-kỳ I chưa hoàn tất</a>
         {% endif %}
-        <br/>
         <a class="btn btn-primary disabled"
            href="#">Bảng điểm Học-kỳ II chưa hoàn tất</a>
     {% else %}
-    <!-- ELSE block -->
-                <a target="_blank" class="btn btn-info"
-                    href="{{ path('admin_app_hocba_chidoantruong_bangdiem_list', {'id': object.id, 'hocKy':2,'action':'xem' }) }}">
-                        Xem Bảng điểm HKII</a>    
-                <br style="line-height: 34px;"/>                        
-            {% if object.duyetBangDiemHK2CDT is empty %}
-                <a class="btn btn-primary"
-                   href="{{ path('admin_app_hoso_doinhomgiaoly_truongphutrach_dngl_bangDiem', {'id': object.id, 'hocKy':2,'action':'duyet' }) }}">Duyệt
-                    Bảng điểm Học-kỳ II</a>
-            {% else %}
-                <a class="btn btn-success disabled"
-                   href="#">Bảng điểm Học-kỳ II đã được duyệt</a>
-            {% endif %}
+        <!-- ELSE block -->
+        <a target="_blank" class="btn btn-info"
+           href="{{ path('admin_app_hocba_chidoantruong_bangdiem_list', {'id': object.id, 'hocKy':2,'action':'xem' }) }}">
+            Xem Bảng điểm HKII</a>
+        <br style="line-height: 34px;"/>
+        {% if object.duyetBangDiemHK2CDT is empty %}
+            <a class="btn btn-primary"
+               href="{{ path('admin_app_hoso_doinhomgiaoly_truongphutrach_dngl_bangDiem', {'id': object.id, 'hocKy':2,'action':'duyet' }) }}">Duyệt
+                Bảng điểm Học-kỳ II</a>
+        {% else %}
+            <a class="btn btn-success disabled"
+               href="#">Bảng điểm Học-kỳ II đã được duyệt</a>
+        {% endif %}
 
-            {% if object.duyetBangDiemHK2CDT is empty %}
-                <a class="btn btn-warning"
-                   href="{{ path('admin_app_hoso_doinhomgiaoly_truongphutrach_dngl_bangDiem', {'id': object.id, 'hocKy':2,'action':'tra-ve' }) }}">Trả
-                    Bảng điểm về</a>
-            {% endif %}    
+        {% if object.duyetBangDiemHK2CDT is empty %}
+            <a class="btn btn-warning"
+               href="{{ path('admin_app_hoso_doinhomgiaoly_truongphutrach_dngl_bangDiem', {'id': object.id, 'hocKy':2,'action':'tra-ve' }) }}">Trả
+                Bảng điểm về</a>
+        {% endif %}
         {# object.hoanTatBangDiemHK2 is NOT empty #}
     {% endif %}
 {% endif %}
