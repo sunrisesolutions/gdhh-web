@@ -16,7 +16,7 @@
                 <a class="btn btn-success disabled"
                    href="#">Bảng điểm Học-kỳ I đã được duyệt</a>
                 <a target="_blank" class="btn btn-info"
-                    href="{{ path('admin_app_hocba_chidoantruong_bangdiem_list', {'id': object.id, 'hocKy':1,'action':'xem' }) }}">
+                    href="{{ path('admin_app_hocba_chidoantruong_bangdiem_list', {'id': object.id, 'hocKy':2,'action':'xem' }) }}">
                         Xem Bảng điểm HKII</a>                   
                 <br style="line-height: 34px;"/>                        
             {% endif %}
@@ -36,7 +36,7 @@
     {% else %}
     <!-- ELSE block -->
                 <a target="_blank" class="btn btn-info"
-                    href="{{ path('admin_app_hocba_chidoantruong_bangdiem_list', {'id': object.id, 'hocKy':1,'action':'xem' }) }}">
+                    href="{{ path('admin_app_hocba_chidoantruong_bangdiem_list', {'id': object.id, 'hocKy':2,'action':'xem' }) }}">
                         Xem Bảng điểm HKII</a>    
                 <br style="line-height: 34px;"/>                        
             {% if object.duyetBangDiemHK2CDT is empty %}
