@@ -2,6 +2,8 @@
     <a target="_blank" class="btn btn-info"
        href="{{ path('admin_app_hocba_chidoantruong_bangdiem_list', {'id': object.id, 'hocKy':1,'action':'xem' }) }}">
         Xem Bảng điểm HKI</a>
+    <a class="btn btn-primary"
+       href="{{ path('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',{'id': object.cacTruongPhuTrachDoi.first.phanBo.id, 'hocKy':1}) }}">Download BD HK-I</a>
     <br style="line-height: 34px;"/>
     {% if object.hoanTatBangDiemHK2 is empty %}
         {% if object.hoanTatBangDiemHK1 is not empty %}
@@ -19,6 +21,8 @@
                 <a target="_blank" class="btn btn-info"
                    href="{{ path('admin_app_hocba_chidoantruong_bangdiem_list', {'id': object.id, 'hocKy':2,'action':'xem' }) }}">
                     Xem Bảng điểm HKII</a>
+                <a class="btn btn-primary"
+                   href="{{ path('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',{'id': object.cacTruongPhuTrachDoi.first.phanBo.id, 'hocKy':2}) }}">Download BD HK-II</a>
                 <br style="line-height: 34px;"/>
             {% endif %}
 
