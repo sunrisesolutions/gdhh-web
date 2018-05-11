@@ -33,6 +33,11 @@ class BaseAdmin extends AbstractAdmin {
 	protected $action = '';
 	protected $actionParams = [];
 	
+	public function getTemplate($name)
+	{
+		return $this->getTemplateRegistry()->getTemplate($name);
+	}
+	
 	/**
 	 * @var integer
 	 */

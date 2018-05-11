@@ -56,7 +56,7 @@ abstract class AbstractBangDiemAdmin extends BaseAdmin {
 	
 	public function getTemplate($name) {
 		if($name === 'list') {
-			return 'admin/bang-diem/list.html.twig';
+//			return 'admin/bang-diem/list.html.twig';
 		}
 		
 		return parent::getTemplate($name);
@@ -182,7 +182,7 @@ abstract class AbstractBangDiemAdmin extends BaseAdmin {
 			->add('phanBo.thanhVien.firstname', null, array(
 				'label'    => 'list.label_full_name'
 			,
-				'template' => '::admin/binhle/thieu-nhi/chi-doan/bang-diem/list__field__name.html.twig'
+				'template' => 'admin/chi-doan/bang-diem/list__field__name.html.twig'
 			));
 		$request = $this->getRequest();
 		if($request->query->getInt('hocKy') === 1) {
