@@ -325,7 +325,7 @@ class ThieuNhiAdmin extends BaseAdmin {
 //			$query->andWhere($expr->eq($rootAlias . '.chiDoan', $chiDoan->getNumber()));
 ////			$query->andWhere($expr->eq($rootAlias . '.namHoc', $chiDoan->getNamHoc()->getId()));
 //		}else		
-		elseif(in_array($this->action, [ 'list-thieu-nhi-chi-doan', 'thieu-nhi-phan-doan' ])) {
+		elseif(in_array($this->action, [ 'list-thieu-nhi-chi-doan', 'list-thieu-nhi-phan-doan' ])) {
 			$qb->join($rootAlias . '.phanBoHangNam', 'phanBo');
 			$qb->join('phanBo.chiDoan', 'chiDoan');
 			if(array_key_exists('chiDoan', $this->actionParams)) {
@@ -363,6 +363,9 @@ class ThieuNhiAdmin extends BaseAdmin {
 					$phanBoId = $this->getRequest()->query->get('phanBoId');
 				}
 				$parameters['phanBo'] = $phanBoId;
+			} elseif($this->action === 'list-thieu-nhi-phan-doan') {
+				$name                   = 'thieuNhiPhanDoan';
+				$parameters['phanDoan'] = $this->actionParams['phanDoan'];
 			}
 		} elseif($name === 'edit') {
 		

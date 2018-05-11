@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Admin\HoSo\ThanhVien;
 
 use App\Admin\BaseCRUDAdminController;
@@ -12,8 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-class ThieuNhiAdminController extends BaseCRUDAdminController
-{
+class ThieuNhiAdminController extends BaseCRUDAdminController {
 	public function thieuNhiNhomAction(PhanBo $phanBo, Request $request) {
 		/** @var ThieuNhiAdmin $admin */
 		$admin = $this->admin;
@@ -43,13 +43,18 @@ class ThieuNhiAdminController extends BaseCRUDAdminController
 		
 		return parent::listAction();
 	}
+	
 	public function thieuNhiPhanDoanAction($phanDoan, Request $request) {
-		$phanDoan = strtoupper($phanDoan);
-		$cd = ThanhVien::getDanhSachChiDoanTheoPhanDoan($phanDoan);
+		$actionParams                    = [ 'phanDoan' => $phanDoan ];
+		$phanDoan                        = strtoupper($phanDoan);
+		$cd                              = ThanhVien::getDanhSachChiDoanTheoPhanDoan($phanDoan);
+		$actionParams['danhSachChiDoan'] = $cd;
+		
 		/** @var ThieuNhiAdmin $admin */
 		$admin = $this->admin;
-		$admin->setAction('thieu-nhi-phan-doan');
-		$admin->setActionParams([ 'danhSachChiDoan' => $cd ]);
+		$admin->setAction('list-thieu-nhi-phan-doan');
+		$admin->setActionParams($actionParams);
+		
 		if( ! empty($namHoc = $this->get(NamHocService::class)->getNamHocHienTai())) {
 			$admin->setNamHoc($namHoc->getId());
 		}
