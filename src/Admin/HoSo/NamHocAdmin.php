@@ -5,6 +5,7 @@ namespace App\Admin\HoSo;
 use App\Admin\BaseAdmin;
 use App\Entity\HoSo\NamHoc;
 use App\Entity\HoSo\ThanhVien;
+use App\Service\User\UserService;
 use Bean\Bundle\CoreBundle\Service\StringService;
 
 use Doctrine\ORM\Query\Expr;
@@ -99,7 +100,7 @@ class NamHocAdmin extends BaseAdmin {
 		if($this->isAdmin()) {
 			return true;
 		}
-		$user = $container->get('app.user')->getUser();
+		$user = $container->get(UserService::class)->getUser();
 		if(empty($thanhVien = $user->getThanhVien())) {
 			return false;
 		} elseif($thanhVien->isBQT()) {
