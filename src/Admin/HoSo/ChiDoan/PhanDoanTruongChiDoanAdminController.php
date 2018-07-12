@@ -100,7 +100,8 @@ class PhanDoanTruongChiDoanAdminController extends BaseCRUDAdminController {
 			unset($routeParams['_locale']);
 			$route                 = $params['_route'];
 			$routeParams['action'] = 'duyet-bang-diem';
-		} else {
+		}
+		if(empty($route)) {
 			$route                 = 'admin_app_hoso_chidoan_phandoantruong_chidoan_list';
 			$routeParams           = [];
 			$routeParams['action'] = 'duyet-bang-diem';
