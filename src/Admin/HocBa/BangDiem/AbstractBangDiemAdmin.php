@@ -212,6 +212,8 @@ abstract class AbstractBangDiemAdmin extends BaseAdmin {
 				->add('tbTerm2')
 				->add('tbYear')
 				->add('sundayTickets')
+				->add('category')
+				->add('gradeRetention')
 			;
 		}
 //		$listMapper->add('phanBo.chiDoan.id', null, array(
