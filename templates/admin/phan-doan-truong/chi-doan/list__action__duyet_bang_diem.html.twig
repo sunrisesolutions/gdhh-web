@@ -1,7 +1,7 @@
 {#{% extends 'admin/doi-nhom-giao-ly/list__action__duyet_bang_diem.html.twig' %}#}
 
 {% if admin.isGranted('duyet-bang-diem',object) %}
-    <a target="_blank" class="btn btn-info"
+    <a target="_blank" class="btn btn-sm btn-info"
        href="{{ path('admin_app_hocba_phandoantruong_bangdiem_list', {'id': object.id, 'hocKy':1,'action':'xem' }) }}">
         Xem Bảng điểm HK-I</a>
     <br style="line-height: 34px;"/>
@@ -28,9 +28,10 @@
            href="#">Bảng điểm Học-kỳ II chưa hoàn tất</a>
     {% else %}
         {# object.hoanTatBangDiemHK2 is NOT empty #}
-        <a target="_blank" class="btn btn-info"
-           href="{{ path('admin_app_hocba_phandoantruong_bangdiem_list', {'id': object.id, 'hocKy':1,'action':'xem' }) }}">
+        <a target="_blank" class="btn btn-sm btn-info"
+           href="{{ path('admin_app_hocba_phandoantruong_bangdiem_list', {'id': object.id, 'hocKy':2,'action':'xem' }) }}">
             Xem Bảng điểm HK-II</a>
+
         {% if object.duocDuyetBangDiemHK2 is empty %}
             <a class="btn btn-sm btn-primary"
                href="{{ path('admin_app_hoso_chidoan_phandoantruong_chidoan_bangDiem', {'id': object.id, 'hocKy':2,'action':'duyet' }) }}">Duyệt
