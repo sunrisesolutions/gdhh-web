@@ -12,6 +12,7 @@ use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ThieuNhiAdminController extends BaseCRUDAdminController {
 	
@@ -29,10 +30,11 @@ class ThieuNhiAdminController extends BaseCRUDAdminController {
 		$admin         = $this->admin;
 		$namHocService = $this->get(NamHocService::class);
 		$phanBo        = $thanhVien->sanhHoatLai($namHocService->getNamHocHienTai());
-		
-		$manager = $this->get('doctrine.orm.default_entity_manager');
-		$manager->persist($phanBo);
-		$manager->persist($thanhVien);
+		if($phanBo instanceof PhanBo) {
+			$manager = $this->get('doctrine.orm.default_entity_manager');
+			$manager->persist($phanBo);
+			$manager->persist($thanhVien);
+		}
 		try {
 			$manager->flush();
 		} catch(Exception $e) {
