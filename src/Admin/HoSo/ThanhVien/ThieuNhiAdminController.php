@@ -27,7 +27,7 @@ class ThieuNhiAdminController extends BaseCRUDAdminController {
 		
 		/** @var ThieuNhiAdmin $admin */
 		$admin         = $this->admin;
-		$namHocService = $this->get('app.binhle_thieunhi_namhoc');
+		$namHocService = $this->get(NamHocService::class);
 		$phanBo        = $thanhVien->sanhHoatLai($namHocService->getNamHocHienTai());
 		
 		$manager = $this->get('doctrine.orm.default_entity_manager');
@@ -67,7 +67,7 @@ class ThieuNhiAdminController extends BaseCRUDAdminController {
 		
 		/** @var ThieuNhiAdmin $admin */
 		$admin         = $this->admin;
-		$namHocService = $this->get('app.binhle_thieunhi_namhoc');
+		$namHocService = $this->get(NamHocService::class);
 		$thanhVien->setEnabled(false);
 		
 		$manager = $this->get('doctrine.orm.default_entity_manager');
