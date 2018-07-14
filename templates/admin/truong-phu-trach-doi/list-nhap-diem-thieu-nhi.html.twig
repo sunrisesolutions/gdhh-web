@@ -116,41 +116,37 @@
             $(document).ready(function () {
                 window.phanBoXepLoai = {
                         {% set _counter = 0 %}
-                        {% for phanBo in phanBoHangNam %}
-                        {% if phanBo.thieuNhi is not empty %}
-                        {% set _counter = _counter + 1 %}
-                        {% set bangDiem = phanBo.bangDiem %}
-                        {% if bangDiem is not empty %}
-                        {% set xepLoai = bangDiem.gradeRetention is empty?bangDiem.category:'Ở LẠI' %}
-                        {% else %}
-                        {% set xepLoai = '' %}
-                        {% endif %}
-                        {% set thanhVien = phanBo.thanhVien %}
-                        {% spaceless %}
-                        {% if _counter > 1 %}, {% endif %}
-                    "{{ thanhVien.id }}"
-            :
-                "{{ xepLoai }}"
-                {% endspaceless %}
-                {% endif %}
-                {% endfor %}
+                        {% for phanBo in phanBoHangNam -%}
+                        {%- if phanBo.thieuNhi is not empty %}
+                        {%- set _counter = _counter + 1 %}
+                        {%- set bangDiem = phanBo.bangDiem %}
+                        {%- if bangDiem is not empty %}
+                        {%- set xepLoai = bangDiem.gradeRetention is empty?bangDiem.category:'Ở LẠI' %}
+                        {%- else %}
+                        {%- set xepLoai = '' %}
+                        {%- endif %}
+                        {%- set thanhVien = phanBo.thanhVien %}
+                        {%- spaceless -%}
+                        {%- if _counter > 1 -%}, {%- endif -%}
+                    "{{- thanhVien.id -}}":"{{- xepLoai -}}"
+                {%- endspaceless -%}
+                {%- endif %}
+                {%- endfor %}
             }
 
                 window.phanBo = {
                         {% set _counter = 0 %}
-                        {% for phanBo in phanBoHangNam %}
-                        {% if phanBo.thieuNhi is not empty and phanBo.thanhVien.enabled is not empty %}
-                        {% set _counter = _counter + 1 %}
+                        {%- for phanBo in phanBoHangNam -%}
+                        {%- if phanBo.thieuNhi is not empty and phanBo.thanhVien.enabled is not empty %}
+                        {%- set _counter = _counter + 1 %}
 
-                        {% set thanhVien = phanBo.thanhVien %}
-                        {% spaceless %}
-                        {% if _counter > 1 %}, {% endif %}
-                    "{{ thanhVien.id }}"
-            :
-                "{{ phanBo.id }}"
-                {% endspaceless %}
-                {% endif %}
-                {% endfor %}
+                        {%- set thanhVien = phanBo.thanhVien -%}
+                        {%- spaceless -%}
+                        {%- if _counter > 1 -%}, {%- endif -%}
+                    "{{- thanhVien.id -}}":"{{- phanBo.id -}}"
+                {%- endspaceless -%}
+                {%- endif %}
+                {%- endfor %}
             }
 
                 {% set cellMetaData = '' %}
