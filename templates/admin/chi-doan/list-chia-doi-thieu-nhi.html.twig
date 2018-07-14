@@ -89,30 +89,28 @@
 
             window.phanBoXepLoai = {
                     {% set _counter = 0 %}
-                    {% for phanBo in phanBoHangNam %}
-                    {% if phanBo.thieuNhi is not empty %}
+                    {%- for phanBo in phanBoHangNam %}
+                    {%- if phanBo.thieuNhi is not empty %}
                     {% set _counter = _counter + 1 %}
 
-                    {% set phanBoTruoc = phanBo.phanBoTruoc %}
-                    {% if phanBoTruoc is not empty %}
-                    {% set bangDiemTruoc = phanBo.phanBoTruoc.bangDiem %}
-                    {% if bangDiemTruoc is not empty %}
-                    {% set xepLoaiNamTruoc = bangDiemTruoc.gradeRetention is empty?bangDiemTruoc.category:'Ở LẠI' %}
+                    {%- set phanBoTruoc = phanBo.phanBoTruoc %}
+                    {%- if phanBoTruoc is not empty %}
+                    {%- set bangDiemTruoc = phanBo.phanBoTruoc.bangDiem %}
+                    {%- if bangDiemTruoc is not empty %}
+                    {%- set xepLoaiNamTruoc = bangDiemTruoc.gradeRetention is empty?bangDiemTruoc.category:'Ở LẠI' %}
+                    {%- else %}
+                    {%- set xepLoaiNamTruoc = '---' %}
+                    {%- endif %}
                     {% else %}
-                    {% set xepLoaiNamTruoc = '---' %}
-                    {% endif %}
-                    {% else %}
-                    {% set xepLoaiNamTruoc =  'Mới tham gia' %}
+                    {%- set xepLoaiNamTruoc =  'Mới tham gia' %}
                     {% endif %}
                     {% set thanhVien = phanBo.thanhVien %}
                     {% spaceless %}
-                    {% if _counter > 1 %}, {% endif %}
-                "{{ thanhVien.id }}"
-        :
-            "{{ xepLoaiNamTruoc }}"
-            {% endspaceless %}
-            {% endif %}
-            {% endfor %}
+                    {%- if _counter > 1 %}, {% endif %}
+                "{{ thanhVien.id }}":"{{ xepLoaiNamTruoc }}"
+            {%- endspaceless %}
+            {%- endif %}
+            {%- endfor %}
         }
 
             window.phanBo = {
@@ -123,11 +121,9 @@
 
                     {% set thanhVien = phanBo.thanhVien %}
                     {% spaceless %}
-                    {% if _counter > 1 %}, {% endif %}
-                "{{ thanhVien.id }}"
-        :
-            "{{ phanBo.id }}"
-            {% endspaceless %}
+                    {%- if _counter > 1 %}, {% endif %}
+                "{{- thanhVien.id -}}":"{{- phanBo.id -}}"
+            {%- endspaceless %}
             {% endif %}
             {% endfor %}
         }
