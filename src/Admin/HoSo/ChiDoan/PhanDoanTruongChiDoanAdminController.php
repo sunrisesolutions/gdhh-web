@@ -13,6 +13,7 @@ use App\Entity\HoSo\ThanhVien;
 use App\Entity\HoSo\TruongPhuTrachDoi;
 use App\Entity\User\User;
 
+use App\Service\User\UserService;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\Form\Exception\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -102,9 +103,15 @@ class PhanDoanTruongChiDoanAdminController extends BaseCRUDAdminController {
 			$routeParams['action'] = 'duyet-bang-diem';
 		}
 		if(empty($route)) {
-			$route                 = 'admin_app_hoso_chidoan_phandoantruong_chidoan_list';
-			$routeParams           = [];
-			$routeParams['action'] = 'duyet-bang-diem';
+			if($this->get(UserService::class)->getUser()->getThanhVien()->isBanQuanTri()) {
+				$route                 = 'admin_app_hoso_chidoan_banquantri_chidoan_list';
+				$routeParams           = [];
+				$routeParams['action'] = 'duyet-bang-diem';
+			} else {
+				$route                 = 'admin_app_hoso_chidoan_phandoantruong_chidoan_list';
+				$routeParams           = [];
+				$routeParams['action'] = 'duyet-bang-diem';
+			}
 		}
 		
 		return $this->redirect($this->generateUrl(
