@@ -146,16 +146,16 @@
         },
         {
             "name": "bean-project/gdhh-core",
-            "version": "0.1.21",
+            "version": "0.1.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bean-project/gdhh-core.git",
-                "reference": "149a6c32d4e1822848eefaf1c87acc7cf71b588b"
+                "reference": "ecbe011189402ac4186b368237a8653301c6f6f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bean-project/gdhh-core/zipball/149a6c32d4e1822848eefaf1c87acc7cf71b588b",
-                "reference": "149a6c32d4e1822848eefaf1c87acc7cf71b588b",
+                "url": "https://api.github.com/repos/bean-project/gdhh-core/zipball/ecbe011189402ac4186b368237a8653301c6f6f5",
+                "reference": "ecbe011189402ac4186b368237a8653301c6f6f5",
                 "shasum": ""
             },
             "require": {
@@ -190,10 +190,10 @@
                 "bundle"
             ],
             "support": {
-                "source": "https://github.com/bean-project/gdhh-core/tree/0.1.21",
+                "source": "https://github.com/bean-project/gdhh-core/tree/0.1.22",
                 "issues": "https://github.com/bean-project/gdhh-core/issues"
             },
-            "time": "2018-07-24T12:25:14+00:00"
+            "time": "2018-07-24T12:38:44+00:00"
         },
         {
             "name": "bean-project/location-bundle",
