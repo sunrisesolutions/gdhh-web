@@ -70,6 +70,9 @@ class GradeCalculationCommand extends ContainerAwareCommand {
 					];
 					$truocStr = implode(' - ', $truoc);
 					$sauStr   = implode(' - ', $sau);
+					if($pb->getThanhVien()->getId() === 362) {
+						$output->writeln([ '362', $truocStr ]);
+					}
 					if($truocStr !== $sauStr) {
 						$output->writeln([ 'Truoc ', $truocStr, 'Sau ', $sauStr ]);
 					}
