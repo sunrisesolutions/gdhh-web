@@ -29,9 +29,16 @@ doctrine:
                     App:
                         is_bundle: false
                         type: annotation
-                        dir: '%kernel.project_dir%/vendor/bean-project//gdhh-core/Entity'
+                        dir: '%kernel.project_dir%/src/Entity'
                         prefix: 'App\Entity'
                         alias: App
+
+#                    App:
+#                        is_bundle: false
+#                        type: annotation
+#                        dir: '%kernel.project_dir%/vendor/bean-project//gdhh-core/Entity'
+#                        prefix: 'App\Entity'
+#                        alias: App
 
                 entity_listeners:
                     entities:

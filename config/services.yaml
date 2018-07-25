@@ -23,8 +23,10 @@ services:
         public: true
 
     App\Service\:
-        resource: '../vendor/bean-project/gdhh-core/Service/*'
-        exclude: '../vendor/bean-project/gdhh-core/Service/{Data/SpreadsheetWriter.php,Media/Entity,Media/Provider}'
+#        resource: '../vendor/bean-project/gdhh-core/Service/*'
+#        exclude: '../vendor/bean-project/gdhh-core/Service/{Data/SpreadsheetWriter.php,Media/Entity,Media/Provider}'
+        resource: '../src/Service/*'
+        exclude: '../src/Service/{Data/SpreadsheetWriter.php,Media/Entity,Media/Provider}'
 #        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
         public: true
 
@@ -35,7 +37,8 @@ services:
         tags: ['controller.service_arguments']
 
     App\Doctrine\ORM\Listener\:
-        resource: '../vendor/bean-project/gdhh-core/Doctrine/ORM/Listener'
+#        resource: '../vendor/bean-project/gdhh-core/Doctrine/ORM/Listener'
+        resource: '../src/Doctrine/ORM/Listener'
         tags: ['doctrine.orm.entity_listener']
 
     App\Admin\:
@@ -46,7 +49,6 @@ services:
 #    App\Admin\User\UserAdmin:
 #        arguments:
 #            code: ~
-
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
