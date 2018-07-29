@@ -17,11 +17,15 @@ class BangDiem {
 	const GIOI = 'GIOI';
 	
 	public function getCategoryTrans() {
-		if($this->isGradeRetention()) {
+		if($this->isGradeRetention() && ! $this->isFreePassGranted()) {
 			return 'Ở LẠI';
 		}
 		if($this->category === self::YEU) {
-			return 'Ở LẠI';
+			if( ! $this->isFreePassGranted()) {
+				return 'Ở LẠI';
+			} else {
+				return 'YẾU';
+			}
 		}
 		if($this->category === self::TRUNG_BINH) {
 			return 'TRUNG BÌNH';
@@ -443,6 +447,12 @@ class BangDiem {
 	 * @ORM\Column(type="boolean", nullable=true)
 	 */
 	protected $gradeRetention;
+	
+	/**
+	 * @var  boolean|null
+	 * @ORM\Column(type="boolean", nullable=true)
+	 */
+	protected $freePassGranted;
 	
 	/**
 	 * @var  string
@@ -947,5 +957,18 @@ class BangDiem {
 		$this->tbGLYear = $tbGLYear;
 	}
 	
+	/**
+	 * @return bool|null
+	 */
+	public function isFreePassGranted(): ?bool {
+		return $this->freePassGranted;
+	}
+	
+	/**
+	 * @param bool|null $freePassGranted
+	 */
+	public function setFreePassGranted(?bool $freePassGranted): void {
+		$this->freePassGranted = $freePassGranted;
+	}
 	
 }

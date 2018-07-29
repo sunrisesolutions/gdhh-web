@@ -91,6 +91,9 @@ class ThieuNhiAdmin extends BaseAdmin {
 		
 		$collection->add('sanhHoatLai', '' . $this->getRouterIdParameter() . '/sanh-hoat-lai');
 		$collection->add('nghiSanhHoat', '' . $this->getRouterIdParameter() . '/nghi-sanh-hoat');
+		
+		$collection->add('xetLenLop', '' . $this->getRouterIdParameter() . '/xet-len-lop');
+		
 		parent::configureRoutes($collection);
 	}
 	
@@ -189,10 +192,16 @@ class ThieuNhiAdmin extends BaseAdmin {
 				if(empty($bangDiem->isGradeRetention())) {
 					return false;
 				}
+			} else {
+				return false;
 			}
 			
 			if(($permission = $thanhVien->isCDTorGreater($object)) !== null) {
-				return $permission;
+				if($permission) {
+					return $phanBoNamNay->isFreePassGrantable();
+				} else {
+					return false;
+				}
 			}
 			
 			$phanBo    = $thanhVien->getPhanBoNamNay();
@@ -203,7 +212,7 @@ class ThieuNhiAdmin extends BaseAdmin {
 				/** @var PhanBo $_phanBoTN */
 				foreach($doiNhomGiaoLy->getPhanBoThieuNhi() as $_phanBoTN) {
 					if($_phanBoTN === $object) {
-						return true;
+						return $phanBoNamNay->isFreePassGrantable();
 					}
 				}
 			}

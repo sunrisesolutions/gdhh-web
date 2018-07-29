@@ -27,6 +27,10 @@ class PhanBo {
 		$this->createdAt            = new \DateTime();
 	}
 	
+	public function isFreePassGrantable() {
+		return $this->bangDiem->isGradeRetention() && ! $this->bangDiem->isFreePassGranted() && $this->chiDoan->isDuocDuyetBangDiemHK2();
+	}
+	
 	/**
 	 * @return bool
 	 */

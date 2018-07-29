@@ -1,5 +1,6 @@
 {% if admin.isGranted('xet-len-lop',object) %}
     <br/>
-    <a onclick="return confirm('Có chắc là em này được xét lên lớp?')" class="btn btn-warning" href="#">Xét lên lớp</a>
+    <a onclick="return confirm('Có chắc là em này được xét lên lớp?')" class="btn btn-warning"
+       href="{{ admin.generateUrl('xetLenLop',{'id':object.id}) }}">Xét lên lớp</a>
 {% endif %}
 

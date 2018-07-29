@@ -613,7 +613,7 @@ class ThanhVien {
 		
 		$bangDiemCu  = $phanBoCu->getBangDiem();
 		$oldCDNumber = $phanBoCu->getChiDoan()->getNumber();
-		if($bangDiemCu->isGradeRetention()) {
+		if($bangDiemCu->isGradeRetention() && ! $bangDiemCu->isFreePassGranted()) {
 //			$phanBoCu->setChiDoan($namHoc->getChiDoanWithNumber($oldCDNumber));
 			$newCDNumber = $oldCDNumber;
 		} else {
