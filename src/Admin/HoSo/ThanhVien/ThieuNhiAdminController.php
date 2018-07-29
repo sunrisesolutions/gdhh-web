@@ -16,7 +16,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ThieuNhiAdminController extends BaseCRUDAdminController {
 	
-	
 	public function sanhHoatLaiAction($id = null, Request $request) {
 		/**
 		 * @var ThanhVien $thanhVien

@@ -12,6 +12,10 @@ services:
                             # fetching services directly from the container via $container->get() won't work.
                             # The best practice is to be explicit about your dependencies anyway.
 
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\Command\:
@@ -26,7 +30,7 @@ services:
 #        resource: '../vendor/bean-project/gdhh-core/Service/*'
 #        exclude: '../vendor/bean-project/gdhh-core/Service/{Data/SpreadsheetWriter.php,Media/Entity,Media/Provider}'
         resource: '../src/Service/*'
-        exclude: '../src/Service/{Data/SpreadsheetWriter.php,Media/Entity,Media/Provider}'
+        exclude: '../src/Service/{Data/SpreadsheetWriter.php}'
 #        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
         public: true
 
