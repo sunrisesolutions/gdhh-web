@@ -76,7 +76,7 @@ class ChiDoanTruongChiDoanAdmin extends BaseAdmin {
 		
 		// this text filter will be used to retrieve autocomplete fields
 		$datagridMapper
-			->add('id');
+			->add('id', null, [ 'label' => 'list.label_id' ]);
 	}
 	
 	/**

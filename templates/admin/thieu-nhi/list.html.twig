@@ -36,3 +36,23 @@
  {% block sonata_admin_content_actions_wrappers %}
      {{ parent() }}
  {% endblock sonata_admin_content_actions_wrappers %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .list-action {
+            margin: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block list_header %}
+    {% if  app.request.get('statusFilter') != 'GRADE_RETENTION' %}
+        <a href="{{ admin.generateUrl('list',{'statusFilter':'GRADE_RETENTION'}) }}"
+           class="list-action btn btn-warning">Chỉ hiển thị Danh sách ở lại</a>
+    {% else %}
+        <a href="{{ admin.generateUrl('list',{}) }}"
+           class="list-action btn btn-primary">Hiện toàn bộ</a>
+    {% endif %}
+{% endblock %}

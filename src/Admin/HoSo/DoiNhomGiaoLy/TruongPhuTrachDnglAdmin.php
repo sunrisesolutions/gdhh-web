@@ -37,7 +37,7 @@ class TruongPhuTrachDnglAdmin extends BaseAdmin {
 	protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
 		// this text filter will be used to retrieve autocomplete fields
 		$datagridMapper
-			->add('id');
+			->add('id', null, [ 'label' => 'list.label_id' ]);
 	}
 	
 	/**

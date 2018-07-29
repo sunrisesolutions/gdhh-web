@@ -105,6 +105,15 @@ class ThieuNhiAdmin extends BaseAdmin {
 		if( ! in_array($this->action, [ 'list-thieu-nhi-nhom', 'list-thieu-nhi-chi-doan' ])) {
 			$datagridMapper->add('chiDoan', null, array( 'label' => 'list.label_chi_doan', 'show_filter' => true ));
 		}
+		
+		$thanhVien = $this->getUserThanhVien();
+		if( ! empty($phanBo = $thanhVien->getPhanBoNamNay())) {
+			if( ! empty($cd = $phanBo->getChiDoan())) {
+				if($cd->isDuocDuyetBangDiemHK2()) {
+//					$datagridMapper->add('ph')
+				}
+			}
+		}
 //		$datagridMapper->add('namHoc', null, array( 'label' => 'list.label_nam_hoc', 'show_filter' => true ));
 		$datagridMapper
 			->add('ngheoKho', null, array(

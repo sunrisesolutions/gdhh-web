@@ -354,7 +354,7 @@ class UserAdmin extends BaseAdmin {
 	 */
 	protected function configureDatagridFilters(DatagridMapper $filterMapper) {
 		$filterMapper
-			->add('id')
+			->add('id', null, [ 'label' => 'list.label_id' ])
 			->add('username')
 //			->add('locked')
 			->add('email');
