@@ -48,11 +48,12 @@
 {% endblock %}
 
 {% block list_header %}
-    {% if  app.request.get('statusFilter') != 'GRADE_RETENTION' %}
-        <a href="{{ admin.generateUrl('list',{'statusFilter':'GRADE_RETENTION'}) }}"
-           class="list-action btn btn-warning">Chỉ hiển thị Danh sách ở lại</a>
-    {% else %}
-        <a href="{{ admin.generateUrl('list',{}) }}"
-           class="list-action btn btn-primary">Hiện toàn bộ</a>
-    {% endif %}
+    {% if admin.isGranted('xet-len-lop') %}
+        {% if  app.request.get('statusFilter') != 'GRADE_RETENTION' %}
+            <a href="{{ admin.generateUrl('list',{'statusFilter':'GRADE_RETENTION'}) }}"
+               class="list-action btn btn-warning">Chỉ hiển thị Danh sách ở lại</a>
+        {% else %}
+            <a href="{{ admin.generateUrl('list',{}) }}"
+               class="list-action btn btn-primary">Hiện toàn bộ</a>
+        {% endif %}{% endif %}
 {% endblock %}

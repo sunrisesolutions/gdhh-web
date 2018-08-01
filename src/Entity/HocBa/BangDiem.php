@@ -450,9 +450,9 @@ class BangDiem {
 	
 	/**
 	 * @var  boolean|null
-	 * @ORM\Column(type="boolean", nullable=true)
+	 * @ORM\Column(type="boolean", options={"default":false})
 	 */
-	protected $freePassGranted;
+	protected $freePassGranted = false;
 	
 	/**
 	 * @var  string

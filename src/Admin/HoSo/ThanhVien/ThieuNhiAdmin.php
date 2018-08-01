@@ -144,6 +144,7 @@ class ThieuNhiAdmin extends BaseAdmin {
 		$container = $this->getConfigurationPool()->getContainer();
 		
 		$tv = $thanhVien = $this->getUserThanhVien();
+		$cd = $tv->getPhanBoNamNay()->getChiDoan();
 		
 		if(empty($tv) || ! $tv->isEnabled()) {
 			return $this->isAdmin();
@@ -192,7 +193,11 @@ class ThieuNhiAdmin extends BaseAdmin {
 			}
 			
 			if(empty($object)) {
-				return false;
+				if(empty($cd)) {
+					return $tv->isBanQuanTri();
+				} else {
+					return $cd->hoanTatBangDiemHK2();
+				}
 			}
 			
 			if( ! empty($phanBoNamNay)) {
@@ -311,6 +316,9 @@ class ThieuNhiAdmin extends BaseAdmin {
 	}
 	
 	public function createQuery($context = 'list') {
+		$request      = $this->getRequest();
+		$statusFilter = $request->query->get('statusFilter');
+		
 		/** @var ProxyQuery $query */
 		$query = parent::createQuery($context);
 		/** @var QueryBuilder $qb */
@@ -322,6 +330,19 @@ class ThieuNhiAdmin extends BaseAdmin {
 		
 		$query->andWhere($expr->eq($rootAlias . '.thieuNhi', $expr->literal(true)));
 		
+		$qb->join($rootAlias . '.phanBoHangNam', 'phanBo');
+		
+		if($statusFilter === 'GRADE_RETENTION') {
+			$qb->join('phanBo.bangDiem', 'bangDiem');
+			
+			$qb->andWhere(
+				$expr->andX(
+					$expr->eq('bangDiem.gradeRetention', ':trueValue'),
+					$expr->neq('bangDiem.freePassGranted', ':trueValue')
+				))
+				->setParameter('trueValue',true)
+;		}
+		
 		if($this->action === 'list-thieu-nhi-nhom') {
 			/** @var array $dngl */
 			$cacDoiNhomGiaoLy = $this->actionParams['cacDoiNhomGiaoLy'];
@@ -331,7 +352,8 @@ class ThieuNhiAdmin extends BaseAdmin {
 				foreach($cacDoiNhomGiaoLy as $dngl) {
 					$dnglIds[] = $dngl->getId();
 				}
-				$qb->join($rootAlias . '.phanBoHangNam', 'phanBo');
+
+//				$qb->join($rootAlias . '.phanBoHangNam', 'phanBo');
 				$qb->join('phanBo.doiNhomGiaoLy', 'doiNhomGiaoLy');
 				
 				$query->andWhere($expr->in('doiNhomGiaoLy.id', $dnglIds));
@@ -344,7 +366,8 @@ class ThieuNhiAdmin extends BaseAdmin {
 ////			$query->andWhere($expr->eq($rootAlias . '.namHoc', $chiDoan->getNamHoc()->getId()));
 //		}else		
 		elseif(in_array($this->action, [ 'list-thieu-nhi-chi-doan', 'list-thieu-nhi-phan-doan' ])) {
-			$qb->join($rootAlias . '.phanBoHangNam', 'phanBo');
+//			$qb->join($rootAlias . '.phanBoHangNam', 'phanBo');
+			
 			$qb->join('phanBo.chiDoan', 'chiDoan');
 			if(array_key_exists('chiDoan', $this->actionParams)) {
 				$qb->andWhere($expr->eq('chiDoan.id', $expr->literal($this->actionParams['chiDoan']->getId())));
@@ -356,7 +379,7 @@ class ThieuNhiAdmin extends BaseAdmin {
 			}
 			
 		}
-		
+		$sql = $qb->getQuery()->getSQL();
 		
 		return $query;
 	}
