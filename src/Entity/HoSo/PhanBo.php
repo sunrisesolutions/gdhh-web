@@ -35,7 +35,6 @@ class PhanBo {
 		return (( ! $this->bangDiem->isGradeRetention() && ! $this->bangDiem->isGradeRetentionForced()) || $this->bangDiem->isFreePassGranted()) && $this->chiDoan->isDuocDuyetBangDiemHK2();
 	}
 	
-	
 	/**
 	 * @return bool
 	 */

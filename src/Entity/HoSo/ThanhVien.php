@@ -591,9 +591,6 @@ class ThanhVien {
 	 * @return PhanBo|bool
 	 */
 	public function chuyenNhom(NamHoc $namHoc) {
-		if(empty($this->isThieuNhi())) {
-			return false;
-		}
 		$namCu    = $namHoc->getId() - 1;
 		$namHocCu = null;
 		$phanBoCu = null;
@@ -606,37 +603,73 @@ class ThanhVien {
 			if($_namHoc->getId() === $namCu) {
 				$namHocCu = $_namHoc;
 				$phanBoCu = $phanBo;
-			} elseif($_namHoc->getId() === $namHoc) {
-				return false;
+			} elseif($_namHoc->getId() === $namHoc->getId()) {
+				return $phanBo;
 			}
 		}
 		
-		$bangDiemCu  = $phanBoCu->getBangDiem();
-		$oldCDNumber = $phanBoCu->getChiDoan()->getNumber();
-		if($bangDiemCu->isGradeRetention() && ! $bangDiemCu->isFreePassGranted()) {
-//			$phanBoCu->setChiDoan($namHoc->getChiDoanWithNumber($oldCDNumber));
-			$newCDNumber = $oldCDNumber;
+		if(empty($this->isThieuNhi())) {
+			if($this->isHuynhTruong()) {
+				$phanBoMoi = new PhanBo();
+				$phanBoMoi->setThanhVien($this);
+				$this->phanBoHangNam->add($phanBoMoi);
+				
+				if( ! empty($cd = $phanBoCu->getChiDoan())) {
+					$newCDNumber = $cd->getNumber();
+					$chiDoanMoi  = $namHoc->getChiDoanWithNumber($newCDNumber);
+					$phanBoMoi->setChiDoan($chiDoanMoi);
+					$chiDoanMoi->getPhanBoHangNam()->add($phanBoMoi);
+				}
+				
+				$phanBoMoi->setNamHoc($namHoc);
+				$namHoc->getPhanBoHangNam()->add($phanBoMoi);
+				$phanBoMoi->setHuynhTruong(true);
+				$phanBoMoi->setPhanBoTruoc($phanBoCu);
+				$phanBoCu->setPhanBoSau($phanBoMoi);
+				
+				$this->setChiDoan($newCDNumber);
+				$this->setPhanDoan($phanBoMoi->getPhanDoan());
+				$this->setNamHoc($namHoc->getId());
+			}
 		} else {
-			$newCDNumber = $oldCDNumber + 1;
+			$bangDiemCu  = $phanBoCu->getBangDiem();
+			$oldCDNumber = $phanBoCu->getChiDoan()->getNumber();
+			
+			if(in_array($chiDoan->getNumber(), [ 4, 5, 6 ])) {
+				$isGradeRetention = false;
+			} else {
+				if(empty($bangDiemCu)) {
+					$isGradeRetention = false;
+				} else {
+					$isGradeRetention = ($bangDiemCu->isGradeRetention() && ! $bangDiemCu->isFreePassGranted()) || $bangDiemCu->isGradeRetentionForced();
+				}
+			}
+			
+			if($isGradeRetention) {
+//			$phanBoCu->setChiDoan($namHoc->getChiDoanWithNumber($oldCDNumber));
+				$newCDNumber = $oldCDNumber;
+			} else {
+				$newCDNumber = $oldCDNumber + 1;
+			}
+			
+			$phanBoMoi = new PhanBo();
+			$phanBoMoi->setThanhVien($this);
+			$this->phanBoHangNam->add($phanBoMoi);
+			
+			$chiDoanMoi = $namHoc->getChiDoanWithNumber($newCDNumber);
+			$phanBoMoi->setChiDoan($chiDoanMoi);
+			$chiDoanMoi->getPhanBoHangNam()->add($phanBoMoi);
+			
+			$phanBoMoi->setNamHoc($namHoc);
+			$namHoc->getPhanBoHangNam()->add($phanBoMoi);
+			$phanBoMoi->setThieuNhi(true);
+			$phanBoMoi->setPhanBoTruoc($phanBoCu);
+			$phanBoCu->setPhanBoSau($phanBoMoi);
+			
+			$this->setChiDoan($newCDNumber);
+			$this->setPhanDoan($phanBoMoi->getPhanDoan());
+			$this->setNamHoc($namHoc->getId());
 		}
-		
-		$phanBoMoi = new PhanBo();
-		$phanBoMoi->setThanhVien($this);
-		$this->phanBoHangNam->add($phanBoMoi);
-		
-		$chiDoanMoi = $namHoc->getChiDoanWithNumber($newCDNumber);
-		$phanBoMoi->setChiDoan($chiDoanMoi);
-		$chiDoanMoi->getPhanBoHangNam()->add($phanBoMoi);
-		
-		$phanBoMoi->setNamHoc($namHoc);
-		$namHoc->getPhanBoHangNam()->add($phanBoMoi);
-		$phanBoMoi->setThieuNhi(true);
-		$phanBoMoi->setPhanBoTruoc($phanBoCu);
-		$phanBoCu->setPhanBoSau($phanBoMoi);
-		
-		$this->setChiDoan($newCDNumber);
-		$this->setPhanDoan($phanBoMoi->getPhanDoan());
-		$this->setNamHoc($namHoc->getId());
 		
 		return $phanBoMoi;
 	}

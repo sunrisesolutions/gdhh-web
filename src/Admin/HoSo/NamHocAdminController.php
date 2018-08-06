@@ -37,7 +37,6 @@ class NamHocAdminController extends BaseCRUDAdminController {
 			->setParameter('trueValue', true)
 			->getQuery();
 		
-		
 		$results = $query->getResult();
 		/** @var ThanhVien $tv */
 		foreach($results as $tv) {
