@@ -1,0 +1,6 @@
+{% if admin.isGranted('xet-o-lai',object) %}
+    <br/>
+    <a onclick="return confirm('Có chắc là em này bị Ở LẠI LỚP?')" class="btn btn-warning"
+       href="{{ admin.generateUrl('xetOLai',{'id':object.id}) }}">Xét ở lại</a>
+{% endif %}
+

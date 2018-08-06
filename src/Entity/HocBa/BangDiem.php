@@ -449,6 +449,12 @@ class BangDiem {
 	protected $gradeRetention;
 	
 	/**
+	 * @var  boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
+	protected $gradeRetentionForced = false;
+	
+	/**
 	 * @var  boolean|null
 	 * @ORM\Column(type="boolean", options={"default":false})
 	 */
@@ -971,4 +977,17 @@ class BangDiem {
 		$this->freePassGranted = $freePassGranted;
 	}
 	
+	/**
+	 * @return bool
+	 */
+	public function isGradeRetentionForced(): bool {
+		return $this->gradeRetentionForced;
+	}
+	
+	/**
+	 * @param bool $gradeRetentionForced
+	 */
+	public function setGradeRetentionForced(bool $gradeRetentionForced): void {
+		$this->gradeRetentionForced = $gradeRetentionForced;
+	}
 }

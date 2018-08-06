@@ -28,8 +28,13 @@ class PhanBo {
 	}
 	
 	public function isFreePassGrantable() {
-		return $this->bangDiem->isGradeRetention() && ! $this->bangDiem->isFreePassGranted() && $this->chiDoan->isDuocDuyetBangDiemHK2();
+		return (($this->bangDiem->isGradeRetention() && ! $this->bangDiem->isFreePassGranted()) || $this->bangDiem->isGradeRetentionForced()) && $this->chiDoan->isDuocDuyetBangDiemHK2();
 	}
+	
+	public function isGradeRetentionForcible() {
+		return (( ! $this->bangDiem->isGradeRetention() && ! $this->bangDiem->isGradeRetentionForced()) || $this->bangDiem->isFreePassGranted()) && $this->chiDoan->isDuocDuyetBangDiemHK2();
+	}
+	
 	
 	/**
 	 * @return bool

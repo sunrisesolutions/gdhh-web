@@ -93,6 +93,7 @@ class ThieuNhiAdmin extends BaseAdmin {
 		$collection->add('nghiSanhHoat', '' . $this->getRouterIdParameter() . '/nghi-sanh-hoat');
 		
 		$collection->add('xetLenLop', '' . $this->getRouterIdParameter() . '/xet-len-lop');
+		$collection->add('xetOLai', '' . $this->getRouterIdParameter() . '/xet-o-lai');
 		
 		parent::configureRoutes($collection);
 	}
@@ -187,7 +188,6 @@ class ThieuNhiAdmin extends BaseAdmin {
 		}
 		
 		if($name === 'xet-len-lop') {
-			
 			if(empty($thanhVien)) {
 				return $this->isAdmin();
 			}
@@ -203,33 +203,76 @@ class ThieuNhiAdmin extends BaseAdmin {
 			if( ! empty($phanBoNamNay)) {
 				$bangDiem = $phanBoNamNay->createBangDiem();
 				
-				if(empty($bangDiem->isGradeRetention())) {
-					return false;
+				if(($permission = $thanhVien->isCDTorGreater($object)) !== null) {
+					if($permission) {
+						return $phanBoNamNay->isFreePassGrantable();
+					} else {
+						return false;
+					}
 				}
+				
+				$phanBo    = $thanhVien->getPhanBoNamNay();
+				$cacTruong = $phanBo->getCacTruongPhuTrachDoi();
+				/** @var TruongPhuTrachDoi $truong */
+				foreach($cacTruong as $truong) {
+					$doiNhomGiaoLy = $truong->getDoiNhomGiaoLy();
+					/** @var PhanBo $_phanBoTN */
+					foreach($doiNhomGiaoLy->getPhanBoThieuNhi() as $_phanBoTN) {
+						if($_phanBoTN === $object) {
+							return $phanBoNamNay->isFreePassGrantable();
+						}
+					}
+				}
+				
 			} else {
 				return false;
 			}
 			
-			if(($permission = $thanhVien->isCDTorGreater($object)) !== null) {
-				if($permission) {
-					return $phanBoNamNay->isFreePassGrantable();
+			
+			return false;
+		}
+		
+		if($name === 'xet-o-lai') {
+			if(empty($thanhVien)) {
+				return $this->isAdmin();
+			}
+			
+			if(empty($object)) {
+				if(empty($cd)) {
+					return $tv->isBanQuanTri();
 				} else {
-					return false;
+					return $cd->hoanTatBangDiemHK2();
 				}
 			}
 			
-			$phanBo    = $thanhVien->getPhanBoNamNay();
-			$cacTruong = $phanBo->getCacTruongPhuTrachDoi();
-			/** @var TruongPhuTrachDoi $truong */
-			foreach($cacTruong as $truong) {
-				$doiNhomGiaoLy = $truong->getDoiNhomGiaoLy();
-				/** @var PhanBo $_phanBoTN */
-				foreach($doiNhomGiaoLy->getPhanBoThieuNhi() as $_phanBoTN) {
-					if($_phanBoTN === $object) {
-						return $phanBoNamNay->isFreePassGrantable();
+			if( ! empty($phanBoNamNay)) {
+				$bangDiem = $phanBoNamNay->createBangDiem();
+				
+				if(($permission = $thanhVien->isCDTorGreater($object)) !== null) {
+					if($permission) {
+						return $phanBoNamNay->isGradeRetentionForcible();
+					} else {
+						return false;
 					}
 				}
+				
+				$phanBo    = $thanhVien->getPhanBoNamNay();
+				$cacTruong = $phanBo->getCacTruongPhuTrachDoi();
+				/** @var TruongPhuTrachDoi $truong */
+				foreach($cacTruong as $truong) {
+					$doiNhomGiaoLy = $truong->getDoiNhomGiaoLy();
+					/** @var PhanBo $_phanBoTN */
+					foreach($doiNhomGiaoLy->getPhanBoThieuNhi() as $_phanBoTN) {
+						if($_phanBoTN === $object) {
+							return ! $phanBoNamNay->isFreePassGrantable();
+						}
+					}
+				}
+				
+			} else {
+				return false;
 			}
+			
 			
 			return false;
 		}
@@ -336,12 +379,18 @@ class ThieuNhiAdmin extends BaseAdmin {
 			$qb->join('phanBo.bangDiem', 'bangDiem');
 			
 			$qb->andWhere(
-				$expr->andX(
-					$expr->eq('bangDiem.gradeRetention', ':trueValue'),
-					$expr->neq('bangDiem.freePassGranted', ':trueValue')
-				))
-				->setParameter('trueValue',true)
-;		}
+				$expr->orX(
+					$expr->andX(
+						$expr->eq('bangDiem.gradeRetention', ':trueValue'),
+						$expr->neq('bangDiem.freePassGranted', ':trueValue')
+					),
+					$expr->andX(
+						$expr->eq('bangDiem.gradeRetentionForced', ':trueValue')
+					)
+				)
+			)
+			   ->setParameter('trueValue', true);
+		}
 		
 		if($this->action === 'list-thieu-nhi-nhom') {
 			/** @var array $dngl */
@@ -508,6 +557,7 @@ class ThieuNhiAdmin extends BaseAdmin {
 				           'edit'           => array(),
 //					'delete' => array(),
 				           'xet_len_lop'    => array( 'template' => 'admin/thieu-nhi/list__action__xet_len_lop.html.twig' ),
+				           'xet_o_lai'      => array( 'template' => 'admin/thieu-nhi/list__action__xet_o_lai.html.twig' ),
 				           'sanh_hoat_lai'  => array( 'template' => 'admin/thieu-nhi/list__action__sanh_hoat_lai.html.twig' ),
 				           'nghi_sanh_hoat' => array( 'template' => 'admin/thieu-nhi/list__action__nghi_sanh_hoat.html.twig' )
 

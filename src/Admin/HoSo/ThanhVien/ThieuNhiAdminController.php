@@ -45,12 +45,40 @@ class ThieuNhiAdminController extends BaseCRUDAdminController {
 		if($this->admin->isGranted('xet-len-lop', $thanhVien)) {
 			$bangDiem = $thanhVien->getPhanBoNamNay()->getBangDiem();
 			$bangDiem->setFreePassGranted(true);
+			$bangDiem->setGradeRetentionForced(false);
 			$m = $this->get('doctrine.orm.default_entity_manager');
 			$m->persist($bangDiem);
 			$m->flush($bangDiem);
 			$this->addFlash('sonata_flash_success', $thanhVien->getName() . ' đã được xét lên lớp .');
 		} else {
 			$this->addFlash('sonata_flash_error', 'Bạn không đủ quyền để xét lên lớp cho ' . $thanhVien->getName() . '');
+		};
+		
+		$response = $this->redirectToListView();
+		if($response instanceof RedirectResponse) {
+			return $response;
+		}
+	}
+	
+	public function xetOLaiAction($id = null, Request $request) {
+		/**
+		 * @var ThanhVien $thanhVien
+		 */
+		$thanhVien = $this->admin->getSubject();
+		if( ! $thanhVien) {
+			throw new NotFoundHttpException(sprintf('unable to find the Thieu-nhi with id : %s', $id));
+		}
+		
+		if($this->admin->isGranted('xet-o-lai', $thanhVien)) {
+			$bangDiem = $thanhVien->getPhanBoNamNay()->getBangDiem();
+			$bangDiem->setFreePassGranted(false);
+			$bangDiem->setGradeRetentionForced(true);
+			$m = $this->get('doctrine.orm.default_entity_manager');
+			$m->persist($bangDiem);
+			$m->flush($bangDiem);
+			$this->addFlash('sonata_flash_success', $thanhVien->getName() . ' đã bị ở lại lớp.');
+		} else {
+			$this->addFlash('sonata_flash_error', 'Bạn không đủ quyền để xét ở lại lớp cho ' . $thanhVien->getName() . '');
 		};
 		
 		$response = $this->redirectToListView();
