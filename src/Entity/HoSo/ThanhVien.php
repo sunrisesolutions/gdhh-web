@@ -599,7 +599,7 @@ class ThanhVien {
 		/** @var PhanBo $phanBo */
 		foreach($dsPhanBo as $phanBo) {
 			$chiDoan = $phanBo->getChiDoan();
-			$_namHoc = $chiDoan->getNamHoc();
+			$_namHoc = $phanBo->getNamHoc();
 			if($_namHoc->getId() === $namCu) {
 				$namHocCu = $_namHoc;
 				$phanBoCu = $phanBo;
@@ -608,29 +608,30 @@ class ThanhVien {
 			}
 		}
 		
-		if(empty($this->isThieuNhi())) {
-			if($this->isHuynhTruong()) {
-				$phanBoMoi = new PhanBo();
-				$phanBoMoi->setThanhVien($this);
-				$this->phanBoHangNam->add($phanBoMoi);
-				
-				if( ! empty($cd = $phanBoCu->getChiDoan())) {
-					$newCDNumber = $cd->getNumber();
-					$chiDoanMoi  = $namHoc->getChiDoanWithNumber($newCDNumber);
-					$phanBoMoi->setChiDoan($chiDoanMoi);
-					$chiDoanMoi->getPhanBoHangNam()->add($phanBoMoi);
-				}
-				
-				$phanBoMoi->setNamHoc($namHoc);
-				$namHoc->getPhanBoHangNam()->add($phanBoMoi);
-				$phanBoMoi->setHuynhTruong(true);
-				$phanBoMoi->setPhanBoTruoc($phanBoCu);
-				$phanBoCu->setPhanBoSau($phanBoMoi);
+		if($this->isHuynhTruong()) {
+			$phanBoMoi = new PhanBo();
+			$phanBoMoi->setThanhVien($this);
+			$this->phanBoHangNam->add($phanBoMoi);
+			
+			if( ! empty($cd = $phanBoCu->getChiDoan())) {
+				$newCDNumber = $cd->getNumber();
+				$chiDoanMoi  = $namHoc->getChiDoanWithNumber($newCDNumber);
+				$phanBoMoi->setChiDoan($chiDoanMoi);
+				$chiDoanMoi->getPhanBoHangNam()->add($phanBoMoi);
 				
 				$this->setChiDoan($newCDNumber);
-				$this->setPhanDoan($phanBoMoi->getPhanDoan());
-				$this->setNamHoc($namHoc->getId());
+				
 			}
+			
+			$phanBoMoi->setNamHoc($namHoc);
+			$namHoc->getPhanBoHangNam()->add($phanBoMoi);
+			$phanBoMoi->setHuynhTruong(true);
+			$phanBoMoi->setPhanBoTruoc($phanBoCu);
+			$phanBoCu->setPhanBoSau($phanBoMoi);
+			
+			$this->setPhanDoan($phanBoMoi->getPhanDoan());
+			$this->setNamHoc($namHoc->getId());
+			
 		} else {
 			$bangDiemCu  = $phanBoCu->getBangDiem();
 			$oldCDNumber = $phanBoCu->getChiDoan()->getNumber();
@@ -662,12 +663,25 @@ class ThanhVien {
 			
 			$phanBoMoi->setNamHoc($namHoc);
 			$namHoc->getPhanBoHangNam()->add($phanBoMoi);
-			$phanBoMoi->setThieuNhi(true);
+			if($newCDNumber === 19) {
+				$phanBoMoi->setThieuNhi(false);
+				$phanBoMoi->setDuTruong(true);
+				$this->setChiDoan(null);
+				$this->setPhanDoan(null);
+			} elseif($newCDNumber === 20) {
+				$phanBoMoi->setThieuNhi(false);
+				$phanBoMoi->setHuynhTruong(true);
+				$this->setChiDoan(null);
+				$this->setPhanDoan(null);
+				
+			} else {
+				$phanBoMoi->setThieuNhi(true);
+				$this->setChiDoan($newCDNumber);
+				$this->setPhanDoan($phanBoMoi->getPhanDoan());
+			}
 			$phanBoMoi->setPhanBoTruoc($phanBoCu);
 			$phanBoCu->setPhanBoSau($phanBoMoi);
 			
-			$this->setChiDoan($newCDNumber);
-			$this->setPhanDoan($phanBoMoi->getPhanDoan());
 			$this->setNamHoc($namHoc->getId());
 		}
 		

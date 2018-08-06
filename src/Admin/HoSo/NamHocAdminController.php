@@ -33,7 +33,7 @@ class NamHocAdminController extends BaseCRUDAdminController {
 		$expr  = $qb->expr();
 		$query = $qb
 			->where($expr->eq('o.enabled', ':trueValue'))
-			->andWhere($expr->eq('o.thieuNhi', ':trueValue'))
+//			->andWhere($expr->eq('o.thieuNhi', ':trueValue'))
 			->setParameter('trueValue', true)
 			->getQuery();
 		
