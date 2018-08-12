@@ -633,14 +633,18 @@ class ThanhVien {
 			$this->setNamHoc($namHoc->getId());
 			
 		} else {
-			$bangDiemCu  = $phanBoCu->getBangDiem();
-			$oldCDNumber = $phanBoCu->getChiDoan()->getNumber();
-			
+			$bangDiemCu = $phanBoCu->getBangDiem();
+			$cdCu       = $phanBoCu->getChiDoan();
+			if( ! empty($cdCu)) {
+				$oldCDNumber = $cdCu->getNumber();
+			} else {
+				$oldCDNumber = null;
+			}
 			if(in_array($chiDoan->getNumber(), [ 4, 5, 6 ])) {
 				$isGradeRetention = false;
 			} else {
 				if(empty($bangDiemCu)) {
-					$isGradeRetention = false;
+					$isGradeRetention = true;
 				} else {
 					$isGradeRetention = ($bangDiemCu->isGradeRetention() && ! $bangDiemCu->isFreePassGranted()) || $bangDiemCu->isGradeRetentionForced();
 				}

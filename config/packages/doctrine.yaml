@@ -74,6 +74,9 @@ doctrine:
                                     class: "App\\Doctrine\\ORM\\Listener\\HoSo\\PhanBoListener"
                                     event:
                                         -
+                                            type: postLoad
+                                            method: postLoadHandler
+                                        -
                                             type: postPersist
                                             method: postPersistHandler
                                         -

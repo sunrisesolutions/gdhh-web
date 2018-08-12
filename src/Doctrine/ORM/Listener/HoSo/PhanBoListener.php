@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Doctrine\ORM\Listener\HoSo;
 
 use App\Doctrine\ORM\Listener\DoctrineEntityListenerInterface;
@@ -41,8 +42,16 @@ class PhanBoListener implements DoctrineEntityListenerInterface {
 	
 	}
 	
-	public function postPersistHandler(PhanBo $employer, LifecycleEventArgs $event) {
+	public function postPersistHandler(PhanBo $object, LifecycleEventArgs $event) {
 	
+	}
 	
+	public function postLoadHandler(PhanBo $object, LifecycleEventArgs $event) {
+		if(empty($object->getBangDiem())) {
+			$bangDiem = $object->createBangDiem();
+			$manager  = $event->getEntityManager();
+			$manager->persist($bangDiem);
+			$manager->flush($bangDiem);
+		}
 	}
 }
