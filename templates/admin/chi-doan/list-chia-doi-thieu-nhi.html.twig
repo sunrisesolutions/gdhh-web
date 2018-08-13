@@ -134,40 +134,43 @@
             {% set cellMetaData = '' %}
             window.data =
                 [
+                    // @formatter:off
                     {% set _counter = 0 %}
                     {% for phanBo in phanBoHangNam %}
-                    {% set thanhVien = phanBo.thanhVien %}
-                    {% set doiNhomGiaoLy = phanBo.doiNhomGiaoLy %}
-                    {% set doi = doiNhomGiaoLy is empty?'':doiNhomGiaoLy.number %}
-                    {% if thanhVien.thieuNhi is not empty %}
-                    {% set phanBoTruoc = phanBo.phanBoTruoc %}
-                    {% if phanBoTruoc is not empty %}
-                    {% set bangDiemTruoc = phanBo.phanBoTruoc.bangDiem %}
-                    {% if bangDiemTruoc is not empty %}
-                    {% set diemNamTruoc = bangDiemTruoc.tbYear %}
-                    {% set oLai = bangDiemTruoc.freePassGrantable %}
-                    {% else %}
-                    {% set diemNamTruoc = '---' %}
-                    {% set oLai = '---' %}
-                    {% endif %}
-                    {% else %}
-                    {% set diemNamTruoc =  'Mới tham gia' %}
-                    {% set oLai = '' %}
-                    {% endif %}
-                    {% set _cname =  thanhVien.christianName %}
-                    {% if _cname|length > 7 %}
-                    {% set cellMetaData = cellMetaData ~  "{row: "~_counter~", col: 1, comment: {value: '"~_cname~"'}}," %}
-                    {% set _cname =  _cname[:6] ~ '...' %}
-                    {% endif %}
+                        {% set thanhVien = phanBo.thanhVien %}
+                        {% set doiNhomGiaoLy = phanBo.doiNhomGiaoLy %}
+                        {% set doi = doiNhomGiaoLy is empty?'':doiNhomGiaoLy.number %}
+                        {% if thanhVien.thieuNhi is not empty %}
+                            {% set phanBoTruoc = phanBo.phanBoTruoc %}
+                            {% if phanBoTruoc is not empty %}
+                                {% set bangDiemTruoc = phanBo.phanBoTruoc.bangDiem %}
+                                    {% if bangDiemTruoc is not empty %}
+                                        {% set diemNamTruoc = bangDiemTruoc.tbYear %}
+                                        {% set oLai = bangDiemTruoc.freePassGrantable is not empty?'Ở LẠI':'LÊN LỚP' %}
+                                    {% else %}
+                                        {% set diemNamTruoc = '---' %}
+                                        {% set oLai = '---' %}
+                                    {% endif %}
+                            {% else %}
+                                {% set diemNamTruoc =  'Mới tham gia' %}
+                                {% set oLai = '---' %}
+                            {% endif %}
+                            {% set _cname =  thanhVien.christianName %}
+                            {% if _cname|length > 7 %}
+                                {% set cellMetaData = cellMetaData ~  "{row: "~_counter~", col: 1, comment: {value: '"~_cname~"'}}," %}
+                                {% set _cname =  _cname[:6] ~ '...' %}
+                            {% endif %}
 
-                    {#"{{ phanBo.id }}",#}
-                    {% spaceless %}
-                    ["{{ thanhVien.id }}", '{{ _cname }}', '{{ thanhVien.lastName }}', '{{ thanhVien.middleName }}', '{{ thanhVien.firstName }}', '{{ diemNamTruoc }}', '{{ doi }}', '{{ thanhVien.sex }}', '{{ oLai }}'],
-                    {% endspaceless %}
+                            {#"{{ phanBo.id }}",#}
+                            {% spaceless %}
+                            ["{{ thanhVien.id }}", '{{ _cname }}', '{{ thanhVien.lastName }}', '{{ thanhVien.middleName }}', '{{ thanhVien.firstName }}', '{{ diemNamTruoc }}', '{{ doi }}', '{{ thanhVien.sex }}', '{{ oLai }}'],
+                            {% endspaceless %}
 
-                    {% set _counter = _counter + 1 %}
-                    {% endif %}
+                            {% set _counter = _counter + 1 %}
+                        {% endif %}
                     {% endfor %}
+                    // @formatter:on
+
                 ];
 
 
