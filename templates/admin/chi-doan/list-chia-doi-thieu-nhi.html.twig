@@ -146,7 +146,7 @@
                                 {% set bangDiemTruoc = phanBo.phanBoTruoc.bangDiem %}
                                     {% if bangDiemTruoc is not empty %}
                                         {% set diemNamTruoc = bangDiemTruoc.tbYear %}
-                                        {% set oLai = bangDiemTruoc.freePassGrantable is not empty?'Ở LẠI':'LÊN LỚP' %}
+                                        {% set oLai = phanBo.phanBoTruoc.freePassGrantable is not empty?'Ở LẠI':' ' %}
                                     {% else %}
                                         {% set diemNamTruoc = '---' %}
                                         {% set oLai = '---' %}
