@@ -45,11 +45,12 @@ class MigrateCommand extends ContainerAwareCommand {
 			if($tv->isThieuNhi()) {
 				if(empty($tv->isEnabled())) {
 					$phanBoNamNay = $tv->getPhanBoNamNay();
+					$output->writeln([ 'no need to fix for ' . $tv->getName() . ' nam hoc ' . $tv->getNamHoc() ]);
 					if($tv->getNamHoc() === 2018 || ! empty($phanBoNamNay)) {
+						$output->writeln([ 'fixing for ' . $tv->getName() . ' cd ' . $phanBoNamNay->getChiDoan()->getId() ]);
 						if($phanBoNamNay->getNamHoc()->getId() === 2018) {
 							// fix data
-							$output->writeln([ 'fixing for ' . $tv->getName() . ' cd ' . $phanBoNamNay->getChiDoan()->getId() ]);
-							$manager->remove($phanBoNamNay);
+//							$manager->remove($phanBoNamNay);
 						}
 					}
 				}
