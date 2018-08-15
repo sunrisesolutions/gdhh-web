@@ -591,21 +591,31 @@ class ThanhVien {
 	 * @return PhanBo|bool
 	 */
 	public function chuyenNhom(NamHoc $namHoc) {
-		$namCu    = $namHoc->getId() - 1;
-		$namHocCu = null;
-		$phanBoCu = null;
+		$namCu         = $namHoc->getId() - 1;
+		$namGanNhat    = 0;
+		$phanBoGanNhat = null;
+		$namHocCu      = null;
+		$phanBoCu      = null;
 		
 		$dsPhanBo = $this->phanBoHangNam;
 		/** @var PhanBo $phanBo */
 		foreach($dsPhanBo as $phanBo) {
 			$chiDoan = $phanBo->getChiDoan();
 			$_namHoc = $phanBo->getNamHoc();
+			if($_namHoc->getId() > $namGanNhat) {
+				$namGanNhat    = $_namHoc->getId();
+				$phanBoGanNhat = $phanBo;
+			}
 			if($_namHoc->getId() === $namCu) {
 				$namHocCu = $_namHoc;
 				$phanBoCu = $phanBo;
 			} elseif($_namHoc->getId() === $namHoc->getId()) {
 				return $phanBo;
 			}
+		}
+		
+		if(empty($this->enabled)) {
+			return $phanBoGanNhat;
 		}
 		
 		if($this->isHuynhTruong()) {
@@ -640,6 +650,7 @@ class ThanhVien {
 			} else {
 				$oldCDNumber = null;
 			}
+			
 			if(in_array($chiDoan->getNumber(), [ 4, 5, 6 ])) {
 				$isGradeRetention = false;
 			} else {
