@@ -4,6 +4,7 @@ namespace App\Admin\HoSo\DoiNhomGiaoLy;
 
 use App\Admin\BaseAdmin;
 use App\Entity\HoSo\DoiNhomGiaoLy;
+use App\Service\HoSo\NamHocService;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -103,6 +104,9 @@ class TruongPhuTrachDnglAdmin extends BaseAdmin {
 		$rootAlias = $qb->getRootAliases()[0];
 		if( ! empty($chiDoan = $this->getUserChiDoan())) {
 			$query->andWhere($expr->eq($rootAlias . '.chiDoan', $chiDoan));
+			$qb->join($rootAlias . '.chiDoan', 'chiDoan')
+			   ->join('chiDoan.namHoc', 'namHoc');
+			$query->andWhere($expr->eq('namHoc.id', $this->getConfigurationPool()->getContainer()->get(NamHocService::class)->getNamHocHienTai()->getId()));
 		}
 		
 		return $query;

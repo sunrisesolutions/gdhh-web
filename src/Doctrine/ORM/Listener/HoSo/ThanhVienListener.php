@@ -34,8 +34,10 @@ class ThanhVienListener implements DoctrineEntityListenerInterface {
 		} else {
 			$christianName = $object->getChristianname();
 			if( ! empty($christianName)) {
-				$cNames        = array_flip(ThanhVien::$christianNames);
-				$christianName = $cNames[ $christianName ];
+				$cNames = array_flip(ThanhVien::$christianNames);
+				if(array_key_exists($christianName, $cNames)) {
+					$christianName = $cNames[ $christianName ];
+				}
 				$object->setSex(ThanhVien::$christianNameSex[ $christianName ]);
 			}
 		}
@@ -85,18 +87,18 @@ class ThanhVienListener implements DoctrineEntityListenerInterface {
 	}
 	
 	public function postUpdateHandler(ThanhVien $object, LifecycleEventArgs $event) {
-		
+	
 	}
 	
 	public function preRemoveHandler(ThanhVien $object, LifecycleEventArgs $event) {
-		
+	
 	}
 	
 	public function postRemoveHandler(ThanhVien $object, LifecycleEventArgs $event) {
-		
+	
 	}
 	
 	public function postPersistHandler(ThanhVien $employer, LifecycleEventArgs $event) {
-		
+	
 	}
 }
