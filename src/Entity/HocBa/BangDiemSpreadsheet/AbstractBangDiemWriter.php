@@ -455,10 +455,11 @@ abstract class AbstractBangDiemWriter {
 				$sWriter->writeCellAndGoRight($bangDiem->isAwarded() ? 'Có' : 'Không');
 				
 				$sWriter->alignCurrentCellCenter();
-				$sWriter->writeCellAndGoRight($bangDiem->getPhanBo()->getPhanDoan());
+				$sWriter->writeCell($bangDiem->getPhanBo()->getPhanDoan());
 				
 			}
 			
+			$sWriter->goRight();
 			$sWriter->alignCurrentCellCenter();
 			$sWriter->writeCellAndGoRight($bangDiem->getPhanBo()->getChiDoan()->getName());
 			
