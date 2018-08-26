@@ -472,7 +472,6 @@ abstract class AbstractBangDiemWriter {
 			}
 		}
 		
-		
 		$sWriter->getCellsStyle('A5', $sWriter->getLastColumn() . $sWriter->getLastRow())->applyFromArray(
 			array(
 				'borders' => array(

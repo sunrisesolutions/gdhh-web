@@ -14,6 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class NamHoc {
 	
+	
+	function __construct() {
+		$this->chiDoan          = new ArrayCollection();
+	}
+	
 	/** @var NamHoc */
 	private static $namHienTai;
 	
@@ -58,9 +63,6 @@ class NamHoc {
 		return $this->id;
 	}
 	
-	function __construct() {
-		$this->chiDoan = new ArrayCollection();
-	}
 	
 	public function getChiDoanWithNumber($number) {
 		if(is_int($number)) {
@@ -90,7 +92,6 @@ class NamHoc {
 	 * @ORM\OneToMany(targetEntity="App\Entity\HoSo\ChiDoan", mappedBy="namHoc", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $chiDoan;
-	
 	
 	/**
 	 * @var ArrayCollection

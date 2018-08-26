@@ -2,7 +2,6 @@
 namespace App\Entity\HocBa;
 
 use App\Entity\HoSo\PhanBo;
-use App\Entity\NLP\Sense;
 use App\Entity\User\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 class HienDien {
 	
 	const TYPE_GIAO_LY = 'GIAO_LY';
+	const TYPE_LE_CN = 'LE_CN';
+	const TYPE_DIEM_DANH_NONG = 'DIEM_DANH_NONG';
 	
 	/**
 	 * ID_REF
@@ -65,7 +66,7 @@ class HienDien {
 	 * @var float
 	 * @ORM\Column(type="float", nullable=true)
 	 */
-	protected $score;
+	protected $point;
 	
 	/**
 	 * @var string
@@ -151,20 +152,6 @@ class HienDien {
 	}
 	
 	/**
-	 * @return float
-	 */
-	public function getScore() {
-		return $this->score;
-	}
-	
-	/**
-	 * @param float $score
-	 */
-	public function setScore($score) {
-		$this->score = $score;
-	}
-	
-	/**
 	 * @return string
 	 */
 	public function getGhiNhan(): string {
@@ -178,4 +165,17 @@ class HienDien {
 		$this->ghiNhan = $ghiNhan;
 	}
 	
+	/**
+	 * @return float
+	 */
+	public function getPoint(): float {
+		return $this->point;
+	}
+	
+	/**
+	 * @param float $point
+	 */
+	public function setPoint(float $point): void {
+		$this->point = $point;
+	}
 }
