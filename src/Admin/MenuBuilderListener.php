@@ -133,9 +133,7 @@ class MenuBuilderListener {
 					'routeParameters' => [ 'phanDoan' => strtolower($phanBo->getPhanDoan()) ],
 					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
 				))->setLabel($translator->trans('dashboard.truong_phandoan', [], 'BinhLeAdmin'));
-			}
-			
-			if($phanBo->getCacTruongPhuTrachDoi()->count() > 0) {
+				
 				$this->diemGiaoLy->addChild('diem danh thu 5', array(
 					'route'           => 'admin_app_hoso_phanbo_truongphutrachdoi_diemDanhThu5',
 					'routeParameters' => [ 'id' => $phanBo->getId() ],
@@ -148,6 +146,9 @@ class MenuBuilderListener {
 					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
 				))->setLabel($translator->trans('dashboard.thieunhi_diemdanh_cn', [], 'BinhLeAdmin'));
 				
+			}
+			
+			if($phanBo->getCacTruongPhuTrachDoi()->count() > 0) {
 				$this->diemGiaoLy->addChild('nhap bang diem cho nhom minh', array(
 					'route'           => 'admin_app_hoso_phanbo_truongphutrachdoi_nhapDiemThieuNhi',
 					'routeParameters' => [ 'id' => $phanBo->getId() ],

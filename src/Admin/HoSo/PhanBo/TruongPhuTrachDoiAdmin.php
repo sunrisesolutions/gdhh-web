@@ -200,14 +200,16 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 			$qb->andWhere($expr->eq($rootAlias . '.thieuNhi', $expr->literal(true)));
 		}
 		if($this->action === 'diem-danh-cn') {
-			$dnglPhuTrach = $phanBoTruong->getCacDoiNhomGiaoLyPhuTrach();
-			$dnglIds = [];
-			/** @var DoiNhomGiaoLy $dngl_phu_trach */
-			foreach($dnglPhuTrach as $dngl_phu_trach){
-				$dnglIds[]=$dngl_phu_trach->getId();
+			if($phanBoTruong->getPhanDoan() !== ThanhVien::PHAN_DOAN_NGHIA) {
+				$dnglPhuTrach = $phanBoTruong->getCacDoiNhomGiaoLyPhuTrach();
+				$dnglIds      = [];
+				/** @var DoiNhomGiaoLy $dngl_phu_trach */
+				foreach($dnglPhuTrach as $dngl_phu_trach) {
+					$dnglIds[] = $dngl_phu_trach->getId();
+				}
+				$qb->join($rootAlias . '.doiNhomGiaoLy', 'dngl');
+				$qb->andWhere($expr->in('dngl.id', $dnglIds));
 			}
-			$qb->join($rootAlias . '.doiNhomGiaoLy', 'dngl');
-			$qb->andWhere($expr->in('dngl.id', $dnglIds));
 		}
 		$sql = $qb->getQuery()->getSQL();
 		
