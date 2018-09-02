@@ -195,12 +195,17 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 		/** @var PhanBo $phanBoTruong */
 		$phanBoTruong = $this->getSubject();
 		
+		if( ! empty($chiDoan = $phanBoTruong->getChiDoan())) {
+			$qb->andWhere($expr->like('chiDoan.id', $expr->literal($chiDoan->getId())));
+		}
+		$phanDoan = $phanBoTruong->getPhanDoan();
+		$qb->andWhere($expr->like($rootAlias . '.phanDoan', $expr->literal($phanDoan)));
+		
 		if($this->action === 'diem-danh-t5') {
-			$qb->andWhere($expr->like('chiDoan.id', $expr->literal($phanBoTruong->getChiDoan()->getId())));
 			$qb->andWhere($expr->eq($rootAlias . '.thieuNhi', $expr->literal(true)));
 		}
+		
 		if($this->action === 'diem-danh-cn') {
-			$phanDoan = $phanBoTruong->getPhanDoan();
 			if($phanDoan !== ThanhVien::PHAN_DOAN_NGHIA && $phanDoan !== ThanhVien::PHAN_DOAN_TONG_DO) {
 				$dnglPhuTrach = $phanBoTruong->getCacDoiNhomGiaoLyPhuTrach();
 				$dnglIds      = [];
