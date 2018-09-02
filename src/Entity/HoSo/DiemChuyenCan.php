@@ -11,8 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
 class DiemChuyenCan {
 	
 	/**
+	 * @var int
 	 * @ORM\Id
-	 * @ORM\Column(type="string", length=24)
+	 * @ORM\Column(type="integer",options={"unsigned":true})
+	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
 	

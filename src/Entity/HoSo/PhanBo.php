@@ -3,7 +3,9 @@
 namespace App\Entity\HoSo;
 
 use App\Entity\HocBa\BangDiem;
+use App\Entity\HocBa\HienDien;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Exception\InvalidArgumentException;
 
@@ -25,6 +27,37 @@ class PhanBo {
 	function __construct() {
 		$this->cacTruongPhuTrachDoi = new ArrayCollection();
 		$this->createdAt            = new \DateTime();
+	}
+	
+	protected $diemDanhCache = [];
+	
+	public function initiateDiemDanhCache() {
+		/** @var HienDien $dd */
+		foreach($this->diemDanh as $dd) {
+			$ddcKey                         = $dd->format('Y-m-d') . ':' . $dd->getType();
+			$this->diemDanhCache[ $ddcKey ] = $dd;
+		}
+	}
+	
+	public function getHienDienByDiemChuyenCan(DiemChuyenCan $dcc, $type) {
+		$ddcKey = $dcc->format('Y-m-d') . ':' . $type;
+		if(array_key_exists($ddcKey, $this->diemDanhCache)) {
+			return $this->diemDanhCache[ $ddcKey ];
+		}
+		
+		$c    = Criteria::create();
+		$expr = Criteria::expr();
+		$c->andWhere($expr->eq('targetDate', $dcc->getTargetDate()->format('Y-m-d')))
+		  ->andWhere($expr->eq('type', $type));
+		
+		$diemDanh = $this->diemDanh->matching($c);
+		if($diemDanh->count() === 0) {
+			return null;
+		}
+		
+		$this->diemDanhCache[ $ddcKey ] = $diemDanh->first();
+		
+		return $this->diemDanhCache[ $ddcKey ];
 	}
 	
 	public function isFreePassGrantable() {

@@ -44,9 +44,9 @@ class InitiateDiligencePointCommand extends ContainerAwareCommand {
 		
 		$schoolYear     = (int) $schoolYear;
 		$schoolYearDate = new \DateTime();
-		$schoolYearDate->setDate($schoolYear, 9, 1);
+		$schoolYearDate->setDate($schoolYear, 9, 6);
 		$nextYearDate = new \DateTime();
-		$nextYearDate->setDate($schoolYear + 1, 7, 1);
+		$nextYearDate->setDate($schoolYear + 1, 6, 1);
 		
 		$qb = $this->getContainer()->get('doctrine.orm.default_entity_manager')->createQueryBuilder();
 		$qb->select('dcc')->from(DiemChuyenCan::class, 'dcc');
@@ -60,11 +60,46 @@ class InitiateDiligencePointCommand extends ContainerAwareCommand {
 //   ->setParameter('sunday', $sunday->format('Y-m-d'));
 		
 		$result = $qb->getQuery()->getResult();
-		$output->writeln('schoolYear is '.$schoolYearDate->format('Y-m-d'));
+		$output->writeln('schoolYear is ' . $schoolYearDate->format('Y-m-d'));
 		/** @var DiemChuyenCan $dcc */
-		foreach($result as $dcc) {
-			$x = $dcc;
-			$output->writeln(['dcc', $dcc->getTargetDate()->format('Y-m-d')]);
+//		foreach($result as $dcc) {
+//			$x = $dcc;
+//			$output->writeln([ 'dcc', $dcc->getTargetDate()->format('Y-m-d') ]);
+//			if($dow = strtoupper($dcc->getTargetDate()->format('l')) == 'THURSDAY') {
+//				$output->writeln('this is a thursday');
+//			};
+//		}
+		
+		while($schoolYearDate <= $nextYearDate) {
+			$dowT = clone $schoolYearDate;
+			$qb   = $this->getContainer()->get('doctrine.orm.default_entity_manager')->createQueryBuilder();
+			$qb->select('dcc')->from(DiemChuyenCan::class, 'dcc');
+			$expr = $qb->expr();
+			$qb->where($expr->eq('dcc.targetDate', ':date'))
+			   ->setParameter('date', $dowT->format('Y-m-d'));
+			
+			/** @var DiemChuyenCan $dowDiemCC */
+			$dowDiemCC = $qb->getQuery()->getOneOrNullResult();
+			$dowDiemCC = $this->initiateDCC($dowT, $dowDiemCC);
+			$manager->persist($dowDiemCC);
+			
+			$dowS = clone $schoolYearDate;
+			$dowS->modify('+3 days');
+			if($dowS > $nextYearDate) {
+				break;
+			}
+			$qb = $this->getContainer()->get('doctrine.orm.default_entity_manager')->createQueryBuilder();
+			$qb->select('dcc')->from(DiemChuyenCan::class, 'dcc');
+			$expr = $qb->expr();
+			$qb->where($expr->eq('dcc.targetDate', ':date'))
+			   ->setParameter('date', $dowS->format('Y-m-d'));
+			
+			/** @var DiemChuyenCan $dowDiemCC */
+			$dowDiemCC = $qb->getQuery()->getOneOrNullResult();
+			$dowDiemCC = $this->initiateDCC($dowS, $dowDiemCC);
+			$manager->persist($dowDiemCC);
+			
+			$schoolYearDate->modify('+7 days');
 		}
 		
 		$diemCC = new DiemChuyenCan();
@@ -72,5 +107,21 @@ class InitiateDiligencePointCommand extends ContainerAwareCommand {
 		$output->writeln("Flushing");
 		$manager->flush();
 		$output->writeln("Successfully recalculated all student grades for " . $schoolYear);
+	}
+	
+	private function initiateDCC(\DateTime $dow, DiemChuyenCan $dowDiemCC = null) {
+		if(empty($dowDiemCC)) {
+			$dowDiemCC = new DiemChuyenCan();
+			$dowDiemCC->setTargetDate($dow);
+		}
+		$point = null;
+		if(strtoupper($dowDiemCC->getTargetDate()->format('l')) == 'THURSDAY') {
+			$point = 1;
+		} elseif(strtoupper($dowDiemCC->getTargetDate()->format('l')) == 'SUNDAY') {
+			$point = 2;
+		}
+		$dowDiemCC->setPointValue($point);
+		
+		return $dowDiemCC;
 	}
 }
