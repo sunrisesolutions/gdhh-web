@@ -200,7 +200,8 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 			$qb->andWhere($expr->eq($rootAlias . '.thieuNhi', $expr->literal(true)));
 		}
 		if($this->action === 'diem-danh-cn') {
-			if($phanBoTruong->getPhanDoan() !== ThanhVien::PHAN_DOAN_NGHIA) {
+			$phanDoan = $phanBoTruong->getPhanDoan();
+			if($phanDoan !== ThanhVien::PHAN_DOAN_NGHIA && $phanDoan !== ThanhVien::PHAN_DOAN_TONG_DO) {
 				$dnglPhuTrach = $phanBoTruong->getCacDoiNhomGiaoLyPhuTrach();
 				$dnglIds      = [];
 				/** @var DoiNhomGiaoLy $dngl_phu_trach */
