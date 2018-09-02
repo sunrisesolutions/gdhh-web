@@ -142,6 +142,12 @@ class MenuBuilderListener {
 					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
 				))->setLabel($translator->trans('dashboard.thieunhi_diemdanh_t5', [], 'BinhLeAdmin'));
 				
+				$this->diemGiaoLy->addChild('diem danh Chua Nhat', array(
+					'route'           => 'admin_app_hoso_phanbo_truongphutrachdoi_diemDanhChuaNhat',
+					'routeParameters' => [ 'id' => $phanBo->getId() ],
+					'labelAttributes' => array( 'icon' => 'fa fa-bar-chart' ),
+				))->setLabel($translator->trans('dashboard.thieunhi_diemdanh_cn', [], 'BinhLeAdmin'));
+				
 				$this->diemGiaoLy->addChild('nhap bang diem cho nhom minh', array(
 					'route'           => 'admin_app_hoso_phanbo_truongphutrachdoi_nhapDiemThieuNhi',
 					'routeParameters' => [ 'id' => $phanBo->getId() ],

@@ -18,8 +18,17 @@ file that was distributed with this source code.
         {{ object|render_list_element(field_description) }}
     {% endif %}
 {% endfor %}
-{% for dcc in admin.getTargetDates('T5') %}
+{% for dcc in admin.getTargetDates('CN') %}
     {% set x = object.initiateDiemDanhCache() %}
+    <td class="ace-container sonata-ba-list-field sonata-ba-list-field-actions" objectid="{{ object.id }}"
+        data-enable-url="{{ path('admin_app_hoso_thanhvien_thieunhi_diemDanh',{ id: object.thanhVien.id, truongId: app.user.thanhVien.id, dtStr: dcc.targetDate.format('Y-m-d H:i:s'),type: 'LE_CN',action: 'present'}) }}"
+        data-remove-url="{{ path('admin_app_hoso_thanhvien_thieunhi_diemDanh',{ id: object.thanhVien.id, truongId: app.user.thanhVien.id, dtStr: dcc.targetDate.format('Y-m-d H:i:s'),type: 'LE_CN',action: 'absent'}) }}"
+        data-status-url="{{ path('admin_app_hoso_thanhvien_thieunhi_diemDanh',{ id: object.thanhVien.id, truongId: app.user.thanhVien.id, dtStr: dcc.targetDate.format('Y-m-d H:i:s'),type: 'LE_CN',action: 'status'}) }}"
+    >
+        <input class="ace" type="checkbox"
+               autocomplete="off" {{ object.getHienDienByDiemChuyenCan(dcc,'LE_CN') is not empty?'checked="checked"' : '' }} />
+    </td>
+
     <td class="ace-container sonata-ba-list-field sonata-ba-list-field-actions" objectid="{{ object.id }}"
         data-enable-url="{{ path('admin_app_hoso_thanhvien_thieunhi_diemDanh',{ id: object.thanhVien.id, truongId: app.user.thanhVien.id, dtStr: dcc.targetDate.format('Y-m-d H:i:s'),type: 'GIAO_LY',action: 'present'}) }}"
         data-remove-url="{{ path('admin_app_hoso_thanhvien_thieunhi_diemDanh',{ id: object.thanhVien.id, truongId: app.user.thanhVien.id, dtStr: dcc.targetDate.format('Y-m-d H:i:s'),type: 'GIAO_LY',action: 'absent'}) }}"

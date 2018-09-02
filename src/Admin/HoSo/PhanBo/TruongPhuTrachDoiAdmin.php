@@ -3,7 +3,9 @@
 namespace App\Admin\HoSo\PhanBo;
 
 use App\Admin\BaseAdmin;
+use App\Entity\HocBa\HienDien;
 use App\Entity\HoSo\DiemChuyenCan;
+use App\Entity\HoSo\DoiNhomGiaoLy;
 use App\Entity\HoSo\NamHoc;
 use App\Entity\HoSo\PhanBo;
 use App\Entity\HoSo\ThanhVien;
@@ -53,7 +55,7 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 	/** @var  NamHoc $namHoc */
 	public $namHoc;
 	
-	public function getTargetDates() {
+	public function getTargetDates($type = 'ALL') {
 		/** @var PhanBo $phanBoTruong */
 		$phanBoTruong = $this->getSubject();
 		
@@ -80,8 +82,29 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 //   ->setParameter('sunday', $sunday->format('Y-m-d'));
 		
 		$result = $qb->getQuery()->getResult();
-		
-		return $result;
+		if($type === 'ALL') {
+			return $result;
+		} elseif($type === 'T5') {
+			$dccs = [];
+			/** @var DiemChuyenCan $dcc */
+			foreach($result as $dcc) {
+				if(strtoupper($dcc->getTargetDate()->format('l')) == 'THURSDAY') {
+					$dccs[] = $dcc;
+				}
+			}
+			
+			return $dccs;
+		} elseif($type === 'CN') {
+			$dccs = [];
+			/** @var DiemChuyenCan $dcc */
+			foreach($result as $dcc) {
+				if(strtoupper($dcc->getTargetDate()->format('l')) == 'SUNDAY') {
+					$dccs[] = $dcc;
+				}
+			}
+			
+			return $dccs;
+		}
 		
 		/** @var DiemChuyenCan $dcc */
 //		foreach($result as $dcc) {
@@ -112,7 +135,7 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 		$collection->add('thieuNhiNhomDownloadBangDiem', $this->getRouterIdParameter() . '/bang-diem/hoc-ky-{hocKy}/download');
 		$collection->add('nopBangDiem', $this->getRouterIdParameter() . '/nop-bang-diem/{hocKy}');
 		$collection->add('diemDanhThu5', $this->getRouterIdParameter() . '/diem-danh-thu-5');
-		$collection->add('hienDienThu5', $this->getRouterIdParameter() . '/diem-danh-thu-5');
+		$collection->add('diemDanhChuaNhat', $this->getRouterIdParameter() . '/diem-danh-chua-nhat');
 	}
 	
 	protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
@@ -124,6 +147,10 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 			])
 			->add('thanhVien.name', null, [
 				'label'       => 'list.label_name',
+				'show_filter' => true
+			])
+			->add('doiNhomGiaoLy.number', null, [
+				'label'       => 'list.label__nhom_giao_ly',
 				'show_filter' => true
 			]);
 	}
@@ -164,12 +191,23 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 		$expr      = $qb->expr();
 		$rootAlias = $qb->getRootAliases()[0];
 		$qb->join($rootAlias . '.chiDoan', 'chiDoan');
+		
 		/** @var PhanBo $phanBoTruong */
 		$phanBoTruong = $this->getSubject();
 		
 		if($this->action === 'diem-danh-t5') {
 			$qb->andWhere($expr->like('chiDoan.id', $expr->literal($phanBoTruong->getChiDoan()->getId())));
 			$qb->andWhere($expr->eq($rootAlias . '.thieuNhi', $expr->literal(true)));
+		}
+		if($this->action === 'diem-danh-cn') {
+			$dnglPhuTrach = $phanBoTruong->getCacDoiNhomGiaoLyPhuTrach();
+			$dnglIds = [];
+			/** @var DoiNhomGiaoLy $dngl_phu_trach */
+			foreach($dnglPhuTrach as $dngl_phu_trach){
+				$dnglIds[]=$dngl_phu_trach->getId();
+			}
+			$qb->join($rootAlias . '.doiNhomGiaoLy', 'dngl');
+			$qb->andWhere($expr->in('dngl.id', $dnglIds));
 		}
 		$sql = $qb->getQuery()->getSQL();
 		
@@ -189,6 +227,13 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 	protected function configureListFields(ListMapper $listMapper) {
 		$listMapper
 			->addIdentifier('thanhVien.id', null, array( 'label' => 'list.label_id' ))
+			->add('doiNhomGiaoLy.tenCacTruongPhuTrach', null, array(
+				'label'                            => 'list.label__nhom_giao_ly',
+				'_sort_order'                      => 'ASC',
+				'sort_parent_association_mappings' => [ [ 'fieldName' => 'doiNhomGiaoLy' ] ],
+				'sort_field_mapping'               => [ 'fieldName' => 'id' ],
+				'sortable'                         => true,
+			))
 			->add('thanhVien.lastName', null, array(
 				'label'                            => 'list.label_lastname',
 				'_sort_order'                      => 'ASC',

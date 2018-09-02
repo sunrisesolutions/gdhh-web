@@ -28,7 +28,7 @@
                                       <th rowspan="2"
                                           class="sonata-ba-list-field-header-{{ field_description.type }} {% if sortable %} sonata-ba-list-field-header-order-{{ sort_by|lower }} {{ sort_active_class }}{% endif %}{% if field_description.options.header_class is defined %} {{ field_description.options.header_class }}{% endif %}"{% if field_description.options.header_style is defined %} style="{{ field_description.options.header_style }}"{% endif %}>
                                           {% if sortable %}<a
-                                                  href="{{ admin.generateUrl('diemDanhThu5', sort_parameters|merge({'id':admin.subject.id})) }}">{% endif %}
+                                                  href="{{ admin.generateUrl('diemDanhChuaNhat', sort_parameters|merge({'id':admin.subject.id})) }}">{% endif %}
                                               {% if field_description.getOption('label_icon') %}
                                                   <i class="sonata-ba-list-field-header-label-icon {{ field_description.getOption('label_icon') }}"
                                                      aria-hidden="true"></i>
@@ -39,9 +39,9 @@
                                   {% endspaceless %}
                               {% endif %}
                           {% endfor %}
-                          {% for dcc in admin.getTargetDates('T5') %}
+                          {% for dcc in admin.getTargetDates('CN') %}
 
-                              <th colspan="1"
+                              <th colspan="2"
                                   class="sonata-ba-list-field-header sonata-ba-list-field-header-batch">
 
                                   {{ dcc.targetDate|date('d-m') }}
@@ -52,6 +52,12 @@
                           {% endfor %}
                       </tr>
                       <tr class="sonata-ba-list-field-header">
+                          <th>
+                              LỄ
+                          </th>
+                          <th>
+                              SH
+                          </th>
                           {#{% for module in admin.systemModules %}#}
                               {#{% for supportedAction in module.supportedModuleActions %}#}
                                   {#<th class="sonata-ba-list-field-header sonata-ba-list-field-header-batch">#}
@@ -175,7 +181,7 @@
         <div class="col-xs-12 col-md-12 sonata-filters-box" style="display: {{ admin.datagrid.hasDisplayableFilters ? 'block' : 'none' }}" id="filter-container-{{ admin.uniqid() }}">
             <div class="box box-primary" >
                 <div class="box-body">
-                    <form class="sonata-filter-form form-horizontal {{ admin.isChild and 1 == admin.datagrid.filters|length ? 'hide' : '' }}" action="{{ admin.generateUrl('diemDanhThu5',{'id':admin.subject.id}) }}" method="GET" role="form">
+                    <form class="sonata-filter-form form-horizontal {{ admin.isChild and 1 == admin.datagrid.filters|length ? 'hide' : '' }}" action="{{ admin.generateUrl('diemDanhChuaNhat',{'id':admin.subject.id}) }}" method="GET" role="form">
                         {{ form_errors(form) }}
 
                         <div class="row">
@@ -223,7 +229,7 @@
                                         <i class="fa fa-filter" aria-hidden="true"></i> {{ 'btn_filter'|trans({}, 'SonataAdminBundle') }}
                                     </button>
 
-                                    <a class="btn btn-default" href="{{ admin.generateUrl('diemDanhThu5', {filters: 'reset',id: admin.subject.id}) }}">
+                                    <a class="btn btn-default" href="{{ admin.generateUrl('diemDanhChuaNhat', {filters: 'reset',id: admin.subject.id}) }}">
                                         {{ 'link_reset_filter'|trans({}, 'SonataAdminBundle') }}
                                     </a>
                                 </div>
