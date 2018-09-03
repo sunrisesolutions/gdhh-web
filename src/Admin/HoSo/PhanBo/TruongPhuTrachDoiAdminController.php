@@ -226,20 +226,6 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 			}
 		}
 		
-		$cotDiemHeaders     = [];
-		$cotDiemAttrs       = [];
-		$cotDiemLabels      = [];
-		$cotDiemCellFormats = [];
-		$bangDiemHelper     = $this->get(BangDiemHandsonTableService::class);
-		$result             = $bangDiemHelper->prepareTable($phanBo, $cotDiemHeaders, $cotDiemAttrs, $cotDiemLabels, $cotDiemCellFormats);
-		
-		$readOnly = $result ['readOnly'];
-		$hocKy    = $result['hocKy'];
-		
-		if($request->isMethod('post')) {
-			return $bangDiemHelper->ghiDiem($request, $cotDiemHeaders, $cotDiemAttrs, $cotDiemLabels, $cotDiemCellFormats, $result);
-		}
-		
 		$phanBoHangNam = $phanBo->getCacPhanBoThieuNhiPhuTrach();
 		$manager->persist($phanBo);
 		$manager->flush();
@@ -249,36 +235,12 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 		$admin->setTemplate('inner_list_row', 'admin/truong-phu-trach-doi/list_inner_row-diem-danh-t5.html.twig');
 		
 		$admin->setAction('diem-danh-t5');
+		
 		$admin->setActionParams([
 			'chiDoan'        => $phanBo->getChiDoan(),
 			'phanBo'         => $phanBo,
 			'phanBoHangNam'  => $phanBoHangNam,
-			'hocKy'          => $hocKy,
-			'cotDiemHeaders' => $cotDiemHeaders,
-			'cotDiemAttrs'   => $cotDiemAttrs,
-			'cotDiemLabels'  => $cotDiemLabels,
-			
-			'cotDiemCellFormats' => $cotDiemCellFormats,
 			'christianNames'     => ThanhVien::$christianNames,
-			'downloadHk1Url'     => $this->get('router')->generate('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',
-				[
-					'id'    => $phanBo->getId(),
-					'hocKy' => 1
-				]
-			),
-			'downloadHk2Url'     => $this->get('router')->generate('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',
-				[
-					'id'    => $phanBo->getId(),
-					'hocKy' => 2
-				]
-			),
-			'nopDiemUrl'         =>
-				$this->get('router')->generate('admin_app_hoso_phanbo_truongphutrachdoi_nopBangDiem',
-					[
-						'id'    => $phanBo->getId(),
-						'hocKy' => $hocKy
-					]
-				)
 		]);
 		
 		return parent::listAction();
@@ -316,15 +278,6 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 		$cotDiemAttrs       = [];
 		$cotDiemLabels      = [];
 		$cotDiemCellFormats = [];
-		$bangDiemHelper     = $this->get(BangDiemHandsonTableService::class);
-		$result             = $bangDiemHelper->prepareTable($phanBo, $cotDiemHeaders, $cotDiemAttrs, $cotDiemLabels, $cotDiemCellFormats);
-		
-		$readOnly = $result ['readOnly'];
-		$hocKy    = $result['hocKy'];
-		
-		if($request->isMethod('post')) {
-			return $bangDiemHelper->ghiDiem($request, $cotDiemHeaders, $cotDiemAttrs, $cotDiemLabels, $cotDiemCellFormats, $result);
-		}
 		
 		$phanBoHangNam = $phanBo->getCacPhanBoThieuNhiPhuTrach();
 		$manager->persist($phanBo);
@@ -339,32 +292,7 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController {
 			'chiDoan'        => $phanBo->getChiDoan(),
 			'phanBo'         => $phanBo,
 			'phanBoHangNam'  => $phanBoHangNam,
-			'hocKy'          => $hocKy,
-			'cotDiemHeaders' => $cotDiemHeaders,
-			'cotDiemAttrs'   => $cotDiemAttrs,
-			'cotDiemLabels'  => $cotDiemLabels,
-			
-			'cotDiemCellFormats' => $cotDiemCellFormats,
 			'christianNames'     => ThanhVien::$christianNames,
-			'downloadHk1Url'     => $this->get('router')->generate('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',
-				[
-					'id'    => $phanBo->getId(),
-					'hocKy' => 1
-				]
-			),
-			'downloadHk2Url'     => $this->get('router')->generate('admin_app_hoso_phanbo_truongphutrachdoi_thieuNhiNhomDownloadBangDiem',
-				[
-					'id'    => $phanBo->getId(),
-					'hocKy' => 2
-				]
-			),
-			'nopDiemUrl'         =>
-				$this->get('router')->generate('admin_app_hoso_phanbo_truongphutrachdoi_nopBangDiem',
-					[
-						'id'    => $phanBo->getId(),
-						'hocKy' => $hocKy
-					]
-				)
 		]);
 		
 		return parent::listAction();
