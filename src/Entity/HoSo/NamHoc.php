@@ -43,7 +43,7 @@ class NamHoc {
 	}
 	
 	/**
-	 * ID_REF
+	 * @var integer
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
 	 */

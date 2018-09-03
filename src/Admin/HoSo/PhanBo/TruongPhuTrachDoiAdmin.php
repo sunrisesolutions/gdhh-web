@@ -191,6 +191,7 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 		$expr      = $qb->expr();
 		$rootAlias = $qb->getRootAliases()[0];
 		$qb->join($rootAlias . '.chiDoan', 'chiDoan');
+		$qb->join($rootAlias . '.namHoc', 'namHoc');
 		
 		/** @var PhanBo $phanBoTruong */
 		$phanBoTruong = $this->getSubject();
@@ -200,6 +201,7 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 		}
 		$phanDoan = $phanBoTruong->getPhanDoan();
 		$qb->andWhere($expr->like($rootAlias . '.phanDoan', $expr->literal($phanDoan)));
+		$qb->andWhere($expr->eq('namHoc.id', $phanBoTruong->getNamHoc()->getId()));
 		
 		if($this->action === 'diem-danh-t5') {
 			$qb->andWhere($expr->eq($rootAlias . '.thieuNhi', $expr->literal(true)));
