@@ -215,8 +215,10 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 				foreach($dnglPhuTrach as $dngl_phu_trach) {
 					$dnglIds[] = $dngl_phu_trach->getId();
 				}
-				$qb->join($rootAlias . '.doiNhomGiaoLy', 'dngl');
-				$qb->andWhere($expr->in('dngl.id', $dnglIds));
+				if(count($dnglIds) > 0) {
+					$qb->join($rootAlias . '.doiNhomGiaoLy', 'dngl');
+					$qb->andWhere($expr->in('dngl.id', $dnglIds));
+				}
 			}
 		}
 		$sql = $qb->getQuery()->getSQL();
