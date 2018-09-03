@@ -20,7 +20,7 @@ class BangDiemSpreadsheet {
 				'quizTerm1',
 				'midTerm1',
 				'finalTerm1',
-				'tbGLTerm1',
+//				'tbGLTerm1',
 				'tbTerm1',
 				'sundayTicketTerm1'
 			];
@@ -69,9 +69,9 @@ class BangDiemSpreadsheet {
 			$cotDiemCellFormats ['quizTerm1']         = "type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
 			$cotDiemCellFormats ['midTerm1']          = "type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
 			$cotDiemCellFormats ['finalTerm1']        = "type:'numeric', format: '0,0.00'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['tbGLTerm1']         = "type:'numeric',readOnly:true, format: '0,0.00'";
+//			$cotDiemCellFormats ['tbGLTerm1']         = "type:'numeric',readOnly:true, format: '0,0.00'";
 			$cotDiemCellFormats ['tbTerm1']           = "type:'numeric',readOnly:true, format: '0,0.00'";
-			$cotDiemCellFormats ['sundayTicketTerm1'] = "type:'numeric'";
+			$cotDiemCellFormats ['sundayTicketTerm1'] = "type:'numeric',readOnly:true";
 		} else {
 			$cotDiem = [
 				'cc1',
@@ -83,9 +83,9 @@ class BangDiemSpreadsheet {
 				'quizTerm2',
 				'midTerm2',
 				'finalTerm2',
-				'tbGLTerm2',
-				'tbGLTerm1',
-				'tbGLYear',
+//				'tbGLTerm2',
+//				'tbGLTerm1',
+//				'tbGLYear',
 				'tbTerm2',
 				'tbTerm1',
 				'tbYear',
@@ -104,8 +104,8 @@ class BangDiemSpreadsheet {
 			$cotDiemCellFormats ['quizTerm2']  = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
 			$cotDiemCellFormats ['midTerm2']   = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
 			$cotDiemCellFormats ['finalTerm2'] = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.00'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['tbGLTerm2']  = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
-			$cotDiemCellFormats ['tbGLTerm1']  = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
+//			$cotDiemCellFormats ['tbGLTerm2']  = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
+//			$cotDiemCellFormats ['tbGLTerm1']  = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
 			$cotDiemCellFormats ['tbGLYear']   = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
 			
 			$cotDiemCellFormats ['tbTerm2'] = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
@@ -113,7 +113,7 @@ class BangDiemSpreadsheet {
 			$cotDiemCellFormats ['tbTerm1'] = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
 			$cotDiemCellFormats['tbYear']   = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
 			
-			$cotDiemCellFormats ['sundayTicketTerm2'] = "renderer: 'darkenEmptyRenderer',type:'numeric'";
+			$cotDiemCellFormats ['sundayTicketTerm2'] = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true";
 			$cotDiemCellFormats ['sundayTickets']     = "renderer: 'darkenEmptyRenderer',type:'numeric', readOnly:true";
 			
 			$cotDiemCellFormats ['category'] = "type:'text', readOnly:true, renderer: 'xepLoaiRenderer'";
@@ -142,11 +142,11 @@ class BangDiemSpreadsheet {
 				$cotDiem[ $cd ]['header'] = 'Cuối-kỳ';
 				$cotDiem[ $cd ]['label']  = 'điểm thi Cuối-kỳ';
 			} elseif(strpos($cd, 'tbGLTerm') > - 1) {
-				$cotDiem[ $cd ]['header'] = str_replace('tbGLTerm', 'TB. Giáo-lý HK', $cd);
-				$cotDiem[ $cd ]['label']  = str_replace('tbGLTerm', 'điểm Trung-bình Giáo-lý HK ', $cd);
+//				$cotDiem[ $cd ]['header'] = str_replace('tbGLTerm', 'TB. Giáo-lý HK', $cd);
+//				$cotDiem[ $cd ]['label']  = str_replace('tbGLTerm', 'điểm Trung-bình Giáo-lý HK ', $cd);
 			} elseif($cd === 'tbGLYear') {
-				$cotDiem[ $cd ]['header'] = 'TBGL. Năm';
-				$cotDiem[ $cd ]['label']  = 'điểm Trung-bình Giáo-lý Cả năm';
+//				$cotDiem[ $cd ]['header'] = 'TBGL. Năm';
+//				$cotDiem[ $cd ]['label']  = 'điểm Trung-bình Giáo-lý Cả năm';
 			} elseif(strpos($cd, 'tbTerm') > - 1) {
 				$cotDiem[ $cd ]['header'] = str_replace('tbTerm', 'TB. HK', $cd);
 				$cotDiem[ $cd ]['label']  = str_replace('tbTerm', 'điểm Trung-bình HK ', $cd);
