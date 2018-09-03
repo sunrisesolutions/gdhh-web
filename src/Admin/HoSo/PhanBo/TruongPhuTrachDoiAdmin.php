@@ -218,6 +218,8 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 				if(count($dnglIds) > 0) {
 					$qb->join($rootAlias . '.doiNhomGiaoLy', 'dngl');
 					$qb->andWhere($expr->in('dngl.id', $dnglIds));
+				} elseif( ! $phanBoTruong->getThanhVien()->isCDTorGreater()) {
+					$this->clearResults($query);
 				}
 			}
 		}
