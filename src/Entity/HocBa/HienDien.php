@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\HocBa;
 
 use App\Entity\HoSo\PhanBo;
@@ -33,20 +34,20 @@ class HienDien {
 	}
 	
 	function __construct() {
-	
+		$this->createdAt = new \DateTime();
 	}
 	
 	/**
 	 * @var PhanBo
 	 * @ORM\ManyToOne(targetEntity="App\Entity\HoSo\PhanBo", inversedBy="diemDanh")
-	 * @ORM\JoinColumn(name="id_phan_bo", referencedColumnName="id", onDelete="CASCADE")
+	 * @ORM\JoinColumn(name="id_phan_bo_thieu_nhi", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $thieuNhi;
 	
 	/**
 	 * @var PhanBo
 	 * @ORM\ManyToOne(targetEntity="App\Entity\HoSo\PhanBo", inversedBy="diemDanhThieuNhi")
-	 * @ORM\JoinColumn(name="id_phan_bo", referencedColumnName="id", onDelete="CASCADE")
+	 * @ORM\JoinColumn(name="id_phan_bo_truong", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $huynhTruong;
 	
@@ -80,75 +81,74 @@ class HienDien {
 	 */
 	protected $type;
 	
-	
 	/**
 	 * @return PhanBo
 	 */
-	public function getThieuNhi() {
+	public function getThieuNhi(): PhanBo {
 		return $this->thieuNhi;
 	}
 	
 	/**
 	 * @param PhanBo $thieuNhi
 	 */
-	public function setThieuNhi($thieuNhi) {
+	public function setThieuNhi(PhanBo $thieuNhi): void {
 		$this->thieuNhi = $thieuNhi;
 	}
 	
 	/**
 	 * @return PhanBo
 	 */
-	public function getHuynhTruong() {
+	public function getHuynhTruong(): PhanBo {
 		return $this->huynhTruong;
 	}
 	
 	/**
 	 * @param PhanBo $huynhTruong
 	 */
-	public function setHuynhTruong($huynhTruong) {
+	public function setHuynhTruong(PhanBo $huynhTruong): void {
 		$this->huynhTruong = $huynhTruong;
 	}
 	
 	/**
 	 * @return \DateTime
 	 */
-	public function getTargetDate() {
+	public function getTargetDate(): \DateTime {
 		return $this->targetDate;
 	}
 	
 	/**
 	 * @param \DateTime $targetDate
 	 */
-	public function setTargetDate($targetDate) {
+	public function setTargetDate(\DateTime $targetDate): void {
 		$this->targetDate = $targetDate;
 	}
 	
 	/**
 	 * @return \DateTime
 	 */
-	public function getCreatedAt() {
+	public function getCreatedAt(): \DateTime {
 		return $this->createdAt;
 	}
 	
 	/**
 	 * @param \DateTime $createdAt
 	 */
-	public function setCreatedAt($createdAt) {
+	public function setCreatedAt(\DateTime $createdAt): void {
 		$this->createdAt = $createdAt;
 	}
 	
 	/**
-	 * @return string
+	 * @return float
 	 */
-	public function getType() {
-		return $this->type;
+	public function getPoint(): float {
+		return $this->point;
 	}
 	
 	/**
-	 * @param string $type
+	 * @param float $point
 	 */
-	public function setType($type) {
-		$this->type = $type;
+	public function setPoint(float $point): void {
+		$this->point = $point;
 	}
 	
 	/**
@@ -166,16 +166,16 @@ class HienDien {
 	}
 	
 	/**
-	 * @return float
+	 * @return string
 	 */
-	public function getPoint(): float {
-		return $this->point;
+	public function getType(): string {
+		return $this->type;
 	}
 	
 	/**
-	 * @param float $point
+	 * @param string $type
 	 */
-	public function setPoint(float $point): void {
-		$this->point = $point;
+	public function setType(string $type): void {
+		$this->type = $type;
 	}
 }

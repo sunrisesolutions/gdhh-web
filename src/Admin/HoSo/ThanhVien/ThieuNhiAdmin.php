@@ -95,6 +95,8 @@ class ThieuNhiAdmin extends BaseAdmin {
 		$collection->add('xetLenLop', '' . $this->getRouterIdParameter() . '/xet-len-lop');
 		$collection->add('xetOLai', '' . $this->getRouterIdParameter() . '/xet-o-lai');
 		
+		$collection->add('diemDanh', $this->getRouterIdParameter() . '/diem-danh/{truongId}/{dtStr}/{type}/{action}');
+		
 		parent::configureRoutes($collection);
 	}
 	
@@ -413,7 +415,7 @@ class ThieuNhiAdmin extends BaseAdmin {
 //		elseif($this->action === 'list-thieu-nhi-chi-doan') {
 //			$query->andWhere($expr->eq($rootAlias . '.chiDoan', $chiDoan->getNumber()));
 ////			$query->andWhere($expr->eq($rootAlias . '.namHoc', $chiDoan->getNamHoc()->getId()));
-//		}else		
+//		}else
 		elseif(in_array($this->action, [ 'list-thieu-nhi-chi-doan', 'list-thieu-nhi-phan-doan' ])) {
 //			$qb->join($rootAlias . '.phanBoHangNam', 'phanBo');
 			

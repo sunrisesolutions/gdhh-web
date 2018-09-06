@@ -61,10 +61,10 @@ class BangDiemSpreadsheet {
 //			$cotDiemLabels['sundayTicketTerm1'] = 'phiếu lễ Chúa-nhật';
 			
 			
-			$cotDiemCellFormats ['cc9']               = "type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['cc10']              = "type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['cc11']              = "type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['cc12']              = "type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
+			$cotDiemCellFormats ['cc9']               = "type:'numeric', format: '0,0.0'" . (true ? ', readOnly: true' : '');
+			$cotDiemCellFormats ['cc10']              = "type:'numeric', format: '0,0.0'" . (true ? ', readOnly: true' : '');
+			$cotDiemCellFormats ['cc11']              = "type:'numeric', format: '0,0.0'" . (true ? ', readOnly: true' : '');
+			$cotDiemCellFormats ['cc12']              = "type:'numeric', format: '0,0.0'" . (true ? ', readOnly: true' : '');
 			$cotDiemCellFormats ['tbCCTerm1']         = "type:'numeric',readOnly:true, format: '0,0.00'";
 			$cotDiemCellFormats ['quizTerm1']         = "type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
 			$cotDiemCellFormats ['midTerm1']          = "type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
@@ -95,11 +95,11 @@ class BangDiemSpreadsheet {
 				'awarded'
 			];
 			
-			$cotDiemCellFormats ['cc1']        = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['cc2']        = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['cc3']        = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['cc4']        = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
-			$cotDiemCellFormats ['cc5']        = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
+			$cotDiemCellFormats ['cc1']        = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . (true ? ', readOnly: true' : '');
+			$cotDiemCellFormats ['cc2']        = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . (true ? ', readOnly: true' : '');
+			$cotDiemCellFormats ['cc3']        = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . (true ? ', readOnly: true' : '');
+			$cotDiemCellFormats ['cc4']        = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . (true ? ', readOnly: true' : '');
+			$cotDiemCellFormats ['cc5']        = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . (true ? ', readOnly: true' : '');
 			$cotDiemCellFormats ['tbCCTerm2']  = "renderer: 'darkenEmptyRenderer',type:'numeric',readOnly:true, format: '0,0.00'";
 			$cotDiemCellFormats ['quizTerm2']  = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');
 			$cotDiemCellFormats ['midTerm2']   = "renderer: 'darkenEmptyRenderer',type:'numeric', format: '0,0.0'" . ($readOnly ? ', readOnly: true' : '');

@@ -34,20 +34,39 @@ class PhanBo {
 	public function initiateDiemDanhCache() {
 		/** @var HienDien $dd */
 		foreach($this->diemDanh as $dd) {
-			$ddcKey                         = $dd->format('Y-m-d') . ':' . $dd->getType();
+			$ddcKey                         = $dd->getTargetDate()->format('Y-m-d') . ':' . $dd->getType();
 			$this->diemDanhCache[ $ddcKey ] = $dd;
 		}
 	}
 	
+	public function diemDanh(DiemChuyenCan $dcc, PhanBo $phanBoTN, \DateTime $targetDate, $type) {
+		$hienDien = $this->getHienDienByTargetDateType($targetDate, $type);
+		if(empty($hienDien)) {
+			$hienDien = new HienDien();
+			$hienDien->setType($type);
+			$hienDien->setTargetDate($targetDate);
+			$hienDien->setThieuNhi($phanBoTN);
+			$hienDien->setHuynhTruong($this);
+		}
+		$hienDien->setPoint($dcc->getPointValue());
+		
+		return $hienDien;
+	}
+	
+	/** HienDien is singular form of DiemDanh */
 	public function getHienDienByDiemChuyenCan(DiemChuyenCan $dcc, $type) {
-		$ddcKey = $dcc->format('Y-m-d') . ':' . $type;
+		return $this->getHienDienByTargetDateType($dcc->getTargetDate(), $type);
+	}
+	
+	public function getHienDienByTargetDateType(\DateTime $date, $type) {
+		$ddcKey = $date->format('Y-m-d') . ':' . $type;
 		if(array_key_exists($ddcKey, $this->diemDanhCache)) {
 			return $this->diemDanhCache[ $ddcKey ];
 		}
 		
 		$c    = Criteria::create();
 		$expr = Criteria::expr();
-		$c->andWhere($expr->eq('targetDate', $dcc->getTargetDate()->format('Y-m-d')))
+		$c->andWhere($expr->eq('targetDate', $date))
 		  ->andWhere($expr->eq('type', $type));
 		
 		$diemDanh = $this->diemDanh->matching($c);

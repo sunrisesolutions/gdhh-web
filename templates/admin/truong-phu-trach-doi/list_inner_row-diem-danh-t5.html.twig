@@ -18,14 +18,15 @@ file that was distributed with this source code.
         {{ object|render_list_element(field_description) }}
     {% endif %}
 {% endfor %}
-{% for module in admin.systemModules %}
-    {% for supportedAction in module.supportedModuleActions %}
-        <td class="ace-container sonata-ba-list-field sonata-ba-list-field-actions" objectid="{{ object.id }}"
-            data-enable-url="{{ path('admin_magenta_swarrantymodel_organisation_organisation_accesscontrol_acrole_setACEntry',{'id':object.organisation.id,'childId':object.id,'code':module.moduleCode,'permission':supportedAction,'action':'enable'}) }}"
-            data-remove-url="{{ path('admin_magenta_swarrantymodel_organisation_organisation_accesscontrol_acrole_setACEntry',{'id':object.organisation.id,'childId':object.id,'code':module.moduleCode,'permission':supportedAction,'action':'remove'}) }}"
-            data-status-url="{{ path('admin_magenta_swarrantymodel_organisation_organisation_accesscontrol_acrole_setACEntry',{'id':object.organisation.id,'childId':object.id,'code':module.moduleCode,'permission':supportedAction,'action':'status'}) }}">
-            <input class="ace" type="checkbox"
-                   autocomplete="off" {{ module.isRoleGranted(supportedAction,object) is not empty?'checked="checked"' : '' }} />
-        </td>
-    {% endfor %}
+{% for dcc in admin.targetDates %}
+    {% set x = object.initiateDiemDanhCache() %}
+    <td class="ace-container sonata-ba-list-field sonata-ba-list-field-actions" objectid="{{ object.id }}"
+        data-enable-url="{{ path('admin_app_hoso_thanhvien_thieunhi_diemDanh',{ id: object.thanhVien.id, truongId: app.user.thanhVien.id, dtStr: dcc.targetDate.format('Y-m-d H:i:s'),type: 'GIAO_LY',action: 'present'}) }}"
+        data-remove-url="{{ path('admin_app_hoso_thanhvien_thieunhi_diemDanh',{ id: object.thanhVien.id, truongId: app.user.thanhVien.id, dtStr: dcc.targetDate.format('Y-m-d H:i:s'),type: 'GIAO_LY',action: 'absent'}) }}"
+        data-status-url="{{ path('admin_app_hoso_thanhvien_thieunhi_diemDanh',{ id: object.thanhVien.id, truongId: app.user.thanhVien.id, dtStr: dcc.targetDate.format('Y-m-d H:i:s'),type: 'GIAO_LY',action: 'status'}) }}"
+    >
+        <input class="ace" type="checkbox"
+               autocomplete="off" {{ object.getHienDienByDiemChuyenCan(dcc,'GIAO_LY') is not empty?'checked="checked"' : '' }} />
+    </td>
+
 {% endfor %}

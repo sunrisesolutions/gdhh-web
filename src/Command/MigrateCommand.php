@@ -28,7 +28,7 @@ class MigrateCommand extends ContainerAwareCommand {
 			'============',
 			'',
 		]);
-		$manager   = $this->getContainer()->get('doctrine.orm.default_entity_manager');
+		$manager = $this->getContainer()->get('doctrine.orm.default_entity_manager');
 		$cNameRepo = $this->getContainer()->get('doctrine')->getRepository(ChristianName::class);
 		// $cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findBy([ 'tenThanh' => null ]);
 		$cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findAll();
@@ -44,18 +44,34 @@ class MigrateCommand extends ContainerAwareCommand {
 			
 			if($tv->isThieuNhi()) {
 				if(empty($tv->isEnabled())) {
-					$phanBoNamNay = $tv->getPhanBoNamNay();
-					$output->writeln([ 'no need to fix for ' . $tv->getName() . ' nam hoc ' . $tv->getNamHoc() ]);
+					if(empty($phanBoNamNay = $tv->getPhanBoNamNay())) {
+						$output->writeln([ 'no need to fix for ' . $tv->getName() . ' nam hoc ' . $tv->getNamHoc() ]);
+					};
 					if($tv->getNamHoc() === 2018 || ! empty($phanBoNamNay)) {
-						$output->writeln([ 'fixing for ' . $tv->getName() . ' cd ' . $phanBoNamNay->getChiDoan()->getId() ]);
-						if($phanBoNamNay->getNamHoc()->getId() === 2018) {
-							// fix data
+//							$output->writeln([ 'fixing for ' . $tv->getName() . ' cd ' . $phanBoNamNay->getChiDoan()->getId() ]);
+//						if($phanBoNamNay->getNamHoc()->getId() === 2018) {
+						// fix data
 //							$manager->remove($phanBoNamNay);
-						}
+//						}
+					}
+				}
+				
+				if( ! empty($phanBoNamNay = $tv->getPhanBoNamNay())) {
+					if($phanBoNamNay->isHuynhTruong()) {
+						$output->writeln([
+							'============================',
+							'Truong is marked as ThieuNhi, needs fixing for ' . $tv->getName(),
+							'================='
+						]);
 					}
 				}
 			}
 			
+			if( ! empty($phanBoNamNay = $tv->getPhanBoNamNay())) {
+				$output->writeln('Fixing Member Roles for ' . $tv->getName());
+				$phanBoNamNay->setVaiTro();
+				$manager->persist($phanBoNamNay);
+			}
 			/** @var PhanBo $phanBo */
 //			foreach($tv->getPhanBoHangNam() as $phanBo) {
 //				if(empty($phanBo->getNamHoc())) {

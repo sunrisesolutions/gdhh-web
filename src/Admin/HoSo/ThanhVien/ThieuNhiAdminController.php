@@ -3,6 +3,8 @@
 namespace App\Admin\HoSo\ThanhVien;
 
 use App\Admin\BaseCRUDAdminController;
+use App\Entity\HocBa\HienDien;
+use App\Entity\HoSo\DiemChuyenCan;
 use App\Entity\HoSo\PhanBo;
 use App\Entity\HoSo\ThanhVien;
 use App\Entity\HoSo\TruongPhuTrachDoi;
@@ -10,6 +12,7 @@ use App\Entity\User\User;
 use App\Service\HoSo\NamHocService;
 use App\Service\User\UserService;
 use Sonata\AdminBundle\Controller\CRUDController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -232,4 +235,68 @@ class ThieuNhiAdminController extends BaseCRUDAdminController {
 		
 		
 	}
+	
+	public function diemDanhAction($id = null, $truongId, $dtStr, $type, $action = 'present', Request $request) {
+		/**
+		 * @var ThanhVien $thieuNhi
+		 */
+		$thieuNhi = $this->admin->getSubject();
+		
+		if( ! $thieuNhi) {
+			throw new NotFoundHttpException(sprintf('unable to find the Thieu-nhi with id: %s', $id));
+		}
+		
+		if( ! $thieuNhi->isThieuNhi()) {
+			throw new NotFoundHttpException(sprintf('This is is not a kid: %s', $id));
+		}
+		
+		if( ! in_array($type, [ HienDien::TYPE_DIEM_DANH_NONG, HienDien::TYPE_GIAO_LY, HienDien::TYPE_LE_CN ])) {
+			throw new NotFoundHttpException(sprintf('Invalid Type: %s', $type));
+		}
+		
+		$truong         = $this->getDoctrine()->getRepository(ThanhVien::
+		class)->find($truongId);
+		$phanBoTruongId = $truong->getPhanBoNamNay();
+		/** @var PhanBo $phanBoTruong */
+		$phanBoTruong = $this->getDoctrine()->getRepository(PhanBo::
+		class)->find($phanBoTruongId);
+		
+		
+		/** @var ThieuNhiAdmin $admin */
+		$admin         = $this->admin;
+		$namHocService = $this->get(NamHocService::class);
+		$manager       = $this->getDoctrine()->getManager();
+		
+		$phanBoTN = $thieuNhi->getPhanBoNamNay();
+		$phanBoTN->initiateDiemDanhCache();
+		
+		$targetDate = \DateTime::createFromFormat('Y-m-d H:i:s', $dtStr);
+		
+		$hienDien = $phanBoTN->getHienDienByTargetDateType($targetDate, $type);
+		
+		if(empty($hienDien)) {
+			$status = 'absent';
+		} else {
+			$status = 'present';
+		}
+		
+		if($action === 'present') {
+			$dcc = $this->getDoctrine()->getRepository(DiemChuyenCan::class)->findOneBy(['targetDate' => $targetDate]);
+			$hienDien = $phanBoTruong->diemDanh($dcc, $phanBoTN, $targetDate, $type);
+			$manager->persist($hienDien);
+			$manager->flush($hienDien);
+			
+			return new JsonResponse([ 'OK' ]);
+		} elseif($action === 'absent') {
+			if( ! empty($hienDien)) {
+				$manager->remove($hienDien);
+				$manager->flush($hienDien);
+			}
+			
+			return new JsonResponse([ 'OK' ]);
+		} elseif($action === 'status') {
+			return new JsonResponse([ 'status' => $status ]);
+		}
+	}
+	
 }

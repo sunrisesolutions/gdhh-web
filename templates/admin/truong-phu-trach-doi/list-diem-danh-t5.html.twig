@@ -1,7 +1,4 @@
-{% extends '@MagentaSWarrantyAdmin/CRUD/list.html.twig' %}
-{% block stylesheets_stupid %}
-
-{% endblock %}
+{% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
                   {% block table_header %}
                       <thead>
                       <tr class="sonata-ba-list-field-header">
@@ -31,7 +28,7 @@
                                       <th rowspan="2"
                                           class="sonata-ba-list-field-header-{{ field_description.type }} {% if sortable %} sonata-ba-list-field-header-order-{{ sort_by|lower }} {{ sort_active_class }}{% endif %}{% if field_description.options.header_class is defined %} {{ field_description.options.header_class }}{% endif %}"{% if field_description.options.header_style is defined %} style="{{ field_description.options.header_style }}"{% endif %}>
                                           {% if sortable %}<a
-                                                  href="{{ admin.generateUrl('list', sort_parameters) }}">{% endif %}
+                                                  href="{{ admin.generateUrl('diemDanhThu5', sort_parameters|merge({'id':admin.subject.id})) }}">{% endif %}
                                               {% if field_description.getOption('label_icon') %}
                                                   <i class="sonata-ba-list-field-header-label-icon {{ field_description.getOption('label_icon') }}"
                                                      aria-hidden="true"></i>
@@ -42,12 +39,12 @@
                                   {% endspaceless %}
                               {% endif %}
                           {% endfor %}
-                          {% for module in admin.systemModules %}
+                          {% for dcc in admin.targetDates %}
 
-                              <th colspan="{{ module.supportedModuleActions|length }}"
+                              <th colspan="1"
                                   class="sonata-ba-list-field-header sonata-ba-list-field-header-batch">
 
-                                  {{ module.moduleName }}
+                                  {{ dcc.targetDate|date('d-m') }}
 
                               </th>
 
@@ -55,14 +52,14 @@
                           {% endfor %}
                       </tr>
                       <tr class="sonata-ba-list-field-header">
-                          {% for module in admin.systemModules %}
-                              {% for supportedAction in module.supportedModuleActions %}
-                                  <th class="sonata-ba-list-field-header sonata-ba-list-field-header-batch">
-                                      {{ supportedAction|trans({},'ACLAction') }}
-                                  </th>
-                              {% endfor %}
+                          {#{% for module in admin.systemModules %}#}
+                              {#{% for supportedAction in module.supportedModuleActions %}#}
+                                  {#<th class="sonata-ba-list-field-header sonata-ba-list-field-header-batch">#}
+                                      {#{{ supportedAction|trans({},'ACLAction') }}#}
+                                  {#</th>#}
+                              {#{% endfor %}#}
 
-                          {% endfor %}
+                          {#{% endfor %}#}
                       </tr>
                       </thead>
                   {% endblock %}
@@ -112,14 +109,14 @@
                 registerACEEvents($('.ace'));
             });
 
-            postACE = function (targetStatus, actionUrl, statusUrl, successHandler) {
+            postHienDien = function (targetStatus, actionUrl, statusUrl, successHandler) {
                 $.post(actionUrl, {})
                     .done(function (actionResponse) {
                         let statusData = {};
                         $.post(statusUrl, statusData)
                             .done(function (statusResponse) {
                                 if (statusResponse.status !== targetStatus) {
-                                    postACE(targetStatus, actionUrl, statusUrl, successHandler);
+                                    postHienDien(targetStatus, actionUrl, statusUrl, successHandler);
                                 } else {
                                     successHandler(statusResponse);
                                 }
@@ -143,13 +140,13 @@
                     let $loading = $parent.children().last();
                     if (isChecked) {
                         {# ACEntry::STATUS_GRANTED #}
-                        postACE('GRANTED', enableUrl, statusUrl, function (resp) {
+                        postHienDien('present', enableUrl, statusUrl, function (resp) {
                             $loading.remove();
                             $iCheckContainer.show();
                         });
                     } else {
                         {# ACEntry::STATUS_EMPTY #}
-                        postACE('EMPTY', removeUrl, statusUrl, function (resp) {
+                        postHienDien('absent', removeUrl, statusUrl, function (resp) {
                             $loading.remove();
                             $iCheckContainer.show();
                         });
@@ -165,4 +162,89 @@
 
         })(jQuery);
     </script>
+{% endblock %}
+
+
+
+
+
+{% block list_filters %}
+    {% if admin.datagrid.filters %}
+        {% form_theme form get_admin_template('filter', admin.code) %}
+
+        <div class="col-xs-12 col-md-12 sonata-filters-box" style="display: {{ admin.datagrid.hasDisplayableFilters ? 'block' : 'none' }}" id="filter-container-{{ admin.uniqid() }}">
+            <div class="box box-primary" >
+                <div class="box-body">
+                    <form class="sonata-filter-form form-horizontal {{ admin.isChild and 1 == admin.datagrid.filters|length ? 'hide' : '' }}" action="{{ admin.generateUrl('diemDanhThu5',{'id':admin.subject.id}) }}" method="GET" role="form">
+                        {{ form_errors(form) }}
+
+                        <div class="row">
+                            <div class="col-sm-9">
+                                {% set withAdvancedFilter = false %}
+                                {% for filter in admin.datagrid.filters %}
+                                    {% set filterActive = ((filter.isActive() and filter.options['show_filter'] is null) or (filter.options['show_filter'] is same as(true))) and not admin.isDefaultFilter(filter.formName) %}
+                                    {% set filterVisible = filter.options['show_filter'] is same as(true) or filter.options['show_filter'] is null %}
+                                    <div class="form-group {% block sonata_list_filter_group_class %}{% endblock %}" id="filter-{{ admin.uniqid }}-{{ filter.name }}" sonata-filter="{{ filterVisible ? 'true' : 'false' }}" style="display: {% if filterActive %}block{% else %}none{% endif %}">
+                                        {% if filter.label is not same as(false) %}
+                                            <label for="{{ form[filter.formName].children['value'].vars.id }}" class="col-sm-3 control-label">{{ filter.label|trans({}, filter.translationDomain ?: admin.translationDomain) }}</label>
+                                        {% endif %}
+                                        {% set attr = form[filter.formName].children['type'].vars.attr|default({}) %}
+
+                                        <div class="col-sm-4 advanced-filter">
+                                            {{ form_widget(form[filter.formName].children['type'], {'attr':  attr}) }}
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            {{ form_widget(form[filter.formName].children['value']) }}
+                                        </div>
+
+                                        <div class="col-sm-1">
+                                            <label class="control-label">
+                                                <a href="#" class="sonata-toggle-filter sonata-ba-action" filter-target="filter-{{ admin.uniqid }}-{{ filter.name }}" filter-container="filter-container-{{ admin.uniqid() }}">
+                                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                                </a>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    {% if filter.options['advanced_filter'] %}
+                                        {% set withAdvancedFilter = true %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="col-sm-3 text-center">
+                                <input type="hidden" name="filter[_page]" id="filter__page" value="1">
+
+                                {% set foo = form['_page'].setRendered() %}
+                                {{ form_rest(form) }}
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa fa-filter" aria-hidden="true"></i> {{ 'btn_filter'|trans({}, 'SonataAdminBundle') }}
+                                    </button>
+
+                                    <a class="btn btn-default" href="{{ admin.generateUrl('diemDanhThu5', {filters: 'reset',id: admin.subject.id}) }}">
+                                        {{ 'link_reset_filter'|trans({}, 'SonataAdminBundle') }}
+                                    </a>
+                                </div>
+
+                                {% if withAdvancedFilter %}
+                                    <div class="form-group">
+                                        <a href="#" data-toggle="advanced-filter">
+                                            <i class="fa fa-cogs" aria-hidden="true"></i>
+                                            {{ 'btn_advanced_filters'|trans({}, 'SonataAdminBundle') }}
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% for paramKey, paramValue in admin.persistentParameters %}
+                            <input type="hidden" name="{{ paramKey }}" value="{{ paramValue }}">
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
