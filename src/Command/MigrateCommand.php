@@ -35,21 +35,36 @@ class MigrateCommand extends ContainerAwareCommand {
 		$cNameRepo = $this->getContainer()->get('doctrine')->getRepository(ChristianName::class);
 		// $cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findBy([ 'tenThanh' => null ]);
 		$cacThanhVien    = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findAll();
-		$cacPhanBo       = $this->getContainer()->get('doctrine')->getRepository(PhanBo::class)->findAll();
-		$cacPhanBo180825 = $this->getContainer()->get('doctrine')->getRepository(PhanBo180825::class)->findAll();
+		$pbRepo          = $this->getContainer()->get('doctrine')->getRepository(PhanBo::class);
+		$cacPhanBo       = $pbRepo->findAll();
+		$pb180825Repo    = $this->getContainer()->get('doctrine')->getRepository(PhanBo180825::class);
+		$cacPhanBo180825 = $pb180825Repo->findAll();
 		$cdRepo          = $this->getContainer()->get('doctrine')->getRepository(ChiDoan::class);
+		
+		$cacPhanBo180825Array = [];
 		
 		/** @var PhanBo180825 $pb */
 		foreach($cacPhanBo180825 as $pb) {
-			$cdId = 'CD-ID: NULL';
+			$cdId                                 = 'CD-ID: NULL';
+			$cacPhanBo180825Array[ $pb->getId() ] = null;
 			if( ! empty($pb->getChiDoan())) {
-				$cdId = 'CD-ID: ' . $pb->getChiDoan()->getId();
+				$cdId                                 = 'CD-ID: ' . $pb->getChiDoan()->getId();
+				$cacPhanBo180825Array[ $pb->getId() ] = $pb->getChiDoan();
 			}
-			$output->writeln(['phanbo180525', $pb->getId() . ' ' . $pb->getThanhVien()->getName() . ' ' . $cdId]);
+			$output->writeln([ 'phanbo180525', $pb->getId() . ' ' . $pb->getThanhVien()->getName() . ' ' . $cdId ]);
 		}
 		
 		/** @var PhanBo $pb */
 		foreach($cacPhanBo as $pb) {
+			if($pb->getNamHoc()->getId() < 2018) {
+				$output->writeln('browsing PB < 2018');
+				if($pb->getChiDoan()->getNamHoc() !== $pb->getNamHoc()) {
+					$output->writeln($pb->getThanhVien()->getId() . ' ' . $pb->getThanhVien()->getName() . ' PB and CD have different NamHoc');
+					$pb->setChiDoan($cacPhanBo180825Array[ $pb->getId() ]);
+					$manager->persist($pb);
+				}
+			}
+			
 			if( ! empty($dngl = $pb->getDoiNhomGiaoLy())) {
 				if($dngl->getChiDoan() !== $pb->getChiDoan()) {
 					$output->writeln("Fixing Chi doan data using DNGL info for " . $pb->getThanhVien()->getName());
