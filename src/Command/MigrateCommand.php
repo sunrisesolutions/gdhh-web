@@ -48,10 +48,10 @@ class MigrateCommand extends ContainerAwareCommand {
 			} else {
 				$incorrectChiDoanNumber = $pb->getChiDoan()->getNumber();
 				$cdNumber               = $pb->getThanhVien()->getChiDoan();
-				if($cdNumber !== $incorrectChiDoanNumber) {
+				if($cdNumber !== $incorrectChiDoanNumber || $pb->getChiDoan()->getNamHoc()->getId() !== 2018) {
 					$cd = $cdRepo->findOneBy([ 'number' => $cdNumber, 'namHoc' => 2018 ]);
 					if( ! empty($cd)) {
-						$output->writeln('fixing Chidoan Data using cdNumber in ThanhVien Entity for ' . $pb->getThanhVien()->getName() . ' set CD to ' . $cdNumber . '-2018');
+						$output->writeln('fixing Chidoan Data using cdNumber in ThanhVien Entity for ' . $pb->getThanhVien()->getName() . ' set CD to ' . $cdNumber . '-2018' , '-------');
 						$pb->setChiDoan($cd);
 						$manager->persist($pb);
 					} else {
@@ -61,10 +61,11 @@ class MigrateCommand extends ContainerAwareCommand {
 							$output->writeln($pb->getThanhVien()->getName() . ' is not a ThieuNhi, so no need to fix ChiDoan data');
 						}
 					}
+				} else {
+				
 				}
 			}
 		}
-		
 		///////////////
 		
 		/** @var ThanhVien $tv */
