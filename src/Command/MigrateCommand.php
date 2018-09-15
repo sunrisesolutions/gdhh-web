@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\Backup\PhanBo180825;
 use App\Entity\HoSo\ChiDoan;
 use App\Entity\HoSo\ChristianName;
 use App\Entity\HoSo\PhanBo;
@@ -33,9 +34,15 @@ class MigrateCommand extends ContainerAwareCommand {
 		$manager   = $this->getContainer()->get('doctrine.orm.default_entity_manager');
 		$cNameRepo = $this->getContainer()->get('doctrine')->getRepository(ChristianName::class);
 		// $cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findBy([ 'tenThanh' => null ]);
-		$cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findAll();
-		$cacPhanBo    = $this->getContainer()->get('doctrine')->getRepository(PhanBo::class)->findAll();
-		$cdRepo       = $this->getContainer()->get('doctrine')->getRepository(ChiDoan::class);
+		$cacThanhVien    = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findAll();
+		$cacPhanBo       = $this->getContainer()->get('doctrine')->getRepository(PhanBo::class)->findAll();
+		$cacPhanBo180825 = $this->getContainer()->get('doctrine')->getRepository(PhanBo180825::class)->findAll();
+		$cdRepo          = $this->getContainer()->get('doctrine')->getRepository(ChiDoan::class);
+		
+		/** @var PhanBo180825 $pb */
+		foreach($cacPhanBo180825 as $pb) {
+			$output->writeln('phanbo180525', $pb->getId() . ' ' . $pb->getThanhVien() . ' ' . $pb->getChiDoan()->getId());
+		}
 		
 		/** @var PhanBo $pb */
 		foreach($cacPhanBo as $pb) {
@@ -51,7 +58,7 @@ class MigrateCommand extends ContainerAwareCommand {
 				if($cdNumber !== $incorrectChiDoanNumber || $pb->getChiDoan()->getNamHoc()->getId() !== 2018) {
 					$cd = $cdRepo->findOneBy([ 'number' => $cdNumber, 'namHoc' => 2018 ]);
 					if( ! empty($cd)) {
-						$output->writeln('fixing Chidoan Data using cdNumber in ThanhVien Entity for ' . $pb->getThanhVien()->getName() . ' set CD to ' . $cdNumber . '-2018' , '-------');
+						$output->writeln('fixing Chidoan Data using cdNumber in ThanhVien Entity for ' . $pb->getThanhVien()->getName() . ' set CD to ' . $cdNumber . '-2018', '-------');
 						$pb->setChiDoan($cd);
 						$manager->persist($pb);
 					} else {
