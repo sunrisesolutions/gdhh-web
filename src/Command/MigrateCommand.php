@@ -59,7 +59,7 @@ class MigrateCommand extends ContainerAwareCommand {
 			if($pb->getNamHoc()->getId() < 2018) {
 				$output->writeln('browsing PB < 2018');
 				if(empty($pb->getChiDoan())) {
-					$output->writeln($pb->getThanhVien()->getId() . ' ' . $pb->getThanhVien()->getName() . ' has no Chi Doan Data for ' . $pb->getNamHoc());
+					$output->writeln($pb->getThanhVien()->getId() . ' ' . $pb->getThanhVien()->getName() . ' has no Chi Doan Data for ' . $pb->getNamHoc()->getId());
 				} else if($pb->getChiDoan()->getNamHoc() !== $pb->getNamHoc()) {
 					$output->writeln($pb->getThanhVien()->getId() . ' ' . $pb->getThanhVien()->getName() . ' PB and CD have different NamHoc');
 					$pb->setChiDoan($cacPhanBo180825Array[ $pb->getId() ]);
