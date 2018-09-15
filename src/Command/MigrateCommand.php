@@ -41,7 +41,7 @@ class MigrateCommand extends ContainerAwareCommand {
 		
 		/** @var PhanBo180825 $pb */
 		foreach($cacPhanBo180825 as $pb) {
-			$output->writeln('phanbo180525', $pb->getId() . ' ' . $pb->getThanhVien() . ' ' . $pb->getChiDoan()->getId());
+			$output->writeln('phanbo180525', $pb->getId() . ' ' . $pb->getThanhVien()->getName() . ' ' . $pb->getChiDoan()->getId());
 		}
 		
 		/** @var PhanBo $pb */
