@@ -65,6 +65,11 @@ class MigrateCommand extends ContainerAwareCommand {
 					$pb->setChiDoan($cacPhanBo180825Array[ $pb->getId() ]);
 					$manager->persist($pb);
 				}
+				if($pb->getChiDoan() !== $cacPhanBo180825Array[ $pb->getId() ] && ! empty($cacPhanBo180825Array[ $pb->getId() ])) {
+					$output->writeln($pb->getThanhVien()->getId() . ' ' . $pb->getThanhVien()->getName() . ' PB has different backup');
+					$pb->setChiDoan($cacPhanBo180825Array[ $pb->getId() ]);
+					$manager->persist($pb);
+				}
 			} else {
 				if( ! empty($dngl = $pb->getDoiNhomGiaoLy())) {
 					if($dngl->getChiDoan() !== $pb->getChiDoan()) {
