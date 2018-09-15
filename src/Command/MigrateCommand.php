@@ -55,7 +55,11 @@ class MigrateCommand extends ContainerAwareCommand {
 						$pb->setChiDoan($cd);
 						$manager->persist($pb);
 					} else {
-						$output->writeln('cannot find cd ' . $cdNumber . '-2018 for ' . $pb->getThanhVien()->getName());
+						if($pb->getThanhVien()->isThieuNhi()) {
+							$output->writeln('cannot find cd ' . $cdNumber . '-2018 for ' . $pb->getThanhVien()->getName());
+						} else {
+							$output->writeln($pb->getThanhVien()->getName() . ' is not a ThieuNhi, so no need to fix ChiDoan data');
+						}
 					}
 				}
 			}
