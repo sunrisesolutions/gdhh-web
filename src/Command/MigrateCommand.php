@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\HoSo\ChiDoan;
 use App\Entity\HoSo\ChristianName;
 use App\Entity\HoSo\PhanBo;
 use App\Entity\HoSo\ThanhVien;
@@ -34,6 +35,7 @@ class MigrateCommand extends ContainerAwareCommand {
 		// $cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findBy([ 'tenThanh' => null ]);
 		$cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findAll();
 		$cacPhanBo    = $this->getContainer()->get('doctrine')->getRepository(PhanBo::class)->findAll();
+		$cdRepo       = $this->getContainer()->get('doctrine')->getRepository(ChiDoan::class);
 		
 		/** @var PhanBo $pb */
 		foreach($cacPhanBo as $pb) {
@@ -42,6 +44,19 @@ class MigrateCommand extends ContainerAwareCommand {
 					$output->writeln("Fixing Chi doan data for " . $pb->getThanhVien()->getName());
 					$pb->setChiDoan($dngl->getChiDoan());
 					$manager->persist($pb);
+				}
+			} else {
+				$incorrectChiDoanNumber = $pb->getChiDoan()->getNumber();
+				$cdNumber               = $pb->getThanhVien()->getChiDoan();
+				if($cdNumber !== $incorrectChiDoanNumber) {
+					$cd = $cdRepo->findOneBy([ 'number' => $cdNumber, 'namHoc' => 2018 ]);
+					if( ! empty($cd)) {
+						$output->writeln('fixing chidoan for ' . $pb->getThanhVien()->getName() . ' set CD to ' . $cdNumber . '-2018');
+						$pb->setChiDoan($cd);
+						$manager->persist($pb);
+					} else {
+						$output->writeln('cannot find cd ' . $cdNumber . '-2018');
+					}
 				}
 			}
 		}
@@ -84,9 +99,9 @@ class MigrateCommand extends ContainerAwareCommand {
 			}
 			
 			if( ! empty($phanBoNamNay = $tv->getPhanBoNamNay())) {
-				$output->writeln('Fixing Member Roles for ' . $tv->getName());
-				$phanBoNamNay->setVaiTro();
-				$manager->persist($phanBoNamNay);
+//				$output->writeln('Fixing Member Roles for ' . $tv->getName());
+//				$phanBoNamNay->setVaiTro();
+//				$manager->persist($phanBoNamNay);
 			}
 			/** @var PhanBo $phanBo */
 //			foreach($tv->getPhanBoHangNam() as $phanBo) {
