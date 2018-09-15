@@ -198,7 +198,7 @@ class ThieuNhiAdmin extends BaseAdmin {
 				if(empty($cd)) {
 					return $tv->isBanQuanTri();
 				} else {
-					return $cd->hoanTatBangDiemHK2();
+					return $cd->isHoanTatBangDiemHK2();
 				}
 			}
 			

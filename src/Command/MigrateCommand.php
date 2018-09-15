@@ -34,41 +34,41 @@ class MigrateCommand extends ContainerAwareCommand {
 		$manager   = $this->getContainer()->get('doctrine.orm.default_entity_manager');
 		$cNameRepo = $this->getContainer()->get('doctrine')->getRepository(ChristianName::class);
 		// $cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findBy([ 'tenThanh' => null ]);
-		$cacThanhVien    = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findAll();
-		$pbRepo          = $this->getContainer()->get('doctrine')->getRepository(PhanBo::class);
-		$cacPhanBo       = $pbRepo->findAll();
-		$pb180825Repo    = $this->getContainer()->get('doctrine')->getRepository(PhanBo180825::class);
-		$cacPhanBo180825 = $pb180825Repo->findAll();
-		$cdRepo          = $this->getContainer()->get('doctrine')->getRepository(ChiDoan::class);
+		$cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findAll();
+		$pbRepo       = $this->getContainer()->get('doctrine')->getRepository(PhanBo::class);
+		$cacPhanBo    = $pbRepo->findAll();
+//		$pb180825Repo    = $this->getContainer()->get('doctrine')->getRepository(PhanBo180825::class);
+//		$cacPhanBo180825 = $pb180825Repo->findAll();
+		$cdRepo = $this->getContainer()->get('doctrine')->getRepository(ChiDoan::class);
 		
 		$cacPhanBo180825Array = [];
-		
-		/** @var PhanBo180825 $pb */
-		foreach($cacPhanBo180825 as $pb) {
-			$cdId                                 = 'CD-ID: NULL';
-			$cacPhanBo180825Array[ $pb->getId() ] = null;
-			if( ! empty($pb->getChiDoan())) {
-				$cdId                                 = 'CD-ID: ' . $pb->getChiDoan()->getId();
-				$cacPhanBo180825Array[ $pb->getId() ] = $pb->getChiDoan();
-			}
-			$output->writeln([ 'phanbo180525', $pb->getId() . ' ' . $pb->getThanhVien()->getName() . ' ' . $cdId ]);
-		}
+
+//		/** @var PhanBo180825 $pb */
+//		foreach($cacPhanBo180825 as $pb) {
+//			$cdId                                 = 'CD-ID: NULL';
+//			$cacPhanBo180825Array[ $pb->getId() ] = null;
+//			if( ! empty($pb->getChiDoan())) {
+//				$cdId                                 = 'CD-ID: ' . $pb->getChiDoan()->getId();
+//				$cacPhanBo180825Array[ $pb->getId() ] = $pb->getChiDoan();
+//			}
+//			$output->writeln([ 'phanbo180525', $pb->getId() . ' ' . $pb->getThanhVien()->getName() . ' ' . $cdId ]);
+//		}
 		
 		/** @var PhanBo $pb */
 		foreach($cacPhanBo as $pb) {
-			if($pb->getNamHoc()->getId() < 2018) {
+			if(false && $pb->getNamHoc()->getId() < 2018) {
 				$output->writeln('browsing PB < 2018');
 				if(empty($pb->getChiDoan())) {
 					$output->writeln($pb->getThanhVien()->getId() . ' ' . $pb->getThanhVien()->getName() . ' has no Chi Doan Data for ' . $pb->getNamHoc()->getId());
 				} else if($pb->getChiDoan()->getNamHoc() !== $pb->getNamHoc()) {
 					$output->writeln($pb->getThanhVien()->getId() . ' ' . $pb->getThanhVien()->getName() . ' PB and CD have different NamHoc');
 					$pb->setChiDoan($cacPhanBo180825Array[ $pb->getId() ]);
-					$manager->persist($pb);
+//					$manager->persist($pb);
 				}
 				if($pb->getChiDoan() !== $cacPhanBo180825Array[ $pb->getId() ] && ! empty($cacPhanBo180825Array[ $pb->getId() ])) {
 					$output->writeln($pb->getThanhVien()->getId() . ' ' . $pb->getThanhVien()->getName() . ' PB has different backup');
 					$pb->setChiDoan($cacPhanBo180825Array[ $pb->getId() ]);
-					$manager->persist($pb);
+//					$manager->persist($pb);
 				}
 			} else {
 				if( ! empty($dngl = $pb->getDoiNhomGiaoLy())) {
