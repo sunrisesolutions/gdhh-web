@@ -71,7 +71,7 @@ class MigrateCommand extends ContainerAwareCommand {
 					$pb->setChiDoan($dngl->getChiDoan());
 					$manager->persist($pb);
 				}
-			} else {
+			} elseif( ! empty($pb->getChiDoan())) {
 				$incorrectChiDoanNumber = $pb->getChiDoan()->getNumber();
 				$cdNumber               = $pb->getThanhVien()->getChiDoan();
 				if($cdNumber !== $incorrectChiDoanNumber || $pb->getChiDoan()->getNamHoc()->getId() !== 2018) {
