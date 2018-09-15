@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\HoSo\ChristianName;
+use App\Entity\HoSo\PhanBo;
 use App\Entity\HoSo\ThanhVien;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
@@ -28,10 +29,25 @@ class MigrateCommand extends ContainerAwareCommand {
 			'============',
 			'',
 		]);
-		$manager = $this->getContainer()->get('doctrine.orm.default_entity_manager');
+		$manager   = $this->getContainer()->get('doctrine.orm.default_entity_manager');
 		$cNameRepo = $this->getContainer()->get('doctrine')->getRepository(ChristianName::class);
 		// $cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findBy([ 'tenThanh' => null ]);
 		$cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findAll();
+		$cacPhanBo    = $this->getContainer()->get('doctrine')->getRepository(PhanBo::class)->findAll();
+		
+		/** @var PhanBo $pb */
+		foreach($cacPhanBo as $pb) {
+			if( ! empty($dngl = $pb->getDoiNhomGiaoLy())) {
+				if($dngl->getChiDoan() !== $pb->getChiDoan()) {
+					$output->writeln("Fixing Chi doan data for " . $pb->getThanhVien()->getName());
+					$pb->setChiDoan($dngl->getChiDoan());
+					$manager->persist($pb);
+				}
+			}
+		}
+		
+		///////////////
+		
 		/** @var ThanhVien $tv */
 		foreach($cacThanhVien as $tv) {
 			if($tv->getSex() === null) {
