@@ -160,7 +160,7 @@ class PhanBo180825  {
 			$phanBoArray = [];
 			$sortedArray = [];
 			$returnArray = [];
-			/** @var PhanBo180825 $phanBoItem */
+			/** @var PhanBo180825180825 $phanBoItem */
 			foreach($array as $phanBoItem) {
 				$firstName                           = $phanBoItem->getThanhVien()->getFirstname();
 				$sortedArray[ $phanBoItem->getId() ] = $firstName;
@@ -203,7 +203,7 @@ class PhanBo180825  {
 		/** @var TruongPhuTrachDoi $truongPT */
 		foreach($this->cacTruongPhuTrachDoi as $truongPT) {
 			$phanBoHangNam = $truongPT->getDoiNhomGiaoLy()->getPhanBoThieuNhi();
-			/** @var PhanBo180825 $phanBoThieuNhi */
+			/** @var PhanBo180825180825 $phanBoThieuNhi */
 			foreach($phanBoHangNam as $phanBoThieuNhi) {
 				if($phanBoThieuNhi === $phanBo) {
 					return true;
@@ -342,14 +342,14 @@ class PhanBo180825  {
 		$thanhVien;
 		
 	/**
-	 * @var PhanBo
-	 * @ORM\OneToOne(targetEntity="App\Entity\HoSo\PhanBo", mappedBy="phanBoTruoc", cascade={"persist","merge"})
+	 * @var PhanBo180825
+	 * @ORM\OneToOne(targetEntity="App\Entity\Backup\PhanBo180825", mappedBy="phanBoTruoc", cascade={"persist","merge"})
 	 */
 	protected $phanBoSau;
 	
 	/**
-	 * @var PhanBo
-	 * @ORM\OneToOne(targetEntity="App\Entity\HoSo\PhanBo", inversedBy="phanBoSau", cascade={"persist","merge"})
+	 * @var PhanBo180825
+	 * @ORM\OneToOne(targetEntity="App\Entity\Backup\PhanBo180825", inversedBy="phanBoSau", cascade={"persist","merge"})
 	 * @ORM\JoinColumn(name="id_phan_bo_truoc", referencedColumnName="id", onDelete="SET NULL")
 	 */
 	protected $phanBoTruoc;
