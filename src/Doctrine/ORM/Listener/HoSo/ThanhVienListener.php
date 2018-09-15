@@ -45,10 +45,10 @@ class ThanhVienListener implements DoctrineEntityListenerInterface {
 			$object->setChristianname($christianName);
 		}
 		
-		$lastname   = $object->getLastname() ?: '';
-		$middlename = $object->getMiddlename() ?: '';
-		$firstname  = $object->getFirstname() ?: '';
-		$object->setName($christianName . ' ' . $lastname . ' ' . $middlename . ' ' . $firstname);
+		$lastname   = $object->getLastname() ? ' ' . trim($object->getLastname()) : '';
+		$middlename = $object->getMiddlename() ? ' ' . trim($object->getMiddlename()) : '';
+		$firstname  = $object->getFirstname() ? ' ' . trim($object->getFirstname()) : '';
+		$object->setName($christianName . $lastname . $middlename . $firstname);
 		
 		if( ! empty($chiDoan = $object->getChiDoan())) {
 			$object->setPhanDoan(ThanhVien::$danhSachChiDoan[ $chiDoan ]);
