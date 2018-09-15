@@ -45,7 +45,7 @@ class MigrateCommand extends ContainerAwareCommand {
 			if( ! empty($pb->getChiDoan())) {
 				$cdId = 'CD-ID: ' . $pb->getChiDoan()->getId();
 			}
-			$output->writeln('phanbo180525', $pb->getId() . ' ' . $pb->getThanhVien()->getName() . ' ' . $cdId);
+			$output->writeln(['phanbo180525', $pb->getId() . ' ' . $pb->getThanhVien()->getName() . ' ' . $cdId]);
 		}
 		
 		/** @var PhanBo $pb */
