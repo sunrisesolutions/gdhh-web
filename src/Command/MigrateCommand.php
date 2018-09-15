@@ -41,7 +41,7 @@ class MigrateCommand extends ContainerAwareCommand {
 		foreach($cacPhanBo as $pb) {
 			if( ! empty($dngl = $pb->getDoiNhomGiaoLy())) {
 				if($dngl->getChiDoan() !== $pb->getChiDoan()) {
-					$output->writeln("Fixing Chi doan data for " . $pb->getThanhVien()->getName());
+					$output->writeln("Fixing Chi doan data using DNGL info for " . $pb->getThanhVien()->getName());
 					$pb->setChiDoan($dngl->getChiDoan());
 					$manager->persist($pb);
 				}
@@ -51,11 +51,11 @@ class MigrateCommand extends ContainerAwareCommand {
 				if($cdNumber !== $incorrectChiDoanNumber) {
 					$cd = $cdRepo->findOneBy([ 'number' => $cdNumber, 'namHoc' => 2018 ]);
 					if( ! empty($cd)) {
-						$output->writeln('fixing chidoan for ' . $pb->getThanhVien()->getName() . ' set CD to ' . $cdNumber . '-2018');
+						$output->writeln('fixing Chidoan Data using cdNumber in ThanhVien Entity for ' . $pb->getThanhVien()->getName() . ' set CD to ' . $cdNumber . '-2018');
 						$pb->setChiDoan($cd);
 						$manager->persist($pb);
 					} else {
-						$output->writeln('cannot find cd ' . $cdNumber . '-2018');
+						$output->writeln('cannot find cd ' . $cdNumber . '-2018 for ' . $pb->getThanhVien()->getName());
 					}
 				}
 			}
@@ -76,7 +76,7 @@ class MigrateCommand extends ContainerAwareCommand {
 			if($tv->isThieuNhi()) {
 				if(empty($tv->isEnabled())) {
 					if(empty($phanBoNamNay = $tv->getPhanBoNamNay())) {
-						$output->writeln([ 'no need to fix for ' . $tv->getName() . ' nam hoc ' . $tv->getNamHoc() ]);
+//						$output->writeln([ 'no need to fix for ' . $tv->getName() . ' nam hoc ' . $tv->getNamHoc() ]);
 					};
 					if($tv->getNamHoc() === 2018 || ! empty($phanBoNamNay)) {
 //							$output->writeln([ 'fixing for ' . $tv->getName() . ' cd ' . $phanBoNamNay->getChiDoan()->getId() ]);
