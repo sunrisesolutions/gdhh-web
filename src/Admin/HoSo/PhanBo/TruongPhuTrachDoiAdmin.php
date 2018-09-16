@@ -205,12 +205,12 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 		
 		$qb->andWhere($expr->like($rootAlias . '.phanDoan', $expr->literal($phanDoan)));
 		$qb->andWhere($expr->eq('namHoc.id', $phanBoTruong->getNamHoc()->getId()));
+
+//		if($this->action === 'diem-danh-t5' || $this->action === 'diem-danh-cn') {
+		$qb->andWhere($expr->eq($rootAlias . ' . thieuNhi', $expr->literal(true)));
+//		}
 		
-		if($this->action === 'diem-danh-t5') {
-			$qb->andWhere($expr->eq($rootAlias . '.thieuNhi', $expr->literal(true)));
-		}
-		
-		if($this->action === 'diem-danh-cn') {
+		if($this->action === 'diem - danh - cn') {
 			if($phanDoan !== ThanhVien::PHAN_DOAN_NGHIA && $phanDoan !== ThanhVien::PHAN_DOAN_TONG_DO) {
 				$dnglPhuTrach = $phanBoTruong->getCacDoiNhomGiaoLyPhuTrach();
 				$dnglIds      = [];
@@ -219,8 +219,8 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 					$dnglIds[] = $dngl_phu_trach->getId();
 				}
 				if(count($dnglIds) > 0) {
-					$qb->join($rootAlias . '.doiNhomGiaoLy', 'dngl');
-					$qb->andWhere($expr->in('dngl.id', $dnglIds));
+					$qb->join($rootAlias . ' . doiNhomGiaoLy', 'dngl');
+					$qb->andWhere($expr->in('dngl . id', $dnglIds));
 				} elseif( ! $phanBoTruong->getThanhVien()->isCDTorGreater()) {
 					$this->clearResults($query);
 				}
@@ -233,7 +233,7 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 	
 	public function generateUrl($name, array $parameters = [], $absolute = RoutingUrlGeneratorInterface::ABSOLUTE_PATH) {
 		if($name === 'list') {
-			if($this->action === 'diem-danh-t5') {
+			if($this->action === 'diem - danh - t5') {
 //				$parameters = array_merge($parameters, [ 'action' => $this->action ]);
 			}
 		}
@@ -243,29 +243,29 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 	
 	protected function configureListFields(ListMapper $listMapper) {
 		$listMapper
-			->addIdentifier('thanhVien.id', null, array( 'label' => 'list.label_id' ))
-			->add('doiNhomGiaoLy.tenCacTruongPhuTrach', null, array(
+			->addIdentifier('thanhVien . id', null, array( 'label' => 'list.label_id' ))
+			->add('doiNhomGiaoLy . tenCacTruongPhuTrach', null, array(
 				'label'                            => 'list.label__nhom_giao_ly',
 				'_sort_order'                      => 'ASC',
 				'sort_parent_association_mappings' => [ [ 'fieldName' => 'doiNhomGiaoLy' ] ],
 				'sort_field_mapping'               => [ 'fieldName' => 'id' ],
 				'sortable'                         => true,
 			))
-			->add('thanhVien.lastName', null, array(
+			->add('thanhVien . lastName', null, array(
 				'label'                            => 'list.label_lastname',
 				'_sort_order'                      => 'ASC',
 				'sort_parent_association_mappings' => [ [ 'fieldName' => 'thanhVien' ] ],
 				'sort_field_mapping'               => [ 'fieldName' => 'firstname' ],
 				'sortable'                         => true,
 			))
-			->add('thanhVien.middleName', null, array(
+			->add('thanhVien . middleName', null, array(
 				'label'                            => 'list.label_middlename',
 				'_sort_order'                      => 'ASC',
 				'sort_parent_association_mappings' => [ [ 'fieldName' => 'thanhVien' ] ],
 				'sort_field_mapping'               => [ 'fieldName' => 'firstname' ],
 				'sortable'                         => true,
 			))
-			->add('thanhVien.firstName', null, array(
+			->add('thanhVien . firstName', null, array(
 				'label'                            => 'list.label_firstname',
 				'_sort_order'                      => 'ASC',
 				'sort_parent_association_mappings' => [ [ 'fieldName' => 'thanhVien' ] ],
@@ -276,12 +276,12 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 //				'actions' => array(
 //					'edit'   => array(),
 //					'delete' => array(),
-////					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
+////					'send_evoucher' => array( 'template' => '::admin / employer / employee / list__action_send_evoucher . html . twig' )
 //
 ////                ,
-////                    'view_description' => array('template' => '::admin/product/description.html.twig')
+////                    'view_description' => array('template' => '::admin / product / description . html . twig')
 ////                ,
-////                    'view_tos' => array('template' => '::admin/product/tos.html.twig')
+////                    'view_tos' => array('template' => '::admin / product / tos . html . twig')
 //				)
 //			))
 		;
@@ -292,8 +292,8 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin {
 		$container = $this->getConfigurationPool()->getContainer();
 		
 		$formMapper
-			->tab('form.tab_info')
-			->with('form.group_general')//            ->add('children')
+			->tab('form . tab_info')
+			->with('form . group_general')//            ->add('children')
 			->add('id', null, array( 'label' => 'list.label_nam_hoc' ));
 		
 		
