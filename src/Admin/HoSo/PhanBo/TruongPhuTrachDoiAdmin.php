@@ -206,9 +206,9 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin
         $phanBoTruong = $this->getSubject();
 
         if (!empty($chiDoan = $phanBoTruong->getChiDoan())) {
-            if ($phanBoTruong->getPhanDoan() === ThanhVien::PHAN_DOAN_AU) {
+            if ($phanBoTruong->getPhanDoan() === ThanhVien::PHAN_DOAN_THIEU) {
                 if ($this->action === 'diem-danh-t5') {
-                    $qb->andWhere($expr->in('chiDoan.number', [7, 8, 9]));
+                    $qb->andWhere($expr->in('chiDoan.number', [10,11,12]));
                     $qb->andWhere($expr->eq('namHoc.id', $this->getConfigurationPool()->getContainer()->get(NamHocService::class)->getNamHocHienTai()->getId()));
                 }
             } else {
