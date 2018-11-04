@@ -104,21 +104,12 @@ class MigrateCommand extends ContainerAwareCommand
 //            }
         }
         $namHoc2016 = $this->getContainer()->get('doctrine')->getRepository(NamHoc::class)->find(2016);
-        $cacPhanBo2016 = $pbRepo->findBy(['namHoc' => 2016]);
-        /** @var PhanBo $pb2016 */
-        foreach ($cacPhanBo2016 as $pb2016) {
-            if ($pb2016->getChiDoan()->getNamHoc()->getId() === 2018) {
-                if (empty($pb2017 = $pb2016->getPhanBoSau())) {
-                    $output->writeln('Ko co phanbosau vi nghi ngay tu 2016, su dung data tu thanh vien' . $pb2016->getId() . ' ::: ' . $pb2016->getThanhVien()->getName());
-                    $cd2017 = $pb2016->getThanhVien()->getChiDoan();
-                } else {
-                    $output->writeln('Syncing for ' . $pb2016->getId() . ' ::: ' . $pb2016->getThanhVien()->getName());
-                    $cd2017 = $pb2017->getChiDoan()->getNumber();
-                }
-                $cd2016 = $cd2017 - 1;
-                $cd2016Id = $cd2016 . '-2016';
-                $pb2016->setChiDoan($cdRepo->find($cd2016Id));
-                $manager->persist($pb2016);
+        $cacPhanBo2017 = $pbRepo->findBy(['namHoc' => 2017]);
+        /** @var PhanBo $pb2017 */
+        foreach ($cacPhanBo2017 as $pb2017) {
+            if (!empty($pb2017->getChiDoan()) && $pb2017->getChiDoan()->getNamHoc()->getId() === 2018) {
+                $pb2017->setChiDoan(null);
+                $manager->persist($pb2017);
             }
         }
 
