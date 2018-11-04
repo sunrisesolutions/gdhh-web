@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Entity\Backup\PhanBo180825;
 use App\Entity\HoSo\ChiDoan;
 use App\Entity\HoSo\ChristianName;
+use App\Entity\HoSo\NamHoc;
 use App\Entity\HoSo\PhanBo;
 use App\Entity\HoSo\ThanhVien;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -59,49 +60,63 @@ class MigrateCommand extends ContainerAwareCommand
 
         /** @var PhanBo $pb */
         foreach ($cacPhanBo as $pb) {
-            if (false && $pb->getNamHoc()->getId() < 2018) {
-                $output->writeln('browsing PB < 2018');
-                if (empty($pb->getChiDoan())) {
-                    $output->writeln($pb->getThanhVien()->getId() . ' ' . $pb->getThanhVien()->getName() . ' has no Chi Doan Data for ' . $pb->getNamHoc()->getId());
-                } else if ($pb->getChiDoan()->getNamHoc() !== $pb->getNamHoc()) {
-                    $output->writeln($pb->getThanhVien()->getId() . ' ' . $pb->getThanhVien()->getName() . ' PB and CD have different NamHoc');
-//					$pb->setChiDoan($cacPhanBo180825Array[ $pb->getId() ]);
-//					$manager->persist($pb);
-                }
-                if ($pb->getChiDoan() !== $cacPhanBo180825Array[$pb->getId()] && !empty($cacPhanBo180825Array[$pb->getId()])) {
-                    $output->writeln($pb->getThanhVien()->getId() . ' ' . $pb->getThanhVien()->getName() . ' PB has different backup');
-//					$pb->setChiDoan($cacPhanBo180825Array[ $pb->getId() ]);
-//					$manager->persist($pb);
-                }
-            } else {
-                if (!empty($dngl = $pb->getDoiNhomGiaoLy())) {
-                    if ($dngl->getChiDoan() !== $pb->getChiDoan()) {
-                        $output->writeln("Fixing Chi doan data using DNGL info for " . $pb->getThanhVien()->getName());
-                        $pb->setChiDoan($dngl->getChiDoan());
-                        $manager->persist($pb);
-                    }
-                } elseif (!empty($pb->getChiDoan())) {
-                    $incorrectChiDoanNumber = $pb->getChiDoan()->getNumber();
-                    $cdNumber = $pb->getThanhVien()->getChiDoan();
-                    if ($cdNumber !== $incorrectChiDoanNumber || $pb->getChiDoan()->getNamHoc()->getId() !== 2018) {
-                        $cd = $cdRepo->findOneBy(['number' => $cdNumber, 'namHoc' => 2018]);
-                        if (!empty($cd)) {
-                            $output->writeln(['fixing Chidoan Data using cdNumber in ThanhVien Entity for ' . $pb->getThanhVien()->getName() . ' set CD to ' . $cdNumber . '-2018', '-------']);
-                            $pb->setChiDoan($cd);
-                            $manager->persist($pb);
-                        } else {
-                            if ($pb->getThanhVien()->isThieuNhi()) {
-                                $output->writeln('cannot find cd ' . $cdNumber . '-2018 for ' . $pb->getThanhVien()->getName());
-                            } else {
-                                $output->writeln($pb->getThanhVien()->getName() . ' is not a ThieuNhi, so no need to fix ChiDoan data');
-                            }
-                        }
-                    } else {
-
+//            if (false && $pb->getNamHoc()->getId() < 2018) {
+//                $output->writeln('browsing PB < 2018');
+//                if (empty($pb->getChiDoan())) {
+//                    $output->writeln($pb->getThanhVien()->getId() . ' ' . $pb->getThanhVien()->getName() . ' has no Chi Doan Data for ' . $pb->getNamHoc()->getId());
+//                } else if ($pb->getChiDoan()->getNamHoc() !== $pb->getNamHoc()) {
+//                    $output->writeln($pb->getThanhVien()->getId() . ' ' . $pb->getThanhVien()->getName() . ' PB and CD have different NamHoc');
+////					$pb->setChiDoan($cacPhanBo180825Array[ $pb->getId() ]);
+////					$manager->persist($pb);
+//                }
+//                if ($pb->getChiDoan() !== $cacPhanBo180825Array[$pb->getId()] && !empty($cacPhanBo180825Array[$pb->getId()])) {
+//                    $output->writeln($pb->getThanhVien()->getId() . ' ' . $pb->getThanhVien()->getName() . ' PB has different backup');
+////					$pb->setChiDoan($cacPhanBo180825Array[ $pb->getId() ]);
+////					$manager->persist($pb);
+//                }
+//            } else {
+//                if (!empty($dngl = $pb->getDoiNhomGiaoLy())) {
+//                    if ($dngl->getChiDoan() !== $pb->getChiDoan()) {
+//                        $output->writeln("Fixing Chi doan data using DNGL info for " . $pb->getThanhVien()->getName());
+//                        $pb->setChiDoan($dngl->getChiDoan());
+//                        $manager->persist($pb);
+//                    }
+//                } elseif (!empty($pb->getChiDoan())) {
+//                    $incorrectChiDoanNumber = $pb->getChiDoan()->getNumber();
+//                    $cdNumber = $pb->getThanhVien()->getChiDoan();
+//                    if ($cdNumber !== $incorrectChiDoanNumber || $pb->getChiDoan()->getNamHoc()->getId() !== 2018) {
+//                        $cd = $cdRepo->findOneBy(['number' => $cdNumber, 'namHoc' => 2018]);
+//                        if (!empty($cd)) {
+//                            $output->writeln(['fixing Chidoan Data using cdNumber in ThanhVien Entity for ' . $pb->getThanhVien()->getName() . ' set CD to ' . $cdNumber . '-2018', '-------']);
+//                            $pb->setChiDoan($cd);
+//                            $manager->persist($pb);
+//                        } else {
+//                            if ($pb->getThanhVien()->isThieuNhi()) {
+//                                $output->writeln('cannot find cd ' . $cdNumber . '-2018 for ' . $pb->getThanhVien()->getName());
+//                            } else {
+//                                $output->writeln($pb->getThanhVien()->getName() . ' is not a ThieuNhi, so no need to fix ChiDoan data');
+//                            }
+//                        }
+//                    } else {
+//
+//                    }
+//                }
+//            }
+        }
+        $namHoc2018 = $this->getContainer()->get('doctrine')->getRepository(NamHoc::class)->find(2018);
+        $cacPhanBo2018 = $pbRepo->findBy(['namHoc' => 2018]);
+        /** @var PhanBo $pb2018 */
+        foreach ($cacPhanBo2018 as $pb2018) {
+            if (empty($pb2018->getPhanBoTruoc())) {
+                if (empty($pb2018->getDoiNhomGiaoLy())) {
+                    if ($pb2018->isThieuNhi()) {
+                        $output->writeln('removing duplicate phanbo ' . $pb2018->getId() . ' ::: ' . $pb2018->getThanhVien()->getName());
+                        $manager->remove($pb2018);
                     }
                 }
             }
         }
+
         ///////////////
 
         /** @var ThanhVien $tv */
