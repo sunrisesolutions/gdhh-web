@@ -8,6 +8,7 @@ use App\Entity\HoSo\ChristianName;
 use App\Entity\HoSo\NamHoc;
 use App\Entity\HoSo\PhanBo;
 use App\Entity\HoSo\ThanhVien;
+use App\Entity\HoSo\TruongPhuTrachDoi;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -107,9 +108,15 @@ class MigrateCommand extends ContainerAwareCommand
         $cacPhanBo2017 = $pbRepo->findBy(['namHoc' => 2017]);
         /** @var PhanBo $pb2017 */
         foreach ($cacPhanBo2017 as $pb2017) {
-            if (!empty($pb2017->getChiDoan()) && $pb2017->getChiDoan()->getNamHoc()->getId() === 2018) {
-                $pb2017->setChiDoan(null);
-                $manager->persist($pb2017);
+            if (empty($pb2017->getChiDoan()) && $pb2017->isHuynhTruong()) {
+                /** @var TruongPhuTrachDoi $tpt */
+                if (!empty($tpt = $pb2017->getCacTruongPhuTrachDoi()->first())) {
+                    $dngl = $tpt->getDoiNhomGiaoLy();
+                    $pb2017->setChiDoan($cd = $dngl->getChiDoan());
+                    $pb2017->setPhanDoan($cd->getPhanDoan());
+                    $output->writeln("set chi doan cho huynh truong " . $pb2017->getThanhVien()->getName() . ' vao ' . $dngl->getChiDoan()->getId());
+                    $manager->persist($pb2017);
+                }
             }
         }
 
