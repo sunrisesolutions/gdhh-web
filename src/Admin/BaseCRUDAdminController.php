@@ -21,9 +21,9 @@ class BaseCRUDAdminController extends CRUDController
 
         /** @var User $user */
         $user = $this->getUser();
-        if (empty($user->getThanhVien())) {
+        if (!$user->isAdmin() && empty($user->getThanhVien())) {
             $this->get(UserService::class)->logUserOut();
-            return new RedirectResponse('fos_user_security_login');
+            return new RedirectResponse($this->generateUrl('fos_user_security_login'));
         }
     }
 
