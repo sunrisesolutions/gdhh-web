@@ -24,7 +24,7 @@ file that was distributed with this source code.
 {% for dcc in admin.getTargetDates('CN') %}
     {% set x = object.initiateDiemDanhCache() %}
 
-    {% if pbTruong.quanLy(object) %}
+    {% if pbTruong.quanLy(object) or pbTruong.phanDoan == 'PHAN_DOAN_TONG_DO' or pbTruong.phanDoan == 'PHAN_DOAN_NGHIA' %}
         <td class="ace-container sonata-ba-list-field sonata-ba-list-field-actions" objectid="{{ object.id }}"
             data-enable-url="{{ path('admin_app_hoso_thanhvien_thieunhi_diemDanh',{ id: object.thanhVien.id, truongId: app.user.thanhVien.id, dtStr: dcc.targetDate.format('Y-m-d H:i:s'),type: 'LE_CN',action: 'present'}) }}"
             data-remove-url="{{ path('admin_app_hoso_thanhvien_thieunhi_diemDanh',{ id: object.thanhVien.id, truongId: app.user.thanhVien.id, dtStr: dcc.targetDate.format('Y-m-d H:i:s'),type: 'LE_CN',action: 'absent'}) }}"
