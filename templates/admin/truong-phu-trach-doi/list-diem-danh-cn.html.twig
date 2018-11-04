@@ -53,11 +53,20 @@
                       </tr>
                       <tr class="sonata-ba-list-field-header">
                           <th>
-                              LỄ
+                              <code>LỄ</code>
                           </th>
                           <th>
                               SH
                           </th>
+                          {% for dcc in admin.getTargetDates('CN') %}
+                              <th>
+                                  <code>LỄ</code>
+                              </th>
+                              <th>
+                                  SH
+                              </th>
+
+                          {% endfor %}
                           {#{% for module in admin.systemModules %}#}
                               {#{% for supportedAction in module.supportedModuleActions %}#}
                                   {#<th class="sonata-ba-list-field-header sonata-ba-list-field-header-batch">#}

@@ -154,6 +154,10 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin
                 'label' => 'list.label_name',
                 'show_filter' => true
             ])
+            ->add('thanhVien.chiDoan', null, [
+                'label' => 'list.label_chi_doan',
+                'show_filter' => true
+            ])
             ->add('doiNhomGiaoLy.number', null, [
                 'label' => 'list.label__nhom_giao_ly',
                 'show_filter' => true
@@ -208,7 +212,7 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin
         if (!empty($chiDoan = $phanBoTruong->getChiDoan())) {
             if ($phanBoTruong->getPhanDoan() === ThanhVien::PHAN_DOAN_THIEU) {
                 if ($this->action === 'diem-danh-t5') {
-                    $qb->andWhere($expr->in('chiDoan.number', [10,11,12]));
+                    $qb->andWhere($expr->in('chiDoan.number', [10, 11, 12]));
                     $qb->andWhere($expr->eq('namHoc.id', $this->getConfigurationPool()->getContainer()->get(NamHocService::class)->getNamHocHienTai()->getId()));
                 }
             } else {
@@ -233,7 +237,9 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin
                 foreach ($dnglPhuTrach as $dngl_phu_trach) {
                     $dnglIds[] = $dngl_phu_trach->getId();
                 }
-                if (count($dnglIds) > 0) {
+                if ($phanBoTruong->getThanhVien()->isCDTorGreater()) {
+                    $qb->andWhere($expr->like('chiDoan.id', $expr->literal($chiDoan->getId())));
+                } elseif (count($dnglIds) > 0) {
                     $qb->join($rootAlias . '.doiNhomGiaoLy', 'dngl');
                     $qb->andWhere($expr->in('dngl.id', $dnglIds));
                 } elseif (!$phanBoTruong->getThanhVien()->isCDTorGreater()) {

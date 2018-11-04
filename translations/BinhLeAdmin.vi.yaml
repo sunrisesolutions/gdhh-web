@@ -156,6 +156,7 @@ list:
     label_notes: Ghi-chú
     label_email_address: Email Address
 form:
+    label_quickname: Tên gợi nhớ
     label_user: User
     label_nam_truoc: Năm-học trước
     label_html_body: HTML Body

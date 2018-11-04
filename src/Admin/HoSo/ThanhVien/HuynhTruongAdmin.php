@@ -380,6 +380,9 @@ class HuynhTruongAdmin extends BaseAdmin {
 			->add('firstname', null, array(
 				'label' => 'list.label_firstname',
 			))
+            ->add('quickName', null, array(
+                'label' => 'list.label_quickname',
+            ))
 			->add('dob', DatePickerType::class, array(
 				'format'   => 'dd/MM/yyyy',
 				'required' => false,
