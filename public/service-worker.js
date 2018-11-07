@@ -1,6 +1,6 @@
 // https://developers.google.com/web/fundamentals/primers/service-workers/
 
-var CACHE_NAME = 'gdhh-cache-v1';
+var CACHE_NAME = 'gdhh-cache-v2';
 var urlsToCache = [
         '/login',
         '/bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css',
@@ -54,14 +54,19 @@ self.addEventListener('install', function (event) {
     );
 });
 
-
 self.addEventListener('fetch', function (event) {
     console.log('The service worker is serving the asset.');
-    // if (event.request.url.indexOf('book',15) == 13) {
-    console.log('load from network before cache for all the pages');
-    event.respondWith(fromNetwork(event.request, 400).catch(function () {
-        return fromCache(event.request);
+    event.respondWith(fromCache(event.request, 400).catch(function () {
+        return fromNetwork(event.request);
     }));
+
+
+    // if (event.request.url.indexOf('book',15) == 13) {
+    // console.log('load from network before cache for all the pages');
+    // event.respondWith(fromNetwork(event.request, 400).catch(function () {
+    //     return fromCache(event.request);
+    // }));
+
     // } else {
     //     event.respondWith(fromCache(event.request, 400).catch(function() {
     //         return fromNetwork(event.request);
@@ -89,11 +94,11 @@ function fromNetwork(request, timeout) {
             // to clone it so we have two streams.
             var responseToCache = response.clone();
 
-            caches.open(CACHE_NAME)
-                .then(function (cache) {
-                    console.log('cache.put');
-                    cache.put(request, responseToCache);
-                });
+            // caches.open(CACHE_NAME)
+            //     .then(function (cache) {
+            //         console.log('cache.put');
+            //         cache.put(request, responseToCache);
+            //     });
 
             return response;
         }
