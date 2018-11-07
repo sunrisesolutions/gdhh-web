@@ -1,6 +1,6 @@
 // https://developers.google.com/web/fundamentals/primers/service-workers/
 
-var CACHE_NAME = 'gdhh-cache-v2';
+var CACHE_NAME = 'gdhh-cache-v3';
 var urlsToCache = [
         '/login',
         '/bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css',

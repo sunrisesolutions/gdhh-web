@@ -22,6 +22,64 @@
             });
         }
         {% endif %}
+
+        (function ($) {
+
+            /* ----------------------------------------------- */
+            /* ----------------------------------------------- */
+            /* OnLoad Page */
+            $(document).ready(function ($) {
+                $username = $('#username');
+                $password = $('#password');
+                $rememberMe = $('#remember_me');
+                $form = $('form');
+
+                {% if error %}
+                localStorage.removeItem('username');
+                localStorage.removeItem('password');
+                {% endif %}
+
+                if (localStorage.getItem('remembered')) {
+                    $rememberMe.iCheck('check');
+                    if (localStorage.getItem('username')) {
+                        if (localStorage.getItem('password')) {
+                            $username.val(localStorage.getItem('username'));
+                            $password.val(localStorage.getItem('password'));
+                            $form.submit();
+                        }
+                    }
+                } else {
+                    $rememberMe.iCheck('uncheck');
+                }
+
+                $rememberMe.on('ifChecked', function (event) {
+                    localStorage.setItem('remembered', 'true');
+                    console.log('checked');
+                });
+
+                $rememberMe.on('ifUnchecked', function (event) {
+                    localStorage.removeItem('remembered');
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('password');
+                    console.log('unchecked');
+                });
+
+                $form.submit(function (e) {
+                    if (localStorage.getItem('remembered')) {
+                        localStorage.setItem('username', $username.val());
+                        localStorage.setItem('password', $password.val());
+                        localStorage.setItem('remembered', 'true');
+                    }
+                })
+            });
+
+            /* OnLoad Window */
+            init = function () {
+
+            };
+            window.onload = init;
+
+        })(jQuery);
     </script>
 {% endblock %}
 
