@@ -122,7 +122,10 @@ class MigrateCommand extends ContainerAwareCommand
                 $pb2018 = $pb2017->getPhanBoSau();
                 if (!empty($pb2018)) {
                     $output->writeln('..... nam nay: ' . $pb2018->getChiDoan()->getName());
-                    $output->writeln('....... nam ngoai o lai hay len lop ' . $pb2017->isFreePassGrantable() ? ' o lai ' : 'len lop');
+
+                    $bangDiem = $pb2017->getBangDiem();
+                    $retended = (($bangDiem->isGradeRetention() && !$bangDiem->isFreePassGranted()) || $bangDiem->isGradeRetentionForced());
+                    $output->writeln('....... nam ngoai o lai hay len lop ' . $retended ? ' o lai ' : 'len lop');
                 } else {
                     $output->writeln('....... nam nay: khong co ');
                 }
