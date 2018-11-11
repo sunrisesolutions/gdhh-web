@@ -117,6 +117,8 @@ class MigrateCommand extends ContainerAwareCommand
                     $output->writeln("set chi doan cho huynh truong " . $pb2017->getThanhVien()->getName() . ' vao ' . $dngl->getChiDoan()->getId());
                     $manager->persist($pb2017);
                 }
+            } elseif (empty($pb2017->getChiDoan()) && $pb2017->isThieuNhi()) {
+                $output->writeln('Thieu Nhi ko co chi doan ' . $pb2017->getThanhVien()->getName() . '  ' . $pb2017->getId());
             }
         }
 
