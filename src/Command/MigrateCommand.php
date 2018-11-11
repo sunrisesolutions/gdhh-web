@@ -126,6 +126,17 @@ class MigrateCommand extends ContainerAwareCommand
                     $bangDiem = $pb2017->getBangDiem();
                     $retended = (($bangDiem->isGradeRetention() && !$bangDiem->isFreePassGranted()) || $bangDiem->isGradeRetentionForced());
                     $output->writeln('....... nam ngoai o lai hay len lop ' . $retended ? ' o lai ' : 'len lop');
+                    if ($retended) {
+                        $output->writeln('....... ..... set Chidoan to same as 2018 because of o lai true');
+                        $cd2017 = $cdRepo->find($pb2018->getChiDoan()->getNumber() . '-2017');
+                        $output->writeln('....... ..... ... cd 2017 ' . $cd2017->getId());
+//                        $pb2017->setChiDoan($cd2017);
+                    } else {
+                        $output->writeln('....... ..... set Chidoan to the previous Number of 2018 because of o lai fakse');
+                        $cd2017 = $cdRepo->find(($pb2018->getChiDoan()->getNumber() - 1) . '-2017');
+                        $output->writeln('....... ..... ... cd 2017 ' . $cd2017->getId());
+//                        $pb2017->setChiDoan($cd2017);
+                    }
                 } else {
                     $output->writeln('....... nam nay: khong co ');
                 }
