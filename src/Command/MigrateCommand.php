@@ -139,7 +139,12 @@ class MigrateCommand extends ContainerAwareCommand
                     }
                     $manager->persist($pb2017);
                 } else {
-                    $output->writeln('....... nam nay: khong co ');
+                    $output->writeln(['....... nam nay: khong co ','........ set cd to thanhVien '. $cdNumber = $pb2017->getThanhVien()->getChiDoan()]);
+
+                    $cd2017 = $cdRepo->find(($cdNumber ) . '-2017');
+                    $output->writeln('....... ..... ... cd 2017 ' . $cd2017->getId());
+                    $pb2017->setChiDoan($cd2017);
+
                 }
             }
         }
