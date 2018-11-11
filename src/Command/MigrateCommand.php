@@ -120,7 +120,12 @@ class MigrateCommand extends ContainerAwareCommand
             } elseif (empty($pb2017->getChiDoan()) && $pb2017->isThieuNhi()) {
                 $output->writeln('Thieu Nhi ko co chi doan ' . $pb2017->getThanhVien()->getName() . '  ' . $pb2017->getId());
                 $pb2018 = $pb2017->getPhanBoSau();
-                $output->writeln('..... nam nay: ' . $pb2018->getChiDoan()->getName());
+                if (!empty($pb2018)) {
+                    $output->writeln('..... nam nay: ' . $pb2018->getChiDoan()->getName());
+                    $output->writeln('....... nam ngoai o lai hay len lop ' . $pb2017->isFreePassGrantable() ? ' o lai ' : 'len lop');
+                } else {
+                    $output->writeln('....... nam nay: khong co ');
+                }
             }
         }
 
