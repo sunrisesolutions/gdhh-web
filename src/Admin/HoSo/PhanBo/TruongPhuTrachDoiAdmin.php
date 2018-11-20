@@ -69,7 +69,7 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin
         $nextYearDate->setDate($schoolYear + 1, 6, 1);
         $today = new \DateTime();
         $fourWeeksAgo = new \DateTime();
-        $fourWeeksAgo->modify('-4 weeks');
+        $fourWeeksAgo->modify('-12 weeks');
 
         $qb = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.default_entity_manager')->createQueryBuilder();
         $qb->select('dcc')->from(DiemChuyenCan::class, 'dcc');
