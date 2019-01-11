@@ -140,6 +140,7 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin
         $collection->add('nopBangDiem', $this->getRouterIdParameter() . '/nop-bang-diem/{hocKy}');
         $collection->add('diemDanhThu5', $this->getRouterIdParameter() . '/diem-danh-thu-5');
         $collection->add('diemDanhChuaNhat', $this->getRouterIdParameter() . '/diem-danh-chua-nhat');
+        $collection->add('tinhDiemChuyenCan', $this->getRouterIdParameter() . '/tinh-diem-chuyen-can/{hocKy}');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)

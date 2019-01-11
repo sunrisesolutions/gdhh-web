@@ -35,6 +35,7 @@ sonata_admin:
                 items:
                     - App\Admin\User\UserAdmin
                     - App\Admin\HoSo\NamHocAdmin
+                    - App\Admin\HoSo\DiemChuyenCanAdmin
 #                    - Sonata\MediaBundle\Admin\MediaAdmin
 #                    - sonata.media.admin.media
 #                    - sonata.user.admin.group
