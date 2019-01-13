@@ -75,17 +75,19 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController
             }
             
             $manager = $this->get('doctrine.orm.default_entity_manager');
-            foreach ($cacDccTheoThang as $cacDcc) {
-                /** @var PhanBo $pb */
-                foreach ($phanBoThieuNhi as $pb) {
-                    $bangDiem = $pb->getBangDiem();
+    
+            /** @var PhanBo $pb */
+            foreach ($phanBoThieuNhi as $pb) {
+                $bangDiem = $pb->getBangDiem();
+                $bangDiem->setSundayTicketTerm1(0);
+                $bangDiem->setSundayTicketTerm2(0);
+                $bangDiem->setSundayTickets(0);
+                foreach ($cacDccTheoThang as $cacDcc) {
                     $bangDiem->tinhDiemChuyenCanThang($cacDcc);
-                    $bangDiem->setSundayTicketTerm1(0);
-                    $bangDiem->setSundayTicketTerm2(0);
-                    $bangDiem->setSundayTickets(0);
                     $bangDiem->tinhPhieuLeCNThang($cacDcc);
-                    $manager->persist($bangDiem);
                 }
+                $manager->persist($bangDiem);
+        
             }
             
             $manager->flush();
