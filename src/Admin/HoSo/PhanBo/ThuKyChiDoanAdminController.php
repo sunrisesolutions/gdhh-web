@@ -93,7 +93,7 @@ class ThuKyChiDoanAdminController extends BaseCRUDAdminController {
             $this->admin->getModelManager()->update($phanBo);
         }
         
-        return new RedirectResponse($this->generateUrl('admin_app_hoso_phanbo_thukychidoan_tinhDiemChuyenCan', ['id' => $id]));
+        return new RedirectResponse($this->generateUrl('admin_app_hoso_phanbo_thukychidoan_nhapDiemThieuNhi', ['id' => $id]));
     }
     
 	public function nopBangDiemAction($id = null, $hocKy, Request $request) {
