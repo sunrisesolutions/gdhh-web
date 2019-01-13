@@ -108,6 +108,9 @@ class BangDiem
     
     public function tinhDiemChuyenCan($hocKy = 1)
     {
+        if (is_string($hocKy)) {
+            $hocKy = (int)$hocKy;
+        }
         $cacCotDiemBiLoaiBo = $this->phanBo->getChiDoan()->getCotDiemBiLoaiBo();
         $cols = null;
         $tbCC = 0;
@@ -195,6 +198,10 @@ class BangDiem
     
     public function tinhDiemHocKy($hocKy = 1)
     {
+        if (is_string($hocKy)) {
+            $hocKy = (int)$hocKy;
+        }
+        
         $cacCotDiemBiLoaiBo = $this->phanBo->getChiDoan()->getCotDiemBiLoaiBo();
         $cols = null;
         

@@ -85,10 +85,10 @@ class ThuKyChiDoanAdminController extends BaseCRUDAdminController
                 $bangDiem->setSundayTickets(0);
                 foreach ($cacDccTheoThang as $cacDcc) {
                     $bangDiem->tinhDiemChuyenCanThang($cacDcc);
-                    $bangDiem->tinhDiemChuyenCan($hocKy);
-                    $bangDiem->tinhDiemHocKy($hocKy);
                     $bangDiem->tinhPhieuLeCNThang($cacDcc);
                 }
+                $bangDiem->tinhDiemChuyenCan($hocKy);
+                $bangDiem->tinhDiemHocKy($hocKy);
                 $manager->persist($bangDiem);
                 
             }
