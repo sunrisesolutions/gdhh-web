@@ -4,6 +4,7 @@ namespace App\Admin\HoSo\PhanBo;
 
 use App\Admin\BaseCRUDAdminController;
 use App\Entity\HoSo\ChiDoan;
+use App\Entity\HoSo\DiemChuyenCan;
 use App\Entity\HoSo\DoiNhomGiaoLy;
 use App\Entity\HoSo\PhanBo;
 use App\Entity\HoSo\ThanhVien;
@@ -19,7 +20,82 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class ThuKyChiDoanAdminController extends BaseCRUDAdminController {
-	
+    
+    public function tinhDiemChuyenCanAction($id = null, $hocKy, Request $request)
+    {
+        if (!in_array($hocKy, [1, 2])) {
+            throw new \InvalidArgumentException();
+        }
+        
+        /**
+         * @var PhanBo $phanBo
+         */
+        $phanBo = $this->admin->getSubject();
+        if (!$phanBo) {
+            throw new NotFoundHttpException(sprintf('unable to find the Truong with id : %s', $id));
+        }
+        
+        $thuKy = $phanBo->getThanhVien()->getThuKyChiDoanObj();
+    
+        $phanBoThieuNhi = $thuKy->getCacPhanBoThieuNhiPhuTrach();
+        
+        /** @var TruongPhuTrachDoiAdmin $admin */
+        $admin = $this->admin;
+        
+        $chiDoan = $phanBo->getChiDoan();
+        
+        $admin->setAction('tinh-diem-chuyen-can');
+        $admin->setActionParams([
+            'chiDoan' => $chiDoan,
+            'christianNames' => ThanhVien::$christianNames,
+            'hocKy' => $hocKy
+        ]);
+        
+        if (!$admin->isGranted('NOP_BANG_DIEM', $phanBo)) {
+            throw new AccessDeniedHttpException();
+        }
+    
+    
+        if ($thuKy->coTheNopBangDiem($hocKy)) {
+            $tatCaDcc = $this->getDoctrine()->getRepository(DiemChuyenCan::class)->findAll();
+            $cacDccTheoThang = [];
+            /** @var DiemChuyenCan $dcc */
+            foreach ($tatCaDcc as $dcc) {
+                $date = $dcc->getTargetDate();
+                $dateNumber = (int)$date->format('m');
+                if ($hocKy === 1) {
+                    if ($dateNumber < 9 || $dateNumber > 12) {
+                        continue;
+                    }
+                }
+                if (!isset($cacDccTheoThang[$dateNumber]) || !is_array($cacDccTheoThang[$dateNumber])) {
+                    $cacDccTheoThang[$dateNumber] = [];
+                }
+                $cacDccTheoThang[$dateNumber][] = $dcc;
+            }
+            
+            $manager = $this->get('doctrine.orm.default_entity_manager');
+            foreach ($cacDccTheoThang as $cacDcc) {
+                /** @var PhanBo $pb */
+                foreach ($phanBoThieuNhi as $pb) {
+                    $bangDiem = $pb->getBangDiem();
+                    $bangDiem->tinhDiemChuyenCanThang($cacDcc);
+                    $bangDiem->setSundayTicketTerm1(0);
+                    $bangDiem->setSundayTicketTerm2(0);
+                    $bangDiem->setSundayTickets(0);
+                    $bangDiem->tinhPhieuLeCNThang($cacDcc);
+                    $manager->persist($bangDiem);
+                }
+            }
+            
+            $manager->flush();
+            
+            $this->admin->getModelManager()->update($phanBo);
+        }
+        
+        return new RedirectResponse($this->generateUrl('admin_app_hoso_phanbo_thukychidoan_tinhDiemChuyenCan', ['id' => $id]));
+    }
+    
 	public function nopBangDiemAction($id = null, $hocKy, Request $request) {
 		if( ! in_array($hocKy, [ 1, 2 ])) {
 			throw new \InvalidArgumentException();

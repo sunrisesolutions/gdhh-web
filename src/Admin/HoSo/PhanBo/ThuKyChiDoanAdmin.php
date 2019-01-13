@@ -59,6 +59,8 @@ class ThuKyChiDoanAdmin extends BaseAdmin {
 		$collection->add('nhapDiemThieuNhi', $this->getRouterIdParameter() . '/nhap-diem-thieu-nhi');
 		$collection->add('thieuNhiChiDoanDownloadBangDiem', $this->getRouterIdParameter() . '/bang-diem/hoc-ky-{hocKy}/download');
 		$collection->add('nopBangDiem', $this->getRouterIdParameter() . '/nop-bang-diem/{hocKy}');
+        $collection->add('tinhDiemChuyenCan', $this->getRouterIdParameter() . '/tinh-diem-chuyen-can/{hocKy}');
+		
 	}
 	
 	protected function configureDatagridFilters(DatagridMapper $datagridMapper) {

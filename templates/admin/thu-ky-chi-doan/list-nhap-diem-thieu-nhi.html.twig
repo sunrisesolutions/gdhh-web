@@ -1,1 +1,12 @@
 {% extends 'admin/truong-phu-trach-doi/list-nhap-diem-thieu-nhi.html.twig' %}
+
+
+                {% block tinh_diem_cc %}
+                  <li class="sonata-actions">
+                    <a class=""
+                       href="{{ path('admin_app_hoso_phanbo_thukychidoan_tinhDiemChuyenCan',{'id':admin.actionParams['phanBo'].getId() ,'hocKy':hocKy}) }}">
+                      <i class="fa fa-gift" aria-hidden="true"></i>
+                      Tính điểm Chuyên-cần
+                    </a>
+                  </li>
+                {% endblock %}
