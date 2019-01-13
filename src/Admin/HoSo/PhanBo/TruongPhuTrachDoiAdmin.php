@@ -51,7 +51,7 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin
         '_sort_by' => 'thanhVien.firstname',
     ];
 
-    protected $maxPerPage = 256;
+    protected $maxPerPage = 40;
 
     /** @var  NamHoc $namHoc */
     public $namHoc;
@@ -69,7 +69,7 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin
         $nextYearDate->setDate($schoolYear + 1, 6, 1);
         $today = new \DateTime();
         $fourWeeksAgo = new \DateTime();
-        $fourWeeksAgo->modify('-4 weeks');
+        $fourWeeksAgo->modify('-20 weeks');
 
         $qb = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.default_entity_manager')->createQueryBuilder();
         $qb->select('dcc')->from(DiemChuyenCan::class, 'dcc');
@@ -257,7 +257,10 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin
     {
         if ($name === 'list') {
             if ($this->action === 'diem-danh-t5') {
-//				$parameters = array_merge($parameters, [ 'action' => $this->action ]);
+				$parameters = array_merge($parameters, [ 'action' => $this->action ]);
+				if(!empty($phanBoTruong = $this->getSubject())){
+                    $parameters = array_merge($parameters, [ 'id' => $phanBoTruong->getId() ]);
+                }
             }
         }
 
