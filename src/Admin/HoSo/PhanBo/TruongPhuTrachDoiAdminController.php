@@ -85,7 +85,7 @@ class TruongPhuTrachDoiAdminController extends BaseCRUDAdminController
                 foreach ($cacDccTheoThang as $cacDcc) {
                     $bangDiem->tinhDiemChuyenCanThang($cacDcc);
                     $bangDiem->tinhDiemChuyenCan($hocKy);
-                    $bangDiem->tinhDiemGiaoLy($hocKy);
+                    $bangDiem->tinhDiemHocKy($hocKy);
                     $bangDiem->tinhPhieuLeCNThang($cacDcc);
                 }
                 $manager->persist($bangDiem);
