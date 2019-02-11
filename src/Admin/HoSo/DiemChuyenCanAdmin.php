@@ -49,7 +49,10 @@ class DiemChuyenCanAdmin extends BaseAdmin {
 	protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
 		// this text filter will be used to retrieve autocomplete fields
 		$datagridMapper
-			->add('id', null, [ 'label' => 'list.label_id' ]);
+			->add('id', null, [ 'label' => 'list.label_id' ])
+            ->add('targetDate','doctrine_orm_date')
+            
+        ;
 	}
 	
 	/**
@@ -77,6 +80,8 @@ class DiemChuyenCanAdmin extends BaseAdmin {
 //			->addIdentifier('id')
 			->add('id', 'text', array())
             ->add('pointValue','text',['editable'=>true])
+            ->add('massCounted',null,['editable'=>true])
+            ->add('studyCounted',null,['editable'=>true])
             ->add('targetDate')
 
 ;

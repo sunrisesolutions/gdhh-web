@@ -55,6 +55,9 @@ filter:
     label_phan_bo_chi_doan_name: Chi Đoàn
     label_phan_bo_chi_doan_nam_hoc_id: Năm Học
 list:
+    label_mass_counted: Tính phiếu Lễ
+    label_study_counted: Tính ngày học
+
     label_tb_term2: TB HK-II
     label_plain_password: Mật-khẩu
     label_email: E-mail

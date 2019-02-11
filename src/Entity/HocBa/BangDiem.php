@@ -66,6 +66,11 @@ class BangDiem
             if ($dcc->getTargetDate()->format('w') > 0) {
                 continue;
             }
+            
+            if(!$dcc->isMassCounted()){
+                continue;
+            }
+            
             $hienDien = $this->phanBo->getHienDienByDiemChuyenCan($dcc, HienDien::TYPE_LE_CN);
             if (!empty($hienDien)) {
                 $tongPhieu++;

@@ -39,9 +39,11 @@
                                   {% endspaceless %}
                               {% endif %}
                           {% endfor %}
+
+
                           {% for dcc in admin.getTargetDates('CN') %}
 
-                              <th colspan="2"
+                              <th colspan="{{ dcc.massCounted == true and dcc.studyCounted == true ? 2: 1 }}"
                                   class="sonata-ba-list-field-header sonata-ba-list-field-header-batch">
 
                                   {{ dcc.targetDate|date('d-m') }}
@@ -53,12 +55,16 @@
                       </tr>
                       <tr class="sonata-ba-list-field-header">
                           {% for dcc in admin.getTargetDates('CN') %}
-                              <th>
-                                  <code>LỄ</code>
-                              </th>
+                              {% if dcc.massCounted == true %}
+                                  <th>
+                                      <code>LỄ</code>
+                                  </th>
+                              {% endif %}
+                              {% if dcc.studyCounted == true %}
                               <th>
                                   SH
                               </th>
+                              {% endif %}
                           {% endfor %}
                           {#{% for module in admin.systemModules %}#}
                               {#{% for supportedAction in module.supportedModuleActions %}#}

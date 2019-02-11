@@ -1,3 +1,6 @@
+label_type_yes: Có
+label_type_no: Không
+
 Admin: Gia đình Hòa Hưng | Huynh Trưởng
 search_placeholder: Tìm thông tin
 label_export_download: Tải về máy
@@ -52,14 +55,12 @@ dashboard:
     post: Site Content
 
 list:
+    label_mass_counted: Tính phiếu Lễ
     label_username: Tên Đăng nhập
     label_email: Email
     label_enabled: Sanh-hoạt
     label_locked: Khóa tài khoản
     label_created_at: Đăng-ký vào lúc
-label_type_yes: Có
-label_type_no: Không
-
 
 post:
     make_homepage: Make Homepage

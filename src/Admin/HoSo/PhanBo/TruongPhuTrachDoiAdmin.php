@@ -76,7 +76,7 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin
         $qb->where('dcc.targetDate BETWEEN :fourWeeksAgo AND :today')
             ->setParameter('fourWeeksAgo', $fourWeeksAgo->format('Y-m-d'))
             ->setParameter('today', $today->format('Y-m-d'))
-            ->orderBy('dcc.targetDate', 'DESC');;
+            ->orderBy('dcc.targetDate', 'DESC');
 
 //$qb->where('e.fecha > :monday')
 //   ->andWhere('e.fecha < :sunday')
