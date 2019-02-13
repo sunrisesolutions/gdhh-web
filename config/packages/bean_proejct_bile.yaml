@@ -1,2 +1,6 @@
+parameters:
+    DIEM_DANH_LIMIT: url: '%env(resolve:DIEM_DANH_LIMIT)%'
+
 bean_location:
     db_driver: orm
+
