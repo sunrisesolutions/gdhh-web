@@ -26,11 +26,11 @@ class DiemChuyenCan {
 	}
     
     public function isStudyCounted():bool {
-        return empty($this->studyCounted);
+        return !empty($this->studyCounted);
     }
     
     public function isMassCounted():bool {
-        return empty($this->massCounted);
+        return !empty($this->massCounted);
     }
     
     /**
