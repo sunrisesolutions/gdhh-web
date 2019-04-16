@@ -68,14 +68,16 @@ class DataVerificationCommand extends ContainerAwareCommand
                 if($st1 !== $st1b){
                     $output->writeln('Wrong ticket numbers for the First Semester: ' . $st1 . ' ' . $st1b);
                 }else{
-//                    $output->writeln('Correct ticket numbers: ' . $st1 . ' ' . $st1b);
+                    $output->writeln('Correct ticket numbers: ' . $st1 . ' ' . $st1b);
                 }
     
-                $st2 = $bd->getSundayTicketTerm1();
+                $st2 = $bd->getSundayTicketTerm2();
                 $bd->tinhDiemChuyenCan(2);
-                $st2b = $bd->getSundayTicketTerm1();
+                $st2b = $bd->getSundayTicketTerm2();
                 if($st2 !== $st2b){
                     $output->writeln('Wrong ticket numbers for the Second Semester: ' . $st2 . ' ' . $st2b);
+                }else{
+                    $output->writeln('Correct ticket numbers: ' . $st2 . ' ' . $st2b);
                 }
             }
         }
@@ -85,7 +87,6 @@ class DataVerificationCommand extends ContainerAwareCommand
 
         ///////////////
         $output->writeln("Flushing");
-        $manager->flush();
         $output->writeln("Successfully migrated all members.");
     }
 }
