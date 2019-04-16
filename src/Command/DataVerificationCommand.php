@@ -27,7 +27,7 @@ class DataVerificationCommand extends ContainerAwareCommand
             // the "--help" option
             ->setHelp('This command allows you to migrate cnames of all Members...');
     }
-
+    
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // outputs multiple lines to the console (adding "\n" at the end of each line)
@@ -43,7 +43,6 @@ class DataVerificationCommand extends ContainerAwareCommand
         $pbRepo = $this->getContainer()->get('doctrine')->getRepository(PhanBo::class);
         $cacPhanBo2018 = $pbRepo->findBy(['namHoc' => 2018]);
         $cdRepo = $this->getContainer()->get('doctrine')->getRepository(ChiDoan::class);
-        
 
 
 //		/** @var PhanBo180825 $pb */
@@ -56,37 +55,41 @@ class DataVerificationCommand extends ContainerAwareCommand
 //			}
 //			$output->writeln([ 'phanbo180525', $pb->getId() . ' ' . $pb->getThanhVien()->getName() . ' ' . $cdId ]);
 //		}
-if(count($cacPhanBo2018) === 0){
-    $output->writeln('empty pb2018 array');
-}
+        if (count($cacPhanBo2018) === 0) {
+            $output->writeln('empty pb2018 array');
+        }
         /** @var PhanBo $pb */
         foreach ($cacPhanBo2018 as $pb) {
             $cd = $pb->getChiDoan();
-            if(!empty($cd) && $cd->getNumber() === 12){
-                $bd = $pb->getBangDiem();
-                $st1 = $bd->getSundayTicketTerm1();
-                $bd->tinhDiemChuyenCan(1);
-                $st1b = $bd->getSundayTicketTerm1();
-                if($st1 !== $st1b){
-                    $output->writeln('Wrong ticket numbers for the First Semester: ' . $st1 . ' ' . $st1b);
-                }else{
-                    $output->writeln('Correct ticket numbers 1: ' . $st1 . ' ' . $st1b);
+            if (!empty($cd)) {
+                if ($cd->getNumber() === 12) {
+                    $bd = $pb->getBangDiem();
+                    $st1 = $bd->getSundayTicketTerm1();
+                    $bd->tinhDiemChuyenCan(1);
+                    $st1b = $bd->getSundayTicketTerm1();
+                    if ($st1 !== $st1b) {
+                        $output->writeln('Wrong ticket numbers for the First Semester: ' . $st1 . ' ' . $st1b);
+                    } else {
+                        $output->writeln('Correct ticket numbers 1: ' . $st1 . ' ' . $st1b);
+                    }
+                    
+                    $st2 = $bd->getSundayTicketTerm2();
+                    $bd->tinhDiemChuyenCan(2);
+                    $st2b = $bd->getSundayTicketTerm2();
+                    if ($st2 !== $st2b) {
+                        $output->writeln('Wrong ticket numbers for the Second Semester: ' . $st2 . ' ' . $st2b);
+                    } else {
+                        $output->writeln('Correct ticket numbers 2: ' . $st2 . ' ' . $st2b);
+                    }
                 }
-    
-                $st2 = $bd->getSundayTicketTerm2();
-                $bd->tinhDiemChuyenCan(2);
-                $st2b = $bd->getSundayTicketTerm2();
-                if($st2 !== $st2b){
-                    $output->writeln('Wrong ticket numbers for the Second Semester: ' . $st2 . ' ' . $st2b);
-                }else{
-                    $output->writeln('Correct ticket numbers 2: ' . $st2 . ' ' . $st2b);
-                }
+            } else {
+                $output->writeln('hello empty cd '.$pb->getThanhVien()->getName());
             }
         }
         
         $namHoc2016 = $this->getContainer()->get('doctrine')->getRepository(NamHoc::class)->find(2016);
-
-
+        
+        
         ///////////////
         $output->writeln("Flushing");
         $output->writeln("Successfully migrated all members.");
