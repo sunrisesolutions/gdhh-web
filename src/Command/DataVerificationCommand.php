@@ -46,6 +46,7 @@ class DataVerificationCommand extends ContainerAwareCommand
     
     
         $cacPhanBo2018 = $pbRepo->findBy(['namHoc' => 2018]);
+        $output->writeln('FLAG 002');
         $cdRepo = $this->getContainer()->get('doctrine')->getRepository(ChiDoan::class);
 
 
