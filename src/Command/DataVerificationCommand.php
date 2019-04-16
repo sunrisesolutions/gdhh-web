@@ -41,6 +41,10 @@ class DataVerificationCommand extends ContainerAwareCommand
         // $cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findBy([ 'tenThanh' => null ]);
         $cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findAll();
         $pbRepo = $this->getContainer()->get('doctrine')->getRepository(PhanBo::class);
+    
+        $output->writeln('FLAG 001');
+    
+    
         $cacPhanBo2018 = $pbRepo->findBy(['namHoc' => 2018]);
         $cdRepo = $this->getContainer()->get('doctrine')->getRepository(ChiDoan::class);
 
