@@ -57,6 +57,8 @@ class DataVerificationCommand extends ContainerAwareCommand
 //		}
         if (count($cacPhanBo2018) === 0) {
             $output->writeln('empty pb2018 array');
+        } else {
+            $output->writeln('Found ' . count($cacPhanBo2018));
         }
         /** @var PhanBo $pb */
         foreach ($cacPhanBo2018 as $pb) {
@@ -83,7 +85,7 @@ class DataVerificationCommand extends ContainerAwareCommand
                     }
                 }
             } else {
-                $output->writeln('hello empty cd '.$pb->getThanhVien()->getName());
+                $output->writeln('hello empty cd ' . $pb->getThanhVien()->getName());
             }
         }
         
