@@ -68,7 +68,7 @@ class DataVerificationCommand extends ContainerAwareCommand
                 if($st1 !== $st1b){
                     $output->writeln('Wrong ticket numbers for the First Semester: ' . $st1 . ' ' . $st1b);
                 }else{
-                    $output->writeln('Correct ticket numbers: ' . $st1 . ' ' . $st1b);
+                    $output->writeln('Correct ticket numbers 1: ' . $st1 . ' ' . $st1b);
                 }
     
                 $st2 = $bd->getSundayTicketTerm2();
@@ -77,7 +77,7 @@ class DataVerificationCommand extends ContainerAwareCommand
                 if($st2 !== $st2b){
                     $output->writeln('Wrong ticket numbers for the Second Semester: ' . $st2 . ' ' . $st2b);
                 }else{
-                    $output->writeln('Correct ticket numbers: ' . $st2 . ' ' . $st2b);
+                    $output->writeln('Correct ticket numbers 2: ' . $st2 . ' ' . $st2b);
                 }
             }
         }
