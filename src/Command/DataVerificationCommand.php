@@ -96,7 +96,6 @@ class DataVerificationCommand extends ContainerAwareCommand
             }
         }
         
-        $namHoc2016 = $this->getContainer()->get('doctrine')->getRepository(NamHoc::class)->find(2016);
         
         
         ///////////////
