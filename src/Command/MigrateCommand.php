@@ -72,6 +72,7 @@ class MigrateCommand extends ContainerAwareCommand
                     $st1b = $bd->getSundayTicketTerm1();
                     if ($st1 !== $st1b) {
                         $output->writeln('Wrong ticket numbers for the First Semester: ' . $st1 . ' ' . $st1b);
+                        $bd->tinhDiemHocKy(1);
                         $manager->persist($bd);
                     } else {
 //                        $output->writeln('Correct ticket numbers 1: ' . $st1 . ' ' . $st1b);
@@ -82,6 +83,7 @@ class MigrateCommand extends ContainerAwareCommand
                     $st2b = $bd->getSundayTicketTerm2();
                     if ($st2 !== $st2b) {
                         $output->writeln('Wrong ticket numbers for the Second Semester: ' . $st2 . ' ' . $st2b);
+                        $bd->tinhDiemHocKy(2);
                         $manager->persist($bd);
                     } else {
 //                        $output->writeln('Correct ticket numbers 2: ' . $st2 . ' ' . $st2b);

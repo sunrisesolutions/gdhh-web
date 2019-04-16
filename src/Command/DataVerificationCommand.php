@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Entity\Backup\PhanBo180825;
 use App\Entity\HoSo\ChiDoan;
 use App\Entity\HoSo\ChristianName;
+use App\Entity\HoSo\DiemChuyenCan;
 use App\Entity\HoSo\NamHoc;
 use App\Entity\HoSo\PhanBo;
 use App\Entity\HoSo\ThanhVien;
@@ -65,6 +66,22 @@ class DataVerificationCommand extends ContainerAwareCommand
         } else {
             $output->writeln('Found ' . count($cacPhanBo2018));
         }
+    
+        $tatCaDcc = $this->getContainer()->get('doctrine')->getRepository(DiemChuyenCan::class)->findAll();
+        $cacDccTheoThang = [];
+        /** @var DiemChuyenCan $dcc */
+        foreach ($tatCaDcc as $dcc) {
+            $date = $dcc->getTargetDate();
+            $dateNumber = (int)$date->format('m');
+            
+            if (!isset($cacDccTheoThang[$dateNumber]) || !is_array($cacDccTheoThang[$dateNumber])) {
+                $cacDccTheoThang[$dateNumber] = [];
+            }
+            $cacDccTheoThang[$dateNumber][] = $dcc;
+        }
+    
+        $manager = $this->getContainer()->get('doctrine.orm.default_entity_manager');
+        
         /** @var PhanBo $pb */
         foreach ($cacPhanBo2018 as $pb) {
             $cd = $pb->getChiDoan();
@@ -72,19 +89,35 @@ class DataVerificationCommand extends ContainerAwareCommand
                 if ($cd->getNumber() === 12) {
                     $bd = $pb->getBangDiem();
                     $st1 = $bd->getSundayTicketTerm1();
-                    $bd->tinhDiemChuyenCan(1);
+                    $st2 = $bd->getSundayTicketTerm2();
+    
+                    $bangDiem = $bd;
+                    $bangDiem->setSundayTicketTerm1(0);
+                    $bangDiem->setSundayTicketTerm2(0);
+                    $bangDiem->setSundayTickets(0);
+                    foreach ($cacDccTheoThang as $cacDcc) {
+                        $bangDiem->tinhDiemChuyenCanThang($cacDcc);
+                        $bangDiem->tinhPhieuLeCNThang($cacDcc);
+                    }
+                    $bangDiem->tinhDiemChuyenCan(1);
+                    $bangDiem->tinhDiemHocKy(1);
+                    $bangDiem->tinhDiemChuyenCan(2);
+                    $bangDiem->tinhDiemHocKy(2);
+                    
+//                    $manager->persist($bangDiem);
+                    
+                    
                     $st1b = $bd->getSundayTicketTerm1();
                     if ($st1 !== $st1b) {
-                        $output->writeln('Wrong ticket numbers for the First Semester: ' . $st1 . ' ' . $st1b);
+                        $output->writeln('Wrong ticket numbers for the First Semester: ' . $st1 . ' ' . $st1b .' - '.$pb->getThanhVien()->getName());
                     } else {
 //                        $output->writeln('Correct ticket numbers 1: ' . $st1 . ' ' . $st1b);
                     }
                     
-                    $st2 = $bd->getSundayTicketTerm2();
                     $bd->tinhDiemChuyenCan(2);
                     $st2b = $bd->getSundayTicketTerm2();
                     if ($st2 !== $st2b) {
-                        $output->writeln('Wrong ticket numbers for the Second Semester: ' . $st2 . ' ' . $st2b);
+                        $output->writeln('Wrong ticket numbers for the Second Semester: ' . $st2 . ' ' . $st2b.' - '.$pb->getThanhVien()->getName());
                     } else {
 //                        $output->writeln('Correct ticket numbers 2: ' . $st2 . ' ' . $st2b);
                     }
