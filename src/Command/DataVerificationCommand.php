@@ -32,7 +32,7 @@ class DataVerificationCommand extends ContainerAwareCommand
     {
         // outputs multiple lines to the console (adding "\n" at the end of each line)
         $output->writeln([
-            'Start migrating',
+            'Start verifying data',
             '============',
             '',
         ]);
@@ -56,7 +56,9 @@ class DataVerificationCommand extends ContainerAwareCommand
 //			}
 //			$output->writeln([ 'phanbo180525', $pb->getId() . ' ' . $pb->getThanhVien()->getName() . ' ' . $cdId ]);
 //		}
-
+if(count($cacPhanBo2018) === 0){
+    $output->writeln('empty pb2018 array');
+}
         /** @var PhanBo $pb */
         foreach ($cacPhanBo2018 as $pb) {
             $cd = $pb->getChiDoan();
