@@ -83,6 +83,8 @@ class DataVerificationCommand extends ContainerAwareCommand
                     } else {
                         $output->writeln('Correct ticket numbers 2: ' . $st2 . ' ' . $st2b);
                     }
+                } else {
+                    $output->writeln('cdNumber '.$cd->getNumber());
                 }
             } else {
                 $output->writeln('hello empty cd ' . $pb->getThanhVien()->getName());
