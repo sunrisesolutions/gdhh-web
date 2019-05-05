@@ -54,8 +54,10 @@ class GradeCalculationCommand extends ContainerAwareCommand {
 						$bd->getCategoryTrans(),
 						$bd->getRemarks()
 					];
-					
+
+                    $bd->tinhDiemChuyenCan(1);
 					$bd->tinhDiemHocKy(1);
+                    $bd->tinhDiemChuyenCan(2);
 					$bd->tinhDiemHocKy(2);
 					
 					$sau      = [
