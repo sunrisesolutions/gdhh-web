@@ -21,13 +21,13 @@
         thead {
             position: relative;
             display: block; /*seperates the header from the body allowing it to be positioned*/
-            width: 700px;
+            max-width: 1920px;
             overflow: visible;
         }
 
         thead th {
             /*background-color: #99a;*/
-            min-width: 120px;
+            min-width: 20px;
             height: 32px;
             /*border: 1px solid #222;*/
         }
@@ -43,14 +43,14 @@
         tbody {
             position: relative;
             display: block; /*seperates the tbody from the header*/
-            width: 700px;
+            max-width: 1920px;
             height: 239px;
             overflow: scroll;
         }
 
         tbody td {
             /*background-color: #bbc;*/
-            min-width: 120px;
+            min-width: 20px;
             /*border: 1px solid #222;*/
         }
 
@@ -59,6 +59,7 @@
             /*display: block; !*seperates the first column from the tbody*!*/
             height: 40px;
             /*background-color: #99a;*/
+            z-index: 1;
         }
 
         {% endif %}
