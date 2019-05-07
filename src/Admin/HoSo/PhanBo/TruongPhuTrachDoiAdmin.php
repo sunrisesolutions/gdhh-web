@@ -276,7 +276,7 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $tv = $this->getUserThanhVien();
-        if ($tv->getChiDoan() < 13) {
+        if ($tv->getChiDoan() < 13 and false) {
             $listMapper
                 ->addIdentifier('thanhVien.id', null, array('label' => 'list.label_id'));
             $listMapper->add('doiNhomGiaoLy.tenCacTruongPhuTrach', null, array(
