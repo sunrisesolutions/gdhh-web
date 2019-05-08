@@ -27,15 +27,17 @@
 
         thead th {
             /*background-color: #99a;*/
-            min-width: 85px;
+            /*min-width: 85px;*/
             height: 32px;
             /*border: 1px solid #222;*/
         }
 
-        thead th:nth-child(1) {/*first cell in the header*/
+        thead th:nth-child(1), thead th:nth-child(2), thead th:nth-child(3) {/*first cell in the header*/
             /*position: relative;*/
             /*display: block; !*seperates the first cell in the header from the header*!*/
             /*background-color: #88b;*/
+            min-width: 120px;
+
         }
 
 
@@ -50,11 +52,12 @@
 
         tbody td {
             /*background-color: #bbc;*/
-            min-width: 85px;
             /*border: 1px solid #222;*/
         }
 
         tbody tr td:nth-child(1),tbody tr td:nth-child(2),tbody tr td:nth-child(3) {  /*the first cell in each tr*/
+            min-width: 120px;
+
             position: relative;
             /*display: block; !*seperates the first column from the tbody*!*/
             height: 40px;
