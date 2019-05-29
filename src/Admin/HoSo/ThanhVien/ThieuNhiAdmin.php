@@ -440,7 +440,7 @@ class ThieuNhiAdmin extends BaseAdmin {
 	}
 	
 	public function generateUrl($name, array $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH) {
-		if($name === 'list') {
+		if($name === 'list' || $name === 'export') {
 			if($this->action === 'list-thieu-nhi') {
 				$name = 'thieuNhi';
 			} elseif($this->action === 'list-thieu-nhi-nhom') {
