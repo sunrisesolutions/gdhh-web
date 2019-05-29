@@ -438,7 +438,7 @@ class ThieuNhiAdmin extends BaseAdmin
                 $qb->andWhere($expr->in('chiDoan.id', ':danhSachChiDoan'))
                     ->setParameter('danhSachChiDoan', $this->actionParams['danhSachChiDoan']);
             } else {
-                $qb->andWhere($expr->eq('chiDoan.id', $expr->literal($this->getUserThanhVien()->getChiDoan())));
+                $qb->andWhere($expr->eq('chiDoan.id', $expr->literal($this->getUserThanhVien()->getChiDoan().'-'.$this->getUserThanhVien()->getNamHoc())));
             }
 
         }
