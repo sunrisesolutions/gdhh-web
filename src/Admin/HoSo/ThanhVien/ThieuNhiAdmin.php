@@ -434,11 +434,11 @@ class ThieuNhiAdmin extends BaseAdmin
             $qb->join('phanBo.chiDoan', 'chiDoan');
             if (array_key_exists('chiDoan', $this->actionParams)) {
                 $qb->andWhere($expr->eq('chiDoan.id', $expr->literal($this->actionParams['chiDoan']->getId())));
-            }
-
-            if (array_key_exists('danhSachChiDoan', $this->actionParams)) {
+            } elseif (array_key_exists('danhSachChiDoan', $this->actionParams)) {
                 $qb->andWhere($expr->in('chiDoan.id', ':danhSachChiDoan'))
                     ->setParameter('danhSachChiDoan', $this->actionParams['danhSachChiDoan']);
+            } else {
+                $qb->andWhere($expr->eq('chiDoan.id', $expr->literal($this->getUserThanhVien()->getChiDoan())));
             }
 
         }
