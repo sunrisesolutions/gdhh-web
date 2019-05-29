@@ -156,6 +156,10 @@ class ThieuNhiAdmin extends BaseAdmin {
 		if( ! empty($object)) {
 			$phanBoNamNay = $object->getPhanBoNamNay();
 		}
+
+        if ($name === 'EXPORT') {
+            return true;
+        }
 		
 		if($name === 'sanh-hoat-lai') {
 			if(empty($thanhVien)) {
