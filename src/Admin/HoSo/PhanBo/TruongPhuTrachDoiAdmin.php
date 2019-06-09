@@ -69,7 +69,12 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin
         $nextYearDate->setDate($schoolYear + 1, 6, 1);
         $today = new \DateTime();
         $fourWeeksAgo = new \DateTime();
-        $fourWeeksAgo->modify(sprintf('-%d weeks', $this->getConfigurationPool()->getContainer()->getParameter('DIEM_DANH_LIMIT')));
+
+        if ($this->getUserThanhVien()->getChiDoan() === 7) {
+            $fourWeeksAgo->modify(sprintf('-%d weeks', 35));
+        } else {
+            $fourWeeksAgo->modify(sprintf('-%d weeks', $this->getConfigurationPool()->getContainer()->getParameter('DIEM_DANH_LIMIT')));
+        }
 
         $qb = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.default_entity_manager')->createQueryBuilder();
         $qb->select('dcc')->from(DiemChuyenCan::class, 'dcc');
