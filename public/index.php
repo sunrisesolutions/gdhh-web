@@ -26,7 +26,7 @@ if ($debug) {
 
 if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? false) {
 //    Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
-    Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_AWS_ELB);
+    Request::setTrustedProxies(explode(',', $trustedProxies.','.$_SERVER['REMOTE_ADDR']), Request::HEADER_X_FORWARDED_AWS_ELB);
 }
 
 if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {
