@@ -33,6 +33,9 @@ class BangDiemService extends BaseService
 
         /** @var PhanBo $pb */
         foreach ($phanBoThieuNhi as $pb) {
+            if (empty($pb->getChiDoan())) {
+                continue;
+            }
             $bangDiem = $pb->getBangDiem();
             $bangDiem->setSundayTicketTerm1(0);
             $bangDiem->setSundayTicketTerm2(0);
