@@ -17,7 +17,7 @@ class BangDiem
     const TRUNG_BINH = 'TRUNG_BINH';
     const KHA = 'KHA';
     const GIOI = 'GIOI';
-    
+
     public function getCategoryTrans()
     {
         if ($this->isGradeRetention() && !$this->isFreePassGranted()) {
@@ -40,7 +40,7 @@ class BangDiem
             return 'GIỎI';
         }
     }
-    
+
     /**
      * ID_REF
      * @ORM\Id
@@ -49,7 +49,7 @@ class BangDiem
      * @ORM\CustomIdGenerator(class="App\Doctrine\ORM\RandomIdGenerator")
      */
     protected $id;
-    
+
     /**
      * @return mixed
      */
@@ -57,7 +57,7 @@ class BangDiem
     {
         return $this->id;
     }
-    
+
     public function tinhPhieuLeCNThang(array $cacDcc)
     {
         $tongPhieu = 0;
@@ -66,55 +66,88 @@ class BangDiem
             if ($dcc->getTargetDate()->format('w') > 0) {
                 continue;
             }
-            
-            if(!$dcc->isMassCounted()){
+
+            if (!$dcc->isMassCounted()) {
                 continue;
             }
-            
+
             $hienDien = $this->phanBo->getHienDienByDiemChuyenCan($dcc, HienDien::TYPE_LE_CN);
             if (!empty($hienDien)) {
                 $tongPhieu++;
             }
         }
-        $thangCC = (int)$dcc->getTargetDate()->format('m');
-        
+        $thangCC = (int) $dcc->getTargetDate()->format('m');
+
         if ($thangCC > 8 && $thangCC <= 12) {
             $this->sundayTicketTerm1 += $tongPhieu;
         } else {
             $this->sundayTicketTerm2 += $tongPhieu;
         }
         $this->sundayTickets = $this->sundayTicketTerm1 + $this->sundayTicketTerm2;
-        
+
         return $tongPhieu;
     }
-    
+
     /**
      * @param array $cacDcc DiemChuyenCan
      */
     public function tinhDiemChuyenCanThang(array $cacDcc)
     {
-        
+
         $tongDiem = 0;
+        $tongTuan = 0;
+        $tongTuanHienDien = 0;
+        $cd = $this->phanBo->getChiDoan();
+
         /** @var DiemChuyenCan $dcc */
         foreach ($cacDcc as $dcc) {
             $hienDien = $this->phanBo->getHienDienByDiemChuyenCan($dcc, HienDien::TYPE_GIAO_LY);
+            $day = (int) $dcc->getTargetDate()->format('N');
+            $isSunday = $day === 7;
+            $isThursday = $day === 4;
+            if ($isSunday) {
+                $tongTuan++;
+            }
+
             if (!empty($hienDien)) {
-                $diem = $dcc->getPointValue();
-                $date = $dcc->getTargetDate();
-                $tongDiem += $diem;
+                $isTinhDiem = false;
+                if ($isThursday && $cd->isTinhDiemThu5()) {
+                    $isTinhDiem = true;
+                }
+
+                if ($isSunday && $cd->isTinhDiemCN()) {
+                    $isTinhDiem = true;
+                }
+
+                if ($isTinhDiem) {
+                    $diem = $dcc->getPointValue();
+                    $date = $dcc->getTargetDate();
+                    $tongDiem += $diem;
+                    if ($isSunday) {
+                        $tongTuanHienDien++;
+                    }
+                }
             }
         }
-        $thangCC = (int)$dcc->getTargetDate()->format('m');
-        $thangCC = 'cc' . $thangCC;
+        $thangCC = (int) $dcc->getTargetDate()->format('m');
+        $thangCC = 'cc'.$thangCC;
+        if ($cd->isChiaDeuDiemCCchoNgayCN()) {
+            if (empty($tongTuan)) {
+                $tongDiem = 0;
+            } else {
+                $tongDiem = (10 / $tongTuan) * $tongTuanHienDien;
+            }
+        }
+
         $this->$thangCC = $tongDiem;
-        
+
         return $tongDiem;
     }
-    
+
     public function tinhDiemChuyenCan($hocKy = 1)
     {
         if (is_string($hocKy)) {
-            $hocKy = (int)$hocKy;
+            $hocKy = (int) $hocKy;
         }
         $cacCotDiemBiLoaiBo = $this->phanBo->getChiDoan()->getCotDiemBiLoaiBo();
         $cols = null;
@@ -126,13 +159,13 @@ class BangDiem
         } else {
             return null;
         }
-        
+
         if (is_array($cacCotDiemBiLoaiBo)) {
             foreach ($cacCotDiemBiLoaiBo as $cotDiemBiLoaiBo) {
                 unset($cols[$cotDiemBiLoaiBo]);
             }
         }
-        
+
         $colCount = count($cols);
         $sumCC = 0;
         foreach ($cols as $col) {
@@ -141,17 +174,17 @@ class BangDiem
             }
             $sumCC += $_cc;
         }
-        
+
         if ($hocKy === 1) {
             $tbCC = $this->tbCCTerm1 = $sumCC / $colCount;
         } elseif ($hocKy === 2) {
             $tbCC = $this->tbCCTerm2 = $sumCC / $colCount;
         }
-        
-        
+
+
         return $tbCC;
     }
-    
+
     public function tinhDiemGiaoLy($hocKy = 1)
     {
         $cacCotDiemBiLoaiBo = $this->phanBo->getChiDoan()->getCotDiemBiLoaiBo();
@@ -161,7 +194,7 @@ class BangDiem
             $cols = [
                 'quizTerm1' => 'quizTerm1',
                 'midTerm1' => 'midTerm1',
-                
+
                 'finalTerm1-1' => 'finalTerm1',
                 'finalTerm1-2' => 'finalTerm1'
             ];
@@ -175,13 +208,13 @@ class BangDiem
         } else {
             return null;
         }
-        
+
         if (is_array($cacCotDiemBiLoaiBo)) {
             foreach ($cacCotDiemBiLoaiBo as $cotDiemBiLoaiBo) {
                 unset($cols[$cotDiemBiLoaiBo]);
             }
         }
-        
+
         $colCount = count($cols);
         $sumGL = 0;
         foreach ($cols as $col) {
@@ -190,32 +223,32 @@ class BangDiem
             }
             $sumGL += $_gl;
         }
-        
+
         if ($hocKy === 1) {
             $tbGL = $this->tbGLTerm1 = $sumGL / $colCount;
         } elseif ($hocKy === 2) {
             $tbGL = $this->tbGLTerm2 = $sumGL / $colCount;
         }
-        
-        
+
+
         return $tbGL;
     }
-    
+
     public function tinhDiemHocKy($hocKy = 1)
     {
         if (is_string($hocKy)) {
-            $hocKy = (int)$hocKy;
+            $hocKy = (int) $hocKy;
         }
-        
+
         $cacCotDiemBiLoaiBo = $this->phanBo->getChiDoan()->getCotDiemBiLoaiBo();
         $cols = null;
-        
+
         if ($hocKy === 1) {
             $cols = [
                 'tbCCTerm1' => 'tbCCTerm1',
                 'quizTerm1' => 'quizTerm1',
                 'midTerm1' => 'midTerm1',
-                
+
                 'finalTerm1-1' => 'finalTerm1',
                 'finalTerm1-2' => 'finalTerm1'
             ];
@@ -224,14 +257,14 @@ class BangDiem
                 'tbCCTerm2' => 'tbCCTerm2',
                 'quizTerm2' => 'quizTerm2',
                 'midTerm2' => 'midTerm2',
-                
+
                 'finalTerm2-1' => 'finalTerm2',
                 'finalTerm2-2' => 'finalTerm2'
             ];
         } else {
             return null;
         }
-        
+
         if (is_array($cacCotDiemBiLoaiBo)) {
             foreach ($cacCotDiemBiLoaiBo as $cotDiemBiLoaiBo) {
                 if ($cotDiemBiLoaiBo === 'finalTerm1') {
@@ -245,17 +278,17 @@ class BangDiem
                 }
             }
         }
-        
+
         $colCount = count($cols);
         $sumDiem = 0;
         foreach ($cols as $col) {
             if (empty($_diem = $this->$col)) {
                 continue;
             }
-            
+
             $sumDiem += $_diem;
         }
-        
+
         if ($hocKy === 1) {
             $tbTerm = $this->tbTerm1 = $sumDiem / $colCount;
             $this->tinhDiemGiaoLy(1);
@@ -263,14 +296,14 @@ class BangDiem
             if ($this->tbGLTerm1 === null) {
                 $this->tinhDiemGiaoLy(1);
             }
-            
+
             $this->tinhDiemGiaoLy(2);
             $this->tbGLYear = ($this->tbGLTerm1 + $this->tbGLTerm2) / 2;
-            
+
             $tbTerm = $this->tbTerm2 = $sumDiem / $colCount;
             $this->tbYear = ($this->tbTerm1 + $this->tbTerm2) / 2;
             $this->congPhieuChuaNhat();
-            
+
             $namHoc = $this->phanBo->getNamHoc();
             switch (true) {
                 case $this->tbYear >= $namHoc->getDiemGioi():
@@ -291,17 +324,17 @@ class BangDiem
             } else {
                 $this->gradeRetention = true;
             }
-            
+
             if ($sundayTickets >= $namHoc->getPhieuKhenThuong() && $this->tbYear >= $namHoc->getDiemKha()) {
                 $this->awarded = true;
             } else {
                 $this->awarded = false;
             }
         }
-        
+
         return $tbTerm;
     }
-    
+
     public function congPhieuChuaNhat()
     {
         if ($this->sundayTicketTerm1 === null) {
@@ -311,10 +344,10 @@ class BangDiem
             $this->sundayTicketTerm2 = 0;
         }
         $this->sundayTickets = $this->sundayTicketTerm1 + $this->sundayTicketTerm2;
-        
+
         return $this->sundayTickets;
     }
-    
+
     /**
      * @var PhanBo
      * @ORM\OneToOne(targetEntity="App\Entity\HoSo\PhanBo",inversedBy="bangDiem")
@@ -322,7 +355,7 @@ class BangDiem
      */
     protected
         $phanBo;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
@@ -333,213 +366,213 @@ class BangDiem
      * @ORM\Column(type="float", nullable=true)
      */
     protected $cc10;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $cc11;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $cc12;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $cc1;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $cc2;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $cc3;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $cc4;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $cc5;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $tbCCTerm1;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $quizTerm1;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $midTerm1;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $finalTerm1;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $tbGLTerm1;
-    
-    
+
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $tbTerm1;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $tbCCTerm2;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $quizTerm2;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $midTerm2;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $finalTerm2;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $tbTerm2;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $tbGLTerm2;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $tbGLYear;
-    
+
     /**
      * @var  float
      * @ORM\Column(type="float", nullable=true)
      */
     protected $tbYear;
-    
+
     /**
      * @var  integer
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $sundayTicketTerm1;
-    
+
     /**
      * @var  integer
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $sundayTicketTerm2;
-    
+
     /**
      * @var  integer
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $sundayTickets;
-    
+
     /**
      * @var  integer
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $specialTreatmentTarget;
-    
+
     /**
      * @var  boolean
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected $awarded;
-    
-    
+
+
     /**
      * @var  boolean
      * @ORM\Column(type="boolean", nullable=false)
      */
     protected $submitted = false;
-    
+
     /**
      * @var  boolean
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $specialTreatment = false;
-    
+
     /**
      * @var  boolean
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $specialTreatmentApproved = false;
-    
+
     /**
      * @var  boolean
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected $gradeRetention;
-    
+
     /**
      * @var  boolean
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $gradeRetentionForced = false;
-    
+
     /**
      * @var  boolean|null
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $freePassGranted = false;
-    
+
     /**
      * @var  string
      * @ORM\Column(type="string", nullable=true)
      */
     protected $category;
-    
+
     /**
      * @var  string
      * @ORM\Column(type="string", nullable=true)
      */
     protected $remarks;
-    
+
     /**
      * @return PhanBo
      */
@@ -547,7 +580,7 @@ class BangDiem
     {
         return $this->phanBo;
     }
-    
+
     /**
      * @param PhanBo $phanBo
      */
@@ -555,7 +588,7 @@ class BangDiem
     {
         $this->phanBo = $phanBo;
     }
-    
+
     /**
      * @return float
      */
@@ -563,7 +596,7 @@ class BangDiem
     {
         return $this->cc9;
     }
-    
+
     /**
      * @param float $cc9
      */
@@ -571,7 +604,7 @@ class BangDiem
     {
         $this->cc9 = $cc9;
     }
-    
+
     /**
      * @return float
      */
@@ -579,7 +612,7 @@ class BangDiem
     {
         return $this->cc10;
     }
-    
+
     /**
      * @param float $cc10
      */
@@ -587,7 +620,7 @@ class BangDiem
     {
         $this->cc10 = $cc10;
     }
-    
+
     /**
      * @return float
      */
@@ -595,7 +628,7 @@ class BangDiem
     {
         return $this->cc11;
     }
-    
+
     /**
      * @param float $cc11
      */
@@ -603,7 +636,7 @@ class BangDiem
     {
         $this->cc11 = $cc11;
     }
-    
+
     /**
      * @return float
      */
@@ -611,7 +644,7 @@ class BangDiem
     {
         return $this->cc12;
     }
-    
+
     /**
      * @param float $cc12
      */
@@ -619,7 +652,7 @@ class BangDiem
     {
         $this->cc12 = $cc12;
     }
-    
+
     /**
      * @return float
      */
@@ -627,7 +660,7 @@ class BangDiem
     {
         return $this->cc1;
     }
-    
+
     /**
      * @param float $cc1
      */
@@ -635,7 +668,7 @@ class BangDiem
     {
         $this->cc1 = $cc1;
     }
-    
+
     /**
      * @return float
      */
@@ -643,7 +676,7 @@ class BangDiem
     {
         return $this->cc2;
     }
-    
+
     /**
      * @param float $cc2
      */
@@ -651,7 +684,7 @@ class BangDiem
     {
         $this->cc2 = $cc2;
     }
-    
+
     /**
      * @return float
      */
@@ -659,7 +692,7 @@ class BangDiem
     {
         return $this->cc3;
     }
-    
+
     /**
      * @param float $cc3
      */
@@ -667,7 +700,7 @@ class BangDiem
     {
         $this->cc3 = $cc3;
     }
-    
+
     /**
      * @return float
      */
@@ -675,7 +708,7 @@ class BangDiem
     {
         return $this->cc4;
     }
-    
+
     /**
      * @param float $cc4
      */
@@ -683,7 +716,7 @@ class BangDiem
     {
         $this->cc4 = $cc4;
     }
-    
+
     /**
      * @return float
      */
@@ -691,7 +724,7 @@ class BangDiem
     {
         return $this->cc5;
     }
-    
+
     /**
      * @param float $cc5
      */
@@ -699,7 +732,7 @@ class BangDiem
     {
         $this->cc5 = $cc5;
     }
-    
+
     /**
      * @return float
      */
@@ -707,7 +740,7 @@ class BangDiem
     {
         return $this->quizTerm1;
     }
-    
+
     /**
      * @param float $quizTerm1
      */
@@ -715,7 +748,7 @@ class BangDiem
     {
         $this->quizTerm1 = $quizTerm1;
     }
-    
+
     /**
      * @return float
      */
@@ -723,7 +756,7 @@ class BangDiem
     {
         return $this->midTerm1;
     }
-    
+
     /**
      * @param float $midTerm1
      */
@@ -731,7 +764,7 @@ class BangDiem
     {
         $this->midTerm1 = $midTerm1;
     }
-    
+
     /**
      * @return float
      */
@@ -739,7 +772,7 @@ class BangDiem
     {
         return $this->finalTerm1;
     }
-    
+
     /**
      * @param float $finalTerm1
      */
@@ -747,7 +780,7 @@ class BangDiem
     {
         $this->finalTerm1 = $finalTerm1;
     }
-    
+
     /**
      * @return float
      */
@@ -755,7 +788,7 @@ class BangDiem
     {
         return $this->quizTerm2;
     }
-    
+
     /**
      * @param float $quizTerm2
      */
@@ -763,7 +796,7 @@ class BangDiem
     {
         $this->quizTerm2 = $quizTerm2;
     }
-    
+
     /**
      * @return float
      */
@@ -771,7 +804,7 @@ class BangDiem
     {
         return $this->midTerm2;
     }
-    
+
     /**
      * @param float $midTerm2
      */
@@ -779,7 +812,7 @@ class BangDiem
     {
         $this->midTerm2 = $midTerm2;
     }
-    
+
     /**
      * @return float
      */
@@ -787,7 +820,7 @@ class BangDiem
     {
         return $this->finalTerm2;
     }
-    
+
     /**
      * @param float $finalTerm2
      */
@@ -795,7 +828,7 @@ class BangDiem
     {
         $this->finalTerm2 = $finalTerm2;
     }
-    
+
     /**
      * @return int
      */
@@ -803,7 +836,7 @@ class BangDiem
     {
         return $this->sundayTicketTerm1;
     }
-    
+
     /**
      * @param int $sundayTicketTerm1
      */
@@ -811,7 +844,7 @@ class BangDiem
     {
         $this->sundayTicketTerm1 = $sundayTicketTerm1;
     }
-    
+
     /**
      * @return int
      */
@@ -819,7 +852,7 @@ class BangDiem
     {
         return $this->sundayTicketTerm2;
     }
-    
+
     /**
      * @param int $sundayTicketTerm2
      */
@@ -827,7 +860,7 @@ class BangDiem
     {
         $this->sundayTicketTerm2 = $sundayTicketTerm2;
     }
-    
+
     /**
      * @return int
      */
@@ -835,7 +868,7 @@ class BangDiem
     {
         return $this->sundayTickets;
     }
-    
+
     /**
      * @param int $sundayTickets
      */
@@ -843,7 +876,7 @@ class BangDiem
     {
         $this->sundayTickets = $sundayTickets;
     }
-    
+
     /**
      * @return bool
      */
@@ -851,7 +884,7 @@ class BangDiem
     {
         return $this->awarded;
     }
-    
+
     /**
      * @param bool $awarded
      */
@@ -859,7 +892,7 @@ class BangDiem
     {
         $this->awarded = $awarded;
     }
-    
+
     /**
      * @return bool
      */
@@ -867,7 +900,7 @@ class BangDiem
     {
         return $this->gradeRetention;
     }
-    
+
     /**
      * @param bool $gradeRetention
      */
@@ -875,7 +908,7 @@ class BangDiem
     {
         $this->gradeRetention = $gradeRetention;
     }
-    
+
     /**
      * @return string
      */
@@ -883,7 +916,7 @@ class BangDiem
     {
         return $this->category;
     }
-    
+
     /**
      * @param string $category
      */
@@ -891,7 +924,7 @@ class BangDiem
     {
         $this->category = $category;
     }
-    
+
     /**
      * @return string
      */
@@ -899,7 +932,7 @@ class BangDiem
     {
         return $this->remarks;
     }
-    
+
     /**
      * @param string $remarks
      */
@@ -907,8 +940,8 @@ class BangDiem
     {
         $this->remarks = $remarks;
     }
-    
-    
+
+
     /**
      * @return float
      */
@@ -916,7 +949,7 @@ class BangDiem
     {
         return $this->tbTerm1;
     }
-    
+
     /**
      * @param float $tbTerm1
      */
@@ -924,7 +957,7 @@ class BangDiem
     {
         $this->tbTerm1 = $tbTerm1;
     }
-    
+
     /**
      * @return float
      */
@@ -932,7 +965,7 @@ class BangDiem
     {
         return $this->tbTerm2;
     }
-    
+
     /**
      * @param float $tbTerm2
      */
@@ -940,7 +973,7 @@ class BangDiem
     {
         $this->tbTerm2 = $tbTerm2;
     }
-    
+
     /**
      * @return float
      */
@@ -948,7 +981,7 @@ class BangDiem
     {
         return $this->tbCCTerm1;
     }
-    
+
     /**
      * @param float $tbCCTerm1
      */
@@ -956,7 +989,7 @@ class BangDiem
     {
         $this->tbCCTerm1 = $tbCCTerm1;
     }
-    
+
     /**
      * @return float
      */
@@ -964,7 +997,7 @@ class BangDiem
     {
         return $this->tbCCTerm2;
     }
-    
+
     /**
      * @param float $tbCCTerm2
      */
@@ -972,7 +1005,7 @@ class BangDiem
     {
         $this->tbCCTerm2 = $tbCCTerm2;
     }
-    
+
     /**
      * @return float
      */
@@ -980,7 +1013,7 @@ class BangDiem
     {
         return $this->tbYear;
     }
-    
+
     /**
      * @param float $tbYear
      */
@@ -988,7 +1021,7 @@ class BangDiem
     {
         $this->tbYear = $tbYear;
     }
-    
+
     /**
      * @return bool
      */
@@ -996,7 +1029,7 @@ class BangDiem
     {
         return $this->submitted;
     }
-    
+
     /**
      * @param bool $submitted
      */
@@ -1004,7 +1037,7 @@ class BangDiem
     {
         $this->submitted = $submitted;
     }
-    
+
     /**
      * @return bool
      */
@@ -1012,7 +1045,7 @@ class BangDiem
     {
         return $this->specialTreatment;
     }
-    
+
     /**
      * @param bool $specialTreatment
      */
@@ -1020,7 +1053,7 @@ class BangDiem
     {
         $this->specialTreatment = $specialTreatment;
     }
-    
+
     /**
      * @return int
      */
@@ -1028,7 +1061,7 @@ class BangDiem
     {
         return $this->specialTreatmentTarget;
     }
-    
+
     /**
      * @param int $specialTreatmentTarget
      */
@@ -1036,7 +1069,7 @@ class BangDiem
     {
         $this->specialTreatmentTarget = $specialTreatmentTarget;
     }
-    
+
     /**
      * @return bool
      */
@@ -1044,7 +1077,7 @@ class BangDiem
     {
         return $this->specialTreatmentApproved;
     }
-    
+
     /**
      * @param bool $specialTreatmentApproved
      */
@@ -1052,7 +1085,7 @@ class BangDiem
     {
         $this->specialTreatmentApproved = $specialTreatmentApproved;
     }
-    
+
     /**
      * @return float
      */
@@ -1060,7 +1093,7 @@ class BangDiem
     {
         return $this->tbGLTerm1;
     }
-    
+
     /**
      * @param float $tbGLTerm1
      */
@@ -1068,7 +1101,7 @@ class BangDiem
     {
         $this->tbGLTerm1 = $tbGLTerm1;
     }
-    
+
     /**
      * @return float
      */
@@ -1076,7 +1109,7 @@ class BangDiem
     {
         return $this->tbGLTerm2;
     }
-    
+
     /**
      * @param float $tbGLTerm2
      */
@@ -1084,7 +1117,7 @@ class BangDiem
     {
         $this->tbGLTerm2 = $tbGLTerm2;
     }
-    
+
     /**
      * @return float
      */
@@ -1092,7 +1125,7 @@ class BangDiem
     {
         return $this->tbGLYear;
     }
-    
+
     /**
      * @param float $tbGLYear
      */
@@ -1100,7 +1133,7 @@ class BangDiem
     {
         $this->tbGLYear = $tbGLYear;
     }
-    
+
     /**
      * @return bool|null
      */
@@ -1108,7 +1141,7 @@ class BangDiem
     {
         return $this->freePassGranted;
     }
-    
+
     /**
      * @param bool|null $freePassGranted
      */
@@ -1116,7 +1149,7 @@ class BangDiem
     {
         $this->freePassGranted = $freePassGranted;
     }
-    
+
     /**
      * @return bool
      */
@@ -1124,7 +1157,7 @@ class BangDiem
     {
         return $this->gradeRetentionForced;
     }
-    
+
     /**
      * @param bool $gradeRetentionForced
      */

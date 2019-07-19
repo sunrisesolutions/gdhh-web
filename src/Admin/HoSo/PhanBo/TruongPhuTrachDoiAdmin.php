@@ -178,7 +178,6 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin
      */
     public function isGranted($name, $object = null)
     {
-
         $tv = $this->getUserThanhVien();
         if (empty($tv) || !$tv->isEnabled()) {
             return false;

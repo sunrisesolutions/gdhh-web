@@ -293,12 +293,18 @@ class ChiDoan {
 	function getId() {
 		return $this->id;
 	}
-	
-	/** @var array
-	 * @ORM\Column(type="json")
-	 */
-	protected
-		$cotDiemBiLoaiBo = array();
+
+    /** @var array
+     * @ORM\Column(type="json")
+     */
+    protected
+        $cotDiemBiLoaiBo = array();
+
+    /** @var array|null
+     * @ORM\Column(type="json")
+     */
+    protected
+        $phieuCNBoSung = array();
 	
 	/**
 	 * @var NamHoc
@@ -321,7 +327,26 @@ class ChiDoan {
 	 */
 	protected
 		$phanBoHangNam;
-	
+
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":true})
+     */
+
+    protected $tinhDiemThu5=true;
+
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":true})
+     */
+    protected $tinhDiemCN = true;
+
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    protected $chiaDeuDiemCCchoNgayCN = false;
+
 	/**
 	 * @var boolean
 	 * @ORM\Column(type="boolean", options={"default":false})
@@ -366,7 +391,7 @@ class ChiDoan {
 	 */
 	protected
 		$phanDoan;
-	
+
 	/**
 	 * @return string
 	 */
@@ -536,5 +561,68 @@ class ChiDoan {
 	public function setDuocDuyetBangDiemHK2($duocDuyetBangDiemHK2) {
 		$this->duocDuyetBangDiemHK2 = $duocDuyetBangDiemHK2;
 	}
-	
+
+    /**
+     * @return bool
+     */
+    public function isTinhDiemThu5(): bool
+    {
+        return $this->tinhDiemThu5;
+    }
+
+    /**
+     * @param bool $tinhDiemThu5
+     */
+    public function setTinhDiemThu5(bool $tinhDiemThu5): void
+    {
+        $this->tinhDiemThu5 = $tinhDiemThu5;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTinhDiemCN(): bool
+    {
+        return $this->tinhDiemCN;
+    }
+
+    /**
+     * @param bool $tinhDiemCN
+     */
+    public function setTinhDiemCN(bool $tinhDiemCN): void
+    {
+        $this->tinhDiemCN = $tinhDiemCN;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isChiaDeuDiemCCchoNgayCN(): bool
+    {
+        return $this->chiaDeuDiemCCchoNgayCN;
+    }
+
+    /**
+     * @param bool $chiaDeuDiemCCchoNgayCN
+     */
+    public function setChiaDeuDiemCCchoNgayCN(bool $chiaDeuDiemCCchoNgayCN): void
+    {
+        $this->chiaDeuDiemCCchoNgayCN = $chiaDeuDiemCCchoNgayCN;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getPhieuCNBoSung(): ?array
+    {
+        return $this->phieuCNBoSung;
+    }
+
+    /**
+     * @param array $phieuCNBoSung
+     */
+    public function setPhieuCNBoSung(array $phieuCNBoSung): void
+    {
+        $this->phieuCNBoSung = $phieuCNBoSung;
+    }
 }
