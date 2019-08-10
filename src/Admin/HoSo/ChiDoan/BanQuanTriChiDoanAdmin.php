@@ -81,6 +81,7 @@ class BanQuanTriChiDoanAdmin extends BaseAdmin
         $collection->add('bangDiem', $this->getRouterIdParameter().'/bang-diem/{hocKy}/{action}');
 
         $collection->add('thieuNhiXuDoanDownloadBangDiem', '/bang-diem/hoc-ky-{hocKy}/download');
+        $collection->add('thieuNhiXuDoanDownloadBangDiemDauNam', '/bang-diem/dau-nam/download');
 
         parent::configureRoutes($collection);
     }

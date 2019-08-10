@@ -34,12 +34,28 @@ class HuynhTruong {
 	protected function createBangDiemWriter() {
 		return new BangDiemNhomWriter($this);
 	}
-	
-	public function downloadBangDiemExcel($hocKy) {
+
+    public function downloadBangDiemExcel($hocKy) {
+
+        $bdWriter = $this->createBangDiemWriter();
+
+        $bdWriter->writeBangDiemHocKy($hocKy);
+        $f              = $bdWriter->getSpreadsheetFactory();
+        $phpExcelObject = $bdWriter->getExcelObj();
+        // create the writer
+        $writer = $f->createWriter($phpExcelObject, 'Excel2007');
+
+        $phpExcelObject->getActiveSheet()->calculateColumnWidths();
+
+        // create the response
+        return $response = $f->createStreamedResponse($writer);
+    }
+
+	public function downloadBangDiemExcelDauNam() {
 		
 		$bdWriter = $this->createBangDiemWriter();
 		
-		$bdWriter->writeBangDiemHocKy($hocKy);
+		$bdWriter->writeBangDiemDauNam();
 		$f              = $bdWriter->getSpreadsheetFactory();
 		$phpExcelObject = $bdWriter->getExcelObj();
 		// create the writer

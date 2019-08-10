@@ -21,5 +21,16 @@ class BangDiemXuDoanWriter extends BangDiemPhanDoanWriter {
 		$sWriter->goDown();
 		$sWriter->goDown();
 	}
+
+    public function writeHeadingDauNam($namHocId, ChiDoan $chiDoan = null, HuynhTruong $truong = null) {
+        if(empty($truong)) {
+            $truong = $this->huynhTruong;
+        }
+        $chiDoan = $truong->getPhanBo()->getChiDoan();
+        $this->writeBaseHeading('dau-nam', $namHocId, $chiDoan, $truong);
+        $sWriter = $this->sWriter;
+        $sWriter->goDown();
+        $sWriter->goDown();
+    }
 	
 }
