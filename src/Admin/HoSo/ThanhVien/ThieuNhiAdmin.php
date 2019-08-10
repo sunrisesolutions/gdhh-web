@@ -219,9 +219,10 @@ class ThieuNhiAdmin extends BaseAdmin
                 if (($permission = $thanhVien->isCDTorGreater($object)) !== null) {
                     if ($permission) {
                         return $phanBoNamNay->isFreePassGrantable();
-                    } else {
-                        return false;
                     }
+//                    else {
+//                        return false;
+//                    }
                 }
 
                 $phanBo = $thanhVien->getPhanBoNamNay();
