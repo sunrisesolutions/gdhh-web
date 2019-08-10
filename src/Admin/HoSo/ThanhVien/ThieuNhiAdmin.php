@@ -231,7 +231,7 @@ class ThieuNhiAdmin extends BaseAdmin
                     $doiNhomGiaoLy = $truong->getDoiNhomGiaoLy();
                     /** @var PhanBo $_phanBoTN */
                     foreach ($doiNhomGiaoLy->getPhanBoThieuNhi() as $_phanBoTN) {
-                        if ($_phanBoTN === $object) {
+                        if ($_phanBoTN->getThanhVien() === $object) {
                             return $phanBoNamNay->isFreePassGrantable();
                         }
                     }
