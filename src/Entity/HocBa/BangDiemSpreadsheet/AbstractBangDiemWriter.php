@@ -621,7 +621,7 @@ abstract class AbstractBangDiemWriter
                 $sWriter->goRight();
 
                 $sWriter->alignCurrentCellCenter();
-                $sWriter->writeCellAndGoRight($bangDiem->getTbYear());
+                $sWriter->writeCellAndGoRight('ROUND('.$bangDiem->getTbYear().',2)');
 
                 $sWriter->alignCurrentCellCenter();
                 $sWriter->writeCellAndGoRight($bangDiem->getSundayTickets());
@@ -650,8 +650,6 @@ abstract class AbstractBangDiemWriter
                 $sWriter->alignCurrentCellCenter();
 
                 $sWriter->goRight();
-                $sWriter->alignCurrentCellCenter();
-                $sWriter->writeCellAndGoRight('');
 
                 $sWriter->alignCurrentCellCenter();
                 $sWriter->writeCellAndGoRight('');
