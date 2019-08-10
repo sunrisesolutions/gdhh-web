@@ -5,6 +5,7 @@ namespace App\Entity\HocBa\BangDiemSpreadsheet;
 use App\Entity\HocBa\BangDiem;
 use App\Entity\HoSo\ChiDoan;
 use App\Entity\HoSo\PhanBo;
+use App\Entity\HoSo\ThanhVien;
 use App\Entity\HoSo\ThanhVien\HuynhTruong;
 use App\Service\Data\SpreadsheetWriter;
 use Doctrine\Common\Collections\Collection;
@@ -626,7 +627,11 @@ abstract class AbstractBangDiemWriter
                 $sWriter->writeCellAndGoRight($bangDiem->getSundayTickets());
 
                 $sWriter->alignCurrentCellCenter();
-                $sWriter->writeCellAndGoRight($bangDiem->getCategoryTrans());
+                if ($phanBoCu->getPhanDoan() === ThanhVien::PHAN_DOAN_CHIEN) {
+                    $sWriter->writeCellAndGoRight('CHIÊN-CON');
+                }else{
+                    $sWriter->writeCellAndGoRight($bangDiem->getCategoryTrans());
+                }
 
                 $sWriter->alignCurrentCellCenter();
                 $sWriter->writeCellAndGoRight($bangDiem->isAwarded() ? 'Có' : 'Không');
