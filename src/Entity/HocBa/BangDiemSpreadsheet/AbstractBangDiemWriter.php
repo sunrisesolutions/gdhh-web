@@ -111,24 +111,23 @@ abstract class AbstractBangDiemWriter
         $sWriter->getCurrentRowDimension()->setRowHeight(25);
     }
 
-    public function writeData($hocKy, Collection $phanBoThieuNhi)
-    {
-        $style1 = array(
-            'font' => array(
-                'bold' => true,
-                'color' => array('rgb' => 'FFFFFF'),
-                'size' => 12,
-                'name' => 'Times New Roman'
+    public function writeData($hocKy, Collection $phanBoThieuNhi) {
+        $style1  = array(
+            'font'      => array(
+                'bold'  => true,
+                'color' => array( 'rgb' => 'FFFFFF' ),
+                'size'  => 12,
+                'name'  => 'Times New Roman'
             )
         ,
             'alignment' => array(
                 'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                'vertical' => \PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                'vertical'   => \PHPExcel_Style_Alignment::VERTICAL_CENTER,
             )
         );
         $sWriter = $this->sWriter;
 
-        if ($hocKy === 1) {
+        if($hocKy === 1) {
             $cotDiemCC = [
                 'E' => 'cc9',
                 'F' => 'cc10',
@@ -180,13 +179,20 @@ abstract class AbstractBangDiemWriter
 
         $sWriter->goDown(2);
 
-        foreach ($cotDiemCC as $cd) {
+        foreach($cotDiemCC as $cd) {
             $sWriter->setCurrentCellColor('FF9900');
             $sWriter->getCurrentCellStyle()->applyFromArray($style1);
             $sWriter->writeCellAndGoRight(sprintf(' %s ', str_replace('cc', 'T', $cd)));
         }
 
         $sWriter->goUp(2);
+
+        $sWriter->setCurrentCellColor('0000FF');
+        $sWriter->getCurrentCellStyle()->applyFromArray($style1);
+        $sWriter->mergeCellsDown(2);
+        $sWriter->getCurrentColumnDimension()->setAutoSize(false);
+        $sWriter->getCurrentColumnDimension()->setWidth(20);
+        $sWriter->writeCellAndGoRight(' TB.CC ');
 
         $sWriter->setCurrentCellColor('0000FF');
         $sWriter->getCurrentCellStyle()->applyFromArray($style1);
@@ -207,23 +213,23 @@ abstract class AbstractBangDiemWriter
         $sWriter->mergeCellsDown(2);
         $sWriter->getCurrentColumnDimension()->setAutoSize(false);
         $sWriter->getCurrentColumnDimension()->setWidth(20);
-        $sWriter->writeCellAndGoRight(' ĐIỂM THI HK'.$hocKy.' ');
+        $sWriter->writeCellAndGoRight(' ĐIỂM THI HK' . $hocKy . ' ');
 
         $sWriter->setCurrentCellColor('0000FF');
         $sWriter->getCurrentCellStyle()->applyFromArray($style1);
         $sWriter->mergeCellsDown(2);
         $sWriter->getCurrentColumnDimension()->setAutoSize(false);
         $sWriter->getCurrentColumnDimension()->setWidth(20);
-        $sWriter->writeCellAndGoRight(' TB.GL. HK'.$hocKy.' ');
+        $sWriter->writeCellAndGoRight(' TB.GL. HK' . $hocKy . ' ');
 
         $sWriter->setCurrentCellColor('FF0000');
         $sWriter->getCurrentCellStyle()->applyFromArray($style1);
         $sWriter->mergeCellsDown(2);
         $sWriter->getCurrentColumnDimension()->setAutoSize(false);
         $sWriter->getCurrentColumnDimension()->setWidth(20);
-        $sWriter->writeCellAndGoRight(' TB. HK'.$hocKy.' ');
+        $sWriter->writeCellAndGoRight(' TB. HK' . $hocKy . ' ');
 
-        if ($hocKy === 2) {
+        if($hocKy === 2) {
             $sWriter->setCurrentCellColor('0000FF');
             $sWriter->getCurrentCellStyle()->applyFromArray($style1);
             $sWriter->mergeCellsDown(2);
@@ -259,9 +265,9 @@ abstract class AbstractBangDiemWriter
         $sWriter->mergeCellsDown(2);
         $sWriter->getCurrentColumnDimension()->setAutoSize(false);
         $sWriter->getCurrentColumnDimension()->setWidth(20);
-        $sWriter->writeCellAndGoRight(' PHIẾU CN HK'.$hocKy);
+        $sWriter->writeCellAndGoRight(' PHIẾU CN HK' . $hocKy);
 
-        if ($hocKy === 2) {
+        if($hocKy === 2) {
             $sWriter->setCurrentCellColor('FF9900');
             $sWriter->getCurrentCellStyle()->applyFromArray($style1);
             $sWriter->mergeCellsDown(2);
@@ -308,89 +314,89 @@ abstract class AbstractBangDiemWriter
 
         //////////////// Write Names and Code
         /** @var PhanBo $phanBo */
-        foreach ($phanBoThieuNhi as $phanBo) {
+        foreach($phanBoThieuNhi as $phanBo) {
             $chiDoan = $phanBo->getChiDoan();
 
             $sWriter->goDown();
             $sWriter->goFirstColumn();
             $thanhVien = $phanBo->getThanhVien();
-            if (empty($bangDiem = $phanBo->getBangDiem())) {
+            if(empty($bangDiem = $phanBo->getBangDiem())) {
                 $phanBo->setBangDiem($bangDiem = new BangDiem());
             }
 
-            $sWriter->writeCellAndGoRight('  '.$thanhVien->getId().'  ');
-            $sWriter->writeCellAndGoRight('  '.$thanhVien->getChristianname().'  ');
-            $sWriter->writeCellAndGoRight('  '.$thanhVien->getLastname().' '.$thanhVien->getMiddlename().'  ');
-            $sWriter->writeCellAndGoRight('  '.$thanhVien->getFirstname().'  ');
+            $sWriter->writeCellAndGoRight('  ' . $thanhVien->getId() . '  ');
+            $sWriter->writeCellAndGoRight('  ' . $thanhVien->getChristianname() . '  ');
+            $sWriter->writeCellAndGoRight('  ' . $thanhVien->getLastname() . ' ' . $thanhVien->getMiddlename() . '  ');
+            $sWriter->writeCellAndGoRight('  ' . $thanhVien->getFirstname() . '  ');
 
-            foreach ($cotDiemCC as $key => $value) {
+            foreach($cotDiemCC as $key => $value) {
                 //			$sWriter->writeCellAndGoRight($bangDiem->getCc9());
-                $getter = 'get'.ucfirst($value);
+                $getter = 'get' . ucfirst($value);
                 $sWriter->writeCellAndGoRight($bangDiem->$getter());
             }
 
             $sWriter->alignCurrentCellCenter();
-            $cusorRow = $sWriter->getCursorRow();
-            $sumCCStr = 'SUM(';
-            $sumCCCount = 0;
+            $cusorRow           = $sWriter->getCursorRow();
+            $sumCCStr           = 'SUM(';
+            $sumCCCount         = 0;
             $cacCotDiemBiLoaiBo = $chiDoan->getCotDiemBiLoaiBo();
-            foreach ($cotDiemCC as $key => $value) {
-                if (!empty($cacCotDiemBiLoaiBo) && in_array($value, $cacCotDiemBiLoaiBo)) {
+            foreach($cotDiemCC as $key => $value) {
+                if( ! empty($cacCotDiemBiLoaiBo) && in_array($value, $cacCotDiemBiLoaiBo)) {
                     continue;
                 }
-                $sumCCStr .= $key.$cusorRow.',';
-                $sumCCCount++;
+                $sumCCStr .= $key . $cusorRow . ',';
+                $sumCCCount ++;
             }
 
-            $sumCCStr = substr($sumCCStr, 0, -1);
+            $sumCCStr = substr($sumCCStr, 0, - 1);
             $sumCCStr .= ')';
 
-            if ($sumCCCount === 0) {
+            if($sumCCCount === 0) {
                 $sWriter->writeCellAndGoRight(0);
             } else {
                 $sWriter->writeCellAndGoRight(sprintf('=ROUND(%s/%d,2)', $sumCCStr, $sumCCCount));
             }
 
             $sWriter->alignCurrentCellCenter();
-            $getter = 'getQuizTerm'.$hocKy;
+            $getter = 'getQuizTerm' . $hocKy;
             $sWriter->writeCellAndGoRight($bangDiem->$getter());
             $sWriter->alignCurrentCellCenter();
-            $getter = 'getMidTerm'.$hocKy;
+            $getter = 'getMidTerm' . $hocKy;
             $sWriter->writeCellAndGoRight($bangDiem->$getter());
             $sWriter->alignCurrentCellCenter();
-            $getter = 'getFinalTerm'.$hocKy;
+            $getter = 'getFinalTerm' . $hocKy;
             $sWriter->writeCellAndGoRight($bangDiem->$getter());
 
-            $iCode = ord('E');
-            $nextCode = $iCode + count($cotDiemCC);
+            $iCode       = ord('E');
+            $nextCode    = $iCode + count($cotDiemCC);
             $quizTermCol = $nextCode + 1;
 
             /// <<< Tinh Diem TB GIAO LY
-            $cotDiemGL = [
-                chr($quizTermCol) => 'quixTerm1',
-                chr(++$quizTermCol) => 'midTerm1',
-                chr(++$quizTermCol) => 'finalTerm1',
+            $cotDiemGL    = [
+                chr($quizTermCol)    => 'quixTerm1',
+                chr(++ $quizTermCol) => 'midTerm1',
+                chr(++ $quizTermCol) => 'finalTerm1',
             ];
             $finalTermCol = $quizTermCol;
             $sWriter->alignCurrentCellCenter();
-            $sumGLStr = 'SUM(';
+            $sumGLStr   = 'SUM(';
             $sumGLCount = 0;
-            foreach ($cotDiemGL as $key => $value) {
-                if (!empty($cacCotDiemBiLoaiBo) && in_array($value, $cacCotDiemBiLoaiBo)) {
+            foreach($cotDiemGL as $key => $value) {
+                if( ! empty($cacCotDiemBiLoaiBo) && in_array($value, $cacCotDiemBiLoaiBo)) {
                     continue;
                 }
-                $sumGLStr .= $key.$cusorRow.',';
-                if ($key === chr($finalTermCol)) {
-                    $sumGLStr .= $key.$cusorRow.',';
-                    $sumGLCount++;
+                $sumGLStr .= $key . $cusorRow . ',';
+                if($key === chr($finalTermCol)) {
+                    $sumGLStr .= $key . $cusorRow . ',';
+                    $sumGLCount ++;
                 }
-                $sumGLCount++;
+                $sumGLCount ++;
             }
-            $sumGLStr = substr($sumGLStr, 0, -1);
+            $sumGLStr = substr($sumGLStr, 0, - 1);
             $sumGLStr .= ')';
 
             $tbGLTermCol = $sWriter->getCursorColumn();
-            if ($sumGLCount === 0) {
+            if($sumGLCount === 0) {
                 $sWriter->writeCellAndGoRight(0);
             } else {
                 $sWriter->writeCellAndGoRight(sprintf('=ROUND(%s/%d,2)', $sumGLStr, $sumGLCount));
@@ -398,55 +404,55 @@ abstract class AbstractBangDiemWriter
             /// >>> Tinh Diem TB GIAO LY
 
             $cotDiem = [
-                chr($nextCode) => 'tbCCTerm1',
-                chr(++$nextCode) => 'quizTerm1',
-                chr(++$nextCode) => 'midTerm1',
-                chr(++$nextCode) => 'finalTerm1',
+                chr($nextCode)    => 'tbCCTerm1',
+                chr(++ $nextCode) => 'quizTerm1',
+                chr(++ $nextCode) => 'midTerm1',
+                chr(++ $nextCode) => 'finalTerm1',
             ];
 
             $sWriter->alignCurrentCellCenter();
-            $sumTerm1Str = 'SUM(';
+            $sumTerm1Str   = 'SUM(';
             $sumTerm1Count = 0;
-            foreach ($cotDiem as $key => $value) {
-                if (!empty($cacCotDiemBiLoaiBo) && in_array($value, $cacCotDiemBiLoaiBo)) {
+            foreach($cotDiem as $key => $value) {
+                if( ! empty($cacCotDiemBiLoaiBo) && in_array($value, $cacCotDiemBiLoaiBo)) {
                     continue;
                 }
-                $sumTerm1Str .= $key.$cusorRow.',';
-                if ($key === chr($nextCode)) {
-                    $sumTerm1Str .= $key.$cusorRow.',';
-                    $sumTerm1Count++;
+                $sumTerm1Str .= $key . $cusorRow . ',';
+                if($key === chr($nextCode)) {
+                    $sumTerm1Str .= $key . $cusorRow . ',';
+                    $sumTerm1Count ++;
                 }
-                $sumTerm1Count++;
+                $sumTerm1Count ++;
             }
-            $sumTerm1Str = substr($sumTerm1Str, 0, -1);
+            $sumTerm1Str = substr($sumTerm1Str, 0, - 1);
             $sumTerm1Str .= ')';
-            $tbTermCol = $sWriter->getCursorColumn();
-            if ($sumTerm1Count === 0) {
+            $tbTermCol   = $sWriter->getCursorColumn();
+            if($sumTerm1Count === 0) {
                 $sWriter->writeCellAndGoRight(0);
             } else {
                 $sWriter->writeCellAndGoRight(sprintf('=ROUND(%s/%d,2)', $sumTerm1Str, $sumTerm1Count));
             }
 
-            if ($hocKy === 2) {
+            if($hocKy === 2) {
                 $tbTerm1Col = $sWriter->getCursorColumn();
                 $sWriter->alignCurrentCellCenter();
                 $sWriter->writeCellAndGoRight($bangDiem->getTbTerm1());
                 $sWriter->alignCurrentCellCenter();
-                $sWriter->writeCellAndGoRight(sprintf('=ROUND(SUM(%s,%s)/2,2)', $tbTermCol.$cusorRow, $tbTerm1Col.$cusorRow)); // tbYear
+                $sWriter->writeCellAndGoRight(sprintf('=ROUND(SUM(%s,%s)/2,2)', $tbTermCol . $cusorRow, $tbTerm1Col . $cusorRow)); // tbYear
 
                 $sWriter->alignCurrentCellCenter();
                 $tbGLTerm1Col = $sWriter->getCursorColumn();
                 $sWriter->writeCellAndGoRight($bangDiem->getTbGLTerm1());
                 $sWriter->alignCurrentCellCenter();
-                $sWriter->writeCellAndGoRight(sprintf('=ROUND(SUM(%s,%s)/2,2)', $tbGLTermCol.$cusorRow, $tbGLTerm1Col.$cusorRow)); // tbGLYear
+                $sWriter->writeCellAndGoRight(sprintf('=ROUND(SUM(%s,%s)/2,2)', $tbGLTermCol . $cusorRow, $tbGLTerm1Col . $cusorRow)); // tbGLYear
             }
 
 
             $sWriter->alignCurrentCellCenter();
-            $getter = 'getSundayTicketTerm'.$hocKy;
+            $getter = 'getSundayTicketTerm' . $hocKy;
             $sWriter->writeCell($bangDiem->$getter());
 
-            if ($hocKy === 2) {
+            if($hocKy === 2) {
                 $sWriter->goRight();
                 $sWriter->alignCurrentCellCenter();
                 $sWriter->writeCellAndGoRight($bangDiem->getSundayTickets());
@@ -468,14 +474,14 @@ abstract class AbstractBangDiemWriter
 
             $sWriter->alignCurrentCellCenter();
             $dngl = $bangDiem->getPhanBo()->getDoiNhomGiaoLy();
-            if (empty($dngl)) {
+            if(empty($dngl)) {
                 $sWriter->writeCell('KHÔNG CÓ ĐỘI');
             } else {
                 $sWriter->writeCell($dngl->getTenCacTruongPhuTrach());
             }
         }
 
-        $sWriter->getCellsStyle('A5', $sWriter->getLastColumn().$sWriter->getLastRow())->applyFromArray(
+        $sWriter->getCellsStyle('A5', $sWriter->getLastColumn() . $sWriter->getLastRow())->applyFromArray(
             array(
                 'borders' => array(
                     'allborders' => array(
@@ -486,6 +492,7 @@ abstract class AbstractBangDiemWriter
 
 
     }
+
 
     public function writeDataDauNam(Collection $phanBoThieuNhi)
     {
@@ -531,12 +538,6 @@ abstract class AbstractBangDiemWriter
         $sWriter->mergeCellsDown(2);
         $sWriter->writeCellAndGoRight('TÊN');
 
-        $sWriter->setCurrentCellColor('0000FF');
-        $sWriter->getCurrentCellStyle()->applyFromArray($style1);
-        $sWriter->mergeCellsDown(2);
-        $sWriter->getCurrentColumnDimension()->setAutoSize(false);
-        $sWriter->getCurrentColumnDimension()->setWidth(20);
-        $sWriter->writeCellAndGoRight(' TB.CC ');
 
         $sWriter->setCurrentCellColor('FF0000');
         $sWriter->getCurrentCellStyle()->applyFromArray($style1);
@@ -620,6 +621,9 @@ abstract class AbstractBangDiemWriter
                 $sWriter->goRight();
 
                 $sWriter->alignCurrentCellCenter();
+                $sWriter->writeCellAndGoRight($bangDiem->getTbYear());
+
+                $sWriter->alignCurrentCellCenter();
                 $sWriter->writeCellAndGoRight($bangDiem->getSundayTickets());
 
                 $sWriter->alignCurrentCellCenter();
@@ -646,6 +650,9 @@ abstract class AbstractBangDiemWriter
                 $sWriter->alignCurrentCellCenter();
 
                 $sWriter->goRight();
+                $sWriter->alignCurrentCellCenter();
+                $sWriter->writeCellAndGoRight('');
+
                 $sWriter->alignCurrentCellCenter();
                 $sWriter->writeCellAndGoRight('');
 
