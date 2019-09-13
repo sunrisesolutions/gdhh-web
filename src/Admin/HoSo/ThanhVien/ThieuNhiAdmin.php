@@ -785,7 +785,9 @@ class ThieuNhiAdmin extends BaseAdmin
         parent::configureShowFields($show);
         $tv = $this->getUserThanhVien();
         $showField = false;
-        if ($tv->isBQT() || $tv->isPhanDoanTruongOrSoeur()) {
+        /** @var ThanhVien $tvThieuNhi */
+        $tvThieuNhi = $this->subject;
+        if ($tv->isBQT() || $tv->isPhanDoanTruongOrSoeur() || $tv->isTruongPTorGreater($tvThieuNhi)) {
             $showField = true;
         } else {
             $phanBoNamNay = $tv->getPhanBoNamNay();
