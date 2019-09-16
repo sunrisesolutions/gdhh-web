@@ -91,13 +91,16 @@ class DataVerificationCommand extends ContainerAwareCommand
                     $output->writeln('No CD cu '.$tv->getId().' '.$tv->getName());
                 }
                 if ($tv->isThieuNhi() && !empty($cd) && $cdCu->getNumber() > 6 && $cdCu
-                    ->getNumber() < 16 && $cd->getNumber() !== $cdCu->getNumber()) {
+                        ->getNumber() < 16 && $cd->getNumber() !== $cdCu->getNumber()) {
                     if (!$pb->getPhanBoTruoc()->getBangDiem()->isFreePassGranted()) {
                         $output->writeln('WRONG Grade Retention for '.$tv->getId().' '.$pb->getThanhVien()->getName());
                     }
                 }
-                if (!empty($cd)  && $tv->isThieuNhi() && $cdCu->getNumber() > $pb->getChiDoan()->getNumber()) {
+                if (!empty($cd) && $tv->isThieuNhi() && $cdCu->getNumber() > $pb->getChiDoan()->getNumber()) {
                     $output->writeln('Wrong Current CDNumber '.$tv->getId().' '.$tv->getName());
+                }
+                if (!empty($cd) && $tv->isThieuNhi() && $pb->getNamHoc()->getId() !== $pb->getChiDoan()->getNamHoc()->getId()) {
+                    $output->writeln('Wrong CD Namhoc '.$tv->getId().' '.$tv->getName());
                 }
             }
             if (!empty($cd)) {
