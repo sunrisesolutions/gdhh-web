@@ -85,9 +85,10 @@ class DataVerificationCommand extends ContainerAwareCommand
         /** @var PhanBo $pb */
         foreach ($cacPhanBo2019 as $pb) {
             $cd = $pb->getChiDoan();
+            $tv= $pb->getThanhVien();
             if ($pb->getPhanBoTruoc()->getBangDiem()->isGradeRetention()) {
                 if ($cd->getNumber() !== $pb->getPhanBoTruoc()->getChiDoan()->getNumber()) {
-                    $output->writeln('WRONG DATA for '.$pb->getThanhVien()->getName());
+                    $output->writeln('WRONG Grade Retention for '.$tv->getId(). ' '.$pb->getThanhVien()->getName());
                 }
             }
             if (!empty($cd)) {
