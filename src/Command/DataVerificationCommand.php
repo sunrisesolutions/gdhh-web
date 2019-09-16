@@ -87,6 +87,9 @@ class DataVerificationCommand extends ContainerAwareCommand
             $cd = $pb->getChiDoan();
             $tv= $pb->getThanhVien();
             if ($pb->getPhanBoTruoc()->getBangDiem()->isGradeRetention()) {
+                if(empty($pb->getPhanBoTruoc()->getChiDoan())){
+                    $output->writeln('No CD cu '.$tv->getId().' '.$tv->getName());
+                }
                 if ($cd->getNumber() !== $pb->getPhanBoTruoc()->getChiDoan()->getNumber()) {
                     $output->writeln('WRONG Grade Retention for '.$tv->getId(). ' '.$pb->getThanhVien()->getName());
                 }
@@ -115,7 +118,7 @@ class DataVerificationCommand extends ContainerAwareCommand
 
                     $st1b = $bd->getSundayTicketTerm1();
                     if ($st1 !== $st1b) {
-                        $output->writeln('Wrong ticket numbers for the First Semester: '.$st1.' '.$st1b.' - '.$pb->getThanhVien()->getName());
+//                        $output->writeln('Wrong ticket numbers for the First Semester: '.$st1.' '.$st1b.' - '.$pb->getThanhVien()->getName());
                     } else {
 //                        $output->writeln('Correct ticket numbers 1: ' . $st1 . ' ' . $st1b);
                     }
@@ -123,7 +126,7 @@ class DataVerificationCommand extends ContainerAwareCommand
                     $bd->tinhDiemChuyenCan(2);
                     $st2b = $bd->getSundayTicketTerm2();
                     if ($st2 !== $st2b) {
-                        $output->writeln('Wrong ticket numbers for the Second Semester: '.$st2.' '.$st2b.' - '.$pb->getThanhVien()->getName());
+//                        $output->writeln('Wrong ticket numbers for the Second Semester: '.$st2.' '.$st2b.' - '.$pb->getThanhVien()->getName());
                     } else {
 //                        $output->writeln('Correct ticket numbers 2: ' . $st2 . ' ' . $st2b);
                     }
