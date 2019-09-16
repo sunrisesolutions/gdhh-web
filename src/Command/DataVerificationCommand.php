@@ -90,7 +90,7 @@ class DataVerificationCommand extends ContainerAwareCommand
                 if(empty($cdCu = $pb->getPhanBoTruoc()->getChiDoan())){
                     $output->writeln('No CD cu '.$tv->getId().' '.$tv->getName());
                 }
-                if (!empty($cd) && $cdCu->getNumber() > 6 && $cd->getNumber() !== $cdCu->getNumber()) {
+                if ($tv->isThieuNhi() && !empty($cd) && $cdCu->getNumber() > 6 && $cd->getNumber() !== $cdCu->getNumber()) {
                     $output->writeln('WRONG Grade Retention for '.$tv->getId(). ' '.$pb->getThanhVien()->getName());
                 }
             }
