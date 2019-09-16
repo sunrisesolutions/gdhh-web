@@ -85,13 +85,15 @@ class DataVerificationCommand extends ContainerAwareCommand
         /** @var PhanBo $pb */
         foreach ($cacPhanBo2019 as $pb) {
             $cd = $pb->getChiDoan();
-            $tv= $pb->getThanhVien();
-            if ($pb->getPhanBoTruoc()->getBangDiem()->isGradeRetention()) {
-                if(empty($cdCu = $pb->getPhanBoTruoc()->getChiDoan())){
+            $tv = $pb->getThanhVien();
+            if ($pb->getPhanBoTruoc()->getBangDiem()->isGradeRetention() || $pb->getPhanBoTruoc()->getBangDiem()->isGradeRetentionForced()) {
+                if (empty($cdCu = $pb->getPhanBoTruoc()->getChiDoan())) {
                     $output->writeln('No CD cu '.$tv->getId().' '.$tv->getName());
                 }
                 if ($tv->isThieuNhi() && !empty($cd) && $cdCu->getNumber() > 6 && $cd->getNumber() !== $cdCu->getNumber()) {
-                    $output->writeln('WRONG Grade Retention for '.$tv->getId(). ' '.$pb->getThanhVien()->getName());
+                    if (!$pb->getPhanBoTruoc()->getBangDiem()->isFreePassGranted()) {
+                        $output->writeln('WRONG Grade Retention for '.$tv->getId().' '.$pb->getThanhVien()->getName());
+                    }
                 }
             }
             if (!empty($cd)) {
