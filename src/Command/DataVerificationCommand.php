@@ -28,7 +28,7 @@ class DataVerificationCommand extends ContainerAwareCommand
             // the "--help" option
             ->setHelp('This command allows you to migrate cnames of all Members...');
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // outputs multiple lines to the console (adding "\n" at the end of each line)
@@ -42,11 +42,11 @@ class DataVerificationCommand extends ContainerAwareCommand
         // $cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findBy([ 'tenThanh' => null ]);
         $cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findAll();
         $pbRepo = $this->getContainer()->get('doctrine')->getRepository(PhanBo::class);
-    
+
         $output->writeln('FLAG 001');
-    
-    
-        $cacPhanBo2018 = $pbRepo->findBy(['namHoc' => 2018]);
+
+
+        $cacPhanBo2019 = $pbRepo->findBy(['namHoc' => 2019]);
         $output->writeln('FLAG 002');
         $cdRepo = $this->getContainer()->get('doctrine')->getRepository(ChiDoan::class);
 
@@ -61,36 +61,41 @@ class DataVerificationCommand extends ContainerAwareCommand
 //			}
 //			$output->writeln([ 'phanbo180525', $pb->getId() . ' ' . $pb->getThanhVien()->getName() . ' ' . $cdId ]);
 //		}
-        if (count($cacPhanBo2018) === 0) {
+        if (count($cacPhanBo2019) === 0) {
             $output->writeln('empty pb2018 array');
         } else {
-            $output->writeln('Found ' . count($cacPhanBo2018));
+            $output->writeln('Found '.count($cacPhanBo2019));
         }
-    
+
         $tatCaDcc = $this->getContainer()->get('doctrine')->getRepository(DiemChuyenCan::class)->findAll();
         $cacDccTheoThang = [];
         /** @var DiemChuyenCan $dcc */
         foreach ($tatCaDcc as $dcc) {
             $date = $dcc->getTargetDate();
-            $dateNumber = (int)$date->format('m');
-            
+            $dateNumber = (int) $date->format('m');
+
             if (!isset($cacDccTheoThang[$dateNumber]) || !is_array($cacDccTheoThang[$dateNumber])) {
                 $cacDccTheoThang[$dateNumber] = [];
             }
             $cacDccTheoThang[$dateNumber][] = $dcc;
         }
-    
+
         $manager = $this->getContainer()->get('doctrine.orm.default_entity_manager');
-        
+
         /** @var PhanBo $pb */
-        foreach ($cacPhanBo2018 as $pb) {
+        foreach ($cacPhanBo2019 as $pb) {
             $cd = $pb->getChiDoan();
+            if ($pb->getPhanBoTruoc()->getBangDiem()->isGradeRetention()) {
+                if ($cd->getNumber() !== $pb->getPhanBoTruoc()->getChiDoan()->getNumber()) {
+                    $output->writeln('WRONG DATA for '.$pb->getThanhVien()->getName());
+                }
+            }
             if (!empty($cd)) {
                 if ($cd->getNumber() === 12) {
                     $bd = $pb->getBangDiem();
                     $st1 = $bd->getSundayTicketTerm1();
                     $st2 = $bd->getSundayTicketTerm2();
-    
+
                     $bangDiem = $bd;
                     $bangDiem->setSundayTicketTerm1(0);
                     $bangDiem->setSundayTicketTerm2(0);
@@ -103,21 +108,21 @@ class DataVerificationCommand extends ContainerAwareCommand
                     $bangDiem->tinhDiemHocKy(1);
                     $bangDiem->tinhDiemChuyenCan(2);
                     $bangDiem->tinhDiemHocKy(2);
-                    
+
 //                    $manager->persist($bangDiem);
-                    
-                    
+
+
                     $st1b = $bd->getSundayTicketTerm1();
                     if ($st1 !== $st1b) {
-                        $output->writeln('Wrong ticket numbers for the First Semester: ' . $st1 . ' ' . $st1b .' - '.$pb->getThanhVien()->getName());
+                        $output->writeln('Wrong ticket numbers for the First Semester: '.$st1.' '.$st1b.' - '.$pb->getThanhVien()->getName());
                     } else {
 //                        $output->writeln('Correct ticket numbers 1: ' . $st1 . ' ' . $st1b);
                     }
-                    
+
                     $bd->tinhDiemChuyenCan(2);
                     $st2b = $bd->getSundayTicketTerm2();
                     if ($st2 !== $st2b) {
-                        $output->writeln('Wrong ticket numbers for the Second Semester: ' . $st2 . ' ' . $st2b.' - '.$pb->getThanhVien()->getName());
+                        $output->writeln('Wrong ticket numbers for the Second Semester: '.$st2.' '.$st2b.' - '.$pb->getThanhVien()->getName());
                     } else {
 //                        $output->writeln('Correct ticket numbers 2: ' . $st2 . ' ' . $st2b);
                     }
@@ -125,12 +130,11 @@ class DataVerificationCommand extends ContainerAwareCommand
 //                    $output->writeln('cdNumber '.$cd->getNumber());
                 }
             } else {
-                $output->writeln('hello empty cd ' . $pb->getThanhVien()->getName());
+                $output->writeln('hello empty cd '.$pb->getThanhVien()->getName());
             }
         }
-        
-        
-        
+
+
         ///////////////
         $output->writeln("No Flushing");
         $output->writeln("Successfully migrated all members.");
