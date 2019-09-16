@@ -96,6 +96,9 @@ class DataVerificationCommand extends ContainerAwareCommand
                         $output->writeln('WRONG Grade Retention for '.$tv->getId().' '.$pb->getThanhVien()->getName());
                     }
                 }
+                if ($cdCu->getNumber() < $pb->getChiDoan()->getNumber()) {
+                    $output->writeln('Wrong Current CDNumber '.$tv->getId().' '.$tv->getName());
+                }
             }
             if (!empty($cd)) {
                 if ($cd->getNumber() === 12) {
