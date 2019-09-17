@@ -95,7 +95,7 @@ class GradeRetentionListCommand extends ContainerAwareCommand
         foreach ($cacPhanBo2019 as $pb) {
             $cd = $pb->getChiDoan();
             $tv = $pb->getThanhVien();
-            if (empty($pb->getPhanBoTruoc())) {
+            if (!$tv->isEnabled()  || empty($pb->getPhanBoTruoc())) {
                 continue;
             }
             if ($pb->getPhanBoTruoc()->getBangDiem()->isGradeRetention() || $pb->getPhanBoTruoc()->getBangDiem()->isGradeRetentionForced()) {
