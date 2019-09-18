@@ -619,7 +619,9 @@ class ThanhVien
         $phanBoGanNhat = null;
         $namHocCu = null;
         $phanBoCu = null;
-
+        if (!$this->enabled) {
+            return false;
+        }
         $dsPhanBo = $this->phanBoHangNam;
         /** @var PhanBo $phanBo */
         foreach ($dsPhanBo as $phanBo) {
