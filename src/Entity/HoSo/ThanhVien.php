@@ -362,6 +362,7 @@ class ThanhVien
     public function __construct()
     {
         $this->phanBoHangNam = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     public function isGranted($name, $action = null, ThanhVien $object = null)
@@ -781,6 +782,18 @@ class ThanhVien
      * @ORM\JoinColumn(name="id_ten_giao_khu", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $tenGiaoKhu;
+
+    /**
+     * @var \DateTime|null
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $createdAt;
+
+    /**
+     * @var \DateTime|null
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $updatedAt;
 
     /**
      * @var \DateTime
@@ -1802,4 +1815,35 @@ class ThanhVien
         $this->thuKyChiDoan = $thuKyChiDoan;
     }
 
+    /**
+     * @return \DateTime|null
+     */
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime|null $createdAt
+     */
+    public function setCreatedAt(?\DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime|null $updatedAt
+     */
+    public function setUpdatedAt(?\DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
 }

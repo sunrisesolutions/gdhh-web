@@ -510,6 +510,7 @@ class HuynhTruongAdmin extends BaseAdmin
     public function preUpdate($object)
     {
         $this->getConfigurationPool()->getContainer()->get(ThanhVienService::class)->preUpdate($object);
+        $object->setUpdatedAt(new \DateTime());
 
 //		if( ! empty($phanBoNamNay = $object->getPhanBoNamNay())) {
 //			$phanBoNamNay->setVaiTro();
