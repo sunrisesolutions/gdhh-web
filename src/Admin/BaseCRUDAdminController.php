@@ -4,6 +4,7 @@ namespace App\Admin;
 
 use App\Entity\User\User;
 use App\Service\User\UserService;
+use Symfony\Bridge\Twig\Form\TwigRendererEngine;
 use Symfony\Component\Form\FormView;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -83,7 +84,7 @@ class BaseCRUDAdminController extends CRUDController
 
         try {
             $twig
-                ->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')
+                ->getRuntime(TwigRendererEngine::class)
                 ->setTheme($formView, $theme);
         } catch (\Twig_Error_Runtime $e) {
             // BC for Symfony < 3.2 where this runtime not exists
