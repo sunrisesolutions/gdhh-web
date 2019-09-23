@@ -511,7 +511,12 @@ class HuynhTruongAdmin extends BaseAdmin
     {
         $this->getConfigurationPool()->getContainer()->get(ThanhVienService::class)->preUpdate($object);
         $object->setUpdatedAt(new \DateTime());
-        $this->getModelManager()->update($object->getUser());
+
+        $container = $this->getConfigurationPool()->getContainer();
+        $username = $object->getUser()->getUsername();
+        $object->getUser()->setEnabled(true);
+        $user = $container->get(UserService::class)->addUserIfNotExist($object->getUser(), $username, ['username' => $username]);
+        $object->setUser($user);
 
 //		if( ! empty($phanBoNamNay = $object->getPhanBoNamNay())) {
 //			$phanBoNamNay->setVaiTro();
