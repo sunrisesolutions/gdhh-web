@@ -19,17 +19,18 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class HuynhTruongAdminController extends BaseCRUDAdminController {
+class HuynhTruongAdminController extends BaseCRUDAdminController
+{
 
     /**
      * Edit action.
      *
      * @param int|string|null $id
      *
-     * @throws NotFoundHttpException If the object does not exist
+     * @return Response|RedirectResponse
      * @throws AccessDeniedException If access is not granted
      *
-     * @return Response|RedirectResponse
+     * @throws NotFoundHttpException If the object does not exist
      */
     public function editAction($id = null)
     {
@@ -60,7 +61,7 @@ class HuynhTruongAdminController extends BaseCRUDAdminController {
         $form = $this->admin->getForm();
         $form->setData($existingObject);
         $form->handleRequest($request);
-
+        $errorMsg = '';
         if ($form->isSubmitted()) {
             $isFormValid = $form->isValid();
 
@@ -93,9 +94,10 @@ class HuynhTruongAdminController extends BaseCRUDAdminController {
                     return $this->redirectTo($existingObject);
                 } catch (ModelManagerException $e) {
                     $this->handleModelManagerException($e);
-
+                    $errorMsg .= $e->getTraceAsString();
                     $isFormValid = false;
                 } catch (LockException $e) {
+                    $errorMsg .= $e->getTraceAsString();
                     $this->addFlash('sonata_flash_error', $this->trans('flash_lock_error', [
                         '%name%' => $this->escapeHtml($this->admin->toString($existingObject)),
                         '%link_start%' => '<a href="'.$this->admin->generateObjectUrl('edit', $existingObject).'">',
@@ -115,6 +117,7 @@ class HuynhTruongAdminController extends BaseCRUDAdminController {
                             'SonataAdminBundle'
                         )
                     );
+                    $this->addFlash('sonata_flash_error', $errorMsg);
                 }
             } elseif ($this->isPreviewRequested()) {
                 // enable the preview template if the form was valid and preview was requested
@@ -139,33 +142,35 @@ class HuynhTruongAdminController extends BaseCRUDAdminController {
         ], null);
     }
 
-    public function truongChiDoanAction(ChiDoan $chiDoan, Request $request) {
-		/** @var ThieuNhiAdmin $admin */
-		$admin = $this->admin;
-		$admin->setAction('truong-chi-doan');
-		$admin->setActionParams([ 'chiDoan' => $chiDoan ]);
-		if( ! empty($namHoc = $this->get(NamHocService::class)->getNamHocHienTai())) {
-			$admin->setNamHoc($namHoc->getId());
-		}
-		
-		return parent::listAction();
-	}
-	
-	public function truongPhanDoanAction($phanDoan, Request $request) {
-		$phanDoan = strtoupper($phanDoan);
-		$cd = ThanhVien::getDanhSachChiDoanTheoPhanDoan($phanDoan);
-		/** @var ThieuNhiAdmin $admin */
-		$admin = $this->admin;
-		$admin->setAction('truong-phan-doan');
-		$admin->setActionParams([ 'danhSachChiDoan' => $cd ]);
-		if( ! empty($namHoc = $this->get(NamHocService::class)->getNamHocHienTai())) {
-			$admin->setNamHoc($namHoc->getId());
-		}
-		
-		return parent::listAction();
-		
-		
-	}
-	
-	
+    public function truongChiDoanAction(ChiDoan $chiDoan, Request $request)
+    {
+        /** @var ThieuNhiAdmin $admin */
+        $admin = $this->admin;
+        $admin->setAction('truong-chi-doan');
+        $admin->setActionParams(['chiDoan' => $chiDoan]);
+        if (!empty($namHoc = $this->get(NamHocService::class)->getNamHocHienTai())) {
+            $admin->setNamHoc($namHoc->getId());
+        }
+
+        return parent::listAction();
+    }
+
+    public function truongPhanDoanAction($phanDoan, Request $request)
+    {
+        $phanDoan = strtoupper($phanDoan);
+        $cd = ThanhVien::getDanhSachChiDoanTheoPhanDoan($phanDoan);
+        /** @var ThieuNhiAdmin $admin */
+        $admin = $this->admin;
+        $admin->setAction('truong-phan-doan');
+        $admin->setActionParams(['danhSachChiDoan' => $cd]);
+        if (!empty($namHoc = $this->get(NamHocService::class)->getNamHocHienTai())) {
+            $admin->setNamHoc($namHoc->getId());
+        }
+
+        return parent::listAction();
+
+
+    }
+
+
 }

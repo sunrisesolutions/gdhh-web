@@ -10,11 +10,36 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyPath;
 use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 
 class BaseCRUDAdminController extends CRUDController
 {
+    protected function checkParentChildAssociation(Request $request, $object)
+    {
+        if (!($parentAdmin = $this->admin->getParent())) {
+            return;
+        }
+
+        // NEXT_MAJOR: remove this check
+        if (!$this->admin->getParentAssociationMapping()) {
+            return;
+        }
+
+        $parentId = $request->get($parentAdmin->getIdParameter());
+
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        $propertyPath = new PropertyPath($this->admin->getParentAssociationMapping());
+
+        if ($parentAdmin->getObject($parentId) !== $propertyAccessor->getValue($object, $propertyPath)) {
+            // NEXT_MAJOR: make this exception
+            @trigger_error("Accessing a child that isn't connected to a given parent is deprecated since 3.34"
+                ." and won't be allowed in 4.0.",
+                E_USER_DEPRECATED
+            );
+        }
+    }
     protected function preList(Request $request)
     {
         parent::preList($request);
