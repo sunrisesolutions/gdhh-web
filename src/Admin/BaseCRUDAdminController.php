@@ -81,7 +81,7 @@ class BaseCRUDAdminController extends CRUDController
      *
      * @param string $theme
      */
-    private function setFormTheme(FormView $formView, $theme)
+    protected function setFormTheme(FormView $formView, $theme)
     {
         $twig = $this->get('twig');
 
