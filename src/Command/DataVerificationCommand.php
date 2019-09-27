@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\Backup\PhanBo180825;
+use App\Entity\HocBa\HienDien;
 use App\Entity\HoSo\ChiDoan;
 use App\Entity\HoSo\ChristianName;
 use App\Entity\HoSo\DiemChuyenCan;
@@ -29,6 +30,44 @@ class DataVerificationCommand extends ContainerAwareCommand
             ->setHelp('This command allows you to migrate cnames of all Members...');
     }
 
+    public function verifyDiemChuyenCan(OutputInterface $output, NamHoc $namhoc)
+    {
+        $output->writeln('Veryfiying DIEM CHUYEN CAN');
+        $manager = $this->getContainer()->get('doctrine.orm.default_entity_manager');
+        $qb = $manager->getRepository(DiemChuyenCan::class)->createQueryBuilder('hd');
+        $expr = $qb->expr();
+        $qb->andWhere($expr->between('hd.targetDate', $expr->literal('2019-09-15'), $expr->literal('2020-06-01')));
+        $cacDcc = $qb->getQuery()->getResult();
+        var_dump($qb->getQuery()->getSQL());
+
+        $cacDccSorted = [];
+        $cacDccTotalPoint = [];
+        $cacDccSundayMass = 0;
+        /** @var DiemChuyenCan $dcc */
+        foreach ($cacDcc as $dcc) {
+            $month = $dcc->getTargetDate()->format('m');
+            if (!array_key_exists($month, $cacDccSorted)) {
+                $cacDccTotalPoint[$month] = 0;
+                $cacDccSorted[$month] = [];
+            }
+            if (strtoupper($dcc->getTargetDate()->format('l')) == 'SUNDAY') {
+                if ($dcc->isMassCounted()) {
+                    $cacDccSundayMass++;
+                }
+            }
+            $cacDccTotalPoint[$month] = $cacDccTotalPoint[$month] + $dcc->getPointValue();
+            $cacDccSorted[$month][$dcc->getTargetDate()->format('d')] = $dcc;
+        }
+
+        foreach ($cacDccTotalPoint as $month => $point) {
+            if ($point !== 10) {
+                $output->writeln('/////////////// Wrong DCC for '.$month);
+            }
+        }
+
+        $output->writeln('cac sunday mass '.$cacDccSundayMass);
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // outputs multiple lines to the console (adding "\n" at the end of each line)
@@ -37,6 +76,12 @@ class DataVerificationCommand extends ContainerAwareCommand
             '============',
             '',
         ]);
+
+        $namHoc = 2019;
+        /** @var NamHoc $schoolYear */
+        $schoolYear = $this->getContainer()->get('doctrine')->getRepository(NamHoc::class)->find($namHoc);
+        $this->verifyDiemChuyenCan($output, $schoolYear);
+
         $manager = $this->getContainer()->get('doctrine.orm.default_entity_manager');
         $cNameRepo = $this->getContainer()->get('doctrine')->getRepository(ChristianName::class);
         // $cacThanhVien = $this->getContainer()->get('doctrine')->getRepository(ThanhVien::class)->findBy([ 'tenThanh' => null ]);
@@ -46,7 +91,7 @@ class DataVerificationCommand extends ContainerAwareCommand
         $output->writeln('FLAG 001');
 
 
-        $cacPhanBo2019 = $pbRepo->findBy(['namHoc' => 2019]);
+        $cacPhanBo2019 = $pbRepo->findBy(['namHoc' => $namHoc]);
         $output->writeln('FLAG 002');
         $cdRepo = $this->getContainer()->get('doctrine')->getRepository(ChiDoan::class);
 
