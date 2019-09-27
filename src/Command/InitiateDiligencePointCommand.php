@@ -44,7 +44,7 @@ class InitiateDiligencePointCommand extends ContainerAwareCommand {
 		
 		$schoolYear     = (int) $schoolYear;
 		$schoolYearDate = new \DateTime();
-		$schoolYearDate->setDate($schoolYear, 9, 6);
+		$schoolYearDate->setDate($schoolYear, 9, 15);
 		$nextYearDate = new \DateTime();
 		$nextYearDate->setDate($schoolYear + 1, 6, 1);
 		
@@ -84,7 +84,7 @@ class InitiateDiligencePointCommand extends ContainerAwareCommand {
 			$manager->persist($dowDiemCC);
 			
 			$dowS = clone $schoolYearDate;
-			$dowS->modify('+3 days');
+			$dowS->modify('+4 days');
 			if($dowS > $nextYearDate) {
 				break;
 			}
