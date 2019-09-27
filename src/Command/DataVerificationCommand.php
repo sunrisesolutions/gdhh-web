@@ -131,7 +131,7 @@ class DataVerificationCommand extends ContainerAwareCommand
         foreach ($cacPhanBo2019 as $pb) {
             $cd = $pb->getChiDoan();
             $tv = $pb->getThanhVien();
-            if ($pb->getPhanBoTruoc()->getBangDiem()->isGradeRetention() || $pb->getPhanBoTruoc()->getBangDiem()->isGradeRetentionForced()) {
+            if (!empty($pb->getPhanBoTruoc()) && $pb->getPhanBoTruoc()->getBangDiem()->isGradeRetention() || $pb->getPhanBoTruoc()->getBangDiem()->isGradeRetentionForced()) {
                 if (empty($cdCu = $pb->getPhanBoTruoc()->getChiDoan())) {
                     $output->writeln('No CD cu '.$tv->getId().' '.$tv->getName());
                 }
