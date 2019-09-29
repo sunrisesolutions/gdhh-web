@@ -70,7 +70,7 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin
         $today = new \DateTime();
         $fourWeeksAgo = new \DateTime();
 
-        if ($this->getUserThanhVien()->getChiDoan() === 7) {
+        if (false && $this->getUserThanhVien()->getChiDoan() === 7) {
             $fourWeeksAgo->modify(sprintf('-%d weeks', 50));
         } else {
             $fourWeeksAgo->modify(sprintf('-%d weeks', $this->getConfigurationPool()->getContainer()->getParameter('DIEM_DANH_LIMIT')));
