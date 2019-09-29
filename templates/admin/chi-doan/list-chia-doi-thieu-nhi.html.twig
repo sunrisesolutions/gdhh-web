@@ -140,7 +140,7 @@
                         {% set thanhVien = phanBo.thanhVien %}
                         {% set doiNhomGiaoLy = phanBo.doiNhomGiaoLy %}
                         {% set doi = doiNhomGiaoLy is empty?'':doiNhomGiaoLy.number %}
-                        {% if thanhVien.thieuNhi is not empty %}
+                        {% if thanhVien.thieuNhi is not empty and thanhVien.enabled is not empty %}
                             {% set phanBoTruoc = phanBo.phanBoTruoc %}
                             {% if phanBoTruoc is not empty %}
                                 {% set bangDiemTruoc = phanBo.phanBoTruoc.bangDiem %}
