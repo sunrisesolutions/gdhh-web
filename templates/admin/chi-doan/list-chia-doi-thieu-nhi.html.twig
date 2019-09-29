@@ -118,7 +118,7 @@
             window.phanBo = {
                     {% set _counter = 0 %}
                     {% for phanBo in phanBoHangNam %}
-                    {% if phanBo.thieuNhi is not empty %}
+                    {% if phanBo.thieuNhi is not empty and thanhVien.enabled is not empty %}
                     {% set _counter = _counter + 1 %}
 
                     {% set thanhVien = phanBo.thanhVien %}
