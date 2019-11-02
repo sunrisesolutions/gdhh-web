@@ -292,6 +292,13 @@ class TruongPhuTrachDoiAdmin extends BaseAdmin
             ));
         }
         $listMapper
+            ->add('thanhVien.tenThanh.tiengViet', null, array(
+                'label' => 'list.label_christianname',
+                '_sort_order' => 'ASC',
+                'sort_parent_association_mappings' => [['fieldName' => 'thanhVien']],
+                'sort_field_mapping' => ['fieldName' => 'firstname'],
+                'sortable' => true,
+            ))
             ->add('thanhVien.lastName', null, array(
                 'label' => 'list.label_lastname',
                 '_sort_order' => 'ASC',
