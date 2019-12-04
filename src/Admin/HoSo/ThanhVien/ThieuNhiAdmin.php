@@ -442,6 +442,7 @@ class ThieuNhiAdmin extends BaseAdmin
                 $qb->andWhere($expr->eq('chiDoan.id', $expr->literal($this->getUserThanhVien()->getChiDoan().'-'.$this->getUserThanhVien()->getNamHoc())));
             }
 
+            $qb->andWhere($expr->eq('chiDoan.namHoc', $this->getConfigurationPool()->getContainer()->get(NamHocService::class)->getNamHocHienTai()->getId()));
         }
         $sql = $qb->getQuery()->getSQL();
 
