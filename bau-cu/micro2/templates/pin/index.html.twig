@@ -341,10 +341,10 @@
 
     </div>
 
-    {% if "now"|date('d') == "15" %}
-        <div class="resources">
-            <div class="row">
-                <div class="resource">
+    <div class="resources">
+        <div class="row">
+            <div class="resource">
+                {% if "now"|date('d') == "15" %}
                     <h2>Nhập mã PIN gồm 9 chữ số</h2>
                     <form action="">
                         <div class="form-group"><input type="number" maxlength="9" minlength="9"></div>
@@ -352,10 +352,15 @@
                             <button type="submit" class="btn btn-primary">Đăng nhập</button>
                         </div>
                     </form>
-                </div>
+                {% else %}
+                    <ol>
+                        <li><strong>15/12/2019:</strong> Bầu cử đợt 1 cho nhiệm kỳ 2020-2024</li>
+                        <li><strong>05/01/2019:</strong> Bầu cử đợt 2</li>
+                    </ol>
+                {% endif %}
             </div>
         </div>
-    {% endif %}
+    </div>
 
 </div>
 
