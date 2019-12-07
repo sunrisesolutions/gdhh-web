@@ -83,8 +83,8 @@
             ">
                     <thead>
                     <tr>
-                        <th data-options="field:'productname',width:100">Product</th>
-                        <th data-options="field:'attr1',width:250,formatter:formatPrice">Bầu chọn</th>
+                        <th data-options="field:'productname',width:250">Product</th>
+                        <th data-options="field:'attr1',width:100,formatter:formatPrice">Bầu chọn</th>
                     </tr>
                     </thead>
                 </table>
@@ -108,7 +108,7 @@
 {% block javascripts %}
     <script type="text/javascript">
         function formatPrice(val,row){
-            return '<a href="https://google.com" class="btn btn-primary">Bầu cho ' + val + '</a>';
+            return '<a href="https://google.com" class="btn btn-primary">Bầu chọn ' + '''' + '</a>';
             // if (val < 30){
             //     return '<span style="color:red;">('+val+')</span>';
             // } else {
