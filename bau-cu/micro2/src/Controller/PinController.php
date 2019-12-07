@@ -16,4 +16,14 @@ class PinController extends AbstractController
             'controller_name' => 'PinController',
         ]);
     }
+
+    /**
+     * @Route("/vong-1/{pin}", name="vote_vong_1")
+     */
+    public function voteVong1($pin)
+    {
+        return $this->render('pin/vong-1.html.twig', [
+            'controller_name' => 'PinController',
+        ]);
+    }
 }

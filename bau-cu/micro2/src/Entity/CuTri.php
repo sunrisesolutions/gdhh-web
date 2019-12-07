@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CuTriRepository")
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="search_idx", columns={"pin"})})
  */
 class CuTri
 {
@@ -19,7 +20,7 @@ class CuTri
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=12)
      */
     private $pin;
 
@@ -27,6 +28,11 @@ class CuTri
      * @ORM\OneToMany(targetEntity="App\Entity\PhieuBau", mappedBy="cuTri")
      */
     private $cacPhienBau;
+
+    /**
+     * @ORM\Column(type="string", length=12)
+     */
+    private $pinFormatted;
 
     public function __construct()
     {
@@ -77,6 +83,18 @@ class CuTri
                 $cacPhienBau->setCuTri(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPinFormatted(): ?string
+    {
+        return $this->pinFormatted;
+    }
+
+    public function setPinFormatted(string $pinFormatted): self
+    {
+        $this->pinFormatted = $pinFormatted;
 
         return $this;
     }
