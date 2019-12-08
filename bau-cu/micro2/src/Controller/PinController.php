@@ -33,4 +33,45 @@ class PinController extends AbstractController
             'controller_name' => 'PinController',
         ]);
     }
+
+    /**
+     * @Route("/vong-1/{pin}/review", name="vote_vong_1_review")
+     */
+    public function reviewVoteVong1($pin)
+    {
+        $voter = $this->getDoctrine()->getRepository(CuTri::class)->findOneByPin($pin);
+        if (empty($voter)) {
+            return new RedirectResponse($this->generateUrl('pin'));
+        }
+
+        return $this->render('pin/review-vong-1.html.twig', [
+            'controller_name' => 'PinController',
+        ]);
+    }
+
+    /**
+     * @Route("/vong-1/{pin}/result", name="vote_vong_1_result")
+     */
+    public function resultVoteVong1($pin)
+    {
+        $voter = $this->getDoctrine()->getRepository(CuTri::class)->findOneByPin($pin);
+        if (empty($voter)) {
+            return new RedirectResponse($this->generateUrl('pin'));
+        }
+
+        return $this->render('pin/result-vong-1.html.twig', [
+            'controller_name' => 'PinController',
+        ]);
+    }
+
+
+    /**
+     * @Route("/vong-1/{pin}/votes", name="vote_vong_1_votes")
+     */
+    public function votesVong1($pin)
+    {
+        return $this->render('pin/vote-vong-1.html.twig', [
+            'controller_name' => 'PinController',
+        ]);
+    }
 }

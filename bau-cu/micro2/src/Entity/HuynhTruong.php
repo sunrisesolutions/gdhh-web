@@ -53,6 +53,36 @@ class HuynhTruong
      */
     private $cacPhieuBau;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $aka;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $christianName;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $dob;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $phanDoan;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $chiDoan;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default":true})
+     */
+    private $enabled = true;
+
     public function __construct()
     {
         $this->cacPhieuBau = new ArrayCollection();
@@ -162,6 +192,78 @@ class HuynhTruong
                 $cacPhieuBau->setHuynhTruong(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAka(): ?string
+    {
+        return $this->aka;
+    }
+
+    public function setAka(?string $aka): self
+    {
+        $this->aka = $aka;
+
+        return $this;
+    }
+
+    public function getChristianName(): ?string
+    {
+        return $this->christianName;
+    }
+
+    public function setChristianName(string $christianName): self
+    {
+        $this->christianName = $christianName;
+
+        return $this;
+    }
+
+    public function getDob(): ?int
+    {
+        return $this->dob;
+    }
+
+    public function setDob(?int $dob): self
+    {
+        $this->dob = $dob;
+
+        return $this;
+    }
+
+    public function getPhanDoan(): ?string
+    {
+        return $this->phanDoan;
+    }
+
+    public function setPhanDoan(?string $phanDoan): self
+    {
+        $this->phanDoan = $phanDoan;
+
+        return $this;
+    }
+
+    public function getChiDoan(): ?string
+    {
+        return $this->chiDoan;
+    }
+
+    public function setChiDoan(?string $chiDoan): self
+    {
+        $this->chiDoan = $chiDoan;
+
+        return $this;
+    }
+
+    public function getEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
 
         return $this;
     }

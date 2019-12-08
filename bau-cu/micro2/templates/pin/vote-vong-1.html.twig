@@ -44,47 +44,30 @@
     <main role="main">
         <section class="text-left">
             <div class="container">
-                <br>
-                <h5>Anh/chị đã bầu cho (1) Trưởng.</h5>
+                {% set url = "#" %}
+                <h3>Các Phiếu bầu cho ...</h3>
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Huynh Trưởng</th>
-                        <th>Thời gian</th>
-                        <th>Bỏ chọn</th>
+                        <th>Code/Thời gian</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>Chu Gia Nghĩa</td>
-                        <td>10:00:00</td>
-                        <td><a href="#" class="btn btn-danger">Bỏ Chọn</a></td>
+                        <td>
+                            <strong>000-000-000</strong>
+                            <br>
+                            12:01:00
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong><code>123-456-789</code></strong>
+                            <br>
+                            12:00:00
+                        </td>
                     </tr>
                     </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section class="text-left">
-            <div class="container">
-{#                <h3>Danh sách Huynh Trưởng</h3>#}
-{#                <p class="lead text-muted">Something short and leading about the collection below—its contents, the#}
-{#                    creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it#}
-{#                    entirely.</p>#}
-{#                <p>#}
-{#                    <a href="#" class="btn btn-primary my-2">Bầu cho anh này</a>#}
-{#                </p>#}
-
-                <table id="dg" title="Danh sách Huynh Trưởng" style="width:100%;height:500px" data-options="
-                singleSelect:true,
-                data:data
-            ">
-                    <thead>
-                    <tr>
-                        <th data-options="field:'productname',width:250">Tìm Huynh Trưởng</th>
-{#                        <th data-options="field:'attr1',width:100,formatter:formatPrice">Bầu chọn</th>#}
-                    </tr>
-                    </thead>
                 </table>
             </div>
         </section>
@@ -99,7 +82,7 @@
 
 {% block javascripts %}
     <script type="text/javascript">
-        function formatPrice(val,row){
+        function formatPrice(val, row) {
             return '';
             // if (val < 30){
             //     return '<span style="color:red;">('+val+')</span>';
@@ -111,28 +94,34 @@
     <script type="text/javascript" src="/easyui/datagrid-filter.js"></script>
     <script type="text/javascript">
         var data = [
-            {"productname": 'PHANXICO XAVIE <br/><strong><code>CHA CHU GIA NGHĨA</code></strong><br/>aka: <strong>Loan nhỏ</strong><br>Năm sinh: 1987<br/>NGHĨA SĨ<br/>15 tuổi<div class="text-right"><a href="https://google.com" class="btn btn-primary">Bầu chọn </a></div>',"unitcost":12.00,"status":"P","listprice":18.50,"attr1":"Spotted Adult Female"},
+            {
+                "productname": 'PHANXICO XAVIE <br/><strong><code>CHA CHU GIA NGHĨA</code></strong><br/>aka: <strong>Loan nhỏ</strong><br>Năm sinh: 1987<br/>NGHĨA SĨ<br/>15 tuổi<div class="text-right"><a href="https://google.com" class="btn btn-primary">Bầu chọn </a></div>',
+                "unitcost": 12.00,
+                "status": "P",
+                "listprice": 18.50,
+                "attr1": "Spotted Adult Female"
+            },
         ];
-        $(function(){
+        $(function () {
             var dg = $('#dg').datagrid();
             dg.datagrid('enableFilter', [{
-                field:'listprice',
-                type:'numberbox',
-                options:{precision:1},
-                op:['equal','notequal','less','greater']
-            },{
-                field:'unitcost',
-                type:'numberbox',
-                options:{precision:1},
-                op:['equal','notequal','less','greater']
-            },{
-                field:'status',
-                type:'combobox',
-                options:{
-                    panelHeight:'auto',
-                    data:[{value:'',text:'All'},{value:'P',text:'P'},{value:'N',text:'N'}],
-                    onChange:function(value){
-                        if (value == ''){
+                field: 'listprice',
+                type: 'numberbox',
+                options: {precision: 1},
+                op: ['equal', 'notequal', 'less', 'greater']
+            }, {
+                field: 'unitcost',
+                type: 'numberbox',
+                options: {precision: 1},
+                op: ['equal', 'notequal', 'less', 'greater']
+            }, {
+                field: 'status',
+                type: 'combobox',
+                options: {
+                    panelHeight: 'auto',
+                    data: [{value: '', text: 'All'}, {value: 'P', text: 'P'}, {value: 'N', text: 'N'}],
+                    onChange: function (value) {
+                        if (value == '') {
                             dg.datagrid('removeFilterRule', 'status');
                         } else {
                             dg.datagrid('addFilterRule', {
