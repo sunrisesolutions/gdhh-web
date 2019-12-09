@@ -378,6 +378,10 @@
                                     if ($box3.val().length + $box2.val().length + length === 9) {
                                         $dest.removeClass('disabled');
                                     }
+                                } else if (length > 3) {
+                                    let redundant = length - 3;
+                                    let strng = $(this).val();
+                                    $(this).val(strng.substring(0, strng.length - redundant));
                                 } else {
                                     $dest.addClass('disabled');
                                     $dest.removeProp('disabled');
@@ -390,6 +394,10 @@
                                     if ($box1.val().length + $box3.val().length + length === 9) {
                                         $dest.removeClass('disabled');
                                     }
+                                } else if (length > 3) {
+                                    let redundant = length - 3;
+                                    let strng = $(this).val();
+                                    $(this).val(strng.substring(0, strng.length - redundant));
                                 } else {
                                     $dest.addClass('disabled');
                                     $dest.removeProp('disabled');
@@ -408,6 +416,10 @@
                                         $dest.removeClass('disabled');
                                         $dest.prop('disabled', true);
                                     }
+                                } else if (length > 3) {
+                                    let redundant = length - 3;
+                                    let strng = $(this).val();
+                                    $(this).val(strng.substring(0, strng.length - redundant));
                                 } else {
                                     $dest.addClass('disabled');
                                     $dest.removeProp('disabled');
