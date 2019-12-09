@@ -761,7 +761,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_CHRISTIAN_NAME => 'PHAOLO',
             self::FIELD_FIRST => 'LỘC',
             self::FIELD_NAME => 'PHAOLO NGUYỄN PHI LỘC',
-            self::FIELD_AKA => 'anh LỘC Ưng Hoàng Phúc; Lộc - Nghi',
+            self::FIELD_AKA => 'anh LỘC Ưng Hoàng Phúc;<br/> Lộc - Nghi',
             self::FIELD_DOB => 1991,
             self::FIELD_PD => 'Chiên Con',
             self::FIELD_CD => 6,
