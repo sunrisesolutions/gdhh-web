@@ -379,6 +379,9 @@
                                     $box2.focus();
                                     if ($box3.val().length + $box2.val().length + length === 9) {
                                         $dest.removeClass('disabled');
+                                        $dest.removeProp('disabled');
+
+                                        $dest.attr('href', '/vong-1/' + $box1.val() + $box2.val() + $box3.val());
                                     }
                                 } else if (length > 3) {
                                     let redundant = length - 3;
@@ -386,7 +389,7 @@
                                     $(this).val(strng.substring(0, strng.length - redundant));
                                 } else {
                                     $dest.addClass('disabled');
-                                    $dest.removeProp('disabled');
+                                    $dest.prop('disabled', true);
                                 }
                             });
                             $box2.keyup(function ($e) {
@@ -395,6 +398,9 @@
                                     $box3.focus();
                                     if ($box1.val().length + $box3.val().length + length === 9) {
                                         $dest.removeClass('disabled');
+                                        $dest.removeProp('disabled');
+
+                                        $dest.attr('href', '/vong-1/' + $box1.val() + $box2.val() + $box3.val());
                                     }
                                 } else if (length > 3) {
                                     let redundant = length - 3;
@@ -402,7 +408,8 @@
                                     $(this).val(strng.substring(0, strng.length - redundant));
                                 } else {
                                     $dest.addClass('disabled');
-                                    $dest.removeProp('disabled');
+                                    $dest.prop('disabled', true);
+
                                     if ($e.which == 8) {
                                         if (length === 0) {
                                             $box1.focus();
@@ -416,7 +423,8 @@
                                     $box3.focus();
                                     if ($box1.val().length + $box2.val().length + length === 9) {
                                         $dest.removeClass('disabled');
-                                        $dest.prop('disabled', true);
+                                        $dest.removeProp('disabled');
+                                        $dest.attr('href', '/vong-1/' + $box1.val() + $box2.val() + $box3.val());
                                     }
                                 } else if (length > 3) {
                                     let redundant = length - 3;
@@ -424,7 +432,7 @@
                                     $(this).val(strng.substring(0, strng.length - redundant));
                                 } else {
                                     $dest.addClass('disabled');
-                                    $dest.removeProp('disabled');
+                                    $dest.prop('disabled', true);
                                     if ($e.which == 8) {
                                         if (length === 0) {
                                             $box2.focus();
