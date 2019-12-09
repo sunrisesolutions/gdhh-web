@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\CuTri;
+use App\Entity\HuynhTruong;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,8 +30,11 @@ class PinController extends AbstractController
             return new RedirectResponse($this->generateUrl('pin'));
         }
 
+        $truong = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy([], ['firstName' => 'ASC']);
+
         return $this->render('pin/vong-1.html.twig', [
             'controller_name' => 'PinController',
+            'cac_truong' => $truong
         ]);
     }
 

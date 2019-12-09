@@ -83,6 +83,11 @@ class HuynhTruong
      */
     private $enabled = true;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $firstName;
+
     public function __construct()
     {
         $this->cacPhieuBau = new ArrayCollection();
@@ -264,6 +269,18 @@ class HuynhTruong
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
 
         return $this;
     }

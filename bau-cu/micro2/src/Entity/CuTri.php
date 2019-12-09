@@ -19,6 +19,22 @@ class CuTri
      */
     private $id;
 
+    public function __clone()
+    {
+        $this->cacPhienBau = new ArrayCollection();
+    }
+
+    public function findPhieuBauChoTruong(HuynhTruong $huynhTruong)
+    {
+        /** @var PhieuBau $pb */
+        foreach ($this->cacPhienBau as $pb) {
+            if ($pb->getHuynhTruong() === $huynhTruong) {
+                return $huynhTruong;
+            }
+        }
+        return null;
+    }
+
     /**
      * @ORM\Column(type="string", length=12)
      */

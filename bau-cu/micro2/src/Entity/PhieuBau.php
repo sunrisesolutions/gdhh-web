@@ -16,6 +16,11 @@ class PhieuBau
      */
     private $id;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\CuTri", inversedBy="cacPhienBau")
      */
@@ -30,6 +35,11 @@ class PhieuBau
      * @ORM\Column(type="integer")
      */
     private $vong;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
     public function getCuTri(): ?CuTri
     {
@@ -63,6 +73,18 @@ class PhieuBau
     public function setVong(int $vong): self
     {
         $this->vong = $vong;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
