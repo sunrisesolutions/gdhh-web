@@ -66,6 +66,7 @@ class HuynhTruong
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\PhieuBau", mappedBy="huynhTruong")
+     * @ORM\OrderBy({"createdAt"="DESC"})
      */
     private $cacPhieuBau;
 

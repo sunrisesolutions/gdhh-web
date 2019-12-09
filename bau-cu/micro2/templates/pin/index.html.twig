@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-{% set day = "15" %}
 <html dir="ltr" lang="en">
 <head>
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
     <meta charset="UTF-8"/>
     <meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noodp,notranslate,noimageindex"/>
     <title>Bầu Cử BQT Xứ Đoàn</title>
@@ -261,6 +261,10 @@
                 margin-top: 0;
             }
         }
+
+        .ipt {
+            width: 50px;
+        }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -348,22 +352,84 @@
 
             {% if "now"|date('d') == day %}
                 <div class="resource">
-                    <h2>Nhập mã PIN gồm 9 chữ số</h2>
-                    <form action="">
-                        <div class="form-group"><input type="number" maxlength="9" minlength="9"></div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Đăng nhập</button>
-                        </div>
-                    </form>
+                    <h2>Nhập mã CODE gồm 9 chữ số</h2>
+
+                    <div class="form-group">
+                        <input id="box1" type="number" maxlength="3" minlength="3" size="3" class="ipt"/>
+                        <input id="box2" type="number" maxlength="3" minlength="3" size="3" class="ipt"/>
+                        <input id="box3" type="number" maxlength="3" minlength="3" size="3" class="ipt"/>
+                    </div>
+                    <div class="form-group">
+                        <a id="dest" href="/" class="btn btn-primary disabled">Đăng nhập</a>
+                    </div>
+                    <script>
+                        $(function () {
+                            $box1 = $('#box1');
+                            $box2 = $('#box2')
+                            $box3 = $('#box3');
+                            $dest = $('#dest');
+
+                            $box1.keyup(function ($e) {
+                                let length = $(this).val().length;
+                                if (length === 3) {
+                                    $box2.focus();
+                                    if ($box3.val().length + $box2.val().length + length === 9) {
+                                        $dest.removeClass('disabled');
+                                    }
+                                } else {
+                                    $dest.addClass('disabled');
+                                    $dest.removeProp('disabled');
+                                }
+                            });
+                            $box2.keyup(function ($e) {
+                                let length = $(this).val().length;
+                                if (length === 3) {
+                                    $box3.focus();
+                                    if ($box1.val().length + $box3.val().length + length === 9) {
+                                        $dest.removeClass('disabled');
+                                    }
+                                } else {
+                                    $dest.addClass('disabled');
+                                    $dest.removeProp('disabled');
+                                    if ($e.which == 8) {
+                                        if (length === 0) {
+                                            $box1.focus();
+                                        }
+                                    }
+                                }
+                            });
+                            $box3.keyup(function ($e) {
+                                let length = $(this).val().length;
+                                if (length === 3) {
+                                    $box3.focus();
+                                    if ($box1.val().length + $box2.val().length + length === 9) {
+                                        $dest.removeClass('disabled');
+                                        $dest.prop('disabled', true);
+                                    }
+                                } else {
+                                    $dest.addClass('disabled');
+                                    $dest.removeProp('disabled');
+                                    if ($e.which == 8) {
+                                        if (length === 0) {
+                                            $box2.focus();
+                                        }
+                                    }
+                                }
+                            });
+                        });
+                    </script>
                 </div>
             {% else %}
                 <div class="resource" style="text-align: left;">
                     <ol>
-                        Lịch bầu cử chung, tất cả a/c Huynh Trưởng sẽ tham gia bầu cử ở P. Sinh hoạt Lầu 1 vào các ngày sau:
+                        Lịch bầu cử chung, tất cả a/c Huynh Trưởng sẽ tham gia bầu cử ở P. Sinh hoạt Lầu 1 vào các ngày
+                        sau:
                         <li><strong>15/12/2019:</strong> Bầu chọn 25 ứng viên với phiều bầu cao nhất.</li>
-                        <li><strong>05/01/2020:</strong> Bầu chọn Tân Xứ Đoàn Trưởng và 14 ứng viên vào Tân Ban Quản Trị.
+                        <li><strong>05/01/2020:</strong> Bầu chọn Tân Xứ Đoàn Trưởng và 14 ứng viên vào Tân Ban Quản
+                            Trị.
                         </li>
-                        <li><strong>Lần cuối (chưa định ngày):</strong> Bầu chọn hai vị trí Phó Nội Vụ và Phó Ngoại Vụ.</li>
+                        <li><strong>Lần cuối (chưa định ngày):</strong> Bầu chọn hai vị trí Phó Nội Vụ và Phó Ngoại Vụ.
+                        </li>
                     </ol>
                     <a href="/noi-dung.docx">Tải file để xem chi tiết.</a>
                 </div>

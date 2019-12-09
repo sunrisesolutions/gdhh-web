@@ -1,24 +1,12 @@
 {% extends 'base.html.twig' %}
+{% block head %}
+    <meta http-equiv="refresh" content="1">
+{% endblock %}
 {% block body %}
     <header>
         <div class="bg-dark collapse" id="navbarHeader" style="">
             <div class="container">
-                <div class="row">
-                    <div class="col-sm-8 col-md-7 py-4">
-                        <h4 class="text-white">About</h4>
-                        <p class="text-muted">Add some information about the album below, the author, or any other
-                            background context. Make it a few sentences long so folks can pick up some informative
-                            tidbits. Then, link them off to some social networking sites or contact information.</p>
-                    </div>
-                    <div class="col-sm-4 offset-md-1 py-4">
-                        <h4 class="text-white">Contact</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="#" class="text-white">Follow on Twitter</a></li>
-                            <li><a href="#" class="text-white">Like on Facebook</a></li>
-                            <li><a href="#" class="text-white">Email me</a></li>
-                        </ul>
-                    </div>
-                </div>
+
             </div>
         </div>
         <div class="navbar navbar-dark bg-dark shadow-sm">
@@ -45,28 +33,49 @@
         <section class="text-left">
             <div class="container">
                 {% set url = "#" %}
-                <h3>Các Phiếu bầu cho ...</h3>
+                {% if top25[0].votes > 0 %}
+                    <h3>Top 25</h3>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Huynh Trưởng</th>
+                            <th>Tổng phiếu</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for truong in top25 %}
+                            {% if truong.votes > 0 %}
+                                <tr>
+                                    <td>
+                                        <code>{{ truong.name }}</code>
+                                    </td>
+                                    <td>{{ truong.votes }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+
+                {% if top25[0].votes > 0 %}
+                    <h3>Danh sách còn lại</h3>
+                {% endif %}
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Code/Thời gian</th>
+                        <th>Huynh Trưởng</th>
+                        <th>Tổng phiếu</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <strong>000-000-000</strong>
-                            <br>
-                            12:01:00
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong><code>123-456-789</code></strong>
-                            <br>
-                            12:00:00
-                        </td>
-                    </tr>
+                    {% for truong in conLai %}
+                        <tr>
+                            <td>
+                                <code>{{ truong.name }}</code>
+                            </td>
+                            <td>{{ truong.votes }}</td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -93,47 +102,5 @@
     </script>
     <script type="text/javascript" src="/easyui/datagrid-filter.js"></script>
     <script type="text/javascript">
-        var data = [
-            {
-                "productname": 'PHANXICO XAVIE <br/><strong><code>CHA CHU GIA NGHĨA</code></strong><br/>aka: <strong>Loan nhỏ</strong><br>Năm sinh: 1987<br/>NGHĨA SĨ<br/>15 tuổi<div class="text-right"><a href="https://google.com" class="btn btn-primary">Bầu chọn </a></div>',
-                "unitcost": 12.00,
-                "status": "P",
-                "listprice": 18.50,
-                "attr1": "Spotted Adult Female"
-            },
-        ];
-        $(function () {
-            var dg = $('#dg').datagrid();
-            dg.datagrid('enableFilter', [{
-                field: 'listprice',
-                type: 'numberbox',
-                options: {precision: 1},
-                op: ['equal', 'notequal', 'less', 'greater']
-            }, {
-                field: 'unitcost',
-                type: 'numberbox',
-                options: {precision: 1},
-                op: ['equal', 'notequal', 'less', 'greater']
-            }, {
-                field: 'status',
-                type: 'combobox',
-                options: {
-                    panelHeight: 'auto',
-                    data: [{value: '', text: 'All'}, {value: 'P', text: 'P'}, {value: 'N', text: 'N'}],
-                    onChange: function (value) {
-                        if (value == '') {
-                            dg.datagrid('removeFilterRule', 'status');
-                        } else {
-                            dg.datagrid('addFilterRule', {
-                                field: 'status',
-                                op: 'equal',
-                                value: value
-                            });
-                        }
-                        dg.datagrid('doFilter');
-                    }
-                }
-            }]);
-        });
     </script>
 {% endblock %}

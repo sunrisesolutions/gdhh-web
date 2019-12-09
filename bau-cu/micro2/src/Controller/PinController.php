@@ -18,6 +18,33 @@ class PinController extends AbstractController
     {
         return $this->render('pin/index.html.twig', [
             'controller_name' => 'PinController',
+            'day' => '15'
+        ]);
+    }
+
+    /**
+     * @Route("/test-choi", name="pin_test")
+     */
+    public function indexTest()
+    {
+        return $this->render('pin/index.html.twig', [
+            'controller_name' => 'PinController',
+            'day' => '09'
+        ]);
+    }
+
+    /**
+     * @Route("/vong-1/votes", name="vote_vong_1_votes")
+     */
+    public function votesVong1()
+    {
+        $top25 = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy([], ['votes' => 'DESC'], 25);
+        $conLai = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy([], ['votes' => 'DESC'], null, 25);
+
+        return $this->render('pin/vote-vong-1.html.twig', [
+            'controller_name' => 'PinController',
+            'top25' => $top25,
+            'conLai' => $conLai
         ]);
     }
 
@@ -205,19 +232,35 @@ class PinController extends AbstractController
 
         return $this->render('pin/result-vong-1.html.twig', [
             'controller_name' => 'PinController',
+            'pin' => $pin,
             'top25' => $top25,
             'conLai' => $conLai
         ]);
     }
 
-
     /**
-     * @Route("/vong-1/{pin}/votes", name="vote_vong_1_votes")
+     * @Route("/vong-1/{pin}/truong/{truongId}/my-vote", name="vote_vong_1_my_vote_for_truong")
      */
-    public function votesVong1($pin)
+    public function myVoteForTruong($pin, $truongId)
     {
-        return $this->render('pin/vote-vong-1.html.twig', [
+        $voter = $this->getDoctrine()->getRepository(CuTri::class)->findOneByPin($pin);
+        if (empty($voter)) {
+            return new RedirectResponse($this->generateUrl('pin'));
+        }
+
+        $truong = $this->getDoctrine()->getRepository(HuynhTruong::class)->find($truongId);
+        if (empty($truong)) {
+            return new RedirectResponse($this->generateUrl('vote_vong_1', ['pin' => $pin]));
+        }
+
+        $cacPbt = $truong->getCacPhieuBau();
+
+        return $this->render('pin/my-vote-for-truong-vong-1.html.twig', [
             'controller_name' => 'PinController',
+            'truong' => $truong,
+            'pin' => $pin,
+            'cacPbt' => $cacPbt,
         ]);
     }
+
 }
