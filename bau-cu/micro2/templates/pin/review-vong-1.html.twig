@@ -63,7 +63,7 @@
                             <td>
                                 <strong><code>{{ phieuBau.huynhTruong.name }}</code></strong>
                                 <br>
-                                <em>{{ phieuBau.createdAt|date('H:i:s') }}</em>
+                                <em>{{ phieuBau.createdAt|date('H:i:s', 'Asia/Saigon') }}</em>
                             </td>
                             <td>
                                 <a href="{{ path('vote_vong_1_remove_truong',{phieuBauId: phieuBau.id, pin: pin}) }}"

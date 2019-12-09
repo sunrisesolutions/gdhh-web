@@ -54,7 +54,7 @@ class PinController extends AbstractController
     {
         return $this->render('pin/index.html.twig', [
             'controller_name' => 'PinController',
-            'day' => '10',
+            'day' => '09',
             'test' => true
         ]);
     }

@@ -51,7 +51,7 @@
                                     <strong>{{ phieuBau.cuTri.pinFormatted }}</strong>
                                 {% endif %}
                                 <br>
-                                {{ phieuBau.createdAt|date('H:i:s') }}
+                                {{ phieuBau.createdAt|date('H:i:s', 'Asia/Saigon') }}
                             </td>
                         </tr>
                     {% endfor %}
