@@ -52,9 +52,10 @@ class PinController extends AbstractController
      */
     public function indexTest()
     {
+        $now = new \DateTime();
         return $this->render('pin/index.html.twig', [
             'controller_name' => 'PinController',
-            'day' => '09',
+            'day' => $now->format('d'),
             'test' => true
         ]);
     }
