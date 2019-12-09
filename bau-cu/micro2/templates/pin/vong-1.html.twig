@@ -119,7 +119,7 @@
         var data = [
             {% for truong in cac_truong %}
             {
-                "productname": '<strong><code>{{ truong.name }}</code></strong><br/>aka: <strong>{{ truong.aka }}</strong><br>Năm sinh: {{ truong.dob }}<br/>{{ truong.phanDoan }}<br/>{{ truong.chiDoan }} tuổi<div class="text-right"><a href="{{ path('vote_vong_1_truong',{truongId: truong.id, pin: pin}) }}" class="btn btn-primary">Bầu chọn </a></div>',
+                "productname": '<strong><code>{{ truong.name }}</code></strong><br/>aka: <strong>{{ truong.aka|raw }}</strong><br>Năm sinh: {{ truong.dob }}<br/>{{ truong.phanDoan }}<br/>{{ truong.chiDoan }} tuổi<div class="text-right"><a href="{{ path('vote_vong_1_truong',{truongId: truong.id, pin: pin}) }}" class="btn btn-primary">Bầu chọn </a></div>',
                 "unitcost": 12.00,
                 "status": "P",
                 "listprice": 18.50,
