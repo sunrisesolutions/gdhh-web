@@ -50,6 +50,11 @@ class CuTri
      */
     private $pinFormatted;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $submitted = false;
+
     public function __construct()
     {
         $this->cacPhienBau = new ArrayCollection();
@@ -111,6 +116,18 @@ class CuTri
     public function setPinFormatted(string $pinFormatted): self
     {
         $this->pinFormatted = $pinFormatted;
+
+        return $this;
+    }
+
+    public function getSubmitted(): ?bool
+    {
+        return $this->submitted;
+    }
+
+    public function setSubmitted(bool $submitted): self
+    {
+        $this->submitted = $submitted;
 
         return $this;
     }

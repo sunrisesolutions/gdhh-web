@@ -51,17 +51,26 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
+                        <th>#</th>
                         <th>Huynh Trưởng</th>
-                        <th>Thời gian</th>
                         <th>Bỏ chọn</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Chu Gia Nghĩa</td>
-                        <td>10:00:00</td>
-                        <td><a href="#" class="btn btn-danger">Bỏ Chọn</a></td>
-                    </tr>
+                    {% for phieuBau in cac_phieu_bau %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>
+                                <strong><code>{{ phieuBau.huynhTruong.name }}</code></strong>
+                                <br>
+                                <em>{{ phieuBau.createdAt|date('H:i:s') }}</em>
+                            </td>
+                            <td>
+                                <a href="{{ path('vote_vong_1_remove_truong',{phieuBauId: phieuBau.id, pin: pin}) }}"
+                                   class="btn btn-danger">Bỏ Chọn</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
                 <a href="{{ url }}" class="btn btn-success btn-lg">Nộp danh sách</a>

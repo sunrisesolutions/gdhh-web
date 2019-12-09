@@ -797,16 +797,6 @@ class GenerateTruongCommand extends Command
             self::FIELD_CD => 11,
         ],
         [
-            'id' => 1183,
-            self::FIELD_CHRISTIAN_NAME => 'PHANXICO',
-            self::FIELD_FIRST => 'Nghĩa',
-            self::FIELD_NAME => 'PHANXICO Chu Gia Nghĩa',
-            self::FIELD_AKA => 'Gia Nghĩa',
-            self::FIELD_DOB => 1982,
-            self::FIELD_PD => 'Tông Đồ/ Hiệp sỹ',
-            self::FIELD_CD => 0,
-        ],
-        [
             'id' => 1184,
             self::FIELD_CHRISTIAN_NAME => 'GIUSE',
             self::FIELD_FIRST => 'ĐỨC',
@@ -914,7 +904,9 @@ class GenerateTruongCommand extends Command
                 ->setAka($data[self::FIELD_AKA])
                 ->setChristianName($data[self::FIELD_CHRISTIAN_NAME])
                 ->setChiDoan($data[self::FIELD_CD])
-                ->setPhanDoan($data[self::FIELD_PD]);
+                ->setPhanDoan($data[self::FIELD_PD])
+                ->setDob($data[self::FIELD_DOB])
+            ;
             $this->em->persist($tr);
         }
         $this->em->flush();

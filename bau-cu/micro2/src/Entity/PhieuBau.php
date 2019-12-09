@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PhieuBau
 {
+    const VOTER_VOTES = 10;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -89,5 +91,11 @@ class PhieuBau
         return $this;
     }
 
-
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }
