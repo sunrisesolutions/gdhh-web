@@ -54,14 +54,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <code>Phanxico Xavie Chu Gia Nghĩa</code>
-                            <br>
-                            <a href="#" class="btn btn-info">XEM PHIẾU BẦU</a>
-                        </td>
-                        <td>10</td>
-                    </tr>
+                    {% for truong in top25 %}
+                        <tr>
+                            <td>
+                                <code>{{ truong.name }}</code>
+                                <br>
+                                <a href="#" class="btn btn-info">XEM PHIẾU BẦU</a>
+                            </td>
+                            <td>{{ truong.votes }}</td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
                 <h3>Danh sách còn lại</h3>
@@ -73,14 +75,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            Phanxico Xavie Chu Gia Nghĩa
-                            <br>
-                            <a href="#" class="btn btn-info">XEM PHIẾU BẦU</a>
-                        </td>
-                        <td>10</td>
-                    </tr>
+                    {% for truong in conLai %}
+                        <tr>
+                            <td>
+                                <code>{{ truong.name }}</code>
+                                <br>
+                                <a href="#" class="btn btn-info">XEM PHIẾU BẦU</a>
+                            </td>
+                            <td>{{ truong.votes }}</td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>

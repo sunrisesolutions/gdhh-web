@@ -22,13 +22,43 @@ class PinController extends AbstractController
     }
 
     /**
+     * @Route("/vong-1/{pin}/nop-danh-sach", name="vote_vong_1_nop_ds")
+     */
+    public function nopDanhSachVong1($pin)
+    {
+        /** @var CuTri $voter */
+        $voter = $this->getDoctrine()->getRepository(CuTri::class)->findOneByPin($pin);
+        if (empty($voter)) {
+            return new RedirectResponse($this->generateUrl('pin'));
+        }
+
+        $voter->setSubmitted(true);
+        $voter->updateData();
+        $m = $this->getDoctrine()->getManager();
+        $m->persist($voter);
+        /** @var PhieuBau $pb */
+        foreach ($voter->getCacPhienBau() as $pb) {
+            $m->persist($pb->getHuynhTruong());
+        }
+        $m->flush();
+
+        return new RedirectResponse($this->generateUrl('vote_vong_1_result', ['pin' => $pin,
+        ]));
+    }
+
+    /**
      * @Route("/vong-1/{pin}", name="vote_vong_1")
      */
     public function voteVong1($pin)
     {
+        /** @var CuTri $voter */
         $voter = $this->getDoctrine()->getRepository(CuTri::class)->findOneByPin($pin);
         if (empty($voter)) {
             return new RedirectResponse($this->generateUrl('pin'));
+        }
+
+        if ($voter->getSubmitted()) {
+            return new RedirectResponse($this->generateUrl('vote_vong_1_result', ['pin' => $pin]));
         }
 
         $cacPhieuBau = $this->getDoctrine()->getRepository(PhieuBau::class)->findByCuTri($voter->getId());
@@ -72,6 +102,11 @@ class PinController extends AbstractController
             return new RedirectResponse($this->generateUrl('pin'));
         }
 
+        if ($voter->getSubmitted()) {
+            return new RedirectResponse($this->generateUrl('vote_vong_1_result', ['pin' => $pin,
+            ]));
+        }
+
         $cacPhieuBau = $this->getDoctrine()->getRepository(PhieuBau::class)->findByCuTri($voter->getId());
         if (count($cacPhieuBau) === PhieuBau::VOTER_VOTES) {
             return new RedirectResponse($this->generateUrl('vote_vong_1_review', ['pin' => $pin]));
@@ -112,9 +147,15 @@ class PinController extends AbstractController
      */
     public function removeVoteVong1ChoTruong($pin, $phieuBauId)
     {
+        /** @var CuTri $voter */
         $voter = $this->getDoctrine()->getRepository(CuTri::class)->findOneByPin($pin);
         if (empty($voter)) {
             return new RedirectResponse($this->generateUrl('pin'));
+        }
+
+        if ($voter->getSubmitted()) {
+            return new RedirectResponse($this->generateUrl('vote_vong_1_result', ['pin' => $pin,
+            ]));
         }
 
         $phieuBau = $this->getDoctrine()->getRepository(PhieuBau::class)->find($phieuBauId);
@@ -159,8 +200,13 @@ class PinController extends AbstractController
             return new RedirectResponse($this->generateUrl('pin'));
         }
 
+        $top25 = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy([], ['votes' => 'DESC'], 25);
+        $conLai = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy([], ['votes' => 'DESC'], null, 25);
+
         return $this->render('pin/result-vong-1.html.twig', [
             'controller_name' => 'PinController',
+            'top25' => $top25,
+            'conLai' => $conLai
         ]);
     }
 

@@ -29,7 +29,7 @@ class PhieuBau
     private $cuTri;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\HuynhTruong", inversedBy="cacPhieuBau")
+     * @ORM\ManyToOne(targetEntity="App\Entity\HuynhTruong", inversedBy="cacPhieuBau", cascade={"persist", "merge"})
      */
     private $huynhTruong;
 

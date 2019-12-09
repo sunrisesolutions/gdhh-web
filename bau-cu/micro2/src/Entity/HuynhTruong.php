@@ -11,6 +11,22 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class HuynhTruong
 {
+    public function updateVoteCount()
+    {
+        $truong = $this;
+        $cacPbt = $truong->getCacPhieuBau();
+        $voteCount = 0;
+        /** @var PhieuBau $pbt */
+        foreach ($cacPbt as $pbt) {
+            if ($pbt->getCuTri()->getSubmitted()) {
+                $voteCount++;
+            }
+        }
+        $truong->setVotes($voteCount);
+        $this->updatedAt = new \DateTime();
+        return $voteCount;
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -87,6 +103,16 @@ class HuynhTruong
      * @ORM\Column(type="string", length=255)
      */
     private $firstName;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $votes;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     public function __construct()
     {
@@ -281,6 +307,30 @@ class HuynhTruong
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getVotes(): ?int
+    {
+        return $this->votes;
+    }
+
+    public function setVotes(?int $votes): self
+    {
+        $this->votes = $votes;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

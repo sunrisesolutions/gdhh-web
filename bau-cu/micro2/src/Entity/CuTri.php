@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CuTriRepository")
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="search_idx", columns={"pin"})})
+ * @ORM\HasLifecycleCallbacks()
  */
 class CuTri
 {
@@ -36,12 +37,26 @@ class CuTri
     }
 
     /**
+     * @ORM\PreUpdate
+     */
+    public function updateData()
+    {
+        if ($this->submitted) {
+            /** @var PhieuBau $pb */
+            foreach ($this->cacPhienBau as $pb) {
+                $truong = $pb->getHuynhTruong();
+                $truong->updateVoteCount();
+            }
+        }
+    }
+
+    /**
      * @ORM\Column(type="string", length=12)
      */
     private $pin;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PhieuBau", mappedBy="cuTri")
+     * @ORM\OneToMany(targetEntity="App\Entity\PhieuBau", mappedBy="cuTri", cascade={"persist", "merge"})
      */
     private $cacPhienBau;
 
