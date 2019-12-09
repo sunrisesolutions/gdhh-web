@@ -561,7 +561,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_CHRISTIAN_NAME => 'ELIZABETH',
             self::FIELD_FIRST => 'VY',
             self::FIELD_NAME => 'ELIZABETH PHẠM THÚY VY',
-            self::FIELD_AKA => 'chị VY nhỏ',
+            self::FIELD_AKA => 'chị VY trẻ',
             self::FIELD_DOB => 1995,
             self::FIELD_PD => 'Ấu Nhi',
             self::FIELD_CD => 8,
