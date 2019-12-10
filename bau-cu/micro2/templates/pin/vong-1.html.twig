@@ -91,7 +91,7 @@
             ">
                 <thead>
                 <tr>
-                    <th data-options="field:'productname',width:250">Tìm Huynh Trưởng</th>
+                    <th data-options="field:'productname'">Tìm Huynh Trưởng</th>
                     {#                        <th data-options="field:'attr1',width:100,formatter:formatPrice">Bầu chọn</th>#}
                 </tr>
                 </thead>
@@ -143,25 +143,6 @@
                 type: 'numberbox',
                 options: {precision: 1},
                 op: ['equal', 'notequal', 'less', 'greater']
-            }, {
-                field: 'status',
-                type: 'combobox',
-                options: {
-                    panelHeight: 'auto',
-                    data: [{value: '', text: 'All'}, {value: 'P', text: 'P'}, {value: 'N', text: 'N'}],
-                    onChange: function (value) {
-                        if (value == '') {
-                            dg.datagrid('removeFilterRule', 'status');
-                        } else {
-                            dg.datagrid('addFilterRule', {
-                                field: 'status',
-                                op: 'equal',
-                                value: value
-                            });
-                        }
-                        dg.datagrid('doFilter');
-                    }
-                }
             }]);
         });
     </script>
