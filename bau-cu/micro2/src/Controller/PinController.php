@@ -67,9 +67,11 @@ class PinController extends AbstractController
     {
         $top25 = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy([], ['votes' => 'DESC'], 25);
         $conLai = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy([], ['votes' => 'DESC'], null, 25);
+        $cacCuTriDaBau = $this->getDoctrine()->getRepository(CuTri::class)->findBy(['submitted' => true]);
 
         return $this->render('pin/vote-vong-1.html.twig', [
             'controller_name' => 'PinController',
+            'cacCuTriDaBau' => $cacCuTriDaBau,
             'top25' => $top25,
             'conLai' => $conLai
         ]);
@@ -84,6 +86,11 @@ class PinController extends AbstractController
         $voter = $this->getDoctrine()->getRepository(CuTri::class)->findOneByPin($pin);
         if (empty($voter)) {
             return new RedirectResponse($this->generateUrl('pin'));
+        }
+
+        $cacPhieuBau = $this->getDoctrine()->getRepository(PhieuBau::class)->findByCuTri($voter->getId());
+        if (count($cacPhieuBau) !== PhieuBau::VOTER_VOTES) {
+            return new RedirectResponse($this->generateUrl('vote_vong_1', ['pin' => $pin]));
         }
 
         $voter->setSubmitted(true);
@@ -254,6 +261,12 @@ class PinController extends AbstractController
             return new RedirectResponse($this->generateUrl('pin'));
         }
 
+        $cacPhieuBau = $this->getDoctrine()->getRepository(PhieuBau::class)->findByCuTri($voter->getId());
+        if (count($cacPhieuBau) !== PhieuBau::VOTER_VOTES) {
+            return new RedirectResponse($this->generateUrl('vote_vong_1', ['pin' => $pin]));
+        }
+
+
         $top25 = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy([], ['votes' => 'DESC'], 25);
         $conLai = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy([], ['votes' => 'DESC'], null, 25);
 
@@ -277,6 +290,11 @@ class PinController extends AbstractController
 
         $truong = $this->getDoctrine()->getRepository(HuynhTruong::class)->find($truongId);
         if (empty($truong)) {
+            return new RedirectResponse($this->generateUrl('vote_vong_1', ['pin' => $pin]));
+        }
+
+        $cacPhieuBau = $this->getDoctrine()->getRepository(PhieuBau::class)->findByCuTri($voter->getId());
+        if (count($cacPhieuBau) !== PhieuBau::VOTER_VOTES) {
             return new RedirectResponse($this->generateUrl('vote_vong_1', ['pin' => $pin]));
         }
 

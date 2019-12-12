@@ -44,6 +44,7 @@
 <main role="main">
     <section class="text-left">
         <div class="container">
+            <a href="/" class="mt-1 btn btn-danger">THOÁT</a>
             <br>
             {% if cac_phieu_bau|length > 0 %}
             <h5>Anh/chị đã bầu cho ({{ cac_phieu_bau|length }}) Trưởng.</h5>
@@ -123,7 +124,7 @@
         var data = [
             {% for truong in cac_truong %}
             {
-                "productname": '<strong><code>{{ truong.name }}</code></strong><br/>aka: <strong>{{ truong.aka|raw }}</strong><br>Năm sinh: {{ truong.dob }}<br/>{{ truong.phanDoan }}<br/>{{ truong.chiDoan }} tuổi<div class="text-right"><a href="{{ path('vote_vong_1_truong',{truongId: truong.id, pin: pin}) }}" class="btn btn-primary">Bầu chọn </a></div>',
+                "productname": '<strong><code>{{ truong.name }}</code></strong><br/>Năm sinh: {{ truong.dob }}<br/>{{ truong.phanDoan }}<br/>{{ truong.chiDoan }} tuổi<div class="text-right"><a href="{{ path('vote_vong_1_truong',{truongId: truong.id, pin: pin}) }}" class="btn btn-primary">Bầu chọn </a></div>',
                 "unitcost": 12.00,
                 "status": "P",
                 "listprice": 18.50,
