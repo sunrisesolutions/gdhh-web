@@ -806,14 +806,14 @@ class GenerateTruongCommand extends Command
             self::FIELD_CD => '05',
         ],
         [
-            'id' => 9999,
-            self::FIELD_CHRISTIAN_NAME => '',
-            self::FIELD_FIRST => 'THỦY',
-            self::FIELD_NAME => 'THỦY',
-            self::FIELD_AKA => 'Thủy',
-            self::FIELD_DOB => 0,
-            self::FIELD_PD => 'Chiên Con (CCB)',
-            self::FIELD_CD => '05',
+            'id' => 949,
+            self::FIELD_CHRISTIAN_NAME => 'GIUSE',
+            self::FIELD_FIRST => 'DUY',
+            self::FIELD_NAME => 'GIUSE BÙI ĐỨC DUY',
+            self::FIELD_AKA => 'ĐỨC DUY',
+            self::FIELD_DOB => 1982,
+            self::FIELD_PD => 'Tông Đồ/ Hiệp sỹ (HSB)',
+            self::FIELD_CD => 18,
         ],
     ];
 
