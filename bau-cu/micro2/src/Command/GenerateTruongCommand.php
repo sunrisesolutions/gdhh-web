@@ -33,7 +33,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'ÁNH TRANG',
             self::FIELD_DOB => 2017,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 9,
+            self::FIELD_CD => '09',
         ],
         [
             'id' => 650,
@@ -143,7 +143,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'THANH HẬU',
             self::FIELD_DOB => 1996,
             self::FIELD_PD => 'Chiên Con (CCB)',
-            self::FIELD_CD => 6,
+            self::FIELD_CD => '06',
         ],
         [
             'id' => 1031,
@@ -163,7 +163,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'NGỌC HÀ',
             self::FIELD_DOB => 1976,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 9,
+            self::FIELD_CD => '09',
         ],
         [
             'id' => 1034,
@@ -173,7 +173,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'PHÚC HẬU',
             self::FIELD_DOB => 1979,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 8,
+            self::FIELD_CD => '08',
         ],
         [
             'id' => 1035,
@@ -183,7 +183,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'THANH TUYỀN',
             self::FIELD_DOB => 1989,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 7,
+            self::FIELD_CD => '07',
         ],
         [
             'id' => 1036,
@@ -193,7 +193,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'NGỌC MAI',
             self::FIELD_DOB => 1951,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 7,
+            self::FIELD_CD => '07',
         ],
         [
             'id' => 1039,
@@ -223,7 +223,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'VĂN DANH',
             self::FIELD_DOB => 1984,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 8,
+            self::FIELD_CD => '08',
         ],
         [
             'id' => 1042,
@@ -233,7 +233,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'ĐĂNG KHOA',
             self::FIELD_DOB => 1996,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 7,
+            self::FIELD_CD => '07',
         ],
         [
             'id' => 1043,
@@ -243,7 +243,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'TUẤN ANH',
             self::FIELD_DOB => 1994,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 7,
+            self::FIELD_CD => '07',
         ],
         [
             'id' => 1044,
@@ -253,7 +253,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'THUÝ VY',
             self::FIELD_DOB => 1977,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 7,
+            self::FIELD_CD => '07',
         ],
         [
             'id' => 1045,
@@ -263,7 +263,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'NGỌC TRÂM',
             self::FIELD_DOB => 1996,
             self::FIELD_PD => 'Chiên Con (CCB)',
-            self::FIELD_CD => 5,
+            self::FIELD_CD => '05',
         ],
         [
             'id' => 1046,
@@ -273,7 +273,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'ANH TUẤN',
             self::FIELD_DOB => 1992,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 9,
+            self::FIELD_CD => '09',
         ],
         [
             'id' => 1047,
@@ -353,7 +353,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'ĐỨC QUANG',
             self::FIELD_DOB => 1997,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 8,
+            self::FIELD_CD => '08',
         ],
         [
             'id' => 1058,
@@ -433,7 +433,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'TIẾN HƯNG',
             self::FIELD_DOB => 1997,
             self::FIELD_PD => 'Chiên Con (CCB)',
-            self::FIELD_CD => 6,
+            self::FIELD_CD => '06',
         ],
         [
             'id' => 1068,
@@ -453,7 +453,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'MỸ NGA',
             self::FIELD_DOB => 1989,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 7,
+            self::FIELD_CD => '07',
         ],
         [
             'id' => 1072,
@@ -483,7 +483,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'NGỌC NHI',
             self::FIELD_DOB => 1995,
             self::FIELD_PD => 'Chiên Con (CCB)',
-            self::FIELD_CD => 6,
+            self::FIELD_CD => '06',
         ],
         [
             'id' => 1075,
@@ -493,7 +493,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'MỸ ANH',
             self::FIELD_DOB => 1998,
             self::FIELD_PD => 'Chiên Con (CCB)',
-            self::FIELD_CD => 4,
+            self::FIELD_CD => '04',
         ],
         [
             'id' => 1076,
@@ -503,7 +503,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'TUYẾT TRINH',
             self::FIELD_DOB => 1995,
             self::FIELD_PD => 'Chiên Con (CCB)',
-            self::FIELD_CD => 6,
+            self::FIELD_CD => '06',
         ],
         [
             'id' => 1078,
@@ -513,7 +513,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'ÁI PHƯƠNG',
             self::FIELD_DOB => 1980,
             self::FIELD_PD => 'Chiên Con (CCB)',
-            self::FIELD_CD => 4,
+            self::FIELD_CD => '04',
         ],
         [
             'id' => 1079,
@@ -533,7 +533,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'TỐ QUYÊN',
             self::FIELD_DOB => 1976,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 8,
+            self::FIELD_CD => '08',
         ],
         [
             'id' => 1085,
@@ -543,7 +543,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'THÚY VY',
             self::FIELD_DOB => 0,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 8,
+            self::FIELD_CD => '08',
         ],
         [
             'id' => 1086,
@@ -553,7 +553,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'THỊ HÒA',
             self::FIELD_DOB => 1997,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 9,
+            self::FIELD_CD => '09',
         ],
         [
             'id' => 1095,
@@ -563,7 +563,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'ĐỨC VINH',
             self::FIELD_DOB => 0,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 9,
+            self::FIELD_CD => '09',
         ],
         [
             'id' => 1097,
@@ -573,7 +573,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'HUYỀN TRÂM',
             self::FIELD_DOB => 0,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 9,
+            self::FIELD_CD => '09',
         ],
         [
             'id' => 1105,
@@ -583,7 +583,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'KIM NGÂN',
             self::FIELD_DOB => 1987,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 8,
+            self::FIELD_CD => '08',
         ],
         [
             'id' => 1106,
@@ -593,7 +593,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'THANH TUẤN',
             self::FIELD_DOB => 1975,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 7,
+            self::FIELD_CD => '07',
         ],
         [
             'id' => 1107,
@@ -613,7 +613,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'THỦY TIÊN',
             self::FIELD_DOB => 1996,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 7,
+            self::FIELD_CD => '07',
         ],
         [
             'id' => 1109,
@@ -693,7 +693,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'THANH NHẬT',
             self::FIELD_DOB => 0,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 9,
+            self::FIELD_CD => '09',
         ],
         [
             'id' => 1123,
@@ -703,7 +703,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'HOÀNG OANH',
             self::FIELD_DOB => 1987,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 9,
+            self::FIELD_CD => '09',
         ],
         [
             'id' => 1129,
@@ -713,7 +713,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'PHÚC HƯNG',
             self::FIELD_DOB => 0,
             self::FIELD_PD => 'Chiên Con (CCB)',
-            self::FIELD_CD => 5,
+            self::FIELD_CD => '05',
         ],
         [
             'id' => 1130,
@@ -723,7 +723,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'TRANG HẠ',
             self::FIELD_DOB => 1992,
             self::FIELD_PD => 'Chiên Con (CCB)',
-            self::FIELD_CD => 4,
+            self::FIELD_CD => '04',
         ],
         [
             'id' => 1181,
@@ -753,7 +753,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'HỮU ĐỨC',
             self::FIELD_DOB => 1996,
             self::FIELD_PD => 'Chiên Con (CCB)',
-            self::FIELD_CD => 5,
+            self::FIELD_CD => '05',
         ],
         [
             'id' => 1241,
@@ -763,7 +763,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => '',
             self::FIELD_DOB => 2000,
             self::FIELD_PD => 'Chiên Con (CCB)',
-            self::FIELD_CD => 5,
+            self::FIELD_CD => '05',
         ],
         [
             'id' => 1247,
@@ -773,7 +773,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'Bảo Phương',
             self::FIELD_DOB => 2000,
             self::FIELD_PD => 'Ấu Nhi (ANB)',
-            self::FIELD_CD => 8,
+            self::FIELD_CD => '08',
         ],
         [
             'id' => 1323,
@@ -803,7 +803,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'Thủy Ngân',
             self::FIELD_DOB => 1998,
             self::FIELD_PD => 'Chiên Con (CCB)',
-            self::FIELD_CD => 5,
+            self::FIELD_CD => '05',
         ],
         [
             'id' => 9999,
@@ -813,7 +813,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_AKA => 'Thủy',
             self::FIELD_DOB => 0,
             self::FIELD_PD => 'Chiên Con (CCB)',
-            self::FIELD_CD => 5,
+            self::FIELD_CD => '05',
         ],
     ];
 
