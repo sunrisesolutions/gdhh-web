@@ -133,7 +133,7 @@
         var data = [
             {% for truong in cac_truong %}
             {
-                "productname": '<strong><code>{{ truong.name }}</code></strong><br/>Năm sinh: {{ truong.dob == 0?"Chưa cập nhật":truong.dob }}<br/>{{ truong.phanDoan }}<br/>{{ truong.chiDoan == 0 ? "Chưa cập nhật": truong.chiDoan ~ " tuổi" }} <div class="vote-btn text-right"><a href="{{ path('vote_vong_1_truong',{truongId: truong.id, pin: pin}) }}" class="btn btn-primary">Bầu chọn </a></div>',
+                "productname": '<strong><code>{{ truong.name }}</code></strong><br/>Năm sinh: {{ truong.dob == 0?"Chưa cập nhật":truong.dob }}<br/>{{ truong.phanDoan }}<br/>{{ truong.chiDoan == 0 ? "Chưa cập nhật": truong.chiDoan ~ " tuổi (" ~ truong.chiDoan ~"T)" }} <div class="vote-btn text-right"><a href="{{ path('vote_vong_1_truong',{truongId: truong.id, pin: pin}) }}" class="btn btn-primary">Bầu chọn </a></div>',
                 "unitcost": 12.00,
                 "status": "P",
                 "listprice": 18.50,
