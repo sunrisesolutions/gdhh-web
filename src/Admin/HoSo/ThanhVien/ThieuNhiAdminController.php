@@ -232,8 +232,6 @@ class ThieuNhiAdminController extends BaseCRUDAdminController {
 		}
 		
 		return parent::listAction();
-		
-		
 	}
 	
 	public function diemDanhAction($id = null, $truongId, $dtStr, $type, $action = 'present', Request $request) {

@@ -1223,6 +1223,8 @@ class ThanhVien
         $this->xuDoanPhoNgoai = $xuDoanPhoNgoai;
     }
 
+
+
     /**
      * @return string
      */
