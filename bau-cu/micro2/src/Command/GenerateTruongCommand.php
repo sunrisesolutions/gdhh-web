@@ -52,7 +52,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'VINCENTE NGUYỄN VŨ ANH DUY',
             self::FIELD_AKA => 'ANH DUY',
             self::FIELD_DOB => 0,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 10,
         ],
         [
@@ -62,7 +62,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'PHERO NGUYỄN HỒNG PHƯỚC',
             self::FIELD_AKA => 'HỒNG PHƯỚC',
             self::FIELD_DOB => 0,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 12,
         ],
         [
@@ -72,7 +72,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MÁC-CÔ (MARK) NGUYỄN PHƯỚC LỘC',
             self::FIELD_AKA => 'PHƯỚC LỘC',
             self::FIELD_DOB => 1991,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 11,
         ],
         [
@@ -82,7 +82,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'PHERO Nguyễn Đức Song Toàn',
             self::FIELD_AKA => 'Song Toàn',
             self::FIELD_DOB => 1988,
-            self::FIELD_PD => 'Nghĩa Sĩ (NS)',
+            self::FIELD_PD => 'Nghĩa Sĩ (NSB)',
             self::FIELD_CD => 13,
         ],
         [
@@ -92,7 +92,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'PHERO LÊ THANH BÌNH',
             self::FIELD_AKA => 'THANH BÌNH',
             self::FIELD_DOB => 1987,
-            self::FIELD_PD => 'Tông Đồ/ Hiệp sỹ',
+            self::FIELD_PD => 'Tông Đồ/ Hiệp sỹ (HSB)',
             self::FIELD_CD => 16,
         ],
         [
@@ -102,7 +102,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'GIUSE TRẦN CÔNG THỊNH',
             self::FIELD_AKA => 'CÔNG THỊNH',
             self::FIELD_DOB => 1995,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 12,
         ],
         [
@@ -112,7 +112,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'ANNA MAI TƯỜNG VI',
             self::FIELD_AKA => 'TƯỜNG VI',
             self::FIELD_DOB => 1998,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 12,
         ],
         [
@@ -122,7 +122,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MICAE VŨ QUANG TRÍ',
             self::FIELD_AKA => 'QUANG TRÍ',
             self::FIELD_DOB => 1987,
-            self::FIELD_PD => 'Nghĩa Sĩ (NS)',
+            self::FIELD_PD => 'Nghĩa Sĩ (NSB)',
             self::FIELD_CD => 15,
         ],
         [
@@ -132,7 +132,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'PHERO Đặng Quang Huy',
             self::FIELD_AKA => 'Quang Huy',
             self::FIELD_DOB => 1985,
-            self::FIELD_PD => 'Nghĩa Sĩ (NS)',
+            self::FIELD_PD => 'Nghĩa Sĩ (NSB)',
             self::FIELD_CD => 15,
         ],
         [
@@ -142,7 +142,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'TERESA PHẠM THANH HẬU',
             self::FIELD_AKA => 'THANH HẬU',
             self::FIELD_DOB => 1996,
-            self::FIELD_PD => 'Chiên Con (CC)',
+            self::FIELD_PD => 'Chiên Con (CCB)',
             self::FIELD_CD => 6,
         ],
         [
@@ -152,7 +152,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA NGUYỄN NGỌC HỒNG LOAN',
             self::FIELD_AKA => 'HỒNG LOAN',
             self::FIELD_DOB => 1986,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 11,
         ],
         [
@@ -202,7 +202,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'VINCENTE ĐỖ XUÂN TÙNG',
             self::FIELD_AKA => 'XUÂN TÙNG',
             self::FIELD_DOB => 1989,
-            self::FIELD_PD => 'Tông Đồ/ Hiệp sỹ',
+            self::FIELD_PD => 'Tông Đồ/ Hiệp sỹ (HSB)',
             self::FIELD_CD => 17,
         ],
         [
@@ -212,7 +212,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'PHANXICO-ASSISI TRẦN ĐỨC LONG',
             self::FIELD_AKA => 'ĐỨC LONG',
             self::FIELD_DOB => 1984,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 0,
         ],
         [
@@ -262,7 +262,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA VÕ LÊ NGỌC TRÂM',
             self::FIELD_AKA => 'NGỌC TRÂM',
             self::FIELD_DOB => 1996,
-            self::FIELD_PD => 'Chiên Con (CC)',
+            self::FIELD_PD => 'Chiên Con (CCB)',
             self::FIELD_CD => 5,
         ],
         [
@@ -282,7 +282,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA NGUYỄN NGỌC THUỲ',
             self::FIELD_AKA => 'NGỌC THUỲ',
             self::FIELD_DOB => 1977,
-            self::FIELD_PD => 'Nghĩa Sĩ (NS)',
+            self::FIELD_PD => 'Nghĩa Sĩ (NSB)',
             self::FIELD_CD => 14,
         ],
         [
@@ -292,7 +292,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA-TERESA PHẠM NGỌC THUÝ DIỄM',
             self::FIELD_AKA => 'THUÝ DIỄM',
             self::FIELD_DOB => 1995,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 10,
         ],
         [
@@ -302,7 +302,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA ĐẶNG NGỌC DIỄM',
             self::FIELD_AKA => 'NGỌC DIỄM',
             self::FIELD_DOB => 1972,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 10,
         ],
         [
@@ -312,7 +312,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'GIUSE TRẦN ĐỨC DUY',
             self::FIELD_AKA => 'ĐỨC DUY',
             self::FIELD_DOB => 1997,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 12,
         ],
         [
@@ -322,7 +322,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA NGUYỄN PHƯƠNG QUỲNH THY',
             self::FIELD_AKA => 'QUỲNH THY',
             self::FIELD_DOB => 1995,
-            self::FIELD_PD => 'Tông Đồ/ Hiệp sỹ',
+            self::FIELD_PD => 'Tông Đồ/ Hiệp sỹ (HSB)',
             self::FIELD_CD => 18,
         ],
         [
@@ -332,7 +332,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA NGUYỄN NGỌC ANH',
             self::FIELD_AKA => 'NGỌC ANH',
             self::FIELD_DOB => 1989,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 12,
         ],
         [
@@ -342,7 +342,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'GIOAN-BAOTIXITA ĐẶNG QUANG TRUNG',
             self::FIELD_AKA => 'QUANG TRUNG',
             self::FIELD_DOB => 1985,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 10,
         ],
         [
@@ -362,7 +362,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA TRIỆU TƯỜNG VÂN ANH',
             self::FIELD_AKA => 'VÂN ANH',
             self::FIELD_DOB => 1995,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 11,
         ],
         [
@@ -372,7 +372,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'ANTON HOÀNG MINH KHÁNH',
             self::FIELD_AKA => 'MINH KHÁNH',
             self::FIELD_DOB => 1993,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 11,
         ],
         [
@@ -382,7 +382,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'GIUSE ĐẶNG ĐỨC DUY',
             self::FIELD_AKA => 'ĐỨC DUY',
             self::FIELD_DOB => 1995,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 12,
         ],
         [
@@ -392,7 +392,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA NGUYỄN THỊ HỒNG LOAN',
             self::FIELD_AKA => 'HỒNG LOAN',
             self::FIELD_DOB => 1991,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 12,
         ],
         [
@@ -402,7 +402,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'ANNA HOÀNG NGỌC BẢO NGHI',
             self::FIELD_AKA => 'BẢO NGHI',
             self::FIELD_DOB => 1996,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 11,
         ],
         [
@@ -412,7 +412,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'CATARINA NGUYỄN THỊ THUỲ DƯƠNG',
             self::FIELD_AKA => 'THUỲ DƯƠNG',
             self::FIELD_DOB => 1991,
-            self::FIELD_PD => 'Nghĩa Sĩ (NS)',
+            self::FIELD_PD => 'Nghĩa Sĩ (NSB)',
             self::FIELD_CD => 13,
         ],
         [
@@ -422,7 +422,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'ANTON LÊ CÔNG NGUYÊN',
             self::FIELD_AKA => 'CÔNG NGUYÊN',
             self::FIELD_DOB => 1997,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 10,
         ],
         [
@@ -432,7 +432,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'PHERO DƯƠNG TIẾN HƯNG',
             self::FIELD_AKA => 'TIẾN HƯNG',
             self::FIELD_DOB => 1997,
-            self::FIELD_PD => 'Chiên Con (CC)',
+            self::FIELD_PD => 'Chiên Con (CCB)',
             self::FIELD_CD => 6,
         ],
         [
@@ -442,7 +442,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'ANNA ĐẶNG THUỲ AN',
             self::FIELD_AKA => 'THUỲ AN',
             self::FIELD_DOB => 1993,
-            self::FIELD_PD => 'Nghĩa Sĩ (NS)',
+            self::FIELD_PD => 'Nghĩa Sĩ (NSB)',
             self::FIELD_CD => 15,
         ],
         [
@@ -462,7 +462,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA NGÔ THỊ THUỲ LINH',
             self::FIELD_AKA => 'THUỲ LINH',
             self::FIELD_DOB => 1972,
-            self::FIELD_PD => 'Nghĩa Sĩ (NS)',
+            self::FIELD_PD => 'Nghĩa Sĩ (NSB)',
             self::FIELD_CD => 13,
         ],
         [
@@ -472,7 +472,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'GIUSE NGUYỄN ĐỨC HUÂN',
             self::FIELD_AKA => 'ĐỨC HUÂN',
             self::FIELD_DOB => 1995,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 10,
         ],
         [
@@ -482,7 +482,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'TERESA LƯU NGỌC NHI',
             self::FIELD_AKA => 'NGỌC NHI',
             self::FIELD_DOB => 1995,
-            self::FIELD_PD => 'Chiên Con (CC)',
+            self::FIELD_PD => 'Chiên Con (CCB)',
             self::FIELD_CD => 6,
         ],
         [
@@ -492,7 +492,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'TERESA TRẦN MỸ ANH',
             self::FIELD_AKA => 'MỸ ANH',
             self::FIELD_DOB => 1998,
-            self::FIELD_PD => 'Chiên Con (CC)',
+            self::FIELD_PD => 'Chiên Con (CCB)',
             self::FIELD_CD => 4,
         ],
         [
@@ -502,7 +502,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA VŨ NGỌC TUYẾT TRINH',
             self::FIELD_AKA => 'TUYẾT TRINH',
             self::FIELD_DOB => 1995,
-            self::FIELD_PD => 'Chiên Con (CC)',
+            self::FIELD_PD => 'Chiên Con (CCB)',
             self::FIELD_CD => 6,
         ],
         [
@@ -512,7 +512,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA NGUYỄN HOÀNG ÁI PHƯƠNG',
             self::FIELD_AKA => 'ÁI PHƯƠNG',
             self::FIELD_DOB => 1980,
-            self::FIELD_PD => 'Chiên Con (CC)',
+            self::FIELD_PD => 'Chiên Con (CCB)',
             self::FIELD_CD => 4,
         ],
         [
@@ -522,7 +522,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'PHERO NGUYỄN ANH QUỐC',
             self::FIELD_AKA => 'ANH QUỐC',
             self::FIELD_DOB => 1996,
-            self::FIELD_PD => 'Nghĩa Sĩ (NS)',
+            self::FIELD_PD => 'Nghĩa Sĩ (NSB)',
             self::FIELD_CD => 13,
         ],
         [
@@ -602,7 +602,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'ANNA NGUYỄN VŨ QUỲNH LAN',
             self::FIELD_AKA => 'QUỲNH LAN',
             self::FIELD_DOB => 1994,
-            self::FIELD_PD => 'Tông Đồ/ Hiệp sỹ',
+            self::FIELD_PD => 'Tông Đồ/ Hiệp sỹ (HSB)',
             self::FIELD_CD => 17,
         ],
         [
@@ -622,7 +622,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'CATARINA VÕ HOÀI HƯƠNG TỈ',
             self::FIELD_AKA => 'HƯƠNG TỈ',
             self::FIELD_DOB => 1987,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 10,
         ],
         [
@@ -632,7 +632,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'GIUSE TRẦN THẾ THUẬN',
             self::FIELD_AKA => 'THẾ THUẬN',
             self::FIELD_DOB => 0,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 10,
         ],
         [
@@ -642,7 +642,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA ĐỖ PHẠM THANH TRÚC',
             self::FIELD_AKA => 'THANH TRÚC',
             self::FIELD_DOB => 1993,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 12,
         ],
         [
@@ -652,7 +652,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'GIUSE HOÀNG PHAN CÔNG',
             self::FIELD_AKA => 'PHAN CÔNG',
             self::FIELD_DOB => 0,
-            self::FIELD_PD => 'Tông Đồ/ Hiệp sỹ',
+            self::FIELD_PD => 'Tông Đồ/ Hiệp sỹ (HSB)',
             self::FIELD_CD => 16,
         ],
         [
@@ -662,7 +662,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'TERESA VŨ THỊ THÚY HẰNG',
             self::FIELD_AKA => 'THÚY HẰNG',
             self::FIELD_DOB => 1985,
-            self::FIELD_PD => 'Nghĩa Sĩ (NS)',
+            self::FIELD_PD => 'Nghĩa Sĩ (NSB)',
             self::FIELD_CD => 13,
         ],
         [
@@ -672,7 +672,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MATTA NGUYỄN THỤY NGỌC NHI',
             self::FIELD_AKA => 'NGỌC NHI',
             self::FIELD_DOB => 1996,
-            self::FIELD_PD => 'Nghĩa Sĩ (NS)',
+            self::FIELD_PD => 'Nghĩa Sĩ (NSB)',
             self::FIELD_CD => 13,
         ],
         [
@@ -682,7 +682,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA NGUYỄN TRẦN PHÚ HUỲNH TIÊN',
             self::FIELD_AKA => 'HUỲNH TIÊN',
             self::FIELD_DOB => 1994,
-            self::FIELD_PD => 'Nghĩa Sĩ (NS)',
+            self::FIELD_PD => 'Nghĩa Sĩ (NSB)',
             self::FIELD_CD => 14,
         ],
         [
@@ -712,7 +712,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'PHERO TRẦN PHẠM PHÚC HƯNG',
             self::FIELD_AKA => 'PHÚC HƯNG',
             self::FIELD_DOB => 0,
-            self::FIELD_PD => 'Chiên Con (CC)',
+            self::FIELD_PD => 'Chiên Con (CCB)',
             self::FIELD_CD => 5,
         ],
         [
@@ -722,7 +722,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA ĐỖ THÙY TRANG HẠ',
             self::FIELD_AKA => 'TRANG HẠ',
             self::FIELD_DOB => 1992,
-            self::FIELD_PD => 'Chiên Con (CC)',
+            self::FIELD_PD => 'Chiên Con (CCB)',
             self::FIELD_CD => 4,
         ],
         [
@@ -732,7 +732,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'DOMINICO NGUYỄN HOÀNG QUÝ',
             self::FIELD_AKA => 'HOÀNG QUÝ',
             self::FIELD_DOB => 1992,
-            self::FIELD_PD => 'Thiếu Nhi (TN)',
+            self::FIELD_PD => 'Thiếu Nhi (TNB)',
             self::FIELD_CD => 11,
         ],
         [
@@ -742,7 +742,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'PHANXICO Chu Gia Nghĩa',
             self::FIELD_AKA => 'Gia Nghĩa',
             self::FIELD_DOB => 1982,
-            self::FIELD_PD => 'Tông Đồ/ Hiệp sỹ',
+            self::FIELD_PD => 'Tông Đồ/ Hiệp sỹ (HSB)',
             self::FIELD_CD => 0,
         ],
         [
@@ -752,7 +752,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'GIUSE NGÔ HỮU ĐỨC',
             self::FIELD_AKA => 'HỮU ĐỨC',
             self::FIELD_DOB => 1996,
-            self::FIELD_PD => 'Chiên Con (CC)',
+            self::FIELD_PD => 'Chiên Con (CCB)',
             self::FIELD_CD => 5,
         ],
         [
@@ -762,7 +762,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA NGUYỄN HOÀNG THUỲ TRANG',
             self::FIELD_AKA => '',
             self::FIELD_DOB => 2000,
-            self::FIELD_PD => 'Chiên Con (CC)',
+            self::FIELD_PD => 'Chiên Con (CCB)',
             self::FIELD_CD => 5,
         ],
         [
@@ -782,7 +782,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'PHAOLO Nguyễn Văn Chương',
             self::FIELD_AKA => 'Văn Chương',
             self::FIELD_DOB => 1993,
-            self::FIELD_PD => 'Nghĩa Sĩ (NS)',
+            self::FIELD_PD => 'Nghĩa Sĩ (NSB)',
             self::FIELD_CD => 15,
         ],
         [
@@ -792,7 +792,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'PHAOLO NGUYỄN KIM CÔNG',
             self::FIELD_AKA => 'kimcong',
             self::FIELD_DOB => 0,
-            self::FIELD_PD => 'Nghĩa Sĩ (NS)',
+            self::FIELD_PD => 'Nghĩa Sĩ (NSB)',
             self::FIELD_CD => 14,
         ],
         [
@@ -802,7 +802,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'MARIA NGUYỄN THỊ THỦY NGÂN',
             self::FIELD_AKA => 'Thủy Ngân',
             self::FIELD_DOB => 1998,
-            self::FIELD_PD => 'Chiên Con (CC)',
+            self::FIELD_PD => 'Chiên Con (CCB)',
             self::FIELD_CD => 5,
         ],
         [
@@ -812,7 +812,7 @@ class GenerateTruongCommand extends Command
             self::FIELD_NAME => 'THỦY',
             self::FIELD_AKA => 'Thủy',
             self::FIELD_DOB => 0,
-            self::FIELD_PD => 'Chiên Con (CC)',
+            self::FIELD_PD => 'Chiên Con (CCB)',
             self::FIELD_CD => 5,
         ],
     ];
