@@ -70,6 +70,11 @@ class CuTri
      */
     private $submitted = false;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $year;
+
     public function __construct()
     {
         $this->cacPhienBau = new ArrayCollection();
@@ -143,6 +148,18 @@ class CuTri
     public function setSubmitted(bool $submitted): self
     {
         $this->submitted = $submitted;
+
+        return $this;
+    }
+
+    public function getYear(): ?string
+    {
+        return $this->year;
+    }
+
+    public function setYear(?string $year): self
+    {
+        $this->year = $year;
 
         return $this;
     }

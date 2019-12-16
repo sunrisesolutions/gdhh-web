@@ -851,9 +851,9 @@ class GenerateTruongCommand extends Command
 
         $truongs = $this->em->getRepository(HuynhTruong::class)->findAll();
         foreach ($truongs as $truong) {
-            $this->em->remove($truong);
+//            $this->em->remove($truong);
         }
-        $this->em->flush();
+//        $this->em->flush();
 
         foreach (self::dsTruong as $data) {
             $tr = new HuynhTruong();
@@ -866,9 +866,9 @@ class GenerateTruongCommand extends Command
                 ->setChiDoan($data[self::FIELD_CD])
                 ->setPhanDoan($data[self::FIELD_PD])
                 ->setDob($data[self::FIELD_DOB]);
-            $this->em->persist($tr);
+//            $this->em->persist($tr);
         }
-        $this->em->flush();
+//        $this->em->flush();
 
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 

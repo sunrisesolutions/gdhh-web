@@ -44,14 +44,19 @@ class CountVotesCommand extends Command
             // ...
         }
 
-            $cacTruong = $this->em->getRepository(HuynhTruong::class)->findAll();
-            $io->writeln('Updating Info '.rand(0, 100));
-            /** @var HuynhTruong $truong */
-            foreach ($cacTruong as $truong) {
-                $truong->updateVoteCount();
-                $this->em->persist($truong);
+        $cacTruong = $this->em->getRepository(HuynhTruong::class)->findAll();
+        $io->writeln('Updating Info '.rand(0, 100));
+        /** @var HuynhTruong $truong */
+        foreach ($cacTruong as $truong) {
+            $count = $truong->getVotes();
+            $truong->updateVoteCount();
+            $count2 = $truong->getVotes();
+            if (!empty($count) && $count !== $count2) {
+                $output->writeln('ERRORRRR '.$truong->getName().': '.$count.' --- '.$count2);
             }
-            $this->em->flush();
+//                $this->em->persist($truong);
+        }
+//            $this->em->flush();
 
         return 0;
     }

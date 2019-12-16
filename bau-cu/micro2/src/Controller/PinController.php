@@ -16,21 +16,21 @@ class PinController extends AbstractController
      */
     public function resetCuTriVoters()
     {
-        $voters = $this->getDoctrine()->getRepository(CuTri::class)->findAll();
-        foreach ($voters as $voter) {
-            $voter->setSubmitted(false);
-            $this->getDoctrine()->getManager()->persist($voter);
-        }
-
-        $pbs = $this->getDoctrine()->getRepository(PhieuBau::class)->findAll();
-        foreach ($pbs as $pb) {
-            $truong = $pb->getHuynhTruong();
-            $truong->setVotes(0);
-            $this->getDoctrine()->getManager()->persist($truong);
-            $this->getDoctrine()->getManager()->remove($pb);
-        }
-
-        $this->getDoctrine()->getManager()->flush();
+//        $voters = $this->getDoctrine()->getRepository(CuTri::class)->findAll();
+//        foreach ($voters as $voter) {
+//            $voter->setSubmitted(false);
+//            $this->getDoctrine()->getManager()->persist($voter);
+//        }
+//
+//        $pbs = $this->getDoctrine()->getRepository(PhieuBau::class)->findAll();
+//        foreach ($pbs as $pb) {
+//            $truong = $pb->getHuynhTruong();
+//            $truong->setVotes(0);
+//            $this->getDoctrine()->getManager()->persist($truong);
+//            $this->getDoctrine()->getManager()->remove($pb);
+//        }
+//
+//        $this->getDoctrine()->getManager()->flush();
 
         return new RedirectResponse($this->generateUrl('pin_test'));
     }
@@ -61,13 +61,13 @@ class PinController extends AbstractController
     }
 
     /**
-     * @Route("/vong-1/votes", name="vote_vong_1_votes")
+     * @Route("{year}/vong-1/votes", name="vote_vong_1_votes")
      */
-    public function votesVong1()
+    public function votesVong1($year)
     {
         $top25 = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy([], ['votes' => 'DESC'], 25);
         $conLai = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy([], ['votes' => 'DESC'], null, 25);
-        $cacCuTriDaBau = $this->getDoctrine()->getRepository(CuTri::class)->findBy(['submitted' => true]);
+        $cacCuTriDaBau = $this->getDoctrine()->getRepository(CuTri::class)->findBy(['submitted' => true, 'year' => $year]);
 
         return $this->render('pin/vote-vong-1.html.twig', [
             'controller_name' => 'PinController',
