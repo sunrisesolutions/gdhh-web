@@ -61,7 +61,7 @@ class PinController extends AbstractController
     }
 
     /**
-     * @Route("{year}/vong-1/votes", name="vote_vong_1_votes")
+     * @Route("{year}/vong-1/votes", name="vote_vong_1_votes", requirements={"year"=".+"})
      */
     public function votesVong1($year)
     {
