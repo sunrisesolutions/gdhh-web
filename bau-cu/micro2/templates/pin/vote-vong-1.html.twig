@@ -48,7 +48,11 @@
                             {% if truong.votes > 0 %}
                                 <tr>
                                     <td>
+                                        {{ loop.index }}
                                         <code>{{ truong.name }}</code>
+                                        <br>
+                                        <a href="{{ path('vote_vong_1_votes_for_truong',{year:year, truongId: truong.id}) }}"
+                                           class="btn btn-info">XEM PHIẾU BẦU</a>
                                     </td>
                                     <td>{{ truong.votes }}</td>
                                 </tr>
@@ -72,7 +76,11 @@
                     {% for truong in conLai %}
                         <tr>
                             <td>
+                                {{ loop.index }}
                                 <code>{{ truong.name }}</code>
+                                <br>
+                                <a href="{{ path('vote_vong_1_votes_for_truong',{year:year, truongId: truong.id}) }}"
+                                   class="btn btn-info">XEM PHIẾU BẦU</a>
                             </td>
                             <td>{{ truong.votes }}</td>
                         </tr>

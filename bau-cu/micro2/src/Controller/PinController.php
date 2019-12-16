@@ -71,6 +71,7 @@ class PinController extends AbstractController
 
         return $this->render('pin/vote-vong-1.html.twig', [
             'controller_name' => 'PinController',
+            'year' => $year,
             'cacCuTriDaBau' => $cacCuTriDaBau,
             'top25' => $top25,
             'conLai' => $conLai
@@ -304,6 +305,30 @@ class PinController extends AbstractController
             'controller_name' => 'PinController',
             'truong' => $truong,
             'pin' => $pin,
+            'cacPbt' => $cacPbt,
+        ]);
+    }
+
+    /**
+     * @Route("/{year}/vong-1/truong/{truongId}/votes", name="vote_vong_1_votes_for_truong")
+     */
+    public function votesForTruong($year, $truongId)
+    {
+//        $voter = $this->getDoctrine()->getRepository(CuTri::class)->findOneByPin($pin);
+        if (empty($voter)) {
+            return new RedirectResponse($this->generateUrl('pin'));
+        }
+
+        $truong = $this->getDoctrine()->getRepository(HuynhTruong::class)->find($truongId);
+        if (empty($truong) || $truong->getYear() !== $year) {
+            return new RedirectResponse($this->generateUrl('pin', []));
+        }
+
+        $cacPbt = $truong->getCacPhieuBau();
+
+        return $this->render('pin/votes-for-truong-vong-1.html.twig', [
+            'controller_name' => 'PinController',
+            'truong' => $truong,
             'cacPbt' => $cacPbt,
         ]);
     }
