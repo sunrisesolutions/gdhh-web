@@ -310,7 +310,7 @@ class PinController extends AbstractController
     }
 
     /**
-     * @Route("/{year}/vong-1/truong/{truongId}/votes", name="vote_vong_1_votes_for_truong")
+     * @Route("/{year}/vong-1/truong/{truongId}/votes", name="vote_vong_1_votes_for_truong", requirements={"year"=".+"})
      */
     public function votesForTruong($year, $truongId)
     {
