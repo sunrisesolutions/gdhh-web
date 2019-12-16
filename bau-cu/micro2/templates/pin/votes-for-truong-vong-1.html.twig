@@ -46,7 +46,7 @@
                 {% for phieuBau in cacPbt %}
                 <tr>
                     <td>
-                        {% block my-vote %}
+                        {% block my_vote %}
                         {% if phieuBau.cuTri.pin == pin %}
                             <code style="font-size: larger;"><strong>{{ phieuBau.cuTri.pinFormatted }}</strong></code>
                         {% else %}
