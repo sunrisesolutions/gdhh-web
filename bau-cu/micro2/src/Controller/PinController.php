@@ -315,9 +315,6 @@ class PinController extends AbstractController
     public function votesForTruong($year, $truongId)
     {
 //        $voter = $this->getDoctrine()->getRepository(CuTri::class)->findOneByPin($pin);
-        if (empty($voter)) {
-            return new RedirectResponse($this->generateUrl('pin'));
-        }
 
         $truong = $this->getDoctrine()->getRepository(HuynhTruong::class)->find($truongId);
         if (empty($truong) || $truong->getYear() !== $year) {
