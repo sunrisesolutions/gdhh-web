@@ -120,6 +120,11 @@ class HuynhTruong
      */
     private $year;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $thanhVienId;
+
     public function __construct()
     {
         $this->cacPhieuBau = new ArrayCollection();
@@ -349,6 +354,18 @@ class HuynhTruong
     public function setYear(?string $year): self
     {
         $this->year = $year;
+
+        return $this;
+    }
+
+    public function getThanhVienId(): ?int
+    {
+        return $this->thanhVienId;
+    }
+
+    public function setThanhVienId(?int $thanhVienId): self
+    {
+        $this->thanhVienId = $thanhVienId;
 
         return $this;
     }

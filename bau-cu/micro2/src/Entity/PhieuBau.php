@@ -9,7 +9,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PhieuBau
 {
-    const VOTER_VOTES = 10;
+    const REQUIRED_VOTES_VONG_1 = 10;
+
+    public static function getRequiredVotes($vong = null): int
+    {
+        if (empty($vong)) {
+            return self::REQUIRED_VOTES_VONG_1;
+        }
+    }
 
     /**
      * @ORM\Id()
