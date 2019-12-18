@@ -36,7 +36,33 @@
                 {% set url = "#" %}
                 <h3>Có {{ cacCuTriDaBau|length }} Trưởng đã nộp kết quả bầu cử.</h3>
                 <a href="/quy-dinh/2020-2024.docx">Xem Quy định bầu cử.</a>
-                {% if topVong1[0].vong1 > 0 %}
+                {% if dsRut | length > 0 %}
+                    <h3>Danh sách anh/chị xin rút</h3>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Huynh Trưởng</th>
+{#                            <th>Tổng phiếu</th>#}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for truongRut in dsRut %}
+                            {% set truong = truongRut.huynhTruong %}
+                            <tr>
+                                <td>
+                                    <code>{{ loop.index }}. {{ truong.name }}</code>
+{#                                    <br>#}
+{#                                    <a href="{{ path('vote_vong_bau_cu_votes_for_truong',{year:year, truongId: truong.id}) }}"#}
+{#                                       class="btn btn-info">XEM PHIẾU BẦU</a>#}
+                                </td>
+{#                                <td>{{ truong.vong1 }}</td>#}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+
+                {% if attribute(topVong1[0],'vong'~vong) > 0 %}
                     <h3>Top {{ topVong1|length }}{% if  topVong1|length != quyDinhTop %}/{{ quyDinhTop }}{% endif %}</h3>
                     <table class="table table-striped">
                         <thead>
@@ -47,12 +73,12 @@
                         </thead>
                         <tbody>
                         {% for truong in topVong1 %}
-                            {% if truong.vong1 > 0 %}
+                            {% if attribute(truong,'vong'~vong)  > 0 %}
                                 <tr>
                                     <td>
                                         <code>{{ loop.index }}. {{ truong.name }}</code>
                                         <br>
-                                        <a href="{{ path('vote_vong_1_votes_for_truong',{year:year, truongId: truong.id}) }}"
+                                        <a href="{{ path('vote_vong_bau_cu_votes_for_truong',{year:year, truongId: truong.id,vong:vong}) }}"
                                            class="btn btn-info">XEM PHIẾU BẦU</a>
                                     </td>
                                     <td>{{ truong.vong1 }}</td>
@@ -78,7 +104,7 @@
                                 <td>
                                     <code>{{ loop.index }}. {{ truong.name }}</code>
                                     <br>
-                                    <a href="{{ path('vote_vong_1_votes_for_truong',{year:year, truongId: truong.id}) }}"
+                                    <a href="{{ path('vote_vong_bau_cu_votes_for_truong',{year:year, truongId: truong.id,vong:vong}) }}"
                                        class="btn btn-info">XEM PHIẾU BẦU</a>
                                 </td>
                                 <td>{{ truong.vong1 }}</td>
@@ -88,7 +114,7 @@
                     </table>
                 {% endif %}
 
-                {% if topVong1[0].vong1 > 0 %}
+                {% if attribute(topVong1[0],'vong'~vong)  > 0 %}
                     <h3>Danh sách còn lại</h3>
                 {% endif %}
                 <table class="table table-striped">
@@ -104,7 +130,7 @@
                             <td>
                                 <code>{{ loop.index }}. {{ truong.name }}</code>
                                 <br>
-                                <a href="{{ path('vote_vong_1_votes_for_truong',{year:year, truongId: truong.id}) }}"
+                                <a href="{{ path('vote_vong_bau_cu_votes_for_truong',{year:year, truongId: truong.id,vong:vong}) }}"
                                    class="btn btn-info">XEM PHIẾU BẦU</a>
                             </td>
                             <td>{{ truong.vong1 }}</td>

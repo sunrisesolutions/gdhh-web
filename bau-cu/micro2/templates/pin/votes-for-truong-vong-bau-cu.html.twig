@@ -47,11 +47,7 @@
                 <tr>
                     <td>
                         {% block my_vote %}
-                        {% if phieuBau.cuTri.pin == pin %}
-                            <code style="font-size: larger;"><strong>{{ phieuBau.cuTri.pinFormatted }}</strong></code>
-                        {% else %}
                             <strong>{{ phieuBau.cuTri.pinFormatted }}</strong>
-                        {% endif %}
                         {% endblock %}
                         <br>
                         {{ phieuBau.createdAt|date('H:i:s', 'Asia/Saigon') }}

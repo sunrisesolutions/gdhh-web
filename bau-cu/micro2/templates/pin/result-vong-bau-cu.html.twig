@@ -1,13 +1,6 @@
 {% extends 'base.html.twig' %}
-{% block title %}Bỏ phiếu bầu{% endblock %}
-{% block stylesheets %}
-    {{ parent() }}
-    <style>
-        .vote-btn {
-            display: inline;
-            float: right;
-        }
-    </style>
+{% block head %}
+    <meta http-equiv="refresh" content="5">
 {% endblock %}
 {% block body %}
     <header>
@@ -15,10 +8,6 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-8 col-md-7 py-4">
-                        <h4 class="text-white">About</h4>
-                        <p class="text-muted">Add some information about the album below, the author, or any other
-                            background context. Make it a few sentences long so folks can pick up some informative
-                            tidbits. Then, link them off to some social networking sites or contact information.</p>
                     </div>
                     <div class="col-sm-4 offset-md-1 py-4">
                         <h4 class="text-white">Contact</h4>
@@ -40,7 +29,7 @@
                         <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                         <circle cx="12" cy="13" r="4"></circle>
                     </svg>
-                    <strong>Danh sách Vòng 1</strong>
+                    <strong>Danh sách bầu cử Vòng 1</strong>
                 </a>
                 {#                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"#}
                 {#                        data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false"#}
@@ -50,62 +39,61 @@
             </div>
         </div>
     </header>
-
     <main role="main">
         <section class="text-left">
             <div class="container">
-                <a href="/" class="mt-1 btn btn-danger">THOÁT</a>
-                <br>
-                {% if cac_phieu_bau|length > 0 %}
-                    <h5>Anh/chị đã bầu cho ({{ cac_phieu_bau|length }}) Trưởng.</h5>
+                <a href="/" class="mt-1 btn btn-success">THOÁT</a>
+                <h3>Cám ơn các anh chị đã gửi kết quả bầu cử.</h3>
+                {% set url = "#" %}
+                {% if top25[0].votes > 0 %}
+                    <h3>Top 25</h3>
                     <table class="table table-striped">
                         <thead>
                         <tr>
                             <th>Huynh Trưởng</th>
-                            <th>Bỏ chọn</th>
+                            <th>Tổng phiếu</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for phieuBau in cac_phieu_bau %}
-                            <tr>
-                                <td>
-                                    <strong><code>{{ phieuBau.huynhTruong.name }}</code></strong>
-                                    <br>
-                                    <em>{{ phieuBau.createdAt|date('H:i:s','Asia/Saigon') }}</em>
-                                </td>
-                                <td>
-                                    <a href="{{ path('vote_vong_1_remove_truong',{phieuBauId: phieuBau.id, pin: pin}) }}"
-                                       class="btn btn-danger">Bỏ Chọn</a>
-                                </td>
-
-                            </tr>
+                        {% for truong in top25 %}
+                            {% if truong.votes > 0 %}
+                                <tr>
+                                    <td>
+                                        <code>{{ truong.name }}</code>
+                                        <br>
+                                        <a href="{{ path('vote_vong_bau_cu_my_vote_for_truong',{pin:pin, truongId: truong.id}) }}"
+                                           class="btn btn-info">XEM PHIẾU BẦU</a>
+                                    </td>
+                                    <td>{{ truong.votes }}</td>
+                                </tr>
+                            {% endif %}
                         {% endfor %}
                         </tbody>
                     </table>
                 {% endif %}
-            </div>
-        </section>
 
-        <section class="text-left">
-            <div class="container">
-                {#                <h3>Danh sách Huynh Trưởng</h3>#}
-                {#                <p class="lead text-muted">Something short and leading about the collection below—its contents, the#}
-                {#                    creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it#}
-                {#                    entirely.</p>#}
-                {#                <p>#}
-                {#                    <a href="#" class="btn btn-primary my-2">Bầu cho anh này</a>#}
-                {#                </p>#}
-
-                <table id="dg" title="Danh sách Huynh Trưởng" style="width:100%;height:600px" data-options="
-                singleSelect:true,
-                data:data
-            ">
+                {% if top25[0].votes > 0 %}
+                    <h3>Danh sách còn lại</h3>
+                {% endif %}
+                <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th data-options="field:'productname'">Tìm Huynh Trưởng</th>
-                        {#                        <th data-options="field:'attr1',width:100,formatter:formatPrice">Bầu chọn</th>#}
+                        <th>Huynh Trưởng</th>
+                        <th>Tổng phiếu</th>
                     </tr>
                     </thead>
+                    <tbody>
+                    {% for truong in conLai %}
+                        <tr>
+                            <td>
+                                <code>{{ truong.name }}</code>
+                                <br>
+                                <a href="{{ path('vote_vong_bau_cu_my_vote_for_truong',{pin:pin, truongId: truong.id}) }}"
+                                   class="btn btn-info">XEM PHIẾU BẦU</a>                            </td>
+                            <td>{{ truong.votes }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </section>
@@ -132,15 +120,13 @@
     <script type="text/javascript" src="/easyui/datagrid-filter.js"></script>
     <script type="text/javascript">
         var data = [
-            {% for truong in cac_truong %}
             {
-                "productname": '<strong><code>{{ truong.name }}</code></strong><br/>Năm sinh: {{ truong.dob == 0?"Chưa cập nhật":truong.dob }}<br/>{{ truong.phanDoan }}<br/>{{ truong.chiDoan == 0 ? "Chưa cập nhật": truong.chiDoan ~ " tuổi (" ~ truong.chiDoan ~"T)" }} <div class="vote-btn text-right"><a href="{{ path('vote_vong_1_truong',{truongId: truong.id, pin: pin}) }}" class="btn btn-primary">Bầu chọn </a></div>',
+                "productname": 'PHANXICO XAVIE <br/><strong><code>CHA CHU GIA NGHĨA</code></strong><br/>aka: <strong>Loan nhỏ</strong><br>Năm sinh: 1987<br/>NGHĨA SĨ<br/>15 tuổi<div class="text-right"><a href="https://google.com" class="btn btn-primary">Bầu chọn </a></div>',
                 "unitcost": 12.00,
                 "status": "P",
                 "listprice": 18.50,
                 "attr1": "Spotted Adult Female"
             },
-            {% endfor %}
         ];
         $(function () {
             var dg = $('#dg').datagrid();
@@ -154,6 +140,25 @@
                 type: 'numberbox',
                 options: {precision: 1},
                 op: ['equal', 'notequal', 'less', 'greater']
+            }, {
+                field: 'status',
+                type: 'combobox',
+                options: {
+                    panelHeight: 'auto',
+                    data: [{value: '', text: 'All'}, {value: 'P', text: 'P'}, {value: 'N', text: 'N'}],
+                    onChange: function (value) {
+                        if (value == '') {
+                            dg.datagrid('removeFilterRule', 'status');
+                        } else {
+                            dg.datagrid('addFilterRule', {
+                                field: 'status',
+                                op: 'equal',
+                                value: value
+                            });
+                        }
+                        dg.datagrid('doFilter');
+                    }
+                }
             }]);
         });
     </script>

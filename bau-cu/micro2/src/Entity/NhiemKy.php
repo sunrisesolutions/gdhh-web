@@ -9,6 +9,38 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class NhiemKy
 {
+    const REQUIRED_VOTES_VONG_1 = 10;
+
+    public function getRequiredVotes($vong = null): int
+    {
+        if (empty($vong)) {
+            return self::REQUIRED_VOTES_VONG_1;
+        }
+
+        return $this->{'requiredVotesVong'.$vong};
+    }
+
+    public function isVongPhu()
+    {
+        if ($this->vong1phu || $this->vong2phu || $this->vong3phu) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getVongHienTai()
+    {
+        if ($this->vong1) {
+            return 1;
+        }
+        if ($this->vong2) {
+            return 2;
+        }
+        if ($this->vong3) {
+            return 3;
+        }
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -100,6 +132,11 @@ class NhiemKy
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $vong3phu;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $enabled;
 
     public function getId(): ?int
     {
@@ -306,6 +343,18 @@ class NhiemKy
     public function setVong3phu(?bool $vong3phu): self
     {
         $this->vong3phu = $vong3phu;
+
+        return $this;
+    }
+
+    public function getEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(?bool $enabled): self
+    {
+        $this->enabled = $enabled;
 
         return $this;
     }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\CuTri;
 use App\Entity\HuynhTruong;
+use App\Entity\NhiemKy;
 use App\Entity\PhieuBau;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -40,9 +41,12 @@ class PinController extends AbstractController
      */
     public function index()
     {
+        $nhiemKy = $this->getDoctrine()->getRepository(NhiemKy::class)->findOneBy(['enabled' => true]);
+
         return $this->render('pin/index.html.twig', [
             'controller_name' => 'PinController',
-            'day' => '15',
+            'vong' => $nhiemKy->getVongHienTai(),
+            'day' => '18',
             'test' => false
         ]);
     }

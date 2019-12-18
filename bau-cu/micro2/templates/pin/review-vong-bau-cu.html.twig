@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
-{% block head %}
-    <meta http-equiv="refresh" content="5">
-{% endblock %}
 {% block body %}
     <header>
         <div class="bg-dark collapse" id="navbarHeader" style="">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-8 col-md-7 py-4">
+                        <h4 class="text-white">About</h4>
+                        <p class="text-muted">Add some information about the album below, the author, or any other
+                            background context. Make it a few sentences long so folks can pick up some informative
+                            tidbits. Then, link them off to some social networking sites or contact information.</p>
                     </div>
                     <div class="col-sm-4 offset-md-1 py-4">
                         <h4 class="text-white">Contact</h4>
@@ -39,62 +40,40 @@
             </div>
         </div>
     </header>
+
     <main role="main">
         <section class="text-left">
             <div class="container">
-                <a href="/" class="mt-1 btn btn-success">THOÁT</a>
-                <h3>Cám ơn các anh chị đã gửi kết quả bầu cử.</h3>
-                {% set url = "#" %}
-                {% if top25[0].votes > 0 %}
-                    <h3>Top 25</h3>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Huynh Trưởng</th>
-                            <th>Tổng phiếu</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for truong in top25 %}
-                            {% if truong.votes > 0 %}
-                                <tr>
-                                    <td>
-                                        <code>{{ truong.name }}</code>
-                                        <br>
-                                        <a href="{{ path('vote_vong_1_my_vote_for_truong',{pin:pin, truongId: truong.id}) }}"
-                                           class="btn btn-info">XEM PHIẾU BẦU</a>
-                                    </td>
-                                    <td>{{ truong.votes }}</td>
-                                </tr>
-                            {% endif %}
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                {% endif %}
-
-                {% if top25[0].votes > 0 %}
-                    <h3>Danh sách còn lại</h3>
-                {% endif %}
+                <br>
+                {% set url = path('vote_vong_bau_cu_nop_ds',{pin: pin}) %}
+                <h5>Vui lòng kiểm tra, nếu thấy đúng thì nhấn Nộp danh sách để gửi danh sách lên hệ thống.</h5>
+                <a href="{{ url }}" class="btn btn-success btn-lg">Nộp danh sách</a>
                 <table class="table table-striped">
                     <thead>
                     <tr>
+                        <th>#</th>
                         <th>Huynh Trưởng</th>
-                        <th>Tổng phiếu</th>
+                        <th>Bỏ chọn</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for truong in conLai %}
+                    {% for phieuBau in cac_phieu_bau %}
                         <tr>
+                            <td>{{ loop.index }}</td>
                             <td>
-                                <code>{{ truong.name }}</code>
+                                <strong><code>{{ phieuBau.huynhTruong.name }}</code></strong>
                                 <br>
-                                <a href="{{ path('vote_vong_1_my_vote_for_truong',{pin:pin, truongId: truong.id}) }}"
-                                   class="btn btn-info">XEM PHIẾU BẦU</a>                            </td>
-                            <td>{{ truong.votes }}</td>
+                                <em>{{ phieuBau.createdAt|date('H:i:s', 'Asia/Saigon') }}</em>
+                            </td>
+                            <td>
+                                <a href="{{ path('vote_vong_bau_cu_remove_truong',{phieuBauId: phieuBau.id, pin: pin}) }}"
+                                   class="btn btn-danger">Bỏ Chọn</a>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
+                <a href="{{ url }}" class="btn btn-success btn-lg">Nộp danh sách</a>
             </div>
         </section>
     </main>

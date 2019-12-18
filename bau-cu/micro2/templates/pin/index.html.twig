@@ -301,7 +301,7 @@
                                 d="M0 0h24v24H0z" fill="none"/><path
                                 d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                 </span>
-                <span>Ngày bầu cử <strong>15/12/2019</strong></span>
+                <span>Ngày bầu cử <strong>05/01/2020</strong></span>
             </code>
             <p class="status-ready"></p>
         </div>
@@ -369,7 +369,7 @@
                     <script>
                         $(function () {
                             $box1 = $('#box1');
-                            $box2 = $('#box2')
+                            $box2 = $('#box2');
                             $box3 = $('#box3');
                             $dest = $('#dest');
 
@@ -381,7 +381,7 @@
                                         $dest.removeClass('disabled');
                                         $dest.removeProp('disabled');
 
-                                        $dest.attr('href', '/vong-1/' + $box1.val() + $box2.val() + $box3.val());
+                                        $dest.attr('href', '/vong-{{ vong }}/' + $box1.val() + $box2.val() + $box3.val());
                                     }
                                 } else if (length > 3) {
                                     let redundant = length - 3;
@@ -400,7 +400,7 @@
                                         $dest.removeClass('disabled');
                                         $dest.removeProp('disabled');
 
-                                        $dest.attr('href', '/vong-1/' + $box1.val() + $box2.val() + $box3.val());
+                                        $dest.attr('href', '/vong-{{ vong }}/' + $box1.val() + $box2.val() + $box3.val());
                                     }
                                 } else if (length > 3) {
                                     let redundant = length - 3;
@@ -424,7 +424,7 @@
                                     if ($box1.val().length + $box2.val().length + length === 9) {
                                         $dest.removeClass('disabled');
                                         $dest.removeProp('disabled');
-                                        $dest.attr('href', '/vong-1/' + $box1.val() + $box2.val() + $box3.val());
+                                        $dest.attr('href', '/vong-{{ vong }}/' + $box1.val() + $box2.val() + $box3.val());
                                     }
                                 } else if (length > 3) {
                                     let redundant = length - 3;
@@ -442,7 +442,7 @@
                             });
 
                             $dest.mousedown(function () {
-                                $(this).attr('href', '/vong-1/' + $box1.val() + $box2.val() + $box3.val());
+                                $(this).attr('href', '/vong-{{ vong }}/' + $box1.val() + $box2.val() + $box3.val());
                             })
                         });
                     </script>

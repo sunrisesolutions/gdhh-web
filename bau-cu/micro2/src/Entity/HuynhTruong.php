@@ -22,6 +22,7 @@ class HuynhTruong
                 $voteCount++;
             }
         }
+
         $truong->setVotes($voteCount);
         $this->updatedAt = new \DateTime();
         return $voteCount;
@@ -124,6 +125,26 @@ class HuynhTruong
      * @ORM\Column(type="integer", nullable=true)
      */
     private $thanhVienId;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\HuynhTruongXinRut", mappedBy="huynhTruong", cascade={"persist", "remove"})
+     */
+    private $huynhTruongXinRut;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $vong1phu;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $vong2phu;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $vong3phu;
 
     public function __construct()
     {
@@ -366,6 +387,60 @@ class HuynhTruong
     public function setThanhVienId(?int $thanhVienId): self
     {
         $this->thanhVienId = $thanhVienId;
+
+        return $this;
+    }
+
+    public function getHuynhTruongXinRut(): ?HuynhTruongXinRut
+    {
+        return $this->huynhTruongXinRut;
+    }
+
+    public function setHuynhTruongXinRut(?HuynhTruongXinRut $huynhTruongXinRut): self
+    {
+        $this->huynhTruongXinRut = $huynhTruongXinRut;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newHuynhTruong = null === $huynhTruongXinRut ? null : $this;
+        if ($huynhTruongXinRut->getHuynhTruong() !== $newHuynhTruong) {
+            $huynhTruongXinRut->setHuynhTruong($newHuynhTruong);
+        }
+
+        return $this;
+    }
+
+    public function getVong1phu(): ?int
+    {
+        return $this->vong1phu;
+    }
+
+    public function setVong1phu(?int $vong1phu): self
+    {
+        $this->vong1phu = $vong1phu;
+
+        return $this;
+    }
+
+    public function getVong2phu(): ?int
+    {
+        return $this->vong2phu;
+    }
+
+    public function setVong2phu(?int $vong2phu): self
+    {
+        $this->vong2phu = $vong2phu;
+
+        return $this;
+    }
+
+    public function getVong3phu(): ?int
+    {
+        return $this->vong3phu;
+    }
+
+    public function setVong3phu(?int $vong3phu): self
+    {
+        $this->vong3phu = $vong3phu;
 
         return $this;
     }
