@@ -37,7 +37,7 @@
                 <h3>Có {{ cacCuTriDaBau|length }} Trưởng đã nộp kết quả bầu cử.</h3>
                 <a href="/quy-dinh/2020-2024.docx">Xem Quy định bầu cử.</a>
                 {% if topVong1[0].vong1 > 0 %}
-                    <h3>Top {{ quyDinhTop }} {% if topVong1 > quyDinhTop %}({{ topVong1|length }}){% endif %}</h3>
+                    <h3>Top {{ topVong1 }} {% if  topVong1|length > quyDinhTop %}({{ quyDinhTop }}){% endif %}</h3>
                     <table class="table table-striped">
                         <thead>
                         <tr>
