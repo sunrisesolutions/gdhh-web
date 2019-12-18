@@ -50,6 +50,11 @@ class PhieuBau
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $vongphu;
+
     public function getCuTri(): ?CuTri
     {
         return $this->cuTri;
@@ -104,5 +109,17 @@ class PhieuBau
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getVongphu(): ?int
+    {
+        return $this->vongphu;
+    }
+
+    public function setVongphu(?int $vongphu): self
+    {
+        $this->vongphu = $vongphu;
+
+        return $this;
     }
 }

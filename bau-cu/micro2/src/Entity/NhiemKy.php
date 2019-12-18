@@ -34,7 +34,7 @@ class NhiemKy
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $name;
+    private $year;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -86,6 +86,21 @@ class NhiemKy
      */
     private $xdtVong3;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $vong1phu;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $vong2phu;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $vong3phu;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -127,14 +142,14 @@ class NhiemKy
         return $this;
     }
 
-    public function getName(): ?string
+    public function getYear(): ?string
     {
-        return $this->name;
+        return $this->year;
     }
 
-    public function setName(?string $name): self
+    public function setYear(?string $year): self
     {
-        $this->name = $name;
+        $this->year = $year;
 
         return $this;
     }
@@ -255,6 +270,42 @@ class NhiemKy
     public function setXdtVong3(?bool $xdtVong3): self
     {
         $this->xdtVong3 = $xdtVong3;
+
+        return $this;
+    }
+
+    public function getVong1phu(): ?bool
+    {
+        return $this->vong1phu;
+    }
+
+    public function setVong1phu(?bool $vong1phu): self
+    {
+        $this->vong1phu = $vong1phu;
+
+        return $this;
+    }
+
+    public function getVong2phu(): ?bool
+    {
+        return $this->vong2phu;
+    }
+
+    public function setVong2phu(?bool $vong2phu): self
+    {
+        $this->vong2phu = $vong2phu;
+
+        return $this;
+    }
+
+    public function getVong3phu(): ?bool
+    {
+        return $this->vong3phu;
+    }
+
+    public function setVong3phu(?bool $vong3phu): self
+    {
+        $this->vong3phu = $vong3phu;
 
         return $this;
     }

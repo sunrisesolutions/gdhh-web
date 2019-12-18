@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}Kết quả bầu cử{% endblock %}
 {% block head %}
-{#    <meta http-equiv="refresh" content="1"> #}
+    {#    <meta http-equiv="refresh" content="1"> #}
 {% endblock %}
 {% block body %}
     <header>
@@ -36,8 +36,8 @@
                 {% set url = "#" %}
                 <h3>Có {{ cacCuTriDaBau|length }} Trưởng đã nộp kết quả bầu cử.</h3>
                 <a href="/quy-dinh/2020-2024.docx">Xem Quy định bầu cử.</a>
-                {% if top25[0].votes > 0 %}
-                    <h3>Top 25</h3>
+                {% if topVong1[0].vong1 > 0 %}
+                    <h3>Top {{ quyDinhTop }} {% if topVong1 > quyDinhTop %}({{ topVong1|length }}){% endif %}</h3>
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -46,8 +46,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for truong in top25 %}
-                            {% if truong.votes > 0 %}
+                        {% for truong in topVong1 %}
+                            {% if truong.vong1 > 0 %}
                                 <tr>
                                     <td>
                                         <code>{{ loop.index }}. {{ truong.name }}</code>
@@ -55,7 +55,7 @@
                                         <a href="{{ path('vote_vong_1_votes_for_truong',{year:year, truongId: truong.id}) }}"
                                            class="btn btn-info">XEM PHIẾU BẦU</a>
                                     </td>
-                                    <td>{{ truong.votes }}</td>
+                                    <td>{{ truong.vong1 }}</td>
                                 </tr>
                             {% endif %}
                         {% endfor %}
@@ -63,7 +63,32 @@
                     </table>
                 {% endif %}
 
-                {% if top25[0].votes > 0 %}
+                {% if dsPhu | length > 0 %}
+                    <h3>Danh sách Phụ</h3>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Huynh Trưởng</th>
+                            <th>Tổng phiếu</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for truong in dsPhu %}
+                            <tr>
+                                <td>
+                                    <code>{{ loop.index }}. {{ truong.name }}</code>
+                                    <br>
+                                    <a href="{{ path('vote_vong_1_votes_for_truong',{year:year, truongId: truong.id}) }}"
+                                       class="btn btn-info">XEM PHIẾU BẦU</a>
+                                </td>
+                                <td>{{ truong.vong1 }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+
+                {% if topVong1[0].vong1 > 0 %}
                     <h3>Danh sách còn lại</h3>
                 {% endif %}
                 <table class="table table-striped">
@@ -82,7 +107,7 @@
                                 <a href="{{ path('vote_vong_1_votes_for_truong',{year:year, truongId: truong.id}) }}"
                                    class="btn btn-info">XEM PHIẾU BẦU</a>
                             </td>
-                            <td>{{ truong.votes }}</td>
+                            <td>{{ truong.vong1 }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
