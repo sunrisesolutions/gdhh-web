@@ -29,7 +29,7 @@
                         <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                         <circle cx="12" cy="13" r="4"></circle>
                     </svg>
-                    <strong>Danh sách bầu cử Vòng 1</strong>
+                    <strong>Kết quả bầu cử Vòng {{ vong }}</strong>
                 </a>
                 {#                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"#}
                 {#                        data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false"#}
@@ -59,9 +59,9 @@
                             {% if truong.votes > 0 %}
                                 <tr>
                                     <td>
-                                        <code>{{ truong.name }}</code>
+                                        <code>{{ loop.index }}. {{ truong.name }}</code>
                                         <br>
-                                        <a href="{{ path('vote_vong_bau_cu_my_vote_for_truong',{pin:pin, truongId: truong.id}) }}"
+                                        <a href="{{ path('vote_vong_bau_cu_my_vote_for_truong',{pin:pin, truongId: truong.id,vong:vong}) }}"
                                            class="btn btn-info">XEM PHIẾU BẦU</a>
                                     </td>
                                     <td>{{ truong.votes }}</td>
@@ -74,27 +74,33 @@
 
                 {% if top25[0].votes > 0 %}
                     <h3>Danh sách còn lại</h3>
-                {% endif %}
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Huynh Trưởng</th>
-                        <th>Tổng phiếu</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for truong in conLai %}
+
+                    <table class="table table-striped">
+                        <thead>
                         <tr>
-                            <td>
-                                <code>{{ truong.name }}</code>
-                                <br>
-                                <a href="{{ path('vote_vong_bau_cu_my_vote_for_truong',{pin:pin, truongId: truong.id}) }}"
-                                   class="btn btn-info">XEM PHIẾU BẦU</a>                            </td>
-                            <td>{{ truong.votes }}</td>
+                            <th>Huynh Trưởng</th>
+                            <th>Tổng phiếu</th>
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        {% for truong in conLai %}
+                            <tr>
+                                <td>
+                                    <code>{{ loop.index }}. {{ truong.name }}</code>
+                                    <br>
+                                    {% if truong.votes > 0 %}
+                                        <a href="{{ path('vote_vong_bau_cu_my_vote_for_truong',{pin:pin, truongId: truong.id,vong:vong}) }}"
+                                           class="btn btn-info">XEM PHIẾU BẦU</a>
+                                    {% endif %}
+                                </td>
+                                <td>{{ truong.votes }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h4><code>Kết quả bầu cử sẽ được hiển thị sau khi cuộc bầu chọn kết thúc.</code></h4>
+                {% endif %}
             </div>
         </section>
     </main>

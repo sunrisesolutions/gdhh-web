@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\EventArgs;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -39,13 +41,19 @@ class CuTri
     /**
      * @ORM\PreUpdate
      */
-    public function updateData()
+    public function updateData(EventArgs $event, NhiemKy $nhiemKy = null)
     {
+        if ($event instanceof LifecycleEventArgs) {
+            if (empty($nhiemKy)) {
+                $nhiemKy = $event->getEntityManager()->getRepository(NhiemKy::class)->findOneByEnabled(true);
+            }
+        }
+
         if ($this->submitted) {
             /** @var PhieuBau $pb */
             foreach ($this->cacPhienBau as $pb) {
                 $truong = $pb->getHuynhTruong();
-                $truong->updateVoteCount();
+                $truong->updateVoteCount($nhiemKy);
             }
         }
     }

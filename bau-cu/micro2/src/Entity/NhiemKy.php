@@ -11,6 +11,11 @@ class NhiemKy
 {
     const REQUIRED_VOTES_VONG_1 = 10;
 
+    public function dangBauCu()
+    {
+        return ($this->vong1 || $this->vong2 || $this->vong3 || $this->vong4 || $this->vong5);
+    }
+
     public function getRequiredVotes($vong = null): int
     {
         if (empty($vong)) {

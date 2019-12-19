@@ -74,7 +74,7 @@
                                     <em>{{ phieuBau.createdAt|date('H:i:s','Asia/Saigon') }}</em>
                                 </td>
                                 <td>
-                                    <a href="{{ path('vote_vong_bau_cu_remove_truong',{phieuBauId: phieuBau.id, pin: pin}) }}"
+                                    <a href="{{ path('vote_vong_bau_cu_remove_truong',{phieuBauId: phieuBau.id, pin: pin, vong: vong}) }}"
                                        class="btn btn-danger">Bỏ Chọn</a>
                                 </td>
 

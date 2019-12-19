@@ -17,54 +17,24 @@ class ArchivedResultController extends AbstractController
      */
     public function votesVongBauCu($year, $vong)
     {
+        $repo = $this->getDoctrine()->getRepository(NhiemKy::class);
         /** @var NhiemKy $nhiemKy */
-        $nhiemKy = $this->getDoctrine()->getRepository(NhiemKy::class)->findOneByYear($year);
+        $nhiemKy = $repo->findOneByYear($year);
+
         $quyDinhTop = $nhiemKy->{'getTopVong'.$vong}();
-        $topVong1 = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy(['enabled' => true, 'year' => $year], ['vong'.$vong => 'DESC', 'vong'.$vong.'phu' => 'DESC'], $quyDinhTop);
-        $conLai = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy(['enabled' => true, 'year' => $year], ['vong'.$vong => 'DESC'], null, $nhiemKy->{'getTopVong'.$vong}());
-        $dsRut = $this->getDoctrine()->getRepository(HuynhTruongXinRut::class)->findBy(['year' => $year, 'vong' => $vong]);
 
-        /** @var HuynhTruong $cuoiTopVong1 */
-        $cuoiTopVong1 = end($topVong1);
+        $r = $repo->getKetQuaBauCu($year, $vong);
 
-        if (count($conLai) > 0) {
-            /** @var HuynhTruong $dauConLai */
-            $dauConLai = array_slice($conLai, 0, 1)[0];
-            $dsPhu = [];
-
-            if ($nhiemKy->getVong1phu() || $nhiemKy->getVong1phu() === null) {
-                while ($cuoiTopVong1->getVong1() === $dauConLai->getVong1()) {
-                    $topVong1[] = $cuoiTopVong1 = array_shift($conLai);
-                    /** @var HuynhTruong $dauConLai */
-                    $dauConLai = array_slice($conLai, 0, 1)[0];
-                }
-            }
-            if ($nhiemKy->getVong1phu()) {
-                if (count($topVong1) > $quyDinhTop) {
-                    /** @var HuynhTruong $cuoiTopVong1 */
-                    $cuoiTopVong1 = array_pop($topVong1);
-                    /** @var HuynhTruong $cuoiTopVong1 */
-                    $keCuoiTopVong1 = end($topVong1);
-
-                    $topVong1[] = $cuoiTopVong1;
-
-                    while ($cuoiTopVong1->getVong1() === $keCuoiTopVong1->getVong1()) {
-                        /** @var HuynhTruong $cuoiTopVong1 */
-                        $dsPhu[] = $cuoiTopVong1 = array_pop($topVong1);
-                        /** @var HuynhTruong $cuoiTopVong1 */
-                        $keCuoiTopVong1 = end($topVong1);
-                    }
-                    if (count($dsPhu) === 0) {
-                        $topVong1[] = $cuoiTopVong1;
-                    }
-                }
-            }
-        }
+        $topVong1 = $r['top'];
+        $conLai = $r['conLai'];
+        $dsRut = $r['rut'];
+        $dsPhu = $r['phu'];
 
         $cacCuTriDaBau = $this->getDoctrine()->getRepository(CuTri::class)->findBy(['submitted' => true, 'year' => $year]);
 
         return $this->render('pin/vote-vong-bau-cu.html.twig', [
             'controller_name' => 'PinController',
+            'dangBauCu' => $nhiemKy->dangBauCu(),
             'vong' => $vong,
             'quyDinhTop' => $nhiemKy->getTopVong1(),
             'year' => $year,
@@ -88,7 +58,7 @@ class ArchivedResultController extends AbstractController
             return new RedirectResponse($this->generateUrl('pin', []));
         }
 
-        $cacPbt = $truong->getCacPhieuBau();
+        $cacPbt = $truong->getCacPhieuBauTheoVong($vong);
 
         return $this->render('pin/votes-for-truong-vong-bau-cu.html.twig', [
             'controller_name' => 'PinController',

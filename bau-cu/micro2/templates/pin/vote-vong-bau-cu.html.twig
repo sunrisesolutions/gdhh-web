@@ -19,7 +19,7 @@
                         <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                         <circle cx="12" cy="13" r="4"></circle>
                     </svg>
-                    <strong>Danh sách bầu cử Vòng 1</strong>
+                    <strong>Kết quả bầu cử Vòng {{ vong }}</strong>
                 </a>
                 {#                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"#}
                 {#                        data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false"#}
@@ -35,45 +35,74 @@
             <div class="container">
                 {% set url = "#" %}
                 <h3>Có {{ cacCuTriDaBau|length }} Trưởng đã nộp kết quả bầu cử.</h3>
-                <a href="/quy-dinh/2020-2024.docx">Xem Quy định bầu cử.</a>
-                {% if dsRut | length > 0 %}
-                    <h3>Danh sách anh/chị xin rút</h3>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Huynh Trưởng</th>
-{#                            <th>Tổng phiếu</th>#}
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for truongRut in dsRut %}
-                            {% set truong = truongRut.huynhTruong %}
+                <a href="/quy-dinh/{{ year }}.docx">Xem Quy định bầu cử.</a>
+                <a href="/ket-qua/{{ year }}-vong{{ vong }}.xlsx">Tải Kết quả bầu cử.</a>
+                {% if dangBauCu is empty %}
+                    {% if dsRut | length > 0 %}
+                        <h3>Danh sách anh/chị xin rút</h3>
+                        <table class="table table-striped">
+                            <thead>
                             <tr>
-                                <td>
-                                    <code>{{ loop.index }}. {{ truong.name }}</code>
-{#                                    <br>#}
-{#                                    <a href="{{ path('vote_vong_bau_cu_votes_for_truong',{year:year, truongId: truong.id}) }}"#}
-{#                                       class="btn btn-info">XEM PHIẾU BẦU</a>#}
-                                </td>
-{#                                <td>{{ truong.vong1 }}</td>#}
+                                <th>Huynh Trưởng</th>
+                                {#                            <th>Tổng phiếu</th>#}
                             </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                {% endif %}
+                            </thead>
+                            <tbody>
+                            {% for truongRut in dsRut %}
+                                {% set truong = truongRut.huynhTruong %}
+                                <tr>
+                                    <td>
+                                        <code>{{ loop.index }}. {{ truong.name }}</code>
+                                        {#                                    <br>#}
+                                        {#                                    <a href="{{ path('vote_vong_bau_cu_votes_for_truong',{year:year, truongId: truong.id}) }}"#}
+                                        {#                                       class="btn btn-info">XEM PHIẾU BẦU</a>#}
+                                    </td>
+                                    {#                                <td>{{ truong.vong1 }}</td>#}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
 
-                {% if attribute(topVong1[0],'vong'~vong) > 0 %}
-                    <h3>Top {{ topVong1|length }}{% if  topVong1|length != quyDinhTop %}/{{ quyDinhTop }}{% endif %}</h3>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Huynh Trưởng</th>
-                            <th>Tổng phiếu</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for truong in topVong1 %}
-                            {% if attribute(truong,'vong'~vong)  > 0 %}
+                    {% if attribute(topVong1[0],'vong'~vong) > 0 %}
+                        <h3>
+                            Top {{ topVong1|length }}{% if  topVong1|length != quyDinhTop %}/{{ quyDinhTop }}{% endif %}</h3>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Huynh Trưởng</th>
+                                <th>Tổng phiếu</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for truong in topVong1 %}
+                                {% if attribute(truong,'vong'~vong)  > 0 %}
+                                    <tr>
+                                        <td>
+                                            <code>{{ loop.index }}. {{ truong.name }}</code>
+                                            <br>
+                                            <a href="{{ path('vote_vong_bau_cu_votes_for_truong',{year:year, truongId: truong.id,vong:vong}) }}"
+                                               class="btn btn-info">XEM PHIẾU BẦU</a>
+                                        </td>
+                                        <td>{{ truong.vong1 }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+
+                    {% if dsPhu | length > 0 %}
+                        <h3>Danh sách Phụ</h3>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Huynh Trưởng</th>
+                                <th>Tổng phiếu</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for truong in dsPhu %}
                                 <tr>
                                     <td>
                                         <code>{{ loop.index }}. {{ truong.name }}</code>
@@ -83,14 +112,14 @@
                                     </td>
                                     <td>{{ truong.vong1 }}</td>
                                 </tr>
-                            {% endif %}
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
 
-                {% if dsPhu | length > 0 %}
-                    <h3>Danh sách Phụ</h3>
+                    {% if attribute(topVong1[0],'vong'~vong)  > 0 %}
+                        <h3>Danh sách còn lại</h3>
+                    {% endif %}
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -99,7 +128,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for truong in dsPhu %}
+                        {% for truong in conLai %}
                             <tr>
                                 <td>
                                     <code>{{ loop.index }}. {{ truong.name }}</code>
@@ -113,31 +142,6 @@
                         </tbody>
                     </table>
                 {% endif %}
-
-                {% if attribute(topVong1[0],'vong'~vong)  > 0 %}
-                    <h3>Danh sách còn lại</h3>
-                {% endif %}
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Huynh Trưởng</th>
-                        <th>Tổng phiếu</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for truong in conLai %}
-                        <tr>
-                            <td>
-                                <code>{{ loop.index }}. {{ truong.name }}</code>
-                                <br>
-                                <a href="{{ path('vote_vong_bau_cu_votes_for_truong',{year:year, truongId: truong.id,vong:vong}) }}"
-                                   class="btn btn-info">XEM PHIẾU BẦU</a>
-                            </td>
-                            <td>{{ truong.vong1 }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
             </div>
         </section>
     </main>

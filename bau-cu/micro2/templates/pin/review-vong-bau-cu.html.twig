@@ -45,7 +45,7 @@
         <section class="text-left">
             <div class="container">
                 <br>
-                {% set url = path('vote_vong_bau_cu_nop_ds',{pin: pin}) %}
+                {% set url = path('vote_vong_bau_cu_nop_ds',{pin: pin, vong: vong}) %}
                 <h5>Vui lòng kiểm tra, nếu thấy đúng thì nhấn Nộp danh sách để gửi danh sách lên hệ thống.</h5>
                 <a href="{{ url }}" class="btn btn-success btn-lg">Nộp danh sách</a>
                 <table class="table table-striped">
@@ -66,7 +66,7 @@
                                 <em>{{ phieuBau.createdAt|date('H:i:s', 'Asia/Saigon') }}</em>
                             </td>
                             <td>
-                                <a href="{{ path('vote_vong_bau_cu_remove_truong',{phieuBauId: phieuBau.id, pin: pin}) }}"
+                                <a href="{{ path('vote_vong_bau_cu_remove_truong',{phieuBauId: phieuBau.id, pin: pin, vong: vong}) }}"
                                    class="btn btn-danger">Bỏ Chọn</a>
                             </td>
                         </tr>

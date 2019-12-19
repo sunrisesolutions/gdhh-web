@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,19 +12,51 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class HuynhTruong
 {
-    public function updateVoteCount()
+    /**
+     * @return Collection|PhieuBau[]
+     */
+    public function getCacPhieuBauTheoVong($vong): Collection
+    {
+        $c = Criteria::create();
+        $c->andWhere(Criteria::expr()->eq('vong', $vong));
+        return $this->cacPhieuBau->matching($c);
+    }
+
+    public function updateVoteCount(NhiemKy $nhiemKy)
     {
         $truong = $this;
-        $cacPbt = $truong->getCacPhieuBau();
-        $voteCount = 0;
+
+        if (!empty($nhiemKy)) {
+            $cacPbt = $truong->getCacPhieuBauTheoVong($nhiemKy->getVongHienTai());
+        } else {
+            $cacPbt = $truong->getCacPhieuBau();
+        }
+
+        $voteCount = [];
+        $vong = $nhiemKy->getVongHienTai();
+        $vongKey = 'vong'.$vong;
+        if (!array_key_exists($vongKey, $voteCount)) {
+            $voteCount[$vongKey] = 0;
+        }
+        $vongPhuKey = 'vong'.$vong.'phu';
+        if ($nhiemKy->isVongPhu() && !array_key_exists($vongPhuKey, $voteCount)) {
+            $voteCount[$vongPhuKey] = 0;
+        }
+
         /** @var PhieuBau $pbt */
         foreach ($cacPbt as $pbt) {
             if ($pbt->getCuTri()->getSubmitted()) {
-                $voteCount++;
+                if (!empty($vongPhu = $pbt->getVongphu())) {
+                    $voteCount[$vongPhuKey]++;
+                };
+                $voteCount[$vongKey]++;
             }
         }
+        $truong->{'setVong'.$vong}($voteCount[$vongKey]);
+        if ($nhiemKy->isVongPhu()) {
+            $truong->{'setVong'.$vong.'phu'}($voteCount[$vongPhuKey]);
+        }
 
-        $truong->setVotes($voteCount);
         $this->updatedAt = new \DateTime();
         return $voteCount;
     }
