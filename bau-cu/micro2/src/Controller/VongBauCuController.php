@@ -133,7 +133,6 @@ class VongBauCuController extends AbstractController
             return new RedirectResponse($this->generateUrl('vote_vong_bau_cu_result', ['pin' => $pin, 'vong' => $vong]));
         }
 
-
         $cacPhieuBau = $this->getDoctrine()->getRepository(PhieuBau::class)->findByCuTri($voter->getId());
 
         $nhiemKy = $this->getDoctrine()->getRepository(NhiemKy::class)->findOneBy(['enabled' => true,
@@ -218,11 +217,12 @@ class VongBauCuController extends AbstractController
         $phieuBau = new PhieuBau();
         $phieuBau
             ->setCuTri($voter)
-            ->setVong($vong)
             ->setHuynhTruong($truong);
 
         if ($nhiemKy->isVongPhu()) {
             $phieuBau->setVongphu($vong);
+        } else {
+            $phieuBau->setVong($vong);
         }
 
         $manager = $this->getDoctrine()->getManager();

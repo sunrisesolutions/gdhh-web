@@ -22,12 +22,26 @@ class HuynhTruong
         return $this->cacPhieuBau->matching($c);
     }
 
+    /**
+     * @return Collection|PhieuBau[]
+     */
+    public function getCacPhieuBauTheoVongPhu($vong): Collection
+    {
+        $c = Criteria::create();
+        $c->andWhere(Criteria::expr()->eq('vongphu', $vong));
+        return $this->cacPhieuBau->matching($c);
+    }
+
     public function updateVoteCount(NhiemKy $nhiemKy)
     {
         $truong = $this;
 
         if (!empty($nhiemKy)) {
-            $cacPbt = $truong->getCacPhieuBauTheoVong($nhiemKy->getVongHienTai());
+            if ($nhiemKy->isVongPhu()) {
+                $cacPbt = $truong->getCacPhieuBauTheoVongPhu($nhiemKy->getVongHienTai());
+            } else {
+                $cacPbt = $truong->getCacPhieuBauTheoVong($nhiemKy->getVongHienTai());
+            }
         } else {
             $cacPbt = $truong->getCacPhieuBau();
         }
@@ -48,13 +62,17 @@ class HuynhTruong
             if ($pbt->getCuTri()->getSubmitted()) {
                 if (!empty($vongPhu = $pbt->getVongphu())) {
                     $voteCount[$vongPhuKey]++;
+                } else {
+                    $voteCount[$vongKey]++;
                 };
-                $voteCount[$vongKey]++;
+
             }
         }
-        $truong->{'setVong'.$vong}($voteCount[$vongKey]);
+
         if ($nhiemKy->isVongPhu()) {
             $truong->{'setVong'.$vong.'phu'}($voteCount[$vongPhuKey]);
+        } else {
+            $truong->{'setVong'.$vong}($voteCount[$vongKey]);
         }
 
         $this->updatedAt = new \DateTime();
