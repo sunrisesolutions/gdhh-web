@@ -35,8 +35,8 @@
             <div class="container">
                 {% set url = "#" %}
                 <h3>Có {{ cacCuTriDaBau|length }} Trưởng đã nộp kết quả bầu cử.</h3>
-                <a href="/quy-dinh/{{ year }}.docx">Xem Quy định bầu cử.</a>
-                <a href="/ket-qua/{{ year }}-vong{{ vong }}.xlsx">Tải Kết quả bầu cử.</a>
+                <a class="btn btn-info" href="/quy-dinh/{{ year }}.docx">Xem Quy định bầu cử.</a>
+                <a class="btn btn-info"  href="/ket-qua/{{ year }}-vong{{ vong }}.xlsx">Tải Kết quả bầu cử.</a>
                 {% if dangBauCu is empty %}
                     {% if dsRut | length > 0 %}
                         <h3>Danh sách anh/chị xin rút</h3>
