@@ -32,6 +32,12 @@ class HuynhTruong
         return $this->cacPhieuBau->matching($c);
     }
 
+    public function updateVotesHienTai(NhiemKy $nhiemKy)
+    {
+        $vong = $nhiemKy->getVongHienTai();
+        $this->votes = $this->{'vong'.$vong};
+    }
+
     public function updateVoteCount(NhiemKy $nhiemKy)
     {
         $truong = $this;
@@ -48,6 +54,11 @@ class HuynhTruong
 
         $voteCount = [];
         $vong = $nhiemKy->getVongHienTai();
+
+        if (empty($vong)) {
+            throw new \InvalidArgumentException('Invalid Vong');
+        }
+
         $vongKey = 'vong'.$vong;
         if (!array_key_exists($vongKey, $voteCount)) {
             $voteCount[$vongKey] = 0;

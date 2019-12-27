@@ -58,70 +58,13 @@ class VongBauCuController extends AbstractController
         ]));
     }
 
-    public function getDanhSachUngCu()
-    {
-        $year = $nhiemKy->getYear();
-        if ($vong > 1) {
-            $vongTruoc = $vong - 1;
-            $quyDinhTop = $nhiemKy->{'getTopVong'.$vongTruoc}();
-
-            $topVong1 = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy(['enabled' => true, 'year' => $year], ['vong'.$vongTruoc => 'DESC', 'vong'.$vongTruoc.'phu' => 'DESC'], $quyDinhTop);
-            $conLai = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy(['enabled' => true, 'year' => $year], ['vong'.$vongTruoc => 'DESC'], null, $nhiemKy->{'getTopVong'.$vongTruoc}());
-
-            /** @var HuynhTruong $cuoiTopVong1 */
-            $cuoiTopVong1 = end($topVong1);
-            if (count($conLai) > 0) {
-                /** @var HuynhTruong $dauConLai */
-                $dauConLai = array_slice($conLai, 0, 1)[0];
-                $dsPhu = [];
-
-                if ($nhiemKy->getVong1phu() || $nhiemKy->getVong1phu() === null) {
-                    while ($cuoiTopVong1->getVong1() === $dauConLai->getVong1()) {
-                        $topVong1[] = $cuoiTopVong1 = array_shift($conLai);
-                        /** @var HuynhTruong $dauConLai */
-                        $dauConLai = array_slice($conLai, 0, 1)[0];
-                    }
-                }
-                if ($nhiemKy->getVong1phu()) {
-                    if (count($topVong1) > $quyDinhTop) {
-                        /** @var HuynhTruong $cuoiTopVong1 */
-                        $cuoiTopVong1 = array_pop($topVong1);
-                        /** @var HuynhTruong $cuoiTopVong1 */
-                        $keCuoiTopVong1 = end($topVong1);
-
-                        $topVong1[] = $cuoiTopVong1;
-
-                        while ($cuoiTopVong1->getVong1() === $keCuoiTopVong1->getVong1()) {
-                            /** @var HuynhTruong $cuoiTopVong1 */
-                            $dsPhu[] = $cuoiTopVong1 = array_pop($topVong1);
-                            /** @var HuynhTruong $cuoiTopVong1 */
-                            $keCuoiTopVong1 = end($topVong1);
-                        }
-                        if (count($dsPhu) === 0) {
-                            $topVong1[] = $cuoiTopVong1;
-                        }
-                    }
-                }
-            }
-
-            $truong = $topVong1;
-            usort($truong, function ($a, $b) {
-                $s = Slugify::create();
-                return strcmp($s->slugify($a->getFirstName()), $s->slugify($b->getFirstName()));
-            });
-
-        } else {
-            $truong = $this->getDoctrine()->getRepository(HuynhTruong::class)->findBy([], ['firstName' => 'ASC'], $nhiemKy->{'getTopVong'.$vong}());
-        }
-        return $truong;
-    }
-
     /**
      * @Route("/vong-{vong}/{pin}", name="danh_sach_vong_bau_cu")
      */
     public function danhSachVongBauCu($pin, $vong)
     {
-        $nhiemKy = $this->getDoctrine()->getRepository(NhiemKy::class)->findOneByEnabled(true);
+        $repo = $this->getDoctrine()->getRepository(NhiemKy::class);
+        $nhiemKy = $repo->findOneByEnabled(true);
 
         /** @var CuTri $voter */
         $voter = $this->getDoctrine()->getRepository(CuTri::class)->findOneByPin($pin);
@@ -146,7 +89,7 @@ class VongBauCuController extends AbstractController
             return new RedirectResponse($this->generateUrl('vote_vong_bau_cu_review', ['pin' => $pin, 'vong' => $vong]));
         }
 
-        $truong = $this->getDanhSachUngCu();
+        $truong = $repo->getDanhSachUngCu($nhiemKy, $vong);
 
         $phieuBau = $this->getDoctrine()->getRepository(PhieuBau::class)->findBy(['cuTri' => $voter->getId()], ['createdAt' => 'DESC']);
         if (count($phieuBau) > 0) {
@@ -320,6 +263,8 @@ class VongBauCuController extends AbstractController
 
         return $this->render('pin/result-vong-bau-cu.html.twig', [
             'controller_name' => 'PinController', 'vong' => $vong,
+            'quyDinhTop' => $nhiemKy->{'getTopVong'.$vong}(),
+            'dangBauCu' => $nhiemKy->dangBauCu(),
             'pin' => $pin,
             'top25' => $topVong,
             'conLai' => $conLai

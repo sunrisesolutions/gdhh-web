@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\HuynhTruong;
 use App\Entity\NhiemKy;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -47,9 +48,18 @@ class KhoaBauCommand extends Command
         /** @var NhiemKy $nhiemKy */
         $nhiemKy = $this->em->getRepository(NhiemKy::class)->findOneByEnabled(true);
         if (!empty($nhiemKy)) {
-            $nhiemKy->setEnabled(false);
+            $cacTruong = $this->em->getRepository(HuynhTruong::class)->findBy(['year' => $nhiemKy->getYear(), 'enabled' => true,
+            ]);
+            /** @var HuynhTruong $truong */
+            foreach ($cacTruong as $truong) {
+                $truong->updateVoteCount($nhiemKy);
+                $truong->updateVotesHienTai($nhiemKy);
+                $this->em->persist($truong);
+            }
+            $nhiemKy->{'setVong'.$nhiemKy->getVongHienTai()}(false);
 
             $this->em->persist($nhiemKy);
+            $this->em->flush();
         }
 
         return 0;

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block head %}
-    <meta http-equiv="refresh" content="5">
+    <meta http-equiv="refresh" content="15">
 {% endblock %}
 {% block body %}
     <header>
@@ -45,8 +45,8 @@
                 <a href="/" class="mt-1 btn btn-success">THOÁT</a>
                 <h3>Cám ơn các anh chị đã gửi kết quả bầu cử.</h3>
                 {% set url = "#" %}
-                {% if top25[0].votes > 0 %}
-                    <h3>Top 25</h3>
+                {% if  dangBauCu is empty and top25[0].votes > 0 %}
+                    <h3>Top {{ quyDinhTop }}</h3>
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -72,7 +72,7 @@
                     </table>
                 {% endif %}
 
-                {% if top25[0].votes > 0 %}
+                {% if dangBauCu is empty and top25[0].votes > 0 %}
                     <h3>Danh sách còn lại</h3>
 
                     <table class="table table-striped">
