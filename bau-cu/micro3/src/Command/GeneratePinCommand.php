@@ -44,8 +44,8 @@ class GeneratePinCommand extends Command
             // ...
         }
 
-        $io->note('Generating 600 CuTri ');
-        for ($i = 0; $i < 600; $i++) {
+        $io->note('Generating 200 CuTri ');
+        for ($i = 0; $i < 200; $i++) {
             $pins = $this->generatePin();
             $voter = new CuTri();
             $voter->setPin($pins[0]);

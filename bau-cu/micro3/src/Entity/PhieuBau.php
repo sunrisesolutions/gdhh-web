@@ -33,7 +33,7 @@ class PhieuBau
     private $huynhTruong;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
     private $vong;
 
@@ -76,12 +76,12 @@ class PhieuBau
         return $this;
     }
 
-    public function getVong(): ?string
+    public function getVong(): ?int
     {
         return $this->vong;
     }
 
-    public function setVong(string $vong): self
+    public function setVong(int $vong): self
     {
         $this->vong = $vong;
 

@@ -46,7 +46,7 @@ class PinController extends AbstractController
         return $this->render('pin/index.html.twig', [
             'controller_name' => 'PinController',
             'vong' => $nhiemKy->getVongHienTai(),
-            'day' => '18',
+            'day' => '4',
             'test' => false
         ]);
     }

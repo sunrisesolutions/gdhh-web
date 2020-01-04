@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Entity\CuTri;
+use App\Entity\HuynhTruong;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,9 +11,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class GeneratePinCommand extends Command
+class CountVotesCommand extends Command
 {
-    protected static $defaultName = 'app:generate:pin';
+    protected static $defaultName = 'app:count-votes';
 
     private $em;
 
@@ -44,40 +44,20 @@ class GeneratePinCommand extends Command
             // ...
         }
 
-        $io->note('Generating 600 CuTri ');
-        for ($i = 0; $i < 600; $i++) {
-            $pins = $this->generatePin();
-            $voter = new CuTri();
-            $voter->setPin($pins[0]);
-            $voter->setPinFormatted($pins[1]);
-            $this->em->persist($voter);
+        $cacTruong = $this->em->getRepository(HuynhTruong::class)->findAll();
+        $io->writeln('Updating Info '.rand(0, 100));
+        /** @var HuynhTruong $truong */
+        foreach ($cacTruong as $truong) {
+            $count = $truong->getVotes();
+            $truong->updateVoteCount();
+            $count2 = $truong->getVotes();
+            if (!empty($count) && $count !== $count2) {
+                $output->writeln('ERRORRRR '.$truong->getName().': '.$count.' --- '.$count2);
+            }
+//                $this->em->persist($truong);
         }
-        $this->em->flush();
+//            $this->em->flush();
 
         return 0;
-    }
-
-    public function generatePin()
-    {
-        $pin = ''.rand(0, 999999999);
-//        $io->note($pin.' '.strlen($pin));
-        for ($i = 0; $i < 9 - strlen($pin); $i++) {
-            $pin = '0'.$pin;
-//            $io->note('hello '.$pin);
-        }
-
-        ($pinArray = str_split($pin));
-        $formattedPin = '';
-        foreach ($pinArray as $i => $digit) {
-            $pos = $i + 1;
-//            $io->note($digit.' '.$i.'  '.($pos % 3));
-            $formattedPin .= $digit;
-            if ($pos % 3 === 0 && $pos < strlen($pin)) {
-                $formattedPin .= '-';
-            }
-        }
-
-//        $io->success($formattedPin);
-        return [$pin, $formattedPin];
     }
 }

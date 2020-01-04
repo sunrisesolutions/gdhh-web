@@ -2,7 +2,8 @@
 
 namespace App\Command;
 
-use App\Entity\CuTri;
+use App\Entity\HuynhTruong;
+use App\Entity\NhiemKy;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,9 +12,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class GeneratePinCommand extends Command
+class KhoaBauCommand extends Command
 {
-    protected static $defaultName = 'app:generate:pin';
+    protected static $defaultName = 'app:khoa-bau';
 
     private $em;
 
@@ -44,40 +45,23 @@ class GeneratePinCommand extends Command
             // ...
         }
 
-        $io->note('Generating 600 CuTri ');
-        for ($i = 0; $i < 600; $i++) {
-            $pins = $this->generatePin();
-            $voter = new CuTri();
-            $voter->setPin($pins[0]);
-            $voter->setPinFormatted($pins[1]);
-            $this->em->persist($voter);
+        /** @var NhiemKy $nhiemKy */
+        $nhiemKy = $this->em->getRepository(NhiemKy::class)->findOneByEnabled(true);
+        if (!empty($nhiemKy)) {
+            $cacTruong = $this->em->getRepository(HuynhTruong::class)->findBy(['year' => $nhiemKy->getYear(), 'enabled' => true,
+            ]);
+            /** @var HuynhTruong $truong */
+            foreach ($cacTruong as $truong) {
+                $truong->updateVoteCount($nhiemKy);
+                $truong->updateVotesHienTai($nhiemKy);
+                $this->em->persist($truong);
+            }
+            $nhiemKy->{'setVong'.$nhiemKy->getVongHienTai()}(false);
+
+            $this->em->persist($nhiemKy);
+            $this->em->flush();
         }
-        $this->em->flush();
 
         return 0;
-    }
-
-    public function generatePin()
-    {
-        $pin = ''.rand(0, 999999999);
-//        $io->note($pin.' '.strlen($pin));
-        for ($i = 0; $i < 9 - strlen($pin); $i++) {
-            $pin = '0'.$pin;
-//            $io->note('hello '.$pin);
-        }
-
-        ($pinArray = str_split($pin));
-        $formattedPin = '';
-        foreach ($pinArray as $i => $digit) {
-            $pos = $i + 1;
-//            $io->note($digit.' '.$i.'  '.($pos % 3));
-            $formattedPin .= $digit;
-            if ($pos % 3 === 0 && $pos < strlen($pin)) {
-                $formattedPin .= '-';
-            }
-        }
-
-//        $io->success($formattedPin);
-        return [$pin, $formattedPin];
     }
 }

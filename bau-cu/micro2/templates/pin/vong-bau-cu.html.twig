@@ -3,6 +3,11 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
+        .vote-vitri {
+            display: inline;
+            float: left;
+        }
+
         .vote-btn {
             display: inline;
             float: right;
@@ -40,7 +45,8 @@
                         <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                         <circle cx="12" cy="13" r="4"></circle>
                     </svg>
-                    <strong>Danh sách Vòng {{ vong }}</strong>
+                    <strong>Danh sách bầu cử {% if vong | length == 4 %} Xứ đoàn trưởng lần {{ vong|last }}  {% elseif vong | length == 6 %} Phó Nội Vụ {% elseif vong | length == 8 %} Phó Ngoại Vụ  {% else %}Vòng {{ vong }}{% endif %}</strong>
+
                 </a>
                 {#                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"#}
                 {#                        data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false"#}
@@ -67,10 +73,15 @@
                         </thead>
                         <tbody>
                         {% for phieuBau in cac_phieu_bau %}
+                            {% set viTri = phieuBau.viTri %}
                             <tr>
                                 <td>
                                     <strong><code>{{ phieuBau.huynhTruong.name }}</code></strong>
                                     <br>
+                                    {% if viTri is not empty %}
+                                        <strong>{{ viTri.name }}</strong>
+                                        <br>
+                                    {% endif %}
                                     <em>{{ phieuBau.createdAt|date('H:i:s','Asia/Saigon') }}</em>
                                 </td>
                                 <td>
@@ -134,7 +145,18 @@
         var data = [
             {% for truong in cac_truong %}
             {
-                "productname": '<strong><code>{{ loop.index }}.{{ truong.name }}</code></strong><br/>Năm sinh: {{ truong.dob == 0?"Chưa cập nhật":truong.dob }}<br/>{{ truong.phanDoan }}<br/>{{ truong.chiDoan == 0 ? "Chưa cập nhật": truong.chiDoan ~ " tuổi (" ~ truong.chiDoan ~"T)" }} <div class="vote-btn text-right"><a href="{{ path('vote_vong_bau_cu_truong',{vong: vong, truongId: truong.id, pin: pin}) }}" class="btn btn-primary">Bầu chọn </a></div>',
+                "productname": '<strong><code>{{ loop.index }}.{{ truong.name }}</code></strong><br/>Năm sinh: {{ truong.dob == 0?"Chưa cập nhật":truong.dob }}<br/>{{ truong.phanDoan }}<br/>{{ truong.chiDoan == 0 ? "Chưa cập nhật": truong.chiDoan ~ " tuổi (" ~ truong.chiDoan ~"T)" }} '
+                        {% if nhiemKy.viTri %}
+                    + '<div></div><div class="vote-vitri">\n' +
+                    ' <select data-truong-id="{{ truong.id }}" class="form-control vi-tri-slt">\n' +
+                    '<option value="" disabled selected>Vị trí gợi ý</option>' +
+                        {% for viTri in cac_vi_tri %}
+                    '        <option class="vi-tri-opt" value="{{ viTri.id }}">{{ viTri.name }}</option>\n' +
+                        {% endfor %}
+                    '      </select>'
+                        {% endif %}
+                    + ' <div class="{% if nhiemKy.viTri is empty %}vote-btn text-right{% endif %}"><a data-href="{{ path('vote_vong_bau_cu_truong',{vong: vong, truongId: truong.id, pin: pin}) }}" href="{{ path('vote_vong_bau_cu_truong',{vong: vong, truongId: truong.id, pin: pin}) }}" class="truong-{{ truong.id }} {{ nhiemKy.viTri is not empty?'disabled':'' }} btn btn-primary">Bầu chọn </a></div>'
+                ,
                 "unitcost": 12.00,
                 "status": "P",
                 "listprice": 18.50,
@@ -142,6 +164,7 @@
             },
             {% endfor %}
         ];
+
         $(function () {
             var dg = $('#dg').datagrid();
             dg.datagrid('enableFilter', [{
@@ -155,6 +178,28 @@
                 options: {precision: 1},
                 op: ['equal', 'notequal', 'less', 'greater']
             }]);
+
+            {% if nhiemKy.viTri %}
+            $('.vi-tri-slt').change(function (e) {
+                let viTriParam;
+                let str = viTriParam = "";
+                let truongId = $(this).data('truongId');
+                $(this).children(":selected").each(function () {
+                    let viTriId = $(this).val();
+                    str += $(this).text() + " " + viTriId + " " + truongId;
+                    viTriParam = '?viTri=' + viTriId;
+                });
+
+                $voteBtn = $('.btn.truong-' + truongId);
+                $voteBtn.removeClass('disabled');
+                let voteHref = $voteBtn.data('href');
+                voteHref += viTriParam;
+                console.log($voteBtn, voteHref);
+                $voteHref = $voteBtn.attr('href', voteHref);
+
+            });
+
+            {% endif %}
         });
     </script>
 {% endblock %}

@@ -22,21 +22,8 @@ class NhiemKyRepository extends ServiceEntityRepository
         parent::__construct($registry, NhiemKy::class);
     }
 
-    public function getDanhSachUngCu(NhiemKy $nhiemKy, $vong)
+    public function getDanhSachUngCu(NhiemKy $nhiemKy, int $vong)
     {
-        if (in_array($vong, ['xdt1', 'xdt2', 'xdt3'])) {
-            return $this->getEntityManager()->getRepository(HuynhTruong::class)->findBy(['enabled' => true, 'ungCuVienXDT' => true]);
-        }
-
-        if ($vong === 'xdpNoi') {
-            return $this->getEntityManager()->getRepository(HuynhTruong::class)->findBy(['enabled' => true, 'ungCuVienXDP' => true, 'tanXDT' => false, 'tanXDPNgoaiVu' => false]);
-        }
-
-        if ($vong === 'xdpNgoai') {
-            return $this->getEntityManager()->getRepository(HuynhTruong::class)->findBy(['enabled' => true, 'ungCuVienXDP' => true, 'tanXDT' => false, 'tanXDPNoiVu' => false]);
-        }
-
-        $vong = (int) $vong;
         $year = $nhiemKy->getYear();
         if ($vong > 1) {
             $vongTruoc = $vong - 1;

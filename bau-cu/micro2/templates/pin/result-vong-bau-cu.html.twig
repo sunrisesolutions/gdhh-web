@@ -29,7 +29,7 @@
                         <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                         <circle cx="12" cy="13" r="4"></circle>
                     </svg>
-                    <strong>Kết quả bầu cử Vòng {{ vong }}</strong>
+                    <strong>Kết quả bầu cử {% if vong | length == 4 %} Xứ đoàn trưởng lần {{ vong|last }}  {% elseif vong | length == 6 %} Phó Nội Vụ {% elseif vong | length == 8 %} Phó Ngoại Vụ  {% else %}Vòng {{ vong }}{% endif %}</strong>
                 </a>
                 {#                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"#}
                 {#                        data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false"#}
@@ -45,7 +45,7 @@
                 <a href="/" class="mt-1 btn btn-success">THOÁT</a>
                 <h3>Cám ơn các anh chị đã gửi kết quả bầu cử.</h3>
                 {% set url = "#" %}
-                {% if  dangBauCu is empty and top25[0].votes > 0 %}
+                {% if  dangBauCu is empty and top25 is not empty and top25[0].votes > 0 %}
                     <h3>Top {{ quyDinhTop }}</h3>
                     <table class="table table-striped">
                         <thead>
@@ -72,7 +72,7 @@
                     </table>
                 {% endif %}
 
-                {% if dangBauCu is empty and top25[0].votes > 0 %}
+                {% if dangBauCu is empty and top25 is not empty and top25[0].votes > 0 %}
                     <h3>Danh sách còn lại</h3>
 
                     <table class="table table-striped">
