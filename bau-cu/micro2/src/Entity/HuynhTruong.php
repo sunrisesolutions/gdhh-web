@@ -308,6 +308,36 @@ class HuynhTruong
      */
     private $vongxdpNgoaiphu;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $vongxdpNoi2;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $vongxdpNgoai2;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $vongxdpNoi2phu;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $vongxdpNgoai2phu;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $ungCuVienXDPNoi2;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $ungCuVienXDPNgoai2;
+
     public function __construct()
     {
         $this->cacPhieuBau = new ArrayCollection();
@@ -807,6 +837,78 @@ class HuynhTruong
     public function setVongxdpNgoaiphu(?int $vongxdpNgoaiphu): self
     {
         $this->vongxdpNgoaiphu = $vongxdpNgoaiphu;
+
+        return $this;
+    }
+
+    public function getVongxdpNoi2(): ?int
+    {
+        return $this->vongxdpNoi2;
+    }
+
+    public function setVongxdpNoi2(?int $vongxdpNoi2): self
+    {
+        $this->vongxdpNoi2 = $vongxdpNoi2;
+
+        return $this;
+    }
+
+    public function getVongxdpNgoai2(): ?int
+    {
+        return $this->vongxdpNgoai2;
+    }
+
+    public function setVongxdpNgoai2(?int $vongxdpNgoai2): self
+    {
+        $this->vongxdpNgoai2 = $vongxdpNgoai2;
+
+        return $this;
+    }
+
+    public function getVongxdpNoi2phu(): ?int
+    {
+        return $this->vongxdpNoi2phu;
+    }
+
+    public function setVongxdpNoi2phu(?int $vongxdpNoi2phu): self
+    {
+        $this->vongxdpNoi2phu = $vongxdpNoi2phu;
+
+        return $this;
+    }
+
+    public function getVongxdpNgoai2phu(): ?int
+    {
+        return $this->vongxdpNgoai2phu;
+    }
+
+    public function setVongxdpNgoai2phu(?int $vongxdpNgoai2phu): self
+    {
+        $this->vongxdpNgoai2phu = $vongxdpNgoai2phu;
+
+        return $this;
+    }
+
+    public function getUngCuVienXDPNoi2(): ?bool
+    {
+        return $this->ungCuVienXDPNoi2;
+    }
+
+    public function setUngCuVienXDPNoi2(?bool $ungCuVienXDPNoi2): self
+    {
+        $this->ungCuVienXDPNoi2 = $ungCuVienXDPNoi2;
+
+        return $this;
+    }
+
+    public function getUngCuVienXDPNgoai2(): ?bool
+    {
+        return $this->ungCuVienXDPNgoai2;
+    }
+
+    public function setUngCuVienXDPNgoai2(?bool $ungCuVienXDPNgoai2): self
+    {
+        $this->ungCuVienXDPNgoai2 = $ungCuVienXDPNgoai2;
 
         return $this;
     }

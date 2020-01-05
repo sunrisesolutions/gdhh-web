@@ -19,6 +19,24 @@ class CuTriRepository extends ServiceEntityRepository
         parent::__construct($registry, CuTri::class);
     }
 
+    public function findByCuTriDaBauChoVong($vong, $year)
+    {
+        $alias = 'phieuBau';
+        return $this->createQueryBuilder('c')
+            ->join('c.cacPhienBau', $alias)
+            ->andWhere('phieuBau.vong LIKE :val')
+            ->andWhere('c.year LIKE :year')
+            ->andWhere('c.submitted = :trueVal')
+            ->setParameter('trueVal', true)
+            ->setParameter('year', $year)
+            ->setParameter('val', $vong)
+            ->orderBy('c.id', 'ASC')
+            ->setMaxResults(200)
+            ->getQuery()
+            ->getResult();
+    }
+
+
     // /**
     //  * @return CuTri[] Returns an array of CuTri objects
     //  */

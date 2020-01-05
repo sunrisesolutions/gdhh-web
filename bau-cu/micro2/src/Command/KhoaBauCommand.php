@@ -49,7 +49,7 @@ class KhoaBauCommand extends Command
         $nhiemKy = $this->em->getRepository(NhiemKy::class)->findOneByEnabled(true);
         if (!empty($nhiemKy)) {
             $vongHienTai = $nhiemKy->getVongHienTai();
-            if (in_array($vongHienTai, ['xdt1', 'xdt2', 'xdt3', 'xdpNoi','xdpNgoai'
+            if (in_array($vongHienTai, ['xdt1', 'xdt2', 'xdt3', 'xdpNoi','xdpNgoai', 'xdpNoi2', 'xdpNgoai2'
             ])) {
 
             }

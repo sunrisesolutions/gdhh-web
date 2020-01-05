@@ -30,13 +30,13 @@ class ArchivedResultController extends AbstractController
         $dsRut = $r['rut'];
         $dsPhu = $r['phu'];
 
-        $cacCuTriDaBau = $this->getDoctrine()->getRepository(CuTri::class)->findBy(['submitted' => true, 'year' => $year]);
+        $cacCuTriDaBau = $this->getDoctrine()->getRepository(CuTri::class)->findByCuTriDaBauChoVong($vong, $year);
 
         return $this->render('pin/vote-vong-bau-cu.html.twig', [
             'controller_name' => 'PinController',
             'dangBauCu' => $nhiemKy->dangBauCu(),
             'vong' => $vong,
-            'quyDinhTop' => $nhiemKy->getTopVong1(),
+            'quyDinhTop' =>  $nhiemKy->{'getTopVong'.$vong}(),
             'year' => $year,
             'cacCuTriDaBau' => $cacCuTriDaBau,
             'topVong1' => $topVong1,

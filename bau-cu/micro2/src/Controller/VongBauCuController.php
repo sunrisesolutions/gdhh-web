@@ -36,7 +36,7 @@ class VongBauCuController extends AbstractController
         $nhiemKy = $this->getDoctrine()->getRepository(NhiemKy::class)->findOneBy(['enabled' => true,
         ]);
 
-        if (!in_array($nhiemKy->getVongHienTai(), ['xdt1', 'xdt2', 'xdt3', 'xdpNoi', 'xdpNgoai']) && $nhiemKy->getVongHienTai() !== (int) $vong) {
+        if (!in_array($nhiemKy->getVongHienTai(), ['xdt1', 'xdt2', 'xdt3', 'xdpNoi', 'xdpNgoai', 'xdpNoi2', 'xdpNgoai2']) && $nhiemKy->getVongHienTai() !== (int) $vong) {
             return new RedirectResponse($this->generateUrl('danh_sach_vong_bau_cu', ['pin' => $pin, 'vong' => $vong]));
         }
 
@@ -82,7 +82,7 @@ class VongBauCuController extends AbstractController
         $nhiemKy = $this->getDoctrine()->getRepository(NhiemKy::class)->findOneBy(['enabled' => true,
         ]);
 
-        if (!in_array($vong, ['xdt1', 'xdt2', 'xdt3', 'xdpNoi', 'xdpNgoai']) && $nhiemKy->getVongHienTai() !== (int) $vong) {
+        if (!in_array($vong, ['xdt1', 'xdt2', 'xdt3', 'xdpNoi', 'xdpNgoai', 'xdpNoi2', 'xdpNgoai2']) && $nhiemKy->getVongHienTai() !== (int) $vong) {
             return new RedirectResponse($this->generateUrl('danh_sach_vong_bau_cu', ['pin' => $pin, 'vong' => $vong]));
         }
 
@@ -129,7 +129,7 @@ class VongBauCuController extends AbstractController
         /** @var NhiemKy $nhiemKy */
         $nhiemKy = $this->getDoctrine()->getRepository(NhiemKy::class)->findOneByEnabled(true);
 
-        if (!in_array($vong, ['xdt1', 'xdt2', 'xdt3', 'xdpNoi', 'xdpNgoai'])) {
+        if (!in_array($vong, ['xdt1', 'xdt2', 'xdt3', 'xdpNoi', 'xdpNgoai', 'xdpNoi2', 'xdpNgoai2'])) {
             $vong = (int) $vong;
         }
         $voter = $this->getDoctrine()->getRepository(CuTri::class)->findOneByPin($pin);
@@ -251,12 +251,24 @@ class VongBauCuController extends AbstractController
             return new RedirectResponse($this->generateUrl('vote_vong_bau_cu_result', ['pin' => $pin, 'vong' => $vong]));
         };
 
-        $phieuBau = $this->getDoctrine()->getRepository(PhieuBau::class)->findBy(['cuTri' => $voter->getId()], ['createdAt' => 'DESC']);
+        if ($vong != $nhiemKy->getVongHienTai()) {
+            return new RedirectResponse($this->generateUrl('danh_sach_vong_bau_cu', ['pin' => $pin, 'vong' => $nhiemKy->getVongHienTai()]));
+        };
+
+        $cacPhieuBau = $this->getDoctrine()->getRepository(PhieuBau::class)->findBy(['cuTri' => $voter->getId()], ['createdAt' => 'DESC']);
+
+        if (count($cacPhieuBau) > 0) {
+            /** @var PhieuBau $phieuBau */
+            $phieuBau = $cacPhieuBau[0];
+            if (!empty($phieuBau) && $phieuBau->getVong() != $nhiemKy->getVongHienTai()) {
+                return new RedirectResponse($this->generateUrl('pin'));
+            }
+        }
 
         return $this->render('pin/review-vong-bau-cu.html.twig', [
             'controller_name' => 'PinController', 'vong' => $vong,
             'pin' => $pin,
-            'cac_phieu_bau' => $phieuBau
+            'cac_phieu_bau' => $cacPhieuBau
         ]);
     }
 

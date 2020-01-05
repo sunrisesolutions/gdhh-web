@@ -84,7 +84,9 @@
                                             <a href="{{ path('vote_vong_bau_cu_votes_for_truong',{year:year, truongId: truong.id,vong:vong}) }}"
                                                class="btn btn-info">XEM PHIẾU BẦU</a>
                                         </td>
-                                        <td>{{ truong.vong1 }}</td>
+                                        <td>{{ attribute(truong,'vong'~vong) }}
+                                        <strong>({{ ( (attribute(truong,'vong'~vong)/cacCuTriDaBau|length ) * 100) | number_format(2) }}%)</strong>
+                                        </td>
                                     </tr>
                                 {% endif %}
                             {% endfor %}
@@ -110,7 +112,7 @@
                                         <a href="{{ path('vote_vong_bau_cu_votes_for_truong',{year:year, truongId: truong.id,vong:vong}) }}"
                                            class="btn btn-info">XEM PHIẾU BẦU</a>
                                     </td>
-                                    <td>{{ truong.vong1 }}</td>
+                                    <td>{{ attribute(truong,'vong'~vong) }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -136,7 +138,7 @@
                                     <a href="{{ path('vote_vong_bau_cu_votes_for_truong',{year:year, truongId: truong.id,vong:vong}) }}"
                                        class="btn btn-info">XEM PHIẾU BẦU</a>
                                 </td>
-                                <td>{{ truong.vong1 }}</td>
+                                <td>{{ attribute(truong,'vong'~vong) }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>

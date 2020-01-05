@@ -59,6 +59,13 @@ class NhiemKy
         if ($this->vongxdpNgoai) {
             return 'xdpNgoai';
         }
+
+        if ($this->vongxdpNoi2) {
+            return 'xdpNoi2';
+        }
+        if ($this->vongxdpNgoai2) {
+            return 'xdpNgoai2';
+        }
     }
 
     /**
@@ -267,6 +274,36 @@ class NhiemKy
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $vongxdpNgoaiphu;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $requiredVotesVongxdpNoi2;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $requiredVotesVongxdpNgoai2;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $topVongxdpNoi2;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $topVongxdpNgoai2;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $vongxdpNoi2;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $vongxdpNgoai2;
 
     public function getId(): ?int
     {
@@ -761,6 +798,78 @@ class NhiemKy
     public function setVongxdpNgoaiphu(?bool $vongxdpNgoaiphu): self
     {
         $this->vongxdpNgoaiphu = $vongxdpNgoaiphu;
+
+        return $this;
+    }
+
+    public function getRequiredVotesVongxdpNoi2(): ?int
+    {
+        return $this->requiredVotesVongxdpNoi2;
+    }
+
+    public function setRequiredVotesVongxdpNoi2(?int $requiredVotesVongxdpNoi2): self
+    {
+        $this->requiredVotesVongxdpNoi2 = $requiredVotesVongxdpNoi2;
+
+        return $this;
+    }
+
+    public function getRequiredVotesVongxdpNgoai2(): ?int
+    {
+        return $this->requiredVotesVongxdpNgoai2;
+    }
+
+    public function setRequiredVotesVongxdpNgoai2(?int $requiredVotesVongxdpNgoai2): self
+    {
+        $this->requiredVotesVongxdpNgoai2 = $requiredVotesVongxdpNgoai2;
+
+        return $this;
+    }
+
+    public function getTopVongxdpNoi2(): ?int
+    {
+        return $this->topVongxdpNoi2;
+    }
+
+    public function setTopVongxdpNoi2(?int $topVongxdpNoi2): self
+    {
+        $this->topVongxdpNoi2 = $topVongxdpNoi2;
+
+        return $this;
+    }
+
+    public function getTopVongxdpNgoai2(): ?int
+    {
+        return $this->topVongxdpNgoai2;
+    }
+
+    public function setTopVongxdpNgoai2(?int $topVongxdpNgoai2): self
+    {
+        $this->topVongxdpNgoai2 = $topVongxdpNgoai2;
+
+        return $this;
+    }
+
+    public function getVongxdpNoi2(): ?bool
+    {
+        return $this->vongxdpNoi2;
+    }
+
+    public function setVongxdpNoi2(?bool $vongxdpNoi2): self
+    {
+        $this->vongxdpNoi2 = $vongxdpNoi2;
+
+        return $this;
+    }
+
+    public function getVongxdpNgoai2(): ?bool
+    {
+        return $this->vongxdpNgoai2;
+    }
+
+    public function setVongxdpNgoai2(?bool $vongxdpNgoai2): self
+    {
+        $this->vongxdpNgoai2 = $vongxdpNgoai2;
 
         return $this;
     }

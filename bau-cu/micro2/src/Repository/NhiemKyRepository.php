@@ -36,6 +36,14 @@ class NhiemKyRepository extends ServiceEntityRepository
             return $this->getEntityManager()->getRepository(HuynhTruong::class)->findBy(['enabled' => true, 'ungCuVienXDP' => true, 'tanXDT' => false, 'tanXDPNoiVu' => false]);
         }
 
+        if ($vong === 'xdpNoi2') {
+            return $this->getEntityManager()->getRepository(HuynhTruong::class)->findBy(['enabled' => true, 'ungCuVienXDPNoi2' => true, 'tanXDT' => false, 'tanXDPNgoaiVu' => false]);
+        }
+
+        if ($vong === 'xdpNgoai2') {
+            return $this->getEntityManager()->getRepository(HuynhTruong::class)->findBy(['enabled' => true, 'ungCuVienXDPNgoai2' => true, 'tanXDT' => false, 'tanXDPNoiVu' => false]);
+        }
+
         $vong = (int) $vong;
         $year = $nhiemKy->getYear();
         if ($vong > 1) {
@@ -153,7 +161,7 @@ class NhiemKyRepository extends ServiceEntityRepository
             /** @var HuynhTruong $dauConLai */
             $dauConLai = array_slice($conLai, 0, 1)[0];
 
-            if ($nhiemKy->{'getVong'.$vong.'phu'}() || $nhiemKy->{'getVong'.$vong.'phu'}() === null) {
+            if (false && ($nhiemKy->{'getVong'.$vong.'phu'}() || $nhiemKy->{'getVong'.$vong.'phu'}() === null)) {
                 while (!empty($cuoiTopVong1) && $cuoiTopVong1->{'getVong'.$vong}() === $dauConLai->{'getVong'.$vong}()) {
                     $topVong1[] = $cuoiTopVong1 = array_shift($conLai);
                     if (count($conLai) === 0) {
@@ -164,7 +172,7 @@ class NhiemKyRepository extends ServiceEntityRepository
                 }
             }
 
-            if ($nhiemKy->{'getVong'.$vong.'phu'}()) {
+            if (false && $nhiemKy->{'getVong'.$vong.'phu'}()) {
                 if (count($topVong1) > $quyDinhTop) {
                     /** @var HuynhTruong $cuoiTopVong1 */
                     $cuoiTopVong1 = array_pop($topVong1);
@@ -173,7 +181,7 @@ class NhiemKyRepository extends ServiceEntityRepository
 
                     $topVong1[] = $cuoiTopVong1;
 
-                    while ($cuoiTopVong1->{'getVong'.$vong}() === $keCuoiTopVong1->{'getVong'.$vong}()) {
+                    while (!empty($keCuoiTopVong1) && $cuoiTopVong1->{'getVong'.$vong}() === $keCuoiTopVong1->{'getVong'.$vong}()) {
                         /** @var HuynhTruong $cuoiTopVong1 */
                         $dsPhu[] = $cuoiTopVong1 = array_pop($topVong1);
                         /** @var HuynhTruong $cuoiTopVong1 */
