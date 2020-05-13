@@ -9,7 +9,7 @@
 
         table {
             position: relative;
-            width: 700px;
+            width: 1024px;
             /*background-color: #aaa;*/
             overflow: hidden;
             border-collapse: collapse;
@@ -20,7 +20,7 @@
         thead {
             position: relative;
             display: block; /*seperates the header from the body allowing it to be positioned*/
-            max-width: 800px;
+            max-width: 1124px;
             overflow: visible;
         }
 
@@ -31,7 +31,7 @@
             /*border: 1px solid #222;*/
         }
 
-        th.sonata-ba-list-field-header-text {/*first cell in the header*/
+        th.sonata-ba-list-field-header-text { /*first cell in the header*/
             min-width: 120px;
 
             /*position: relative;*/
@@ -44,7 +44,7 @@
         tbody {
             position: relative;
             display: block; /*seperates the tbody from the header*/
-            max-width: 800px;
+            max-width: 1124px;
             height: 239px;
             overflow: scroll;
         }
@@ -55,7 +55,7 @@
             /*border: 1px solid #222;*/
         }
 
-        tbody tr td:nth-child(1),tbody tr td:nth-child(2),tbody tr td:nth-child(3) {  /*the first cell in each tr*/
+        tbody tr td:nth-child(1), tbody tr td:nth-child(2), tbody tr td:nth-child(3), tbody tr td:nth-child(4) { /*the first cell in each tr*/
             min-width: 120px;
             position: relative;
             /*display: block; !*seperates the first column from the tbody*!*/
@@ -158,17 +158,17 @@
                                   </th>
                               {% endif %}
                               {% if dcc.studyCounted == true %}
-                              <th>
-                                  SH
-                              </th>
+                                  <th>
+                                      SH
+                                  </th>
                               {% endif %}
                           {% endfor %}
                           {#{% for module in admin.systemModules %}#}
-                              {#{% for supportedAction in module.supportedModuleActions %}#}
-                                  {#<th class="sonata-ba-list-field-header sonata-ba-list-field-header-batch">#}
-                                      {#{{ supportedAction|trans({},'ACLAction') }}#}
-                                  {#</th>#}
-                              {#{% endfor %}#}
+                          {#{% for supportedAction in module.supportedModuleActions %}#}
+                          {#<th class="sonata-ba-list-field-header sonata-ba-list-field-header-batch">#}
+                          {#{{ supportedAction|trans({},'ACLAction') }}#}
+                          {#</th>#}
+                          {#{% endfor %}#}
 
                           {#{% endfor %}#}
                       </tr>
@@ -219,8 +219,8 @@
             $(document).ready(function ($) {
                 registerACEEvents($('.ace'));
 
-                {% if app.user.thanhVien.chiDoan >= 13 or true  %}
-                $('tbody').scroll(function(e) { //detect a scroll event on the tbody
+                {% if app.user.thanhVien.chiDoan >= 13 or true %}
+                $('tbody').scroll(function (e) { //detect a scroll event on the tbody
                     /*
                   Setting the thead left value to the negative valule of tbody.scrollLeft will make it track the movement
                   of the tbody element. Setting an elements left value to that of the tbody.scrollLeft left makes it maintain 			it's relative position at the left of the table.
@@ -228,8 +228,9 @@
                     $('thead').css("left", -$("tbody").scrollLeft()); //fix the thead relative to the body scrolling
 
                     $('tbody td:nth-child(1)').css("left", $("tbody").scrollLeft()); //fix the first column of tdbody
-                    $('tbody td:nth-child(2)').css("left", $("tbody").scrollLeft() ); //fix the first column of tdbody
+                    $('tbody td:nth-child(2)').css("left", $("tbody").scrollLeft()); //fix the first column of tdbody
                     $('tbody td:nth-child(3)').css("left", $("tbody").scrollLeft()); //fix the first column of tdbody
+                    $('tbody td:nth-child(4)').css("left", $("tbody").scrollLeft()); //fix the first column of tdbody
                 });
                 {% endif %}
 
@@ -299,10 +300,14 @@
     {% if admin.datagrid.filters %}
         {% form_theme form get_admin_template('filter', admin.code) %}
 
-        <div class="col-xs-12 col-md-12 sonata-filters-box" style="display: {{ admin.datagrid.hasDisplayableFilters ? 'block' : 'none' }}" id="filter-container-{{ admin.uniqid() }}">
-            <div class="box box-primary" >
+        <div class="col-xs-12 col-md-12 sonata-filters-box"
+             style="display: {{ admin.datagrid.hasDisplayableFilters ? 'block' : 'none' }}"
+             id="filter-container-{{ admin.uniqid() }}">
+            <div class="box box-primary">
                 <div class="box-body">
-                    <form class="sonata-filter-form form-horizontal {{ admin.isChild and 1 == admin.datagrid.filters|length ? 'hide' : '' }}" action="{{ admin.generateUrl('diemDanhChuaNhat',{'id':admin.subject.id}) }}" method="GET" role="form">
+                    <form class="sonata-filter-form form-horizontal {{ admin.isChild and 1 == admin.datagrid.filters|length ? 'hide' : '' }}"
+                          action="{{ admin.generateUrl('diemDanhChuaNhat',{'id':admin.subject.id}) }}" method="GET"
+                          role="form">
                         {{ form_errors(form) }}
 
                         <div class="row">
@@ -311,9 +316,13 @@
                                 {% for filter in admin.datagrid.filters %}
                                     {% set filterActive = ((filter.isActive() and filter.options['show_filter'] is null) or (filter.options['show_filter'] is same as(true))) and not admin.isDefaultFilter(filter.formName) %}
                                     {% set filterVisible = filter.options['show_filter'] is same as(true) or filter.options['show_filter'] is null %}
-                                    <div class="form-group {% block sonata_list_filter_group_class %}{% endblock %}" id="filter-{{ admin.uniqid }}-{{ filter.name }}" sonata-filter="{{ filterVisible ? 'true' : 'false' }}" style="display: {% if filterActive %}block{% else %}none{% endif %}">
+                                    <div class="form-group {% block sonata_list_filter_group_class %}{% endblock %}"
+                                         id="filter-{{ admin.uniqid }}-{{ filter.name }}"
+                                         sonata-filter="{{ filterVisible ? 'true' : 'false' }}"
+                                         style="display: {% if filterActive %}block{% else %}none{% endif %}">
                                         {% if filter.label is not same as(false) %}
-                                            <label for="{{ form[filter.formName].children['value'].vars.id }}" class="col-sm-3 control-label">{{ filter.label|trans({}, filter.translationDomain ?: admin.translationDomain) }}</label>
+                                            <label for="{{ form[filter.formName].children['value'].vars.id }}"
+                                                   class="col-sm-3 control-label">{{ filter.label|trans({}, filter.translationDomain ?: admin.translationDomain) }}</label>
                                         {% endif %}
                                         {% set attr = form[filter.formName].children['type'].vars.attr|default({}) %}
 
@@ -327,7 +336,9 @@
 
                                         <div class="col-sm-1">
                                             <label class="control-label">
-                                                <a href="#" class="sonata-toggle-filter sonata-ba-action" filter-target="filter-{{ admin.uniqid }}-{{ filter.name }}" filter-container="filter-container-{{ admin.uniqid() }}">
+                                                <a href="#" class="sonata-toggle-filter sonata-ba-action"
+                                                   filter-target="filter-{{ admin.uniqid }}-{{ filter.name }}"
+                                                   filter-container="filter-container-{{ admin.uniqid() }}">
                                                     <i class="fa fa-minus-circle" aria-hidden="true"></i>
                                                 </a>
                                             </label>
@@ -347,10 +358,12 @@
 
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-filter" aria-hidden="true"></i> {{ 'btn_filter'|trans({}, 'SonataAdminBundle') }}
+                                        <i class="fa fa-filter"
+                                           aria-hidden="true"></i> {{ 'btn_filter'|trans({}, 'SonataAdminBundle') }}
                                     </button>
 
-                                    <a class="btn btn-default" href="{{ admin.generateUrl('diemDanhChuaNhat', {filters: 'reset',id: admin.subject.id}) }}">
+                                    <a class="btn btn-default"
+                                       href="{{ admin.generateUrl('diemDanhChuaNhat', {filters: 'reset',id: admin.subject.id}) }}">
                                         {{ 'link_reset_filter'|trans({}, 'SonataAdminBundle') }}
                                     </a>
                                 </div>
