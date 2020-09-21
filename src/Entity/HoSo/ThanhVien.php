@@ -12,6 +12,7 @@ use App\Entity\NLP\Sense;
 use App\Entity\User\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Psr\Log\LoggerInterface;
 
 /**
  * @ORM\Entity
@@ -613,7 +614,7 @@ class ThanhVien
      *
      * @return PhanBo|bool
      */
-    public function chuyenNhom(NamHoc $namHoc)
+    public function chuyenNhom(NamHoc $namHoc, LoggerInterface $logger)
     {
         $namCu = $namHoc->getId() - 1;
         $namGanNhat = 0;
@@ -679,6 +680,10 @@ class ThanhVien
                 $oldCDNumber = $cdCu->getNumber();
             } else {
                 $oldCDNumber = null;
+            }
+
+            if (empty($chiDoan)) {
+                $logger->error("empty chidoan for thanh vien ".$this->getName().' with ID '.$this->id);
             }
 
             if (in_array($chiDoan->getNumber(), [4, 5, 6])) {
@@ -1222,7 +1227,6 @@ class ThanhVien
     {
         $this->xuDoanPhoNgoai = $xuDoanPhoNgoai;
     }
-
 
 
     /**
