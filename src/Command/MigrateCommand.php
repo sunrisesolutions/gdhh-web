@@ -62,8 +62,7 @@ class MigrateCommand extends ContainerAwareCommand
         } else {
             $output->writeln('Found ' . count($cacPhanBo2018));
         }
-    
-    
+
         $tatCaDcc = $this->getContainer()->get('doctrine')->getRepository(DiemChuyenCan::class)->findAll();
         $cacDccTheoThang = [];
         /** @var DiemChuyenCan $dcc */
@@ -77,54 +76,52 @@ class MigrateCommand extends ContainerAwareCommand
             $cacDccTheoThang[$dateNumber][] = $dcc;
         }
         
-        /** @var PhanBo $pb */
-        foreach ($cacPhanBo2018 as $pb) {
-            $cd = $pb->getChiDoan();
-            if (!empty($cd)) {
-//                if ($cd->getNumber() === 12) {
-                    $bd = $pb->getBangDiem();
-                    $st1 = $bd->getSundayTicketTerm1();
-                    $st2 = $bd->getSundayTicketTerm2();
-                
-                    $bangDiem = $bd;
-                    $bangDiem->setSundayTicketTerm1(0);
-                    $bangDiem->setSundayTicketTerm2(0);
-                    $bangDiem->setSundayTickets(0);
-                    foreach ($cacDccTheoThang as $cacDcc) {
-                        $bangDiem->tinhDiemChuyenCanThang($cacDcc);
-                        $bangDiem->tinhPhieuLeCNThang($cacDcc);
-                    }
-                    $bangDiem->tinhDiemChuyenCan(1);
-                    $bangDiem->tinhDiemHocKy(1);
-                    $bangDiem->tinhDiemChuyenCan(2);
-                    $bangDiem->tinhDiemHocKy(2);
-
-                    $manager->persist($bangDiem);
-                
-                
-                    $st1b = $bd->getSundayTicketTerm1();
-                    if ($st1 !== $st1b) {
-                        $output->writeln('Wrong ticket numbers for the First Semester: ' . $st1 . ' ' . $st1b .' - '.$pb->getThanhVien()->getName());
-                    } else {
-//                        $output->writeln('Correct ticket numbers 1: ' . $st1 . ' ' . $st1b);
-                    }
-                
-                    $bd->tinhDiemChuyenCan(2);
-                    $st2b = $bd->getSundayTicketTerm2();
-                    if ($st2 !== $st2b) {
-                        $output->writeln('Wrong ticket numbers for the Second Semester: ' . $st2 . ' ' . $st2b.' - '.$pb->getThanhVien()->getName());
-                    } else {
-//                        $output->writeln('Correct ticket numbers 2: ' . $st2 . ' ' . $st2b);
-                    }
-//                } else {
-//                    $output->writeln('cdNumber '.$cd->getNumber());
-//                }
-            } else {
-                $output->writeln('hello empty cd ' . $pb->getThanhVien()->getName());
-            }
-        }
-
-
+//        /** @var PhanBo $pb */
+//        foreach ($cacPhanBo2018 as $pb) {
+//            $cd = $pb->getChiDoan();
+//            if (!empty($cd)) {
+////                if ($cd->getNumber() === 12) {
+//                    $bd = $pb->getBangDiem();
+//                    $st1 = $bd->getSundayTicketTerm1();
+//                    $st2 = $bd->getSundayTicketTerm2();
+//
+//                    $bangDiem = $bd;
+//                    $bangDiem->setSundayTicketTerm1(0);
+//                    $bangDiem->setSundayTicketTerm2(0);
+//                    $bangDiem->setSundayTickets(0);
+//                    foreach ($cacDccTheoThang as $cacDcc) {
+//                        $bangDiem->tinhDiemChuyenCanThang($cacDcc);
+//                        $bangDiem->tinhPhieuLeCNThang($cacDcc);
+//                    }
+//                    $bangDiem->tinhDiemChuyenCan(1);
+//                    $bangDiem->tinhDiemHocKy(1);
+//                    $bangDiem->tinhDiemChuyenCan(2);
+//                    $bangDiem->tinhDiemHocKy(2);
+//
+//                    $manager->persist($bangDiem);
+//
+//
+//                    $st1b = $bd->getSundayTicketTerm1();
+//                    if ($st1 !== $st1b) {
+//                        $output->writeln('Wrong ticket numbers for the First Semester: ' . $st1 . ' ' . $st1b .' - '.$pb->getThanhVien()->getName());
+//                    } else {
+////                        $output->writeln('Correct ticket numbers 1: ' . $st1 . ' ' . $st1b);
+//                    }
+//
+//                    $bd->tinhDiemChuyenCan(2);
+//                    $st2b = $bd->getSundayTicketTerm2();
+//                    if ($st2 !== $st2b) {
+//                        $output->writeln('Wrong ticket numbers for the Second Semester: ' . $st2 . ' ' . $st2b.' - '.$pb->getThanhVien()->getName());
+//                    } else {
+////                        $output->writeln('Correct ticket numbers 2: ' . $st2 . ' ' . $st2b);
+//                    }
+////                } else {
+////                    $output->writeln('cdNumber '.$cd->getNumber());
+////                }
+//            } else {
+//                $output->writeln('hello empty cd ' . $pb->getThanhVien()->getName());
+//            }
+//        }
 
 //		$cNameViet = array_flip(ThanhVien::$christianNames);
 //		foreach($cNameViet as $cname) {
