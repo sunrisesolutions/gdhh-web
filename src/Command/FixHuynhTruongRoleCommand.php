@@ -43,7 +43,9 @@ class FixHuynhTruongRoleCommand extends ContainerAwareCommand
         /** @var ThanhVien $tv */
         foreach ($cacThanhVien as $tv) {
             $pb = $tv->getPhanBoNamNay();
-            $pb->setVaiTro();
+            if ($pb) {
+                $pb->setVaiTro();
+            }
         }
 
         $output->writeln("Flushing");
