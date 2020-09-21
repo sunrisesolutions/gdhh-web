@@ -7,6 +7,7 @@ use App\Admin\HoSo\NamHocAdmin;
 use App\Entity\HoSo\NamHoc;
 use App\Entity\HoSo\ThanhVien;
 use Doctrine\ORM\QueryBuilder;
+use Psr\Log\LoggerInterface;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class NamHocAdminController extends BaseCRUDAdminController {
 	
-	public function khaiGiangAction($id, Request $request) {
+	public function khaiGiangAction($id, Request $request, LoggerInterface $logger) {
 		/** @var NamHocAdmin $admin */
 		$admin = $this->admin;
 		/** @var NamHoc $object */
@@ -40,7 +41,7 @@ class NamHocAdminController extends BaseCRUDAdminController {
 		$results = $query->getResult();
 		/** @var ThanhVien $tv */
 		foreach($results as $tv) {
-			if( ! empty($phanBoMoi = $tv->chuyenNhom($object))) {
+			if( ! empty($phanBoMoi = $tv->chuyenNhom($object, $logger))) {
 				$manager->persist($phanBoMoi);
 			}
 		}
@@ -52,7 +53,7 @@ class NamHocAdminController extends BaseCRUDAdminController {
 		return parent::listAction();
 	}
 	
-	public function khoaSoAction($id, Request $request) {
+	public function khoaSoAction($id, Request $request, LoggerInterface $logger) {
 		
 		/** @var NamHocAdmin $admin */
 		$admin = $this->admin;
