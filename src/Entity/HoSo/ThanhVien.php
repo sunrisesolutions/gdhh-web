@@ -684,6 +684,7 @@ class ThanhVien
 
             if (empty($chiDoan)) {
                 $logger->error("empty chidoan for thanh vien ".$this->getName().' with ID '.$this->id);
+                return;
             }
 
             if (in_array($chiDoan->getNumber(), [4, 5, 6])) {
